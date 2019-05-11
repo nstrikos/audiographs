@@ -22,7 +22,7 @@ Item {
     function backPressed() {
         visible = false
         grid.visible = true
-        speechSettingsButton.forceActiveFocus()
+        grid.speechSettingsButton.forceActiveFocus()
     }
 
     function setActiveFocus() {

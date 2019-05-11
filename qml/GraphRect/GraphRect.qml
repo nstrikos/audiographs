@@ -114,7 +114,7 @@ Rectangle {
     function escapePressed() {
         graphRect.visible = false
         grid.visible = true
-        graphButton.forceActiveFocus()
+        grid.graphButton.forceActiveFocus()
     }
 
     Keys.onEscapePressed: escapePressed()

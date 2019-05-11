@@ -82,7 +82,7 @@ Rectangle {
     function escapePressed() {
         parametersRect.visible = false
         grid.visible = true
-        parametersButton.forceActiveFocus()
+        grid.parametersButton.forceActiveFocus()
     }
 
     Item {

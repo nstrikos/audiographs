@@ -21,7 +21,7 @@ Button {
     Keys.onEscapePressed: {
         graphSettingRect.visible = false
         grid.visible = true
-        graphSettingsButton.forceActiveFocus()
+        grid.graphSettingsButton.forceActiveFocus()
     }
 
     Accessible.name: "My button"

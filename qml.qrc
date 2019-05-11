@@ -24,5 +24,6 @@
         <file>qml/GraphSetting/CustomSliderRect.qml</file>
         <file>qml/GraphSetting/CustomCheckButton.qml</file>
         <file>qml/SpeechSettings.qml</file>
+        <file>MainGrid.qml</file>
     </qresource>
 </RCC>
