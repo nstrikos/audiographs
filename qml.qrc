@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>newmain.qml</file>
+        <file>qml/js/GraphCanvasJS.js</file>
+        <file>qml/js/GraphCanvasMouseJS.js</file>
+        <file>qml/Rect2.qml</file>
+        <file>qml/Rect3.qml</file>
+        <file>qml/js/ButtonFunctions.js</file>
+        <file>qml/ButtonsRect/ButtonsRect.qml</file>
+        <file>qml/ButtonsRect/CustomButton.qml</file>
+        <file>qml/ButtonsRect/CustomText.qml</file>
+        <file>qml/ButtonsRect/BackgroundRect.qml</file>
+        <file>qml/ParametersRect/CheckButton.qml</file>
+        <file>qml/ParametersRect/ParametersRect.qml</file>
+        <file>qml/TextEditLayout.qml</file>
+        <file>qml/ParametersRect/BackgroundRect.qml</file>
+        <file>qml/ParametersRect/CustomText.qml</file>
+        <file>qml/GraphRect/GraphCanvas.qml</file>
+        <file>qml/GraphRect/GraphRect.qml</file>
+        <file>main.qml</file>
+        <file>qml/GraphSetting/GraphSettingRect.qml</file>
+        <file>qml/GraphSetting/ColorButton.qml</file>
+        <file>qml/GraphSetting/CustomLabel.qml</file>
+        <file>qml/GraphSetting/CustomSliderRect.qml</file>
+        <file>qml/GraphSetting/CustomCheckButton.qml</file>
+        <file>qml/SpeechSettings.qml</file>
+    </qresource>
+</RCC>
