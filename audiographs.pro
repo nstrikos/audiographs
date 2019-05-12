@@ -76,35 +76,13 @@ unix:!android {
                 renderarea.cpp \
 }
 
-#target.path = $$[QT_INSTALL_EXAMPLES]/multimedia/audiooutput
-#INSTALLS += target
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 FORMS += \
     appwindow.ui \
     graphsettingsdialog.ui
 
 DISTFILES += \
-    android-source/AndroidManifest.xml \
-    android-source/src/org/nstrikos/access/audiographs/AndroidClient.java \
-    android/AndroidManifest.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew \
-    android/gradlew.bat \
-    android/res/values/libs.xml \
     fparser/extrasrc/fp_opcode_add.inc \
     fparser/extrasrc/fp_identifier_parser.inc
 
 RESOURCES += \
     qml.qrc
-
-contains(ANDROID_TARGET_ARCH,x86) {
-    ANDROID_PACKAGE_SOURCE_DIR = \
-        $$PWD/android-source
-}

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ControlsContainer.qml</file>
+        <file>MyCanvas.qml</file>
+        <file>InputText.qml</file>
+        <file>SubjectRect.qml</file>
+        <file>InputRect.qml</file>
+        <file>LabelText.qml</file>
+        <file>TableView.qml</file>
+    </qresource>
+</RCC>

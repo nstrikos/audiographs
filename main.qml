@@ -134,11 +134,9 @@ Window {
     }
 
     function graphButtonPressed() {
-        //ButtonFunctions.clear()
         grid.visible = false
         graphRect.visible = true
         graphRect.forceActiveFocus()
-        //graphButton.isPressed = true
         myfunction.calculate(parametersRect.functionText,
                              parametersRect.minimumXText,
                              parametersRect.maximumXText,

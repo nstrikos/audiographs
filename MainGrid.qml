@@ -3,10 +3,6 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
 
 import "qml/ButtonsRect"
-import "qml/ParametersRect"
-import "qml/GraphRect"
-import "qml/GraphSetting"
-import "qml/"
 
 Grid {
     id: grid

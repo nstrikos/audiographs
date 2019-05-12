@@ -43,12 +43,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("audioPoints", &audioPoints);
     engine.rootContext()->setContextProperty("texttospeech", &textToSpeech);
 
-    AndroidClient *androidClient = new AndroidClient(&engine);
-    //delete pointer?
-
-    engine.rootContext()->setContextProperty(QLatin1String("androidClient"), androidClient);
-
-
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
