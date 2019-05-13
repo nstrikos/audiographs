@@ -25,5 +25,6 @@
         <file>qml/GraphSetting/CustomCheckButton.qml</file>
         <file>qml/SpeechSettings.qml</file>
         <file>MainGrid.qml</file>
+        <file>qml/ButtonsRect/CustomButton2.qml</file>
     </qresource>
 </RCC>

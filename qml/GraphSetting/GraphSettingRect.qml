@@ -27,11 +27,11 @@ Rectangle {
             labelText: qsTr("Point color")
         }
 
-        ColorButton {
+        CustomButton2 {
             id: pointColorButton
             width: definedWidth
             height: definedHeight
-            mycolor: myparameters.pointColor
+            color: myparameters.pointColor
             onPressed: {
                 colorDialog.color = myparameters.pointColor
                 colorDialog.request = "pointColorButton"
@@ -53,11 +53,11 @@ Rectangle {
             labelText: qsTr("Line color")
         }
 
-        ColorButton {
+        CustomButton2 {
             id: lineColorButton
             width: definedWidth
             height: definedHeight
-            mycolor: myparameters.lineColor
+            color: myparameters.lineColor
             onPressed: {
                 colorDialog.color = myparameters.lineColor
                 colorDialog.request = "lineColorButton"
@@ -79,11 +79,11 @@ Rectangle {
             labelText: qsTr("Highlight color")
         }
 
-        ColorButton {
+        CustomButton2 {
             id: highlightColorButton
             width: definedWidth
             height: definedHeight
-            mycolor: myparameters.highlightColor
+            color: myparameters.highlightColor
             onPressed: {
                 colorDialog.color = myparameters.highlightColor
                 colorDialog.request = "highlightColorButton"
@@ -106,11 +106,11 @@ Rectangle {
             labelText: qsTr("Axes color")
         }
 
-        ColorButton {
+        CustomButton2 {
             id: axesColorButton
             width: definedWidth
             height: definedHeight
-            mycolor: myparameters.axesColor
+            color: myparameters.axesColor
             onPressed: {
                 colorDialog.color = myparameters.axesColor
                 colorDialog.request = "axesColorButton"
@@ -122,11 +122,11 @@ Rectangle {
             labelText: qsTr("Background color")
         }
 
-        ColorButton {
+        CustomButton2 {
             id: backgroundColorButton
             width: definedWidth
             height: definedHeight
-            mycolor: myparameters.backgroundColor
+            color: myparameters.backgroundColor
             onPressed: {
                 colorDialog.color = myparameters.backgroundColor
                 colorDialog.request = "backgroundColorButton"
@@ -179,9 +179,9 @@ Rectangle {
             customText: qsTr("Restore defaults")
             onPressed: {
                 myparameters.reset()
-                pointColorButton.mycolor = myparameters.pointColor
+                pointColorButton.color = myparameters.pointColor
                 pointSlider.sliderValue = myparameters.pointSize
-                lineColorButton.mycolor = myparameters.lineColor
+                lineColorButton.color = myparameters.lineColor
                 lineSlider.sliderValue = myparameters.lineWidth
                 highlightColorButton.mycolor = myparameters.highlightColor
                 highlightSlider.sliderValue = myparameters.highlightSize
@@ -200,27 +200,27 @@ Rectangle {
         modality: Qt.WindowModal
         onAccepted: {
             if (request === "pointColorButton") {
-                pointColorButton.mycolor = color
+                pointColorButton.color = color
                 myparameters.pointColor = color
                 pointColorButton.forceActiveFocus()
             }
             else if (request === "lineColorButton") {
-                lineColorButton.mycolor = color
+                lineColorButton.color = color
                 myparameters.lineColor = color
                 lineColorButton.forceActiveFocus()
             }
             else if (request === "highlightColorButton") {
-                highlightColorButton.mycolor = color
+                highlightColorButton.color = color
                 myparameters.highlightColor = color
                 highlightColorButton.forceActiveFocus()
             }
             else if (request === "backgroundColorButton") {
-                backgroundColorButton.mycolor = color
+                backgroundColorButton.color = color
                 myparameters.backgroundColor = color
                 backgroundColorButton.forceActiveFocus()
             }
             else if (request === "axesColorButton") {
-                axesColorButton.mycolor = color
+                axesColorButton.color = color
                 myparameters.axesColor = color
                 axesColorButton.forceActiveFocus()
             }
@@ -257,6 +257,6 @@ Rectangle {
     function escapePressed() {
         graphSettingRect.visible = false
         grid.visible = true
-        graphSettingsButton.forceActiveFocus()
+        grid.graphSettingsButton.forceActiveFocus()
     }
 }
