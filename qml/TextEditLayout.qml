@@ -36,10 +36,12 @@ RowLayout {
         TextInput {
             id: input
             text: text
+            horizontalAlignment: TextInput.AlignHCenter
             focus: true
             clip: true
             anchors.centerIn: parent
             font.pixelSize: 20
+            width: parent.width
             onActiveFocusChanged: {
                 if (activeFocus) {
                     textRect.border.color = "red"

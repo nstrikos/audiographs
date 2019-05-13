@@ -84,13 +84,4 @@ Rectangle {
         grid.visible = true
         grid.parametersButton.forceActiveFocus()
     }
-
-    Item {
-        anchors.fill: parent
-        focus: true
-
-        Keys.onBackPressed: {
-            test.pressed
-        }
-    }
 }

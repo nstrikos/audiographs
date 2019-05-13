@@ -2,8 +2,6 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
 
-import "qml/ButtonsRect"
-
 Grid {
     id: grid
     anchors.centerIn: parent
@@ -45,21 +43,34 @@ Grid {
         width: 200
         height: 100
         onPressed: speechSettingsButtonPressed()
+    }    
+
+    function parametersButtonPressed() {
+        grid.visible = false
+        parametersRect.visible = true
+        parametersRect.forceActiveFocus()
     }
-    
-    CustomButton {
-        id: rect2Button
-        customText: qsTr("Show\nrect2")
-        width: 200
-        height: 100
-        onPressed: rect2ButtonPressed()
+
+    function graphButtonPressed() {
+        grid.visible = false
+        graphRect.visible = true
+        graphRect.forceActiveFocus()
+        myfunction.calculate(parametersRect.functionText,
+                             parametersRect.minimumXText,
+                             parametersRect.maximumXText,
+                             parametersRect.stepText)
     }
-    
-    CustomButton {
-        id: tableButton
-        customText: qsTr("Show\ntable")
-        width: 200
-        height: 100
+
+    function graphSettingsPressed() {
+        grid.visible = false
+        graphSettingRect.visible = true
+        graphSettingRect.setFocus()
+    }
+
+    function speechSettingsButtonPressed() {
+        grid.visible = false
+        speechSettings.visible = true
+        speechSettings.setActiveFocus()
     }
 
     Component.onCompleted: {

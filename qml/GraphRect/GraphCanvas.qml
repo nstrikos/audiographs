@@ -77,13 +77,13 @@ Canvas {
         running: false
         onTriggered: {
             timeElapsed += interval
-            if (timeElapsed > rect2.seconds * 1000) {
+            if (timeElapsed > 10 * 1000) {
                 currentPoint = -1;
                 CanvasJS.paintCanvas()
             }
             else {
 
-                currentPoint = Math.round( timeElapsed / (rect2.seconds * 1000) * myfunction.size())
+                currentPoint = Math.round( timeElapsed / (10 * 1000) * myfunction.size())
                 CanvasJS.drawCurrentPixel()
                 //            CanvasJS.initializeCanvas()
                 //            CanvasJS.initializeArrays()
