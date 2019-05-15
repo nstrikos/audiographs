@@ -1,29 +1,21 @@
 <RCC>
     <qresource prefix="/">
-        <file>newmain.qml</file>
         <file>qml/js/GraphCanvasJS.js</file>
         <file>qml/js/GraphCanvasMouseJS.js</file>
         <file>qml/js/ButtonFunctions.js</file>
-        <file>qml/ButtonsRect/ButtonsRect.qml</file>
-        <file>qml/ButtonsRect/CustomButton.qml</file>
-        <file>qml/ButtonsRect/CustomText.qml</file>
-        <file>qml/ButtonsRect/BackgroundRect.qml</file>
         <file>qml/ParametersRect/CheckButton.qml</file>
         <file>qml/ParametersRect/ParametersRect.qml</file>
-        <file>qml/TextEditLayout.qml</file>
-        <file>qml/ParametersRect/BackgroundRect.qml</file>
-        <file>qml/ParametersRect/CustomText.qml</file>
         <file>qml/GraphRect/GraphCanvas.qml</file>
         <file>qml/GraphRect/GraphRect.qml</file>
         <file>main.qml</file>
-        <file>qml/GraphSetting/GraphSettingRect.qml</file>
-        <file>qml/GraphSetting/ColorButton.qml</file>
-        <file>qml/GraphSetting/CustomLabel.qml</file>
-        <file>qml/GraphSetting/CustomSliderRect.qml</file>
-        <file>qml/GraphSetting/CustomCheckButton.qml</file>
-        <file>qml/SpeechSettings.qml</file>
-        <file>MainGrid.qml</file>
-        <file>qml/ButtonsRect/CustomButton2.qml</file>
-        <file>CustomButton.qml</file>
+        <file>qml/MainGrid/MainGrid.qml</file>
+        <file>qml/MainGrid/CustomButton.qml</file>
+        <file>qml/ParametersRect/TextEditLayout.qml</file>
+        <file>qml/GraphSettingRect/CustomCheckButton.qml</file>
+        <file>qml/GraphSettingRect/CustomLabel.qml</file>
+        <file>qml/GraphSettingRect/CustomSliderRect.qml</file>
+        <file>qml/GraphSettingRect/GraphSettingRect.qml</file>
+        <file>qml/GraphSettingRect/CustomButton.qml</file>
+        <file>qml/SpeechSettingsRect/SpeechSettings.qml</file>
     </qresource>
 </RCC>

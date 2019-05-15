@@ -3,6 +3,8 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
+import "../js/ButtonFunctions.js" as ButtonFunctions
+
 Item {
     id: window
     visible: false
@@ -51,7 +53,8 @@ Item {
             Label {
                 id: label1
                 text: qsTr("Volume: ") + slider1.value
-                width: 100
+                width: 150
+                font.pointSize: 20
                 anchors.verticalCenter: row1.verticalCenter
             }
             Slider {
@@ -72,7 +75,8 @@ Item {
             Label {
                 id: label2
                 text: qsTr("Rate: ") + slider2.value
-                width: 100
+                width: 150
+                font.pointSize: 20
                 anchors.verticalCenter: row2.verticalCenter
             }
             Slider {
@@ -93,8 +97,9 @@ Item {
             Label {
                 id: label3
                 text: qsTr("Pitch: ") + slider3.value
-                width: 100
+                width: 150
                 anchors.verticalCenter: row3.verticalCenter
+                font.pointSize: 20
             }
             Slider {
                 id: slider3
@@ -114,20 +119,45 @@ Item {
         Row {
             width: window.width
             Button {
+                id: button
+                property bool isActive: false
+                property bool isPressed: false
                 text: qsTr("Test speech")
-                width: parent.width
-                height: 50
-                font.pointSize: 20
+                width: window.width
+                height: 80
+                font.pointSize: 25
                 onPressed:  {
                     texttospeech.speak(textEdit.text)
                 }
+
+                background: Rectangle {
+                    implicitHeight: 100
+                    radius: 10
+                    border.color: {
+                        if (button.isActive)
+                            return "red"
+                        else
+                            return "gray"
+                    }
+                    color: button.isActive ? "lightblue": "white"
+                    border.width: 5
+                }
+
+                onFocusChanged:     if (activeFocus) {
+                                        isActive = true
+                                        androidClient.speak(buttonText.text)
+                                    }
+                                    else {
+                                        isActive = false
+                                    }
+
             }
         }
     }
 
     Component.onCompleted: {
-        slider1.value = texttospeech.volume * 100
-        slider2.value = texttospeech.rate * 100
-        slider3.value = texttospeech.pitch * 100
+        slider1.value = Math.round(texttospeech.volume * 100)
+        slider2.value = Math.round(texttospeech.rate * 100)
+        slider3.value = Math.round(texttospeech.pitch * 100)
     }
 }

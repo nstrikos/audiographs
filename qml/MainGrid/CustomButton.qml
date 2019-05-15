@@ -9,18 +9,30 @@ Button {
     width: parent.width
     property bool isActive: false
     property bool isPressed: false
+    property string customText: "Text"
     property int textSize: 25
-    property alias color: rect.color
 
     Accessible.name: "My button"
 
+    contentItem: Text {
+        id: buttonText
+        text: customText
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pixelSize: textSize
+        anchors.fill: parent
+        antialiasing: true
+    }
+
     background: Rectangle {
-        id: rect
         implicitHeight: 100
         radius: 10
         border.color: ButtonFunctions.setBorderColor()
+        color: isActive ? "lightblue": "white"
         border.width: 5
     }
 
     onFocusChanged: ButtonFunctions.focusChanged()
+
 }
+

@@ -13,15 +13,20 @@ android: {
 QT += core gui quick androidextras
 }
 
-HEADERS       = audiooutput.h \
-    AndroidClient.h \
-                audioengine.h \
+HEADERS       = \
+    appwindow.h \
     atmsp.h \
+    audioengine.h \
+    audiooutput.h \
     audiopoints.h \
-    #functiondomainparser.h \
+    fparser/fparser.hh \
+    fparser/fparser_gmpint.hh \
+    fparser/fparser_mpfr.hh \
+    fparser/fpconfig.hh \
+    function.h \
     generator.h \
-    generator/genfunctioncalculator.h \
     generator/genclipper.h \
+    generator/genfunctioncalculator.h \
     generator/genmaxfinder.h \
     generator/genminfinder.h \
     generator/genmod.h \
@@ -29,27 +34,25 @@ HEADERS       = audiooutput.h \
     generator/genparameters.h \
     generator/genphicalculator.h \
     generator/gensum.h \
+    graphsettingsdialog.h \
     parameters.h \
-    fparser/fparser_gmpint.hh \
-    fparser/fparser_mpfr.hh \
-    fparser/fparser.hh \
-    fparser/fpconfig.hh \
-    fparser/extrasrc/fpaux.hh \
-    fparser/extrasrc/fptypes.hh \
-    function.h      \
+    renderarea.h \
     test.h \
     texttospeech.h
+    #functiondomainparser.h \
 
 
-SOURCES       = main.cpp \
-    AndroidClient.cpp \
-    audiopoints.cpp \
-    audiooutput.cpp \
+SOURCES       = \
+    appwindow.cpp \
     audioengine.cpp \
-    #functiondomainparser.cpp \
+    audiooutput.cpp \
+    audiopoints.cpp \
+    fparser/fparser.cc \
+    fparser/fpoptimizer.cc \
+    function.cpp \
     generator.cpp \
-    generator/genfunctioncalculator.cpp \
     generator/genclipper.cpp \
+    generator/genfunctioncalculator.cpp \
     generator/genmaxfinder.cpp \
     generator/genminfinder.cpp \
     generator/genmod.cpp \
@@ -57,23 +60,20 @@ SOURCES       = main.cpp \
     generator/genparameters.cpp \
     generator/genphicalculator.cpp \
     generator/gensum.cpp \
+    graphsettingsdialog.cpp \
+    main.cpp \
     parameters.cpp \
-    fparser/fparser.cc \
-    fparser/fpoptimizer.cc \
-    function.cpp \
+    renderarea.cpp \
     test.cpp \
     texttospeech.cpp
+    #functiondomainparser.cpp \
 
 unix:!android {
-    HEADERS +=  appwindow.h \
-                graphsettingsdialog.h \
-                renderarea.h \
+    HEADERS +=  \
 
 
 
-    SOURCES +=  appwindow.cpp \
-                graphsettingsdialog.cpp \
-                renderarea.cpp \
+    SOURCES +=  \
 }
 
 FORMS += \

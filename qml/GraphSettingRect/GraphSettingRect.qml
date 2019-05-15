@@ -4,10 +4,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 
-import "../ButtonsRect"
-import "../GraphRect"
-import "../ParametersRect"
-
 Rectangle {
     id: graphSettingRect
 
@@ -27,7 +23,7 @@ Rectangle {
             labelText: qsTr("Point color")
         }
 
-        CustomButton2 {
+        CustomButton {
             id: pointColorButton
             width: definedWidth
             height: definedHeight
@@ -53,7 +49,7 @@ Rectangle {
             labelText: qsTr("Line color")
         }
 
-        CustomButton2 {
+        CustomButton {
             id: lineColorButton
             width: definedWidth
             height: definedHeight
@@ -79,7 +75,7 @@ Rectangle {
             labelText: qsTr("Highlight color")
         }
 
-        CustomButton2 {
+        CustomButton {
             id: highlightColorButton
             width: definedWidth
             height: definedHeight
@@ -106,7 +102,7 @@ Rectangle {
             labelText: qsTr("Axes color")
         }
 
-        CustomButton2 {
+        CustomButton {
             id: axesColorButton
             width: definedWidth
             height: definedHeight
@@ -122,7 +118,7 @@ Rectangle {
             labelText: qsTr("Background color")
         }
 
-        CustomButton2 {
+        CustomButton {
             id: backgroundColorButton
             width: definedWidth
             height: definedHeight
@@ -183,10 +179,10 @@ Rectangle {
                 pointSlider.sliderValue = myparameters.pointSize
                 lineColorButton.color = myparameters.lineColor
                 lineSlider.sliderValue = myparameters.lineWidth
-                highlightColorButton.mycolor = myparameters.highlightColor
+                highlightColorButton.color = myparameters.highlightColor
                 highlightSlider.sliderValue = myparameters.highlightSize
-                axesColorButton.mycolor = myparameters.axesColor
-                backgroundColorButton.mycolor = myparameters.backgroundColor
+                axesColorButton.color = myparameters.axesColor
+                backgroundColorButton.color = myparameters.backgroundColor
             }
         }
     }

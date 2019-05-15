@@ -26,11 +26,22 @@ RowLayout {
         width: parent.width
         Layout.fillWidth: true
 
-        contentItem: CustomText {
+        contentItem: Text {
             id: buttonText
+            text: isPressed ? "On" : "Off"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 20
+            anchors.fill: parent
+            antialiasing: true
         }
 
-        background: BackgroundRect {
+        background: Rectangle {
+            implicitHeight: 50
+            radius: 10
+            border.color: isActive ? "red" : "gray"
+            color: isPressed ? "lightblue": "lightgray"
+            border.width: isActive ? 5 : 2
         }
 
         onClicked: {
