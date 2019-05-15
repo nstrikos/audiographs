@@ -74,7 +74,7 @@ void RenderArea::calcMinMax()
     m_yMin = m_function->y(0);
     m_yMax = m_yMin;
     for (int i = 0; i < m_function->size(); i++) {
-        if (isfinite(m_function->y(i))) {
+        if (std::isfinite(m_function->y(i))) {
             if (m_function->y(i) < m_yMin)
                 m_yMin = m_function->y(i);
             if (m_function->y(i) > m_yMax)

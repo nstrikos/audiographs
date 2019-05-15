@@ -145,7 +145,7 @@ Item {
 
                 onFocusChanged:     if (activeFocus) {
                                         isActive = true
-                                        androidClient.speak(buttonText.text)
+                                        androidClient.speak(button.text)
                                     }
                                     else {
                                         isActive = false

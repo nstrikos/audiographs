@@ -14,7 +14,7 @@ QT += core gui quick androidextras
 }
 
 HEADERS       = \
-    appwindow.h \
+    AndroidClient.h \
     atmsp.h \
     audioengine.h \
     audiooutput.h \
@@ -34,16 +34,14 @@ HEADERS       = \
     generator/genparameters.h \
     generator/genphicalculator.h \
     generator/gensum.h \
-    graphsettingsdialog.h \
     parameters.h \
-    renderarea.h \
     test.h \
     texttospeech.h
     #functiondomainparser.h \
 
 
 SOURCES       = \
-    appwindow.cpp \
+    AndroidClient.cpp \
     audioengine.cpp \
     audiooutput.cpp \
     audiopoints.cpp \
@@ -60,20 +58,22 @@ SOURCES       = \
     generator/genparameters.cpp \
     generator/genphicalculator.cpp \
     generator/gensum.cpp \
-    graphsettingsdialog.cpp \
     main.cpp \
     parameters.cpp \
-    renderarea.cpp \
     test.cpp \
     texttospeech.cpp
     #functiondomainparser.cpp \
 
 unix:!android {
     HEADERS +=  \
-
-
+    appwindow.h \
+    graphsettingsdialog.h \
+    renderarea.h \
 
     SOURCES +=  \
+    appwindow.cpp \
+    graphsettingsdialog.cpp \
+    renderarea.cpp \
 }
 
 FORMS += \
@@ -88,6 +88,7 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml \
+    android/src/org/nstrikos/access/audiographs/AndroidClient.java \
     fparser/extrasrc/fp_opcode_add.inc \
     fparser/extrasrc/fp_identifier_parser.inc
 
