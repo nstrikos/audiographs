@@ -7,8 +7,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.os.Vibrator;
-import java.util.Locale;
-import java.lang.String;
+
+import android.os.Build;
+import android.os.VibrationEffect;
 
 public class AndroidClient extends QtActivity implements TextToSpeech.OnInitListener
 {
@@ -31,12 +32,7 @@ public class AndroidClient extends QtActivity implements TextToSpeech.OnInitList
     }
 
     public void onInit(int status) {
-            /*Locale loc = new Locale("es", "","");
-            if(tts.isLanguageAvailable(loc) >= TextToSpeech.LANG_AVAILABLE){
-                    tts.setLanguage(loc);
-            }
-            tts.speak("hola mundos", TextToSpeech.QUEUE_FLUSH, null);
-            */
+
     }
 
     @Override
@@ -55,10 +51,19 @@ public class AndroidClient extends QtActivity implements TextToSpeech.OnInitList
     {
         if (m_vibrator == null)
         {
+            System.out.println("null vibrator");
+
             if (m_instance != null)
             {
+                System.out.println("setting vibrator");
                 m_vibrator = (Vibrator) m_instance.getSystemService(Context.VIBRATOR_SERVICE);
-                m_vibrator.vibrate(5000);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    m_vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    //deprecated in API 26
+                    m_vibrator.vibrate(500);
+                }
             }
         }
         else m_vibrator.vibrate(5000);
