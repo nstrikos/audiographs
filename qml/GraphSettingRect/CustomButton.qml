@@ -37,7 +37,8 @@ Button {
     onFocusChanged: {
         if (activeFocus) {
             isActive = true
-            texttospeech.speak(customText)
+            if (window.talkSpeech)
+                texttospeech.speak(customText)
         }
         else {
             isActive = false

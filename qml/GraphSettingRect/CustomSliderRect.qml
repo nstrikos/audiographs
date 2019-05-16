@@ -23,7 +23,7 @@ Rectangle {
         onValueChanged: speak()
 
         function speak() {
-            if (activeFocus)
+            if (activeFocus && window.talkSpeech)
                 texttospeech.speak(rect.text + " " + slider.value)
         }
     }

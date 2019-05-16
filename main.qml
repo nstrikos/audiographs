@@ -9,6 +9,7 @@ import "qml/ParametersRect"
 import "qml/SpeechSettingsRect"
 import "qml/GraphRect"
 import "qml/GraphSettingRect"
+import "qml/SettingsOtherRect"
 //import "qml/"
 
 Window {
@@ -19,6 +20,8 @@ Window {
     minimumWidth: 480
     minimumHeight: 640
     title: qsTr("Sound graphs")
+
+    property bool talkSpeech: false
 
     Item {
         anchors.fill: parent
@@ -46,6 +49,10 @@ Window {
             id: speechSettings
             width: parent.width
             height: parent.height
+        }
+
+        SettingsOther {
+            id: settingsOther
         }
     }
 

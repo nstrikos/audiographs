@@ -46,13 +46,15 @@ RowLayout {
 
         onClicked: {
             isPressed = !isPressed
-            speak()
+            if (window.talkSpeech)
+                speak()
         }
 
         onFocusChanged: {
             if (activeFocus) {
                 isActive = true
-                speak()
+                if (window.talkSpeech)
+                    speak()
             }
             else {
                 isActive = false

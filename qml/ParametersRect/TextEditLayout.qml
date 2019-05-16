@@ -46,7 +46,8 @@ RowLayout {
                 if (activeFocus) {
                     textRect.border.color = "red"
                     textRect.border.width = 5
-                    texttospeech.speak(label.text + input.text)
+                    if (window.talkSpeech)
+                        texttospeech.speak(label.text + input.text)
                 }
                 else {
                     textRect.border.color = "gray"

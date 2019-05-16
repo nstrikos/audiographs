@@ -32,7 +32,18 @@ Button {
         border.width: 5
     }
 
-    onFocusChanged: ButtonFunctions.focusChanged()
+    onFocusChanged:  {
+        if (activeFocus) {
+            isActive = true
+            //androidClient.speak(buttonText.text)
+            //androidClient.vibrate("500")
+            if (window.talkSpeech)
+                texttospeech.speak(buttonText.text)
+        }
+        else {
+            isActive = false
+        }
+    }
 
 }
 

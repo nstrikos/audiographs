@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.12
 import "../js/ButtonFunctions.js" as ButtonFunctions
 
 Item {
-    id: window
+    id: root
     visible: false
     width: 640
     height: 480
@@ -68,11 +68,11 @@ Item {
                 onValueChanged:  {
                     texttospeech.volume = value
                     label1.text = qsTr("Volume: ") + slider1.value
-                    if (activeFocus)
+                    if (activeFocus && window.talkSpeech)
                         texttospeech.speak(label1.text)
                 }
                 onFocusChanged: {
-                    if (activeFocus) {
+                    if (activeFocus && window.talkSpeech) {
                         texttospeech.speak(label1.text)
                     }
                 }
@@ -100,11 +100,11 @@ Item {
                 onValueChanged:  {
                     texttospeech.rate = value
                     label2.text = qsTr("Rate: ") + slider2.value
-                    if (activeFocus)
+                    if (activeFocus && window.talkSpeech)
                         texttospeech.speak(label2.text)
                 }
                 onFocusChanged: {
-                    if (activeFocus) {
+                    if (activeFocus && window.talkSpeech) {
                         texttospeech.speak(label2.text)
                     }
                 }
@@ -132,11 +132,11 @@ Item {
                 onValueChanged:  {
                     texttospeech.pitch = value
                     label3.text = qsTr("Pitch: ") + slider3.value
-                    if (activeFocus)
+                    if (activeFocus && window.talkSpeech)
                         texttospeech.speak(label3.text)
                 }
                 onFocusChanged: {
-                    if (activeFocus) {
+                    if (activeFocus && window.talkSpeech) {
                         texttospeech.speak(label3.text)
                     }
                 }
@@ -172,7 +172,8 @@ Item {
 
                 onFocusChanged:     if (activeFocus) {
                                         isActive = true
-                                        texttospeech.speak(button.text)
+                                        if (window.talkSpeech)
+                                            texttospeech.speak(button.text)
                                     }
                                     else {
                                         isActive = false

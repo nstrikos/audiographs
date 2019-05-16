@@ -12,6 +12,7 @@ Grid {
     property alias graphButton: graphButton
     property alias graphSettingsButton: graphSettingsButton
     property alias speechSettingsButton: speechSettingsButton
+    property alias settingsOtherButton: settingsOtherButton
     
     CustomButton {
         id: parametersButton
@@ -45,6 +46,14 @@ Grid {
         onPressed: speechSettingsButtonPressed()
     }    
 
+    CustomButton {
+        id: settingsOtherButton
+        customText: qsTr("Other settings")
+        width: 200
+        height: 100
+        onPressed: settingsOtherButtonPressed()
+    }
+
     function parametersButtonPressed() {
         grid.visible = false
         parametersRect.visible = true
@@ -71,6 +80,12 @@ Grid {
         grid.visible = false
         speechSettings.visible = true
         speechSettings.setActiveFocus()
+    }
+
+    function settingsOtherButtonPressed() {
+        grid.visible = false
+        settingsOther.visible = true
+        settingsOther.setActiveFocus()
     }
 
     Component.onCompleted: {

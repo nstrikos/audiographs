@@ -3,14 +3,14 @@ import QtQuick.Controls 2.5
 
 Button {
     id: showPointsButton
-    
+
     property bool isActive: false
     property bool isPressed: false
     property string labelText: ""
-    
+
     height: definedHeight
     width: definedWidth
-    
+
     contentItem: Text {
         id: buttonText
         text: showPointsButton.isPressed ? "On" : "Off"
@@ -20,7 +20,7 @@ Button {
         anchors.fill: parent
         antialiasing: true
     }
-    
+
     background: Rectangle {
         implicitHeight: 50
         radius: 10
@@ -28,12 +28,13 @@ Button {
         color: showPointsButton.isPressed ? "lightblue": "lightgray"
         border.width: 5//showPointsButton.isActive ? 5 : 2
     }
-    
+
     onFocusChanged: {
         if (activeFocus) {
             isActive = true
 
             if (window.talkSpeech) {
+
                 if (isPressed)
                     texttospeech.speak(labelText + " on")
                 else
@@ -46,9 +47,14 @@ Button {
     }
 
     onPressed:  {
-        if (!isPressed)
+        if (!isPressed) {
             texttospeech.speak(labelText + " on")
-        else
+            isPressed = true
+            window.talkSpeech = true
+        } else {
             texttospeech.speak(labelText + " off")
+            isPressed = false
+            window.talkSpeech = false
+        }
     }
 }
