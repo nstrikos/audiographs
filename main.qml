@@ -51,8 +51,8 @@ Window {
             height: parent.height
         }
 
-        SettingsOther {
-            id: settingsOther
+        SettingsOtherRect {
+            id: settingsOtherRect
         }
     }
 

@@ -10,7 +10,7 @@ RowLayout {
     property alias input: input
     property alias minimumWidth: rect.minimumWidth
 
-    width: parent.width
+    width: parent.width - 250
 
     Rectangle {
         id: rect
@@ -31,7 +31,7 @@ RowLayout {
         radius: 10
         Layout.fillWidth: true
         Layout.preferredHeight: 50
-        Accessible.name: "test button"
+        Accessible.name: input.text
 
         TextInput {
             id: input
@@ -42,6 +42,8 @@ RowLayout {
             anchors.centerIn: parent
             font.pixelSize: 20
             width: parent.width
+            Accessible.name: text
+            Accessible.focusable: true
             onActiveFocusChanged: {
                 if (activeFocus) {
                     textRect.border.color = "red"

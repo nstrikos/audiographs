@@ -14,7 +14,7 @@ Button {
     property string customText
     property string showText
 
-    Accessible.name: "My button"
+    Accessible.name: customText
 
     contentItem: Text {
         id: buttonText

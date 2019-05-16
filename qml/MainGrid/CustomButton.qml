@@ -12,7 +12,7 @@ Button {
     property string customText: "Text"
     property int textSize: 25
 
-    Accessible.name: "My button"
+    Accessible.name: buttonText.text
 
     contentItem: Text {
         id: buttonText

@@ -84,8 +84,8 @@ Grid {
 
     function settingsOtherButtonPressed() {
         grid.visible = false
-        settingsOther.visible = true
-        settingsOther.setActiveFocus()
+        settingsOtherRect.visible = true
+        settingsOtherRect.setActiveFocus()
     }
 
     Component.onCompleted: {

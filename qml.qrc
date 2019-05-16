@@ -3,7 +3,6 @@
         <file>qml/js/GraphCanvasJS.js</file>
         <file>qml/js/GraphCanvasMouseJS.js</file>
         <file>qml/js/ButtonFunctions.js</file>
-        <file>qml/ParametersRect/CheckButton.qml</file>
         <file>qml/ParametersRect/ParametersRect.qml</file>
         <file>qml/GraphRect/GraphCanvas.qml</file>
         <file>qml/GraphRect/GraphRect.qml</file>
@@ -17,8 +16,8 @@
         <file>qml/GraphSettingRect/GraphSettingRect.qml</file>
         <file>qml/GraphSettingRect/CustomButton.qml</file>
         <file>qml/SpeechSettingsRect/SpeechSettings.qml</file>
-        <file>qml/SettingsOtherRect/SettingsOther.qml</file>
         <file>qml/SettingsOtherRect/CustomCheckButton.qml</file>
         <file>qml/SettingsOtherRect/CustomLabel.qml</file>
+        <file>qml/SettingsOtherRect/SettingsOtherRect.qml</file>
     </qresource>
 </RCC>
