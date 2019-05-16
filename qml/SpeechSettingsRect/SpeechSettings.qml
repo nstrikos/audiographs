@@ -43,7 +43,7 @@ Item {
             readOnly: true
             text: "Audiographs\n1 2 3 4 5 6 7 8 9 10"
             wrapMode: TextEdit.Wrap
-            activeFocusOnTab: true
+            //activeFocusOnTab: true
         }
 
 
@@ -65,7 +65,17 @@ Item {
                 stepSize: 1
                 from: 0
                 to: 100
-                onValueChanged: texttospeech.volume = value
+                onValueChanged:  {
+                    texttospeech.volume = value
+                    label1.text = qsTr("Volume: ") + slider1.value
+                    if (activeFocus)
+                        texttospeech.speak(label1.text)
+                }
+                onFocusChanged: {
+                    if (activeFocus) {
+                        texttospeech.speak(label1.text)
+                    }
+                }
             }
         }
 
@@ -87,7 +97,17 @@ Item {
                 stepSize: 1
                 from: -100
                 to: 100
-                onValueChanged: texttospeech.rate = value
+                onValueChanged:  {
+                    texttospeech.rate = value
+                    label2.text = qsTr("Rate: ") + slider2.value
+                    if (activeFocus)
+                        texttospeech.speak(label2.text)
+                }
+                onFocusChanged: {
+                    if (activeFocus) {
+                        texttospeech.speak(label2.text)
+                    }
+                }
             }
         }
 
@@ -109,9 +129,16 @@ Item {
                 stepSize: 1
                 from: -100
                 to: 100
-                onValueChanged: {
+                onValueChanged:  {
                     texttospeech.pitch = value
-                    //myparameters.pitch = value
+                    label3.text = qsTr("Pitch: ") + slider3.value
+                    if (activeFocus)
+                        texttospeech.speak(label3.text)
+                }
+                onFocusChanged: {
+                    if (activeFocus) {
+                        texttospeech.speak(label3.text)
+                    }
                 }
             }
         }
@@ -145,7 +172,7 @@ Item {
 
                 onFocusChanged:     if (activeFocus) {
                                         isActive = true
-                                        androidClient.speak(button.text)
+                                        texttospeech.speak(button.text)
                                     }
                                     else {
                                         isActive = false

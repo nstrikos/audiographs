@@ -12,12 +12,13 @@ Button {
     property int textSize: 25
     property alias color: rect.color
     property string customText
+    property string showText
 
     Accessible.name: "My button"
 
     contentItem: Text {
         id: buttonText
-        text: customText
+        text: showText
         font.pixelSize: textSize
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -33,5 +34,13 @@ Button {
         border.width: 5
     }
 
-    onFocusChanged: ButtonFunctions.focusChanged()
+    onFocusChanged: {
+        if (activeFocus) {
+            isActive = true
+            texttospeech.speak(customText)
+        }
+        else {
+            isActive = false
+        }
+    }
 }

@@ -20,6 +20,7 @@ Rectangle {
         spacing: 10
 
         CustomLabel {
+            id: pointColorLabel
             labelText: qsTr("Point color")
         }
 
@@ -28,6 +29,7 @@ Rectangle {
             width: definedWidth
             height: definedHeight
             color: myparameters.pointColor
+            customText: pointColorLabel.labelText
             onPressed: {
                 colorDialog.color = myparameters.pointColor
                 colorDialog.request = "pointColorButton"
@@ -36,16 +38,19 @@ Rectangle {
         }
 
         CustomLabel {
+            id: pointSizeLabel
             labelText: qsTr("Point size")
         }
 
         CustomSliderRect {
             id: pointSlider
+            text: pointSizeLabel.labelText
             sliderValue: myparameters.pointSize
             onSliderValueChanged: myparameters.pointSize = sliderValue
         }
 
         CustomLabel {
+            id: lineColorLabel
             labelText: qsTr("Line color")
         }
 
@@ -54,6 +59,7 @@ Rectangle {
             width: definedWidth
             height: definedHeight
             color: myparameters.lineColor
+            customText: lineColorLabel.labelText
             onPressed: {
                 colorDialog.color = myparameters.lineColor
                 colorDialog.request = "lineColorButton"
@@ -62,16 +68,19 @@ Rectangle {
         }
 
         CustomLabel {
+            id: lineWidthLabel
             labelText: qsTr("Line width")
         }
 
         CustomSliderRect {
             id: lineSlider
             sliderValue: myparameters.lineWidth
+            text: lineWidthLabel.labelText
             onSliderValueChanged: myparameters.lineWidth = sliderValue
         }
 
         CustomLabel {
+            id: highlightColorLabel
             labelText: qsTr("Highlight color")
         }
 
@@ -80,6 +89,7 @@ Rectangle {
             width: definedWidth
             height: definedHeight
             color: myparameters.highlightColor
+            customText: highlightColorLabel.labelText
             onPressed: {
                 colorDialog.color = myparameters.highlightColor
                 colorDialog.request = "highlightColorButton"
@@ -88,17 +98,20 @@ Rectangle {
         }
 
         CustomLabel {
+            id: highlightSizeLabel
             labelText: qsTr("Highlight size")
         }
 
         CustomSliderRect {
             id: highlightSlider
             sliderValue: myparameters.highlightSize
+            text: highlightSizeLabel.labelText
             maxValue: 40
             onSliderValueChanged: myparameters.highlightSize = sliderValue
         }
 
         CustomLabel {
+            id: axesColorLabel
             labelText: qsTr("Axes color")
         }
 
@@ -107,6 +120,7 @@ Rectangle {
             width: definedWidth
             height: definedHeight
             color: myparameters.axesColor
+            customText: axesColorLabel.labelText
             onPressed: {
                 colorDialog.color = myparameters.axesColor
                 colorDialog.request = "axesColorButton"
@@ -115,6 +129,7 @@ Rectangle {
         }
 
         CustomLabel {
+            id: backgroundColorLabel
             labelText: qsTr("Background color")
         }
 
@@ -123,6 +138,7 @@ Rectangle {
             width: definedWidth
             height: definedHeight
             color: myparameters.backgroundColor
+            customText: backgroundColorLabel.labelText
             onPressed: {
                 colorDialog.color = myparameters.backgroundColor
                 colorDialog.request = "backgroundColorButton"
@@ -131,11 +147,13 @@ Rectangle {
         }
 
         CustomLabel {
+            id: showPointsLabel
             labelText: qsTr("Show points")
         }
 
         CustomCheckButton {
             id: showPointsButton
+            labelText: showPointsLabel.labelText
             onPressed: {
                 isPressed = !isPressed
                 myparameters.showPoints = isPressed
@@ -147,11 +165,13 @@ Rectangle {
         }
 
         CustomLabel {
+            id: showLineLabel
             labelText: qsTr("Show line")
         }
 
         CustomCheckButton {
             id: showLineButton
+            labelText: showLineLabel.labelText
             onPressed: {
                 isPressed = !isPressed
                 myparameters.showLine = isPressed
@@ -172,7 +192,8 @@ Rectangle {
             width: definedWidth
             height: definedHeight
             textSize: 20
-            customText: qsTr("Restore defaults")
+            showText: qsTr("Restore defaults")
+            customText: showText
             onPressed: {
                 myparameters.reset()
                 pointColorButton.color = myparameters.pointColor

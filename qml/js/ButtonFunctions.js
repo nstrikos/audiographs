@@ -9,7 +9,7 @@ function focusChanged() {
     if (activeFocus) {
         isActive = true
         //androidClient.speak(buttonText.text)
-        androidClient.vibrate("500")
+        //androidClient.vibrate("500")
         texttospeech.speak(buttonText.text)
     }
     else {

@@ -6,6 +6,7 @@ Button {
     
     property bool isActive: false
     property bool isPressed: false
+    property string labelText: ""
     
     height: definedHeight
     width: definedWidth
@@ -31,10 +32,20 @@ Button {
     onFocusChanged: {
         if (activeFocus) {
             isActive = true
-            speak()
+            if (isPressed)
+                texttospeech.speak(labelText + " on")
+            else
+                texttospeech.speak(labelText + " off")
         }
         else {
             isActive = false
         }
+    }
+
+    onPressed:  {
+        if (!isPressed)
+            texttospeech.speak(labelText + " on")
+        else
+            texttospeech.speak(labelText + " off")
     }
 }

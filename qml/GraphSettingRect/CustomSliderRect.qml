@@ -7,6 +7,7 @@ Rectangle {
 
     property alias sliderValue: slider.value
     property int maxValue: 20
+    property string text: ""
 
     width: definedWidth
     height: definedHeight
@@ -18,6 +19,13 @@ Rectangle {
         to: maxValue
         stepSize: 1
         anchors.verticalCenter: parent.verticalCenter
+        onFocusChanged: speak()
+        onValueChanged: speak()
+
+        function speak() {
+            if (activeFocus)
+                texttospeech.speak(rect.text + " " + slider.value)
+        }
     }
     
     Item {
