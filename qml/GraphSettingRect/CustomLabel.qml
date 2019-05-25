@@ -6,12 +6,12 @@ Rectangle {
 
     property alias labelText: label.text
 
-    width: definedWidth
-    height: definedHeight
+    width: 180// definedWidth
+    height: 50//definedHeight
     Label {
         id: label
         font.pixelSize: 20
         anchors.verticalCenter: parent.verticalCenter
-        Layout.minimumWidth: 150        
+        Layout.minimumWidth: 180
     }
 }

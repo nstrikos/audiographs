@@ -9,22 +9,24 @@ Rectangle {
     property int maxValue: 20
     property string text: ""
 
-    width: definedWidth
+    //width: 200//definedWidth
     height: definedHeight
     
     Slider {
         id: slider
-        width: rect.width / 2
+        width: parent.width - label.width - 10 //rect.width / 2
         from: 1
         to: maxValue
         stepSize: 1
         anchors.verticalCenter: parent.verticalCenter
+        Accessible.name: rect.text + " " + qsTr("slider") + " " + slider.value
+//        Accessible.role: Accessible.Slider
         onFocusChanged: speak()
         onValueChanged: speak()
 
         function speak() {
-            if (activeFocus && window.talkSpeech)
-                texttospeech.speak(rect.text + " " + slider.value)
+            //if (activeFocus && window.talkSpeech)
+                texttospeech.speak(rect.text + " " + qsTr("slider") + " " + slider.value)
         }
     }
     
@@ -34,6 +36,7 @@ Rectangle {
         anchors.right: parent.right
         
         Label {
+            id: label
             text: slider.value
             font.pixelSize: 40
             anchors.centerIn: parent

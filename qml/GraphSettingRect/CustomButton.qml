@@ -6,7 +6,7 @@ import "../js/ButtonFunctions.js" as ButtonFunctions
 
 Button {
     id: root
-    width: parent.width
+    width: 200//parent.width
     property bool isActive: false
     property bool isPressed: false
     property int textSize: 25

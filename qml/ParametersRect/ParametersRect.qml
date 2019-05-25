@@ -11,130 +11,128 @@ Rectangle {
     property alias minimumXText: startXInput.text
     property alias maximumXText: endXInput.text
     property alias stepText: stepInput.text
-    property int clearButtonWidth: 200
-
+    property int clearButtonWidth: 100
 
     color: "white"
     anchors.fill: parent
     visible: false
 
     //Column
-    Grid {
-        id: column
-        columns: 2
-        spacing: 15
+
+    Flickable {
+        id: flickable
         anchors.fill: parent
+        contentHeight: grid.height + 75
 
-        TextEditLayout {
-            id: functionInput
-            labelText: qsTr("Function:")
-            input.text: "sin(x)"
-            KeyNavigation.tab: clearFunctionButton
-        }
+        Grid {
+            id: column
+            columns: 2
+            spacing: 15
+            anchors.fill: parent
 
-        RoundButton {
-            id: clearFunctionButton
-            text: qsTr("Clear function")
-            width: clearButtonWidth
-            onPressed: {
-                functionInput.input.text = ""
+            TextEditLayout {
+                id: functionInput
+                labelText: qsTr("Function:")
+                input.text: "sin(x)"
+                KeyNavigation.tab: clearFunctionButton
             }
-            KeyNavigation.tab: startXInput
-            Accessible.name: text
-        }
 
-        TextEditLayout {
-            id: startXInput
-            labelText: qsTr("Start at:")
-            input.text: "-10"
-            KeyNavigation.tab: clearStartButton
-            Accessible.name: text
-        }
-
-        RoundButton {
-            id: clearStartButton
-            text: qsTr("Clear start")
-            width: clearButtonWidth
-            onPressed: startXInput.input.text = ""
-            KeyNavigation.tab: endXInput
-            Accessible.name: text
-        }
-
-        TextEditLayout {
-            id: endXInput
-            labelText: qsTr("End at:")
-            input.text: "10"
-            KeyNavigation.tab: clearEndButton
-        }
-
-        RoundButton {
-            id: clearEndButton
-            text: qsTr("Clear end")
-            width: clearButtonWidth
-            onPressed: {
-                endXInput.input.text = ""
+            CustomButton {
+                id: clearFunctionButton
+                onPressed: functionInput.input.text = ""
             }
-            KeyNavigation.tab: minimumYInput
-            Accessible.name: text
-        }
 
-        TextEditLayout {
-            id: minimumYInput
-            labelText: qsTr("Minimum Y:")
-            input.text: "-10"
-            KeyNavigation.tab: clearMinimumButton
-        }
-
-        RoundButton {
-            id: clearMinimumButton
-            text: qsTr("Clear minimum")
-            width: clearButtonWidth
-            onPressed: {
-                minimumYInput.input.text = ""
+            TextEditLayout {
+                id: startXInput
+                labelText: qsTr("Start at:")
+                input.text: "-10"
+                KeyNavigation.tab: clearStartButton
+                //Accessible.name: text
             }
-            KeyNavigation.tab: maximumYInput
-            Accessible.name: text
-        }
 
-        TextEditLayout {
-            id: maximumYInput
-            labelText: qsTr("Maximum Y:")
-            input.text: "10"
-            KeyNavigation.tab: clearMaximumButton
-        }
-
-        RoundButton {
-            id: clearMaximumButton
-            text: qsTr("Clear maximum")
-            width: clearButtonWidth
-            onPressed: {
-                maximumYInput.input.text = ""
+            CustomButton {
+                id: clearStartButton
+                width: clearButtonWidth
+                onPressed: startXInput.input.text = ""
+                KeyNavigation.tab: endXInput
+                //Accessible.name: text + " " + qsTr("start")
             }
-            KeyNavigation.tab: stepInput
-            Accessible.name: text
-        }
 
-        TextEditLayout {
-            id: stepInput
-            labelText: qsTr("Step:")
-            input.text: "100"
-            KeyNavigation.tab: clearPointsButton
-        }
-
-        RoundButton {
-            id: clearPointsButton
-            text: qsTr("Clear number of points")
-            width: clearButtonWidth
-            onPressed: {
-                stepInput.input.text = ""
+            TextEditLayout {
+                id: endXInput
+                labelText: qsTr("End at:")
+                input.text: "10"
+                KeyNavigation.tab: clearEndButton
             }
-            KeyNavigation.tab: functionInput
-            Accessible.name: text
-        }
 
+            CustomButton {
+                id: clearEndButton
+                width: clearButtonWidth
+                onPressed: {
+                    endXInput.input.text = ""
+                }
+                KeyNavigation.tab: minimumYInput
+//                Accessible.name: text + " " + qsTr("end")
+            }
+
+            TextEditLayout {
+                id: minimumYInput
+                labelText: qsTr("Minimum Y:")
+                input.text: "-10"
+                KeyNavigation.tab: clearMinimumButton
+            }
+
+            CustomButton {
+                id: clearMinimumButton
+                text: qsTr("Clear")
+                width: clearButtonWidth
+                onPressed: {
+                    minimumYInput.input.text = ""
+                }
+                KeyNavigation.tab: maximumYInput
+//                Accessible.name: text + " " + qsTr(" minimum")
+            }
+
+            TextEditLayout {
+                id: maximumYInput
+                labelText: qsTr("Maximum Y:")
+                input.text: "10"
+                KeyNavigation.tab: clearMaximumButton
+            }
+
+            CustomButton {
+                id: clearMaximumButton
+                text: qsTr("Clear")
+                width: clearButtonWidth
+                onPressed: {
+                    maximumYInput.input.text = ""
+                }
+                KeyNavigation.tab: stepInput
+//                Accessible.name: text + " " + qsTr("maximum")
+            }
+
+            TextEditLayout {
+                id: stepInput
+                labelText: qsTr("Step:")
+                input.text: "100"
+                KeyNavigation.tab: clearPointsButton
+            }
+
+            CustomButton {
+                id: clearPointsButton
+                text: qsTr("Clear")
+                width: clearButtonWidth
+                onPressed: {
+                    stepInput.input.text = ""
+                }
+                KeyNavigation.tab: functionInput
+//                Accessible.name: text + " " + qsTr("number of points")
+            }
+        }
     }
 
     function forceActiveFocus() {
+        flickable.contentY = 0
         functionInput.forceActiveFocus()
     }
 

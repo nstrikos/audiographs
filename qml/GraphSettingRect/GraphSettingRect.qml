@@ -8,202 +8,217 @@ Rectangle {
     id: graphSettingRect
 
     property alias pointColorButton: pointColorButton
-    property int definedHeight: graphSettingRect.height / 15
-    property int definedWidth: graphSettingRect.width / 3
+    property int definedHeight: 50//graphSettingRect.height / 15
+    property int definedWidth: graphSettingRect.width - pointColorLabel.width - 10//graphSettingRect.width / 5
+    property int gridHeight
 
     visible: false
     anchors.fill: parent
 
-    Grid {
-        anchors.centerIn: parent
-        columns: 2
-        spacing: 10
+    Flickable {
+        id: flickable
+        anchors.fill: parent
+        contentHeight: 11 * 60
 
-        CustomLabel {
-            id: pointColorLabel
-            labelText: qsTr("Point color")
-        }
+        Grid {
+            //id: grid
+            //anchors.centerIn: parent
+            anchors.fill: parent
+            columns: 2
+            spacing: 10
 
-        CustomButton {
-            id: pointColorButton
-            width: definedWidth
-            height: definedHeight
-            color: myparameters.pointColor
-            customText: pointColorLabel.labelText
-            onPressed: {
-                colorDialog.color = myparameters.pointColor
-                colorDialog.request = "pointColorButton"
-                colorDialog.open()
+            CustomLabel {
+                id: pointColorLabel
+                labelText: qsTr("Point color")
             }
-        }
 
-        CustomLabel {
-            id: pointSizeLabel
-            labelText: qsTr("Point size")
-        }
-
-        CustomSliderRect {
-            id: pointSlider
-            text: pointSizeLabel.labelText
-            sliderValue: myparameters.pointSize
-            onSliderValueChanged: myparameters.pointSize = sliderValue
-        }
-
-        CustomLabel {
-            id: lineColorLabel
-            labelText: qsTr("Line color")
-        }
-
-        CustomButton {
-            id: lineColorButton
-            width: definedWidth
-            height: definedHeight
-            color: myparameters.lineColor
-            customText: lineColorLabel.labelText
-            onPressed: {
-                colorDialog.color = myparameters.lineColor
-                colorDialog.request = "lineColorButton"
-                colorDialog.open()
+            CustomButton {
+                id: pointColorButton
+                width: graphSettingRect.width - pointColorLabel.width - 10//definedWidth
+                height: definedHeight
+                color: myparameters.pointColor
+                customText: pointColorLabel.labelText
+                //Layout.fillWidth: true
+                onPressed: {
+                    colorDialog.color = myparameters.pointColor
+                    colorDialog.request = "pointColorButton"
+                    colorDialog.open()
+                }
             }
-        }
 
-        CustomLabel {
-            id: lineWidthLabel
-            labelText: qsTr("Line width")
-        }
-
-        CustomSliderRect {
-            id: lineSlider
-            sliderValue: myparameters.lineWidth
-            text: lineWidthLabel.labelText
-            onSliderValueChanged: myparameters.lineWidth = sliderValue
-        }
-
-        CustomLabel {
-            id: highlightColorLabel
-            labelText: qsTr("Highlight color")
-        }
-
-        CustomButton {
-            id: highlightColorButton
-            width: definedWidth
-            height: definedHeight
-            color: myparameters.highlightColor
-            customText: highlightColorLabel.labelText
-            onPressed: {
-                colorDialog.color = myparameters.highlightColor
-                colorDialog.request = "highlightColorButton"
-                colorDialog.open()
+            CustomLabel {
+                id: pointSizeLabel
+                labelText: qsTr("Point size")
             }
-        }
 
-        CustomLabel {
-            id: highlightSizeLabel
-            labelText: qsTr("Highlight size")
-        }
-
-        CustomSliderRect {
-            id: highlightSlider
-            sliderValue: myparameters.highlightSize
-            text: highlightSizeLabel.labelText
-            maxValue: 40
-            onSliderValueChanged: myparameters.highlightSize = sliderValue
-        }
-
-        CustomLabel {
-            id: axesColorLabel
-            labelText: qsTr("Axes color")
-        }
-
-        CustomButton {
-            id: axesColorButton
-            width: definedWidth
-            height: definedHeight
-            color: myparameters.axesColor
-            customText: axesColorLabel.labelText
-            onPressed: {
-                colorDialog.color = myparameters.axesColor
-                colorDialog.request = "axesColorButton"
-                colorDialog.open()
+            CustomSliderRect {
+                id: pointSlider
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                text: pointSizeLabel.labelText
+                sliderValue: myparameters.pointSize
+                onSliderValueChanged: myparameters.pointSize = sliderValue
             }
-        }
 
-        CustomLabel {
-            id: backgroundColorLabel
-            labelText: qsTr("Background color")
-        }
-
-        CustomButton {
-            id: backgroundColorButton
-            width: definedWidth
-            height: definedHeight
-            color: myparameters.backgroundColor
-            customText: backgroundColorLabel.labelText
-            onPressed: {
-                colorDialog.color = myparameters.backgroundColor
-                colorDialog.request = "backgroundColorButton"
-                colorDialog.open()
+            CustomLabel {
+                id: lineColorLabel
+                labelText: qsTr("Line color")
             }
-        }
 
-        CustomLabel {
-            id: showPointsLabel
-            labelText: qsTr("Show points")
-        }
-
-        CustomCheckButton {
-            id: showPointsButton
-            labelText: showPointsLabel.labelText
-            onPressed: {
-                isPressed = !isPressed
-                myparameters.showPoints = isPressed
+            CustomButton {
+                id: lineColorButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                height: definedHeight
+                color: myparameters.lineColor
+                customText: lineColorLabel.labelText
+                onPressed: {
+                    colorDialog.color = myparameters.lineColor
+                    colorDialog.request = "lineColorButton"
+                    colorDialog.open()
+                }
             }
-            Component.onCompleted: {
-                isActive = false
-                isPressed = myparameters.showPoints
+
+            CustomLabel {
+                id: lineWidthLabel
+                labelText: qsTr("Line width")
             }
-        }
 
-        CustomLabel {
-            id: showLineLabel
-            labelText: qsTr("Show line")
-        }
-
-        CustomCheckButton {
-            id: showLineButton
-            labelText: showLineLabel.labelText
-            onPressed: {
-                isPressed = !isPressed
-                myparameters.showLine = isPressed
+            CustomSliderRect {
+                id: lineSlider
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                sliderValue: myparameters.lineWidth
+                text: lineWidthLabel.labelText
+                onSliderValueChanged: myparameters.lineWidth = sliderValue
             }
-            Component.onCompleted: {
-                isActive = false
-                isPressed = myparameters.showLine
+
+            CustomLabel {
+                id: highlightColorLabel
+                labelText: qsTr("Highlight color")
             }
-        }
 
-        Label {
-            width: definedWidth
-            height: definedHeight
-        }
+            CustomButton {
+                id: highlightColorButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                height: definedHeight
+                color: myparameters.highlightColor
+                customText: highlightColorLabel.labelText
+                onPressed: {
+                    colorDialog.color = myparameters.highlightColor
+                    colorDialog.request = "highlightColorButton"
+                    colorDialog.open()
+                }
+            }
 
-        CustomButton {
-            id: restoreButton
-            width: definedWidth
-            height: definedHeight
-            textSize: 20
-            showText: qsTr("Restore defaults")
-            customText: showText
-            onPressed: {
-                myparameters.reset()
-                pointColorButton.color = myparameters.pointColor
-                pointSlider.sliderValue = myparameters.pointSize
-                lineColorButton.color = myparameters.lineColor
-                lineSlider.sliderValue = myparameters.lineWidth
-                highlightColorButton.color = myparameters.highlightColor
-                highlightSlider.sliderValue = myparameters.highlightSize
-                axesColorButton.color = myparameters.axesColor
-                backgroundColorButton.color = myparameters.backgroundColor
+            CustomLabel {
+                id: highlightSizeLabel
+                labelText: qsTr("Highlight size")
+            }
+
+            CustomSliderRect {
+                id: highlightSlider
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                sliderValue: myparameters.highlightSize
+                text: highlightSizeLabel.labelText
+                maxValue: 40
+                onSliderValueChanged: myparameters.highlightSize = sliderValue
+            }
+
+            CustomLabel {
+                id: axesColorLabel
+                labelText: qsTr("Axes color")
+            }
+
+            CustomButton {
+                id: axesColorButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                height: definedHeight
+                color: myparameters.axesColor
+                customText: axesColorLabel.labelText
+                onPressed: {
+                    colorDialog.color = myparameters.axesColor
+                    colorDialog.request = "axesColorButton"
+                    colorDialog.open()
+                }
+            }
+
+            CustomLabel {
+                id: backgroundColorLabel
+                labelText: qsTr("Background color")
+            }
+
+            CustomButton {
+                id: backgroundColorButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                height: definedHeight
+                color: myparameters.backgroundColor
+                customText: backgroundColorLabel.labelText
+                onPressed: {
+                    colorDialog.color = myparameters.backgroundColor
+                    colorDialog.request = "backgroundColorButton"
+                    colorDialog.open()
+                }
+            }
+
+            CustomLabel {
+                id: showPointsLabel
+                labelText: qsTr("Show points")
+            }
+
+            CustomCheckButton {
+                id: showPointsButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                labelText: showPointsLabel.labelText
+                onPressed: {
+                    isPressed = !isPressed
+                    myparameters.showPoints = isPressed
+                }
+                Component.onCompleted: {
+                    isActive = false
+                    isPressed = myparameters.showPoints
+                }
+            }
+
+            CustomLabel {
+                id: showLineLabel
+                labelText: qsTr("Show line")
+            }
+
+            CustomCheckButton {
+                id: showLineButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                labelText: showLineLabel.labelText
+                onPressed: {
+                    isPressed = !isPressed
+                    myparameters.showLine = isPressed
+                }
+                Component.onCompleted: {
+                    isActive = false
+                    isPressed = myparameters.showLine
+                }
+            }
+
+            Label {
+                width: 180//definedWidth
+                height: 50//definedHeight
+            }
+
+            CustomButton {
+                id: restoreButton
+                width: graphSettingRect.width - pointColorLabel.width - 10
+                height: 50//definedHeight
+                textSize: width / 50 + 10
+                showText: qsTr("Restore defaults")
+                customText: showText
+                onPressed: {
+                    myparameters.reset()
+                    pointColorButton.color = myparameters.pointColor
+                    pointSlider.sliderValue = myparameters.pointSize
+                    lineColorButton.color = myparameters.lineColor
+                    lineSlider.sliderValue = myparameters.lineWidth
+                    highlightColorButton.color = myparameters.highlightColor
+                    highlightSlider.sliderValue = myparameters.highlightSize
+                    axesColorButton.color = myparameters.axesColor
+                    backgroundColorButton.color = myparameters.backgroundColor
+                }
             }
         }
     }
@@ -264,6 +279,7 @@ Rectangle {
     }
 
     function setFocus() {
+        flickable.contentY = 0
         pointColorButton.forceActiveFocus()
     }
 

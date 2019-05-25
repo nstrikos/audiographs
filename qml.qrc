@@ -19,5 +19,6 @@
         <file>qml/SettingsOtherRect/CustomCheckButton.qml</file>
         <file>qml/SettingsOtherRect/CustomLabel.qml</file>
         <file>qml/SettingsOtherRect/SettingsOtherRect.qml</file>
+        <file>qml/ParametersRect/CustomButton.qml</file>
     </qresource>
 </RCC>

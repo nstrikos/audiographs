@@ -10,11 +10,11 @@ RowLayout {
     property alias input: input
     property alias minimumWidth: rect.minimumWidth
 
-    width: parent.width - 250
+    width: parent.width - 115 // button.width + grid.spacing
 
     Rectangle {
         id: rect
-        property int minimumWidth: 150
+        property int minimumWidth: 100
         Layout.minimumWidth: minimumWidth
         Label {
             id: label
@@ -27,11 +27,11 @@ RowLayout {
     Rectangle {
         id: textRect
         border.color: "gray"
-        border.width: 2
+        border.width: 5
         radius: 10
         Layout.fillWidth: true
         Layout.preferredHeight: 50
-        Accessible.name: input.text
+        //Accessible.name: labelText + " " + input.text
 
         TextInput {
             id: input
@@ -41,19 +41,22 @@ RowLayout {
             clip: true
             anchors.centerIn: parent
             font.pixelSize: 20
-            width: parent.width
-            Accessible.name: text
+            width: parent.width - 20
+            Accessible.name: labelText + " " + text
             Accessible.focusable: true
             onActiveFocusChanged: {
                 if (activeFocus) {
                     textRect.border.color = "red"
-                    textRect.border.width = 5
-                    if (window.talkSpeech)
-                        texttospeech.speak(label.text + input.text)
+                    //textRect.border.width = 5
+                    if (window.talkSpeech) {
+                        var text = label.text + " " + input.text
+                        texttospeech.speak(text)
+                        console.log(text)
+                    }
                 }
                 else {
                     textRect.border.color = "gray"
-                    textRect.border.width = 2
+                    //textRect.border.width = 5
                 }
             }
 

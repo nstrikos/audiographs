@@ -8,8 +8,8 @@ Button {
     property bool isPressed: false
     property string labelText: ""
     
-    height: definedHeight
-    width: definedWidth
+    height: 50//definedHeight
+    //width: definedWidth
     
     contentItem: Text {
         id: buttonText

@@ -15,10 +15,10 @@ import "qml/SettingsOtherRect"
 Window {
     id: window
     visible: true
-    width: 640
-    height: 550
-    minimumWidth: 480
-    minimumHeight: 640
+    width: 320
+    height: 320
+    minimumWidth: 320
+    minimumHeight: 320
     title: qsTr("Sound graphs")
 
     property bool talkSpeech: false

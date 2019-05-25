@@ -13,11 +13,13 @@ Grid {
     property alias graphSettingsButton: graphSettingsButton
     property alias speechSettingsButton: speechSettingsButton
     property alias settingsOtherButton: settingsOtherButton
+
+    property int buttonWidth: parent.width / 2 - 30
     
     CustomButton {
         id: parametersButton
         customText: qsTr("Function\nparameters")
-        width: 200
+        width: buttonWidth
         height: 100
         onPressed: parametersButtonPressed()
     }
@@ -25,7 +27,7 @@ Grid {
     CustomButton {
         id: graphButton
         customText: qsTr("Show\ngraph")
-        width: 200
+        width: buttonWidth
         height: 100
         onPressed: graphButtonPressed()
     }
@@ -33,7 +35,7 @@ Grid {
     CustomButton {
         id: graphSettingsButton
         customText: qsTr("Graph\nsettings")
-        width: 200
+        width: buttonWidth
         height: 100
         onPressed: graphSettingsPressed()
     }
@@ -41,7 +43,7 @@ Grid {
     CustomButton {
         id: speechSettingsButton
         customText: qsTr("Speech settings")
-        width: 200
+        width: buttonWidth
         height: 100
         onPressed: speechSettingsButtonPressed()
     }    
@@ -49,7 +51,7 @@ Grid {
     CustomButton {
         id: settingsOtherButton
         customText: qsTr("Other settings")
-        width: 200
+        width: buttonWidth
         height: 100
         onPressed: settingsOtherButtonPressed()
     }

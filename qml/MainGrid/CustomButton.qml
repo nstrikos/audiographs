@@ -10,7 +10,7 @@ Button {
     property bool isActive: false
     property bool isPressed: false
     property string customText: "Text"
-    property int textSize: 25
+    property int textSize: width / 50 + 15
 
     Accessible.name: buttonText.text
 

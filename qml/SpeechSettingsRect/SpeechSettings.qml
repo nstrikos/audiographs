@@ -13,6 +13,8 @@ Item {
 
     focus: true
 
+    property string text: qsTr("Audiographs 1 2 3 4 5 6 7 8 9 10")
+
     Keys.onBackPressed: {
         backPressed()
     }
@@ -28,23 +30,24 @@ Item {
     }
 
     function setActiveFocus() {
-        textEdit.forceActiveFocus()
+        slider1.forceActiveFocus()
     }
 
     ColumnLayout {
         spacing: 0
         anchors.fill: parent
 
-        TextEdit {
-            id: textEdit
-            Layout.fillWidth: true
-            font.pointSize: 50
-            Layout.fillHeight: true
-            readOnly: true
-            text: "Audiographs\n1 2 3 4 5 6 7 8 9 10"
-            wrapMode: TextEdit.Wrap
-            //activeFocusOnTab: true
-        }
+//        TextEdit {
+//            id: textEdit
+//            Layout.fillWidth: true
+//            font.pointSize: 20
+//            //Layout.fillHeight: true
+//            height: 150
+//            readOnly: true
+//            text: "Audiographs\n1 2 3 4 5 6 7 8 9 10"
+//            wrapMode: TextEdit.Wrap
+//            //activeFocusOnTab: true
+//        }
 
 
         Row {
