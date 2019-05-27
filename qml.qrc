@@ -20,5 +20,9 @@
         <file>qml/SettingsOtherRect/CustomLabel.qml</file>
         <file>qml/SettingsOtherRect/SettingsOtherRect.qml</file>
         <file>qml/ParametersRect/CustomButton.qml</file>
+        <file>qml/AudioSettingsRect/AudioSettingsRect.qml</file>
+        <file>qml/AudioSettingsRect/CustomButton.qml</file>
+        <file>qml/AudioSettingsRect/CustomLabel.qml</file>
+        <file>qml/AudioSettingsRect/CustomSliderRect.qml</file>
     </qresource>
 </RCC>

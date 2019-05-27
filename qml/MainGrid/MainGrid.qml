@@ -10,6 +10,7 @@ Grid {
 
     property alias parametersButton: parametersButton
     property alias graphButton: graphButton
+    property alias audioSettingsButton: audioSettingsButton
     property alias graphSettingsButton: graphSettingsButton
     property alias speechSettingsButton: speechSettingsButton
     property alias settingsOtherButton: settingsOtherButton
@@ -30,6 +31,14 @@ Grid {
         width: buttonWidth
         height: 100
         onPressed: graphButtonPressed()
+    }
+
+    CustomButton {
+        id: audioSettingsButton
+        customText: qsTr("Audio\nsettings")
+        width: buttonWidth
+        height: 100
+        onPressed: audioSettingsButtonPressed()
     }
     
     CustomButton {
@@ -63,13 +72,20 @@ Grid {
     }
 
     function graphButtonPressed() {
-        grid.visible = false
-        graphRect.visible = true
-        graphRect.forceActiveFocus()
+        grid.visible = false        
+        console.log(parametersRect.stepText)
         myfunction.calculate(parametersRect.functionText,
                              parametersRect.minimumXText,
                              parametersRect.maximumXText,
                              parametersRect.stepText)
+        graphRect.visible = true
+        graphRect.forceActiveFocus()
+    }
+
+    function audioSettingsButtonPressed() {
+        grid.visible = false
+        audioSettingsRect.visible = true
+        audioSettingsRect.setActiveFocus()
     }
 
     function graphSettingsPressed() {

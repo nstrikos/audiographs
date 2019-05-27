@@ -8,6 +8,7 @@ import "qml/MainGrid"
 import "qml/ParametersRect"
 import "qml/SpeechSettingsRect"
 import "qml/GraphRect"
+import "qml/AudioSettingsRect"
 import "qml/GraphSettingRect"
 import "qml/SettingsOtherRect"
 //import "qml/"
@@ -19,7 +20,7 @@ Window {
     height: 320
     minimumWidth: 320
     minimumHeight: 320
-    title: qsTr("Sound graphs")
+    title: qsTr("Audio graphs")
 
     property bool talkSpeech: false
 
@@ -45,6 +46,10 @@ Window {
             id: graphSettingRect
         }
 
+        AudioSettingsRect {
+            id: audioSettingsRect
+        }
+
         SpeechSettings {
             id: speechSettings
             width: parent.width
@@ -60,14 +65,14 @@ Window {
         target: myfunction
         onUpdate: {
             graphRect.updatePoints()
-            test.stop();
-            test.start(parametersRect.functionText,
-                       parametersRect.minimumXText,
-                       parametersRect.maximumXText,
-                       10,
-                       200,
-                       2000);
-            graphRect.startPoints()
+//            test.stop();
+//            test.start(parametersRect.functionText,
+//                       parametersRect.minimumXText,
+//                       parametersRect.maximumXText,
+//                       myparameters.duration,
+//                       myparameters.minFreq,
+//                       myparameters.maxFreq);
+//            graphRect.startPoints()
         }
         onError: console.log(err)
     }

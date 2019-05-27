@@ -43,8 +43,6 @@ private slots:
     void startButtonClicked();
     void stopButtonClicked();
     void on_actionGraph_settings_triggered();
-    void on_pushButton_2_clicked();
-    void on_pushButton_clicked();
 
 private:
     void keyPressEvent(QKeyEvent *ev);

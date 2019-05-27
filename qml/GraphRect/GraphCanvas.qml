@@ -77,13 +77,13 @@ Canvas {
         running: false
         onTriggered: {
             timeElapsed += interval
-            if (timeElapsed > 10 * 1000) {
+            if (timeElapsed > myparameters.duration * 1000) {
                 currentPoint = -1;
                 CanvasJS.paintCanvas()
             }
             else {
 
-                currentPoint = Math.round( timeElapsed / (10 * 1000) * myfunction.size())
+                currentPoint = Math.round( timeElapsed / (myparameters.duration * 1000) * myfunction.size())
                 CanvasJS.drawCurrentPixel()
                 //            CanvasJS.initializeCanvas()
                 //            CanvasJS.initializeArrays()
@@ -101,6 +101,12 @@ Canvas {
         timeElapsed = 0.0;
         timer2.running = true
         //        timer2.restart()
+    }
+
+    function stopPoints() {
+        timer2.running = false
+        currentPoint = -1
+        CanvasJS.paintCanvas()
     }
 
     //Works for android

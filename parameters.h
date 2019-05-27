@@ -26,6 +26,9 @@ class Parameters : public QObject
     Q_PROPERTY(double volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(double rate READ rate WRITE setRate NOTIFY rateChanged)
     Q_PROPERTY(double pitch READ pitch WRITE setPitch NOTIFY pitchChanged)
+    Q_PROPERTY(int duration READ duration WRITE setDuration NOTIFY durationChanged)
+    Q_PROPERTY(int minFreq READ minFreq WRITE setMinFreq NOTIFY minFreqChanged)
+    Q_PROPERTY(int maxFreq READ maxFreq WRITE setMaxFreq NOTIFY maxFreqChanged)
 
 public:
     Parameters();
@@ -61,6 +64,7 @@ public:
     void read();
     void write();
     Q_INVOKABLE void reset();
+    Q_INVOKABLE void resetAudio();
 
     QColor axesColor() const;
     void setAxesColor(const QColor &axesColor);
@@ -80,6 +84,15 @@ public:
     double pitch() const;
     void setPitch(double pitch);
 
+    int duration() const;
+    void setDuration(int duration);
+
+    int minFreq() const;
+    void setMinFreq(int minFreq);
+
+    int maxFreq() const;
+    void setMaxFreq(int maxFreq);
+
 private:
     bool m_showPoints;
     bool m_showLine;
@@ -96,6 +109,9 @@ private:
     double m_volume;
     double m_rate;
     double m_pitch;
+    int m_duration;
+    int m_minFreq;
+    int m_maxFreq;
 
     const QString POINTCOLOR = "pointColor";
 
@@ -115,6 +131,9 @@ signals:
     void volumeChanged();
     void rateChanged();
     void pitchChanged();
+    void durationChanged();
+    void minFreqChanged();
+    void maxFreqChanged();
 };
 
 #endif // PARAMETERS_H

@@ -6,18 +6,24 @@ Rectangle {
     id: rect
 
     property alias sliderValue: slider.value
+    property int minValue: 1
     property int maxValue: 20
+    property int step: 1
     property string text: ""
 
     //width: 200//definedWidth
     height: definedHeight
+
+    function setFocus() {
+        slider.forceActiveFocus()
+    }
     
     Slider {
         id: slider
         width: parent.width - label.width - 10 //rect.width / 2
-        from: 1
+        from: minValue
         to: maxValue
-        stepSize: 1
+        stepSize: step
         anchors.verticalCenter: parent.verticalCenter
         Accessible.name: rect.text + " " + qsTr("slider") + " " + slider.value
 //        Accessible.role: Accessible.Slider

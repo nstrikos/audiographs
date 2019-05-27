@@ -142,6 +142,10 @@ void Parameters::read()
     double rate = settings.value("rate", 0.5).toDouble();
     double pitch = settings.value("pitch", 0.5).toDouble();
 
+    int duration = settings.value("duration", 10).toInt();
+    int minFreq = settings.value("minFreq", 200).toInt();
+    int maxFreq = settings.value("maxFreq", 2000).toInt();
+
     setPointColor(pointColor);
     setPointSize(pointSize);
     setLineColor(lineColor);
@@ -157,6 +161,9 @@ void Parameters::read()
     setVolume(volume);
     setRate(rate);
     setPitch(pitch);
+    setDuration(duration);
+    setMinFreq(minFreq);
+    setMaxFreq(maxFreq);
 }
 
 void Parameters::write()
@@ -178,6 +185,9 @@ void Parameters::write()
     settings.setValue("volume", m_volume);
     settings.setValue("rate", m_rate);
     settings.setValue("pitch", m_pitch);
+    settings.setValue("duration", m_duration);
+    settings.setValue("minFreq", m_minFreq);
+    settings.setValue("maxFreq", m_maxFreq);
 }
 
 void Parameters::reset()
@@ -194,6 +204,13 @@ void Parameters::reset()
     setShowPoints(true);
     setShowLine(true);
     setShowAxes(true);
+}
+
+void Parameters::resetAudio()
+{
+    setDuration(10);
+    setMinFreq(200);
+    setMaxFreq(2000);
 }
 
 QColor Parameters::axesColor() const
@@ -254,4 +271,34 @@ double Parameters::pitch() const
 void Parameters::setPitch(double pitch)
 {
     m_pitch = pitch;
+}
+
+int Parameters::duration() const
+{
+    return m_duration;
+}
+
+void Parameters::setDuration(int duration)
+{
+    m_duration = duration;
+}
+
+int Parameters::minFreq() const
+{
+    return m_minFreq;
+}
+
+void Parameters::setMinFreq(int minFreq)
+{
+    m_minFreq = minFreq;
+}
+
+int Parameters::maxFreq() const
+{
+    return m_maxFreq;
+}
+
+void Parameters::setMaxFreq(int maxFreq)
+{
+    m_maxFreq = maxFreq;
 }

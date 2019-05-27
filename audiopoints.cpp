@@ -29,6 +29,7 @@ void AudioPoints::stopAudio()
         audioOutput->stop();
         delete audioOutput;
         audioOutput = nullptr;
+        timer->stop();
     }
     audioPlaying = false;
 //    setFreq(0);

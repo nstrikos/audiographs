@@ -41,7 +41,7 @@ void AppWindow::initVariables()
     m_audioPoints = new AudioPoints();
     m_parameters = new Parameters();
     ui->renderArea->setParameters(m_parameters);
-    m_curPoint = 0;
+    m_curPoint = -1;
 }
 
 void AppWindow::connectSignals()
@@ -205,6 +205,7 @@ void AppWindow::previousPoint()
 
 void AppWindow::setAudioPointsFreq()
 {
+    qDebug() << m_curPoint;
     if (audioEngine != nullptr) {
         if (m_curPoint < 0 ) {
             m_curPoint = -1;
@@ -249,14 +250,4 @@ void AppWindow::setAudioPointsFreq()
         //ui->renderArea->setShowHighlightPoint(true);
         //ui->renderArea->update();
     }
-}
-
-void AppWindow::on_pushButton_2_clicked()
-{
-    nextPoint();
-}
-
-void AppWindow::on_pushButton_clicked()
-{
-    previousPoint();
 }
