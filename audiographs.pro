@@ -19,6 +19,7 @@ HEADERS       = \
     audioengine.h \
     audiooutput.h \
     audiopoints.h \
+    curve.h \
     fparser/fparser.hh \
     fparser/fparser_gmpint.hh \
     fparser/fparser_mpfr.hh \
@@ -45,6 +46,7 @@ SOURCES       = \
     audioengine.cpp \
     audiooutput.cpp \
     audiopoints.cpp \
+    curve.cpp \
     fparser/fparser.cc \
     fparser/fpoptimizer.cc \
     function.cpp \

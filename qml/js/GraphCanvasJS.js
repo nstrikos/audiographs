@@ -49,11 +49,11 @@ function draw()
 {
     drawGrid()
 
-    if (myparameters.showLine)
-        drawLines()
+//    if (myparameters.showLine)
+//        drawLines()
 
-    if (myparameters.showPoints)
-        drawPixels()
+//    if (myparameters.showPoints)
+//        drawPixels()
 
     requestPaint()
 }
@@ -79,9 +79,9 @@ function drawPixels()
 function drawLines()
 {
     var x,y
-    ctx.lineWidth = myparameters.lineWidth
+    ctx.lineWidth = 1//myparameters.lineWidth
     ctx.strokeStyle = myparameters.lineColor
-    ctx.setLineDash([]);
+//    ctx.setLineDash([]);
 
     ctx.beginPath()
 
@@ -230,25 +230,27 @@ function drawVerticalLines()
 
 function findHorizontalGridLines(y0, y1, dl)
 {
-    var point = (y0)
-    point = point / dl
-    point = Math.floor(point)
-    point = point * dl
-    yGridCoords.push(canvas.height - Math.round( strip(canvas.height / (y1 - y0) * (point - y0) ) ))
-    var value = Math.round (point / dl) * dl
-    yGridValues.push(value)
-
-    var done = false
-    while (!done) {
-        point += dl
-        var screenPoint = Math.round( strip(canvas.height / (y1 - y0) * (point - y0) ) )
-        screenPoint = canvas.height - screenPoint
-        yGridCoords.push(screenPoint)
-        value = Math.round (point / dl) * dl
+    if (y1 > y0) {
+        var point = (y0)
+        point = point / dl
+        point = Math.floor(point)
+        point = point * dl
+        yGridCoords.push(canvas.height - Math.round( strip(canvas.height / (y1 - y0) * (point - y0) ) ))
+        var value = Math.round (point / dl) * dl
         yGridValues.push(value)
 
-        if (point > y1)
-            done = true
+        var done = false
+        while (!done) {
+            point += dl
+            var screenPoint = Math.round( strip(canvas.height / (y1 - y0) * (point - y0) ) )
+            screenPoint = canvas.height - screenPoint
+            yGridCoords.push(screenPoint)
+            value = Math.round (point / dl) * dl
+            yGridValues.push(value)
+
+            if (point > y1)
+                done = true
+        }
     }
 }
 

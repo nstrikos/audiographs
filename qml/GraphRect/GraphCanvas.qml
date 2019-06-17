@@ -17,7 +17,7 @@ import "../js/GraphCanvasMouseJS.js" as MouseJS
 Canvas {
     id: canvas
 
-    renderStrategy: Canvas.Threaded
+    renderStrategy: Canvas.Immediate
 
     property color canvasColor: "#ffffff"
 
@@ -134,7 +134,9 @@ Canvas {
 
         var f = a * l + b;
         var freq = f;
-        audioPoints.setFreq(freq)
+        //audioPoints.setFreq(freq)
+        l = Math.round(l * 100) / 100
+        texttospeech.speak(l)
     }
 
     function drawCurrentPoint2() {
@@ -153,6 +155,26 @@ Canvas {
 
         var f = a * l + b;
         var freq = f;
+        //audioPoints.setFreq(freq)
+        l = Math.round(l * 100) / 100
+        texttospeech.speak(l)
+    }
+
+    function drawMousePoint(x, width) {
+        var k = x / width * myfunction.size()
+        currentPoint = Math.round(k)
+        if (currentPoint >= myfunction.size())
+            currentPoint = myfunction.size() - 1
+        if (currentPoint < 0)
+            currentPoint = 0
+        CanvasJS.drawCurrentPixel()
+        var fmin = myparameters.minFreq
+        var fmax = myparameters.maxFreq
+        var a =  (fmax-fmin)/(myfunction.maxY - myfunction.minY);
+        var b = fmax - a * myfunction.maxY;
+        var l = myfunction.y(currentPoint)
+        var f = a * l + b;
+        var freq = f;
         audioPoints.setFreq(freq)
     }
 
@@ -160,18 +182,18 @@ Canvas {
         CanvasJS.clear()
     }
 
-    onHeightChanged: {
-        timer.restart()
-        //        timer.running = true
-        //        if (canvasDataAreValid)
-        //            CanvasJS.paintCanvas()
-        //            CanvasJS.updatePoints()
-    }
-    onWidthChanged: {
-        timer.restart()
-        //        if (canvasDataAreValid) {
-        //    CanvasJS.paintCanvas()
-        //            updatePoints()
-        //        }
-    }
+//    onHeightChanged: {
+//        timer.restart()
+//        //        timer.running = true
+//        //        if (canvasDataAreValid)
+//        //            CanvasJS.paintCanvas()
+//        //            CanvasJS.updatePoints()
+//    }
+//    onWidthChanged: {
+//        timer.restart()
+//        //        if (canvasDataAreValid) {
+//        //    CanvasJS.paintCanvas()
+//        //            updatePoints()
+//        //        }
+//    }
 }

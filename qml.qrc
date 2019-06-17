@@ -24,5 +24,12 @@
         <file>qml/AudioSettingsRect/CustomButton.qml</file>
         <file>qml/AudioSettingsRect/CustomLabel.qml</file>
         <file>qml/AudioSettingsRect/CustomSliderRect.qml</file>
+        <file>mainmain.qml</file>
+        <file>SettingsIcon.qml</file>
+        <file>ControlsRect.qml</file>
+        <file>SettingsRect.qml</file>
+        <file>ControlsButton.qml</file>
+        <file>SettingsButton.qml</file>
+        <file>BeautifyRect.qml</file>
     </qresource>
 </RCC>

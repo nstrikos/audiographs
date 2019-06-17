@@ -10,11 +10,18 @@ void Function::calculate(FunctionInput functionInput)
     performCalculation();
 }
 
-void Function::calculate(QString expression, QString min, QString max, QString numPoints)
+void Function::calculate(QString expression,
+                         QString min,
+                         QString max,
+                         QString minY,
+                         QString maxY,
+                         QString numPoints)
 {
     m_expression = expression;
     m_minString = min;
     m_maxString = max;
+    m_minYString = minY;
+    m_maxYString = maxY;
     m_pointsString = numPoints;
 
     performCalculation();
@@ -34,14 +41,18 @@ void Function::replaceConstants()
 
     m_minString.replace("pi", piString);
     m_minString.replace("e", eString);
+    m_minYString.replace("pi", piString);
+    m_minYString.replace("e", eString);
 
     m_maxString.replace("pi", piString);
     m_maxString.replace("e", eString);
+    m_maxYString.replace("pi", piString);
+    m_maxYString.replace("e", eString);
 }
 
 bool Function::check()
 {
-    bool okMin, okMax, okPoints;
+    bool okMin, okMax, okMinY, okMaxY, okPoints;
     double minDouble = m_minString.toDouble(&okMin);
     if (okMin) {
         m_min = minDouble;
@@ -60,6 +71,24 @@ bool Function::check()
         return false;
     }
 
+    double minYDouble = m_minYString.toDouble(&okMinY);
+    if (okMinY) {
+        m_minY = minYDouble;
+    }
+    else {
+        emit error(tr("Minimum Y is not a real number."));
+        return false;
+    }
+
+    double maxYDouble = m_maxYString.toDouble(&okMaxY);
+    if (okMaxY) {
+        m_maxY = maxYDouble;
+    }
+    else {
+        emit error(tr("Maximum Y is not a real number."));
+        return false;
+    }
+
     int pointsInt = m_pointsString.toInt(&okPoints);
     if (okPoints) {
         m_numPoints = pointsInt;
@@ -71,6 +100,11 @@ bool Function::check()
 
     if (m_max <= m_min) {
         emit error(tr("Maximum must be greater than minimum."));
+        return false;
+    }
+
+    if (m_maxY <= m_minY) {
+        emit error(tr("Maximum Y must be greater than minimum Y."));
         return false;
     }
 
@@ -88,7 +122,7 @@ bool Function::check()
     m_fparser.AddConstant("pi", M_PI);
     m_fparser.AddConstant("e", M_E);
     int res = m_fparser.Parse(m_expression.toStdString(), "x");
-    m_fparser.Optimize();
+//    m_fparser.Optimize();
     if(res > 0) {
         emit error(tr("Cannot understand expression.\n") + m_fparser.ErrorMsg());
         return false;
@@ -195,19 +229,22 @@ void Function::calcScrCoords(int width, int height)
 
 
 
-        m_minY = m_points.first().y;
-        m_maxY = m_minY;
+//        m_minY = m_points.first().y;
+//        m_maxY = m_minY;
+
+//        for (int i = 0; i < m_points.size(); i++) {
+//            if (m_points.at(i).y < m_minY)
+//                m_minY = m_points.at(i).y;
+//            if (m_points.at(i).y > m_maxY)
+//                m_maxY = m_points.at(i).y;
+//        }
 
         for (int i = 0; i < m_points.size(); i++) {
-            if (m_points.at(i).y < m_minY)
-                m_minY = m_points.at(i).y;
-            if (m_points.at(i).y > m_maxY)
-                m_maxY = m_points.at(i).y;
-        }
+//            int x =  round( width / (xEnd - xStart) * (m_points.at(i).x - xStart) );
+//            int y = round( height / (m_maxY - m_minY) * (m_points.at(i).y - m_minY) );
 
-        for (int i = 0; i < m_points.size(); i++) {
-            int x =  round( width / (xEnd - xStart) * (m_points.at(i).x - xStart) );
-            int y = round( height / (m_maxY - m_minY) * (m_points.at(i).y - m_minY) );
+            double x =  ( width / (xEnd - xStart) * (m_points.at(i).x - xStart) );
+            double y = ( height / (m_maxY - m_minY) * (m_points.at(i).y - m_minY) );
 
             y = height - y;
             m_xCoords.push_back(x);
@@ -215,8 +252,11 @@ void Function::calcScrCoords(int width, int height)
         }
 
         for (int i = 0; i < LINE_POINTS; i++) {
-            int x =  round( width / (xEnd - xStart) * (m_linePoints.at(i).x - xStart) );
-            int y = round( height / (m_maxY - m_minY) * (m_linePoints.at(i).y - m_minY) );
+//            int x =  round( width / (xEnd - xStart) * (m_linePoints.at(i).x - xStart) );
+//            int y = round( height / (m_maxY - m_minY) * (m_linePoints.at(i).y - m_minY) );
+
+            double x =  ( width / (xEnd - xStart) * (m_linePoints.at(i).x - xStart) );
+            double y = ( height / (m_maxY - m_minY) * (m_linePoints.at(i).y - m_minY) );
 
             y = height - y;
             m_xLineCoords.push_back(x);

@@ -55,7 +55,12 @@ public:
 
 public slots:
     void calculate(FunctionInput functionInput);
-    void calculate(QString expression, QString min, QString max, QString numPoints);
+    void calculate(QString expression,
+                   QString min,
+                   QString max,
+                   QString minY,
+                   QString maxY,
+                   QString numPoints);
     
 signals:
     void update();
@@ -71,6 +76,8 @@ private:
     QString m_expression;
     QString m_minString;
     QString m_maxString;
+    QString m_minYString;
+    QString m_maxYString;
     QString m_pointsString;
     double m_min;
     double m_max;
@@ -81,7 +88,7 @@ private:
 #ifndef Q_OS_ANDROID
     const int LINE_POINTS = 10000;
 #else
-    const int LINE_POINTS = 1000;
+    const int LINE_POINTS = 10000;
 #endif
     QVector<double> m_xCoords;
     QVector<double> m_yCoords;

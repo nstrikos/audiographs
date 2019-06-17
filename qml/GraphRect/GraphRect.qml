@@ -2,17 +2,28 @@ import QtQuick 2.10
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.3
 
+import CustomGeometry 1.0
+import CustomGeometry2 1.0
+
 Rectangle {
     id: graphRect
 
-    anchors.fill: parent
+    //anchors.fill: parent
     focus: true
     visible: false
     color: "white"
 
+    layer.enabled: true
+    layer.samples: 256
+
     property int state: 1
 
+    property var xLineCoords: []
+    property var yLineCoords:[]
+    property alias curve: curve
 
+    onWidthChanged: controlsRect.calculate()
+    onHeightChanged: controlsRect.calculate()
 
     MultiPointTouchArea {
         id: multiPointTouchArea
@@ -20,16 +31,49 @@ Rectangle {
         touchPoints: [
             TouchPoint {
                 id: point1
-                onXChanged: {
-                    if (pressed && state === 3)
-                        console.log(x,y)
-                }
+                onXChanged: handleState3()
+                onPressedChanged: handleState3()
             },
             TouchPoint { id: point2 },
             TouchPoint { id: point3 },
             TouchPoint { id: point4 }
         ]
         onPressed: handleMultiPointTouchArea()
+    }
+
+
+
+    PinchArea {
+        anchors.fill: parent
+        onPinchStarted: controlsRect.startPinch()
+        onPinchUpdated: controlsRect.handlePinch(pinch.scale)
+
+        MouseArea {
+            anchors.fill: parent
+            onWheel: controlsRect.handleZoom(wheel.angleDelta.y)
+            scrollGestureEnabled: false
+
+            property var x0
+            property var y0
+            property var mousePressed
+
+            onPressedChanged: {
+                if (pressed) {
+                    mousePressed = true
+                    x0 = mouseX
+                    y0 = mouseY
+                    controlsRect.startDrag()
+                }
+                else {
+                    mousePressed = false
+                }
+            }
+
+            onPositionChanged: {
+                if (mousePressed)
+                    controlsRect.handleDrag(mouseX - x0, mouseY - y0)
+            }
+        }
     }
 
     GraphCanvas {
@@ -42,6 +86,54 @@ Rectangle {
         id: pointCanvas
         visible: true
         anchors.fill: parent
+    }
+
+    Curve {
+        id: curve
+        anchors.fill: parent
+//        antialiasing: true
+        layer.enabled: true
+        layer.samples: 256
+    }
+
+    BezierCurve {
+        id: line
+        anchors.fill: parent
+        anchors.margins: 20
+//! [2] //! [3]
+        property real t
+        SequentialAnimation on t {
+            NumberAnimation { to: 1; duration: 2000; easing.type: Easing.InOutQuad }
+            NumberAnimation { to: 0; duration: 2000; easing.type: Easing.InOutQuad }
+            loops: Animation.Infinite
+        }
+
+        p2: Qt.point(t, 1 - t)
+        p3: Qt.point(1 - t, t)
+        z: 100
+    }
+
+
+
+    function draw() {
+        xLineCoords = myfunction.xLineCoords
+        yLineCoords = myfunction.yLineCoords
+        curve.draw(xLineCoords, yLineCoords)
+    }
+
+    property alias heightAnimation: heightAnimation
+    property alias reverseHeightAnimation: reverseHeightAnimation
+
+    NumberAnimation on height {
+        id: reverseHeightAnimation
+        from: window.height; to: window.height / 2
+        running: false
+    }
+
+    NumberAnimation on height {
+        id: heightAnimation
+        from: window.height / 2; to: window.height
+        running: false
     }
 
     function updatePoints() {
@@ -63,13 +155,14 @@ Rectangle {
     }
 
     function handleMultiPointTouchArea() {
-        if (point4.pressed) {
 
+        if (point4.pressed) {
+            handle3Points()
         }
         else if (point3.pressed)
-            handle3Points()
-        else if (point2.pressed)
             handle2Points()
+//        else if (point2.pressed)
+//            handle2Points()
         else
             handle1Point()
     }
@@ -77,12 +170,12 @@ Rectangle {
     function handle1Point() {
         if (state === 1) {
             test.stop();
-            test.start(parametersRect.functionText,
-                       parametersRect.minimumXText,
-                       parametersRect.maximumXText,
+            test.start(mainWindow.expression,
+                       0,//parametersRect.minimumXText,
+                       5,//parametersRect.maximumXText,
                        myparameters.duration,
-                       myparameters.minFreq,
-                       myparameters.maxFreq);
+                       200,//myparameters.minFreq,
+                       2000);//myparameters.maxFreq);
             graphRect.startPoints()
         }
         else if (state === 2) {
@@ -111,13 +204,25 @@ Rectangle {
 //        else
 //            mouseArea.accept = false
 
-        if (state > 4)
+        if (state > 3)
             state = 1
         console.log("state: ", state)
     }
 
+    function handleState3() {
+        if (state === 3) {
+            //console.log(point1.x)
+            if (point1.pressed)
+                pointCanvas.drawMousePoint(point1.x, graphRect.width)
+            else
+                stopAudio()
+        }
+
+    }
+
     function stopAudio() {
         test.stop();
+        audioPoints.stopAudio()
         pointCanvas.stopPoints()
     }
 
