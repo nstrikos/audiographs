@@ -19,7 +19,8 @@ function initializeCanvas()
         canvasDataAreValid = true
         canvasData = ctx.createImageData(canvas.width, canvas.height)
         ctx.reset()
-        ctx.fillStyle = myparameters.backgroundColor;
+//        ctx.fillStyle = myparameters.backgroundColor;
+        ctx.fillStyle = "rgba(255, 255, 255, 0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height)
     }
 }
@@ -52,8 +53,8 @@ function draw()
 //    if (myparameters.showLine)
 //        drawLines()
 
-//    if (myparameters.showPoints)
-//        drawPixels()
+    if (myparameters.showPoints)
+        drawPixels()
 
     requestPaint()
 }

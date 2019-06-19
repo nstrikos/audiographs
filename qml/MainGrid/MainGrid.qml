@@ -73,7 +73,7 @@ Grid {
 
     function graphButtonPressed() {
         grid.visible = false        
-        console.log(parametersRect.stepText)
+//        console.log(parametersRect.stepText)
         myfunction.calculate(parametersRect.functionText,
                              parametersRect.minimumXText,
                              parametersRect.maximumXText,

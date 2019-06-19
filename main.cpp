@@ -11,8 +11,6 @@
 #include "AndroidClient.h"
 
 #include "curve.h"
-#include "QSurfaceFormat"
-#include <QQuickView>
 
 #ifndef Q_OS_ANDROID
 #include <QApplication>
@@ -24,9 +22,6 @@
 
 int main(int argc, char *argv[])
 {
-    QSurfaceFormat format;
-    format.setSamples(256);
-//    QSurfaceFormat::setDefaultFormat(format);
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     Function function;
@@ -45,22 +40,6 @@ int main(int argc, char *argv[])
     //#endif
 
     qmlRegisterType<Curve>("CustomGeometry", 1, 0, "Curve");
-    qmlRegisterType<BezierCurve>("CustomGeometry2", 1, 0, "BezierCurve");
-
-
-//    QQuickView view;
-//    QSurfaceFormat format = view.format();
-//    format.setSamples(256);
-//    view.setFormat(format);
-//    view.setSource(QUrl("qrc:///mainmain.qml"));
-//    view.rootContext()->setContextProperty("myfunction", &function);
-//    view.rootContext()->setContextProperty("myparameters", &parameters);
-//    view.rootContext()->setContextProperty("test", &test);
-//    view.rootContext()->setContextProperty("audioPoints", &audioPoints);
-//    view.rootContext()->setContextProperty("texttospeech", &textToSpeech);
-//    view.show();
-
-
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("myfunction", &function);
@@ -68,8 +47,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("test", &test);
     engine.rootContext()->setContextProperty("audioPoints", &audioPoints);
     engine.rootContext()->setContextProperty("texttospeech", &textToSpeech);
-
-//    qmlRegisterType<Curve>("CustomGeometry", 1, 0, "Curve");
 
     AndroidClient androidClient(&engine);
     engine.rootContext()->setContextProperty("androidClient", &androidClient);

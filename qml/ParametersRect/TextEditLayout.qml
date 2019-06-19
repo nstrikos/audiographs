@@ -51,7 +51,7 @@ RowLayout {
                     if (window.talkSpeech) {
                         var text = label.text + " " + input.text
                         texttospeech.speak(text)
-                        console.log(text)
+//                        console.log(text)
                     }
                 }
                 else {

@@ -95,7 +95,6 @@ Canvas {
     }
 
     function startPoints() {
-        console.log("start points")
         CanvasJS.paintCanvas()
         currentPoint = 0;
         timeElapsed = 0.0;

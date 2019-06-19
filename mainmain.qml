@@ -105,7 +105,6 @@ Window {
             //                       myparameters.minFreq,
             //                       myparameters.maxFreq);
             //            graphRect.startPoints()
-            console.log(myfunction.size())
         }
         onError: console.log(err)
     }

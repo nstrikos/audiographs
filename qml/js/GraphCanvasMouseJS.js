@@ -1,6 +1,6 @@
 function mousePressed(x, y)
 {
-    console.log("Pressed at x:" + x + ", y:" + y)
+//    console.log("Pressed at x:" + x + ", y:" + y)
     var ctx = canvas.getContext("2d")
     ctx.fillStyle = "#33a9ff"
     ctx.beginPath()

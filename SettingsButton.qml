@@ -23,11 +23,9 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log("rect4 clicked")
             if (settingsRect.shown == false) {
                 controlsRect.shown = false
                 controlsRect.width = 0
-                controlsRect.textInput.enabled = false
                 settingsRect.shown = true
                 settingsRect.width = window.width / 3
             }

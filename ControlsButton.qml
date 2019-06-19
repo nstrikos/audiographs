@@ -29,13 +29,11 @@ Item {
                     settingsRect.shown = false
                     settingsRect.width = 0
                     controlsRect.shown = true
-                    //controlsRect.textInput.enabled = true
                     controlsRect.widthAnimation.start()
                 }
                 else {
                     controlsRect.shown = false
                     controlsRect.reverseWidthAnimation.start()
-                    //controlsRect.textInput.enabled = false
                 }
             } else {
                 if (controlsRect.shown == false) {
@@ -50,7 +48,7 @@ Item {
             }
         }
     }
-    x: setX()//(controlsRect.width > 0) ?  graphRect.x - width : controlsRect.x
+    x: setX()
     y: setY()
     z: 1000
 

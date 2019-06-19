@@ -3,7 +3,6 @@ import QtQuick.Window 2.10
 import QtQuick.Controls 2.3
 
 import CustomGeometry 1.0
-import CustomGeometry2 1.0
 
 Rectangle {
     id: graphRect
@@ -76,6 +75,13 @@ Rectangle {
         }
     }
 
+    Curve {
+        id: curve
+        anchors.fill: parent
+        layer.enabled: true
+        layer.samples: 256
+    }
+
     GraphCanvas {
         id: graphCanvas
         visible: false
@@ -86,31 +92,6 @@ Rectangle {
         id: pointCanvas
         visible: true
         anchors.fill: parent
-    }
-
-    Curve {
-        id: curve
-        anchors.fill: parent
-//        antialiasing: true
-        layer.enabled: true
-        layer.samples: 256
-    }
-
-    BezierCurve {
-        id: line
-        anchors.fill: parent
-        anchors.margins: 20
-//! [2] //! [3]
-        property real t
-        SequentialAnimation on t {
-            NumberAnimation { to: 1; duration: 2000; easing.type: Easing.InOutQuad }
-            NumberAnimation { to: 0; duration: 2000; easing.type: Easing.InOutQuad }
-            loops: Animation.Infinite
-        }
-
-        p2: Qt.point(t, 1 - t)
-        p3: Qt.point(1 - t, t)
-        z: 100
     }
 
 
@@ -199,14 +180,14 @@ Rectangle {
         state++
 
         if (state === 3)
-            console.log(point1.x)
+//            console.log(point1.x)
 //            mouseArea.accept = true
 //        else
 //            mouseArea.accept = false
 
         if (state > 3)
             state = 1
-        console.log("state: ", state)
+//        console.log("state: ", state)
     }
 
     function handleState3() {
