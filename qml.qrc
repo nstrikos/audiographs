@@ -31,5 +31,6 @@
         <file>ControlsButton.qml</file>
         <file>SettingsButton.qml</file>
         <file>BeautifyRect.qml</file>
+        <file>qml/GraphRect/BeautifyGraphRect.qml</file>
     </qresource>
 </RCC>

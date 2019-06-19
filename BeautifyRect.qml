@@ -14,7 +14,7 @@ Rectangle {
     rotation: 90
     anchors.left: parent.right
     transformOrigin: Item.TopLeft
-    
+
     gradient: Gradient {
         GradientStop {
             color: Qt.rgba(0, 0, 0, 0.15)

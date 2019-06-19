@@ -94,6 +94,10 @@ Rectangle {
         anchors.fill: parent
     }
 
+    BeautifyGraphRect {
+
+    }
+
 
 
     function draw() {
