@@ -10,13 +10,13 @@ import "qml/MainGrid"
 
 Rectangle {
     id: settingsRect
-    height: parent.height
-    anchors.right: parent.right
-    width: 0
+//    height: parent.height
+//    anchors.right: parent.right
+//    width: 0
     property bool shown: false
     
     Behavior on width {
-        NumberAnimation { duration: 500 }
+        NumberAnimation { duration: 300 }
     }
     
     Rectangle {

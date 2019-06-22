@@ -10,14 +10,10 @@ import "qml/MainGrid"
 
 Rectangle {
     id: rect
-//    height: 0//parent.height
-//    width: 0
+    //    height: 0//parent.height
+    //    width: 0
     property bool shown: false
     property alias textInput: textInput
-    property alias widthAnimation: widthAnimation
-    property alias reverseWidthAnimation: reverseWidthAnimation
-
-
 
     property var expression
     property var minX
@@ -31,7 +27,7 @@ Rectangle {
         width: parent.width
         height: 54 * Flat.FlatStyle.scaleFactor
         color: Flat.FlatStyle.defaultTextColor
-        z: 10
+        z: 10000
         
         Label {
             text: (parent.width > 0) ? "Function parameters" : ""
@@ -54,8 +50,8 @@ Rectangle {
 
         Item {
             id: controlsMainRect
-//            anchors.top: controlsTitleBar.bottom
-//            anchors.topMargin: 40
+            //            anchors.top: controlsTitleBar.bottom
+            //            anchors.topMargin: 40
             width: parent.width
 
             Label {
@@ -222,20 +218,6 @@ Rectangle {
     BeautifyRect {
     }
     
-    NumberAnimation on width {
-        id: widthAnimation
-        from: 0; to: window.width / 3
-        running: false
-    }
-
-    NumberAnimation on width {
-        id: reverseWidthAnimation
-        from: window.width / 3; to: 0
-        running: false
-    }
-
-
-
     function handleZoom(zoom) {
         var minX = Number(textInput2.text)
         var maxX = Number(textInput3.text)
@@ -337,26 +319,4 @@ Rectangle {
                              textInput5.text,
                              textInput6.text)
     }
-
-    onWidthChanged: {
-        if (width == 0) {
-            textInput.visible = false
-            textInput2.visible = false
-            textInput3.visible = false
-            textInput4.visible = false
-            textInput5.visible = false
-            textInput6.visible = false
-        } else {
-            textInput.visible = true
-            textInput2.visible = true
-            textInput3.visible = true
-            textInput4.visible = true
-            textInput5.visible = true
-            textInput6.visible = true
-        }
-    }
-
-//    Component.onCompleted: {
-//        flickable.contentHeight = rect.height
-//    }
 }

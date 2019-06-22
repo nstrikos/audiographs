@@ -23,18 +23,14 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            if (settingsRect.shown == false) {
-                controlsRect.shown = false
-                controlsRect.width = 0
-                settingsRect.shown = true
-                settingsRect.width = window.width / 3
-            }
-            else {
-                settingsRect.shown = false
-                settingsRect.width = 0
-            }
+            if (myItem.state == 'state1' || myItem.state == 'state2')
+                myItem.state = 'state3'
+            else if (myItem.state == 'state3')
+                myItem.state = 'state2'
+            else if (myItem.state == 'state4' || myItem.state == 'state5')
+                myItem.state = 'state6'
+            else if (myItem.state == 'state6')
+                myItem.state = 'state5'
         }
     }
-    x: (settingsRect.width > 0) ? settingsRect.x : settingsRect.x - width
-    z: 1000
 }

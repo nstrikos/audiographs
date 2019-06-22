@@ -21,6 +21,14 @@ Rectangle {
     property var yLineCoords:[]
     property alias curve: curve
 
+    Behavior on width {
+        NumberAnimation { duration: 300 }
+    }
+
+    Behavior on height {
+        NumberAnimation { duration: 300 }
+    }
+
     onWidthChanged: controlsRect.calculate()
     onHeightChanged: controlsRect.calculate()
 

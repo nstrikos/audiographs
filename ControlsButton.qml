@@ -23,51 +23,17 @@ Item {
     MouseArea {
         anchors.fill: parent
         onPressed: {
-
-            if (anchorToLeft) {
-                if (controlsRect.shown == false) {
-                    settingsRect.shown = false
-                    settingsRect.width = 0
-                    controlsRect.shown = true
-                    controlsRect.widthAnimation.start()
-                }
-                else {
-                    controlsRect.shown = false
-                    controlsRect.reverseWidthAnimation.start()
-                }
-            } else {
-                if (controlsRect.shown == false) {
-                    controlsRect.shown = true
-                    controlsRect.height = window.height / 2
-                    graphRect.reverseHeightAnimation.start()
-                } else {
-                    controlsRect.shown = false
-                    controlsRect.height = 0
-                    graphRect.heightAnimation.start()
-                }
+            if (myItem.state == 'state1') {
+                myItem.state = 'state2'
             }
-        }
-    }
-    x: setX()
-    y: setY()
-    z: 1000
-
-    function setX() {
-        if (anchorToLeft) {
-            if (controlsRect.width > 0)
-                return graphRect.x - width
-            else
-                return controlsRect.x
-        } else {
-            return controlsRect.width - width
-        }
-    }
-
-    function setY() {
-        if (anchorToLeft) {
-            return 0
-        } else {
-            return graphRect.height - height
+            else if (myItem.state == 'state2' || myItem.state == 'state3') {
+                myItem.state = 'state1'
+            }
+            else if (myItem.state == 'state4') {
+                myItem.state = 'state5'
+            }
+            else if (myItem.state == 'state5' || myItem.state == 'state6')
+                myItem.state = 'state4'
         }
     }
 }
