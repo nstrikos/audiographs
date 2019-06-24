@@ -14,17 +14,17 @@ Rectangle {
 //    anchors.right: parent.right
 //    width: 0
     property bool shown: false
-    
+
     Behavior on width {
         NumberAnimation { duration: 300 }
     }
-    
+
     Rectangle {
         id: settingsTitleBar
         width: parent.width
         height: 54 * Flat.FlatStyle.scaleFactor
         color: Flat.FlatStyle.defaultTextColor
-        
+
         Label {
             text: (parent.width > 0) ? "Function parameters" : ""
             font.family: Flat.FlatStyle.fontFamily
@@ -35,14 +35,14 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
-    
-    
+
+
     Item {
         anchors.top: settingsTitleBar.bottom
         anchors.topMargin: 40
         width: parent.width
-        
-        
+
+
         Label {
             id: label2
             text: (parent.width > 0) ? "Duration: " : ""
@@ -53,9 +53,9 @@ Rectangle {
             width: 100
             //height: 50
         }
-        
-        
-        
+
+
+
         TextField {
             id: textInput2
             //                Layout.fillWidth: true
@@ -65,13 +65,13 @@ Rectangle {
             anchors.rightMargin: 5
             anchors.verticalCenter: parent.verticalCenter
             //width: parent.width - label2.width - 20
-            
+
             placeholderText: (parent.width > 0) ? "Duration in seconds" : ""
             height: 50
             //                width: parent.width - 50
             //                anchors.right: parent.right
             onTextChanged: myparameters.duration = text
-            
+
         }
     }
 

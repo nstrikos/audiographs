@@ -4,6 +4,8 @@ import QtQuick.Controls 2.3
 
 import CustomGeometry 1.0
 
+import "../.."
+
 Rectangle {
     id: graphRect
 
@@ -104,6 +106,10 @@ Rectangle {
 
     BeautifyGraphRect {
 
+    }
+
+    BeautifyRect {
+        visible: (settingsRect.width > 0)
     }
 
 
