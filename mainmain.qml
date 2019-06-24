@@ -10,13 +10,15 @@ import "qml/MainGrid"
 Window {
     id: window
     visible: true
-    width: 380
+    width: 320
     height: 350
     minimumWidth: 320
     minimumHeight: 320
     title: qsTr("Audio graphs")
 
     property alias myItem: myItem
+
+
 
     Item {
         id: myItem
@@ -28,24 +30,27 @@ Window {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
+                    anchors.right: parent.horizontalCenter
                 }
                 AnchorChanges {
                     target: graphRect
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    anchors.left: controlsRect.right
+                    anchors.left: controlsRect.right//parent.horizontalCenter//controlsRect.right
                     anchors.right: parent.right
                 }
                 AnchorChanges {
                     target: settingsRect
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    anchors.left: parent.right
+                    anchors.right: parent.right
                 }
 
                 AnchorChanges {
                     target: controlsButton
                     anchors.top: parent.top
-                    anchors.left: graphRect.left
+                    anchors.right: parent.horizontalCenter
                 }
 
                 AnchorChanges {
@@ -55,17 +60,27 @@ Window {
                 }
 
                 PropertyChanges {
-                    target: settingsRect
-                    width: 0
-                }
-                PropertyChanges {
                     target: controlsRect
-                    width: window.width / 3
+                    anchors.rightMargin: window.width / 4
                 }
+
                 PropertyChanges {
-                    target: graphRect
-                    width: window.width * 2/3
+                    target: settingsRect
+                    anchors.leftMargin: 0
                 }
+
+//                PropertyChanges {
+//                    target: settingsRect
+//                    width: 0
+//                }
+//                PropertyChanges {
+//                    target: controlsRect
+//                    width: window.width / 3
+//                }
+//                PropertyChanges {
+//                    target: graphRect
+//                    width: window.width * 2/3
+//                }
             },
             State {
                 name: "state2"
@@ -105,6 +120,16 @@ Window {
                     anchors.right: graphRect.right
                     anchors.top: parent.top
                 }
+
+                PropertyChanges {
+                    target: controlsRect
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: settingsRect
+                    anchors.leftMargin: 0
+                }
             },
             State {
                 name: "state3"
@@ -117,22 +142,14 @@ Window {
                     anchors.bottom: parent.bottom
                 }
 
-                AnchorChanges {
-                    target: graphRect
-                    anchors.left: parent.left
-                    //                    anchors.right: settingsRect.left
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                }
-
-                PropertyChanges {
-                    target: graphRect
-                    width: window.width * 2 / 3
-                }
+//                PropertyChanges {
+//                    target: graphRect
+//                    width: window.width * 2 / 3
+//                }
 
                 AnchorChanges {
                     target: settingsRect
-                    anchors.left: graphRect.right
+                    anchors.left: parent.horizontalCenter//graphRect.right
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
@@ -146,8 +163,23 @@ Window {
 
                 AnchorChanges {
                     target: settingsButton
-                    anchors.right: graphRect.right
+                    //anchors.right: graphRect.right
+                    anchors.left: parent.horizontalCenter
                     anchors.top: parent.top
+                }
+
+                PropertyChanges {
+                    target: controlsRect
+                    anchors.rightMargin: 0
+                }
+
+                AnchorChanges {
+                    target: graphRect
+                    anchors.left: parent.left
+                                        anchors.right: settingsRect.left
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+//                    anchors.right: parent.horizontalCenter
                 }
             },
             State {
@@ -180,6 +212,21 @@ Window {
                 PropertyChanges {
                     target: settingsRect
                     height: 0
+                }
+
+                PropertyChanges {
+                    target: controlsRect
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: controlsButton
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: settingsRect
+                    anchors.leftMargin: 0
                 }
 
                 AnchorChanges {
@@ -224,6 +271,21 @@ Window {
                 PropertyChanges {
                     target: settingsRect
                     height: 0
+                }
+
+                PropertyChanges {
+                    target: controlsRect
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: controlsButton
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: settingsRect
+                    anchors.leftMargin: 0
                 }
 
                 AnchorChanges {
@@ -276,15 +338,35 @@ Window {
                     anchors.top: graphRect.top
                     anchors.right: graphRect.right
                 }
+
+                PropertyChanges {
+                    target: controlsRect
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: controlsButton
+                    anchors.rightMargin: 0
+                }
+
+                PropertyChanges {
+                    target: settingsRect
+                    anchors.leftMargin: 0
+                }
             }
         ]
+
+        transitions: Transition {
+            // smoothly reanchor myRect and move into new position
+            AnchorAnimation { duration: 250 }
+        }
     }
 
     property var expression
     property bool anchorToLeft: undefined
 
     onAnchorToLeftChanged: {
-        clearAnchors()
+//        clearAnchors()
         if (anchorToLeft == false) {
             if (myItem.state == 'state1')
                 myItem.state = 'state4'
@@ -304,10 +386,12 @@ Window {
 
     ControlsRect {
         id: controlsRect
+        anchors.rightMargin: window.width / 4
     }
 
     ControlsButton {
         id: controlsButton
+        anchors.rightMargin: window.width / 4 - width
         z: 100
     }
 
@@ -319,11 +403,13 @@ Window {
 
     SettingsRect {
         id: settingsRect
+        anchors.leftMargin: window.width / 8
     }
 
     SettingsButton {
         id: settingsButton
         z: 100
+        anchors.leftMargin: window.width / 8 - width
     }
 
     onWidthChanged: setAnchor()

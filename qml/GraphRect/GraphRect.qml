@@ -23,14 +23,6 @@ Rectangle {
     property var yLineCoords:[]
     property alias curve: curve
 
-    Behavior on width {
-        NumberAnimation { duration: 300 }
-    }
-
-    Behavior on height {
-        NumberAnimation { duration: 300 }
-    }
-
     onWidthChanged: controlsRect.calculate()
     onHeightChanged: controlsRect.calculate()
 
@@ -108,6 +100,28 @@ Rectangle {
 
     }
 
+    BeautifyGraphRect {
+        anchors.top: parent.top
+        anchors.bottom: undefined
+        height: 8
+        visible: (settingsRect.height > 0) && (!anchorToLeft)
+
+        gradient: Gradient {
+            GradientStop {
+                color: Qt.rgba(0, 0, 0, 0.4)
+                position: 0
+            }
+            GradientStop {
+                color: Qt.rgba(0, 0, 0, 0.15)
+                position: 0.5
+            }
+            GradientStop {
+                color: Qt.rgba(0, 0, 0, 0)
+                position: 1
+            }
+        }
+    }
+
     BeautifyRect {
         visible: (settingsRect.width > 0)
     }
@@ -118,21 +132,6 @@ Rectangle {
         xLineCoords = myfunction.xLineCoords
         yLineCoords = myfunction.yLineCoords
         curve.draw(xLineCoords, yLineCoords)
-    }
-
-    property alias heightAnimation: heightAnimation
-    property alias reverseHeightAnimation: reverseHeightAnimation
-
-    NumberAnimation on height {
-        id: reverseHeightAnimation
-        from: window.height; to: window.height / 2
-        running: false
-    }
-
-    NumberAnimation on height {
-        id: heightAnimation
-        from: window.height / 2; to: window.height
-        running: false
     }
 
     function updatePoints() {
