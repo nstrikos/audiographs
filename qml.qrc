@@ -32,5 +32,6 @@
         <file>SettingsButton.qml</file>
         <file>BeautifyRect.qml</file>
         <file>qml/GraphRect/BeautifyGraphRect.qml</file>
+        <file>qml/images/240px-Speaker_Icon.svg.png</file>
     </qresource>
 </RCC>

@@ -14,6 +14,8 @@ Rectangle {
     //    width: 0
     property bool shown: false
     property alias textInput: textInput
+    property alias textInput2: textInput2
+    property alias textInput3: textInput3
 
     property var expression
     property var minX
@@ -73,6 +75,7 @@ Rectangle {
                 height: 50
                 selectByMouse: true
                 onTextChanged: {
+                    expression = text
                     textInput2.text = "-10"
                     textInput3.text = "10"
                     textInput4.text = "-5"
@@ -131,6 +134,7 @@ Rectangle {
                 selectByMouse: true
                 property bool active: true
                 onTextChanged: {
+//                    maxX = text
                     if (active)
                         calculate()
                 }

@@ -65,7 +65,7 @@ function drawPixels()
         for (var i = 0; i < xCoords.length; i++) {
             var centreX = xCoords[i];
             var centreY = yCoords[i];
-            var radius = myparameters.pointSize;
+            var radius = 10//myparameters.pointSize;
 
             ctx.beginPath();
             ctx.fillStyle = myparameters.pointColor;

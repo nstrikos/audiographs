@@ -22,6 +22,7 @@ Rectangle {
     property var xLineCoords: []
     property var yLineCoords:[]
     property alias curve: curve
+    property alias pointCanvas: pointCanvas
 
     onWidthChanged: controlsRect.calculate()
     onHeightChanged: controlsRect.calculate()
@@ -45,13 +46,17 @@ Rectangle {
 
 
     PinchArea {
+        enabled: (window.mode === 0)
         anchors.fill: parent
         onPinchStarted: controlsRect.startPinch()
         onPinchUpdated: controlsRect.handlePinch(pinch.scale)
 
         MouseArea {
             anchors.fill: parent
-            onWheel: controlsRect.handleZoom(wheel.angleDelta.y)
+            onWheel: {
+                if (window.mode === 0)
+                    controlsRect.handleZoom(wheel.angleDelta.y)
+            }
             scrollGestureEnabled: false
 
             property var x0
@@ -59,20 +64,26 @@ Rectangle {
             property var mousePressed
 
             onPressedChanged: {
-                if (pressed) {
-                    mousePressed = true
-                    x0 = mouseX
-                    y0 = mouseY
-                    controlsRect.startDrag()
-                }
-                else {
-                    mousePressed = false
+
+                if (window.mode === 0) {
+
+                    if (pressed) {
+                        mousePressed = true
+                        x0 = mouseX
+                        y0 = mouseY
+                        controlsRect.startDrag()
+                    }
+                    else {
+                        mousePressed = false
+                    }
                 }
             }
 
             onPositionChanged: {
-                if (mousePressed)
-                    controlsRect.handleDrag(mouseX - x0, mouseY - y0)
+                if (window.mode === 0) {
+                    if (mousePressed)
+                        controlsRect.handleDrag(mouseX - x0, mouseY - y0)
+                }
             }
         }
     }
@@ -159,8 +170,8 @@ Rectangle {
         }
         else if (point3.pressed)
             handle2Points()
-//        else if (point2.pressed)
-//            handle2Points()
+        //        else if (point2.pressed)
+        //            handle2Points()
         else
             handle1Point()
     }
@@ -197,14 +208,14 @@ Rectangle {
         state++
 
         if (state === 3)
-//            console.log(point1.x)
-//            mouseArea.accept = true
-//        else
-//            mouseArea.accept = false
+            //            console.log(point1.x)
+            //            mouseArea.accept = true
+            //        else
+            //            mouseArea.accept = false
 
-        if (state > 3)
-            state = 1
-//        console.log("state: ", state)
+            if (state > 3)
+                state = 1
+        //        console.log("state: ", state)
     }
 
     function handleState3() {

@@ -15,6 +15,10 @@ Rectangle {
     property bool shown: false
     z: -100
 
+    property int duration: 10
+    property int minFreq: 200
+    property int maxFreq: 2000
+
     Rectangle {
         id: settingsTitleBar
         width: parent.width
@@ -69,6 +73,7 @@ Rectangle {
                 value: 10
                 from: 10
                 to: 120
+                onValueChanged: duration = value
             }
 
             Label {
@@ -94,6 +99,7 @@ Rectangle {
                 from: 200
                 to: 4000
                 stepSize: 100
+                onValueChanged: minFreq = value
             }
 
             Label {
@@ -117,8 +123,9 @@ Rectangle {
                 property bool active: true
                 value: 2000
                 from: 200
-                to: 8000
+                to: 4000
                 stepSize: 100
+                onValueChanged: maxFreq = value
             }
 
             Label {
@@ -143,23 +150,23 @@ Rectangle {
                     RadioButton {
                         checked: true
                         text: qsTr("First")
-                        onCheckedChanged: modeChanged()
+                        onCheckedChanged: modeChanged(0)
                     }
                     RadioButton {
                         text: qsTr("Second")
-                        onCheckedChanged: modeChanged()
+                        onCheckedChanged: modeChanged(1)
                     }
                     RadioButton {
                         text: qsTr("Third")
-                        onCheckedChanged: modeChanged()
+                        onCheckedChanged: modeChanged(2)
                     }
                 }
             }
         }
     }
 
-    function modeChanged() {
-
+    function modeChanged(value) {
+        window.mode = value
     }
 
 

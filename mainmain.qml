@@ -18,7 +18,7 @@ Window {
 
     property alias myItem: myItem
 
-
+    property int mode: 0
 
     Item {
         id: myItem
@@ -69,18 +69,18 @@ Window {
                     anchors.leftMargin: 0
                 }
 
-//                PropertyChanges {
-//                    target: settingsRect
-//                    width: 0
-//                }
-//                PropertyChanges {
-//                    target: controlsRect
-//                    width: window.width / 3
-//                }
-//                PropertyChanges {
-//                    target: graphRect
-//                    width: window.width * 2/3
-//                }
+                //                PropertyChanges {
+                //                    target: settingsRect
+                //                    width: 0
+                //                }
+                //                PropertyChanges {
+                //                    target: controlsRect
+                //                    width: window.width / 3
+                //                }
+                //                PropertyChanges {
+                //                    target: graphRect
+                //                    width: window.width * 2/3
+                //                }
             },
             State {
                 name: "state2"
@@ -142,10 +142,10 @@ Window {
                     anchors.bottom: parent.bottom
                 }
 
-//                PropertyChanges {
-//                    target: graphRect
-//                    width: window.width * 2 / 3
-//                }
+                //                PropertyChanges {
+                //                    target: graphRect
+                //                    width: window.width * 2 / 3
+                //                }
 
                 AnchorChanges {
                     target: settingsRect
@@ -176,10 +176,10 @@ Window {
                 AnchorChanges {
                     target: graphRect
                     anchors.left: parent.left
-                                        anchors.right: settingsRect.left
+                    anchors.right: settingsRect.left
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-//                    anchors.right: parent.horizontalCenter
+                    //                    anchors.right: parent.horizontalCenter
                 }
             },
             State {
@@ -366,7 +366,7 @@ Window {
     property bool anchorToLeft: undefined
 
     onAnchorToLeftChanged: {
-//        clearAnchors()
+        //        clearAnchors()
         if (anchorToLeft == false) {
             if (myItem.state == 'state1')
                 myItem.state = 'state4'
@@ -410,6 +410,60 @@ Window {
         id: settingsButton
         z: 100
         anchors.leftMargin: window.width / 8 - width
+    }
+
+    Rectangle {
+        id: modeButton
+        z: 100
+        anchors.right: settingsButton.left
+        anchors.leftMargin: window.width / 8 - width
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        width: 30
+        height: 30
+        color: "lightgray"
+
+        Image {
+            anchors.fill: parent
+            source: "qrc:/qml/images/240px-Speaker_Icon.svg.png"
+        }
+
+        property bool running: false
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+
+                if (modeButton.running) {
+                    modeButton.running = false
+                    modeButton.color = "lightgray"
+                    timer1.running = false
+                    test.stop()
+                } else {
+                    modeButton.running = true
+                    modeButton.color = "light green"
+                    test.start(controlsRect.expression,
+                               controlsRect.textInput2.text,
+                               controlsRect.textInput3.text,
+                               settingsRect.duration,
+                               settingsRect.minFreq,
+                               settingsRect.maxFreq);
+                    graphRect.pointCanvas.updatePoints()
+                    graphRect.pointCanvas.startPoints()
+                    timer1.running = true
+                }
+            }
+        }
+
+        Timer {
+            id: timer1
+            running: false
+            interval: settingsRect.duration * 1000
+            onTriggered: {
+                modeButton.running = false
+                modeButton.color = "lightgray"
+            }
+        }
     }
 
     onWidthChanged: setAnchor()
