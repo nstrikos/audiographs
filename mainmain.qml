@@ -451,7 +451,7 @@ Window {
                     graphRect.pointCanvas.updatePoints()
                     //graphRect.pointCanvas.startPoints()
                     timer1.running = true
-                    graphRect.curve.drawPoint()
+                    graphRect.curve.drawPoint(settingsRect.duration)
                 }
             }
         }

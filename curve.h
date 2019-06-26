@@ -14,7 +14,7 @@ public:
     ~Curve();
 
     Q_INVOKABLE void draw(QVector<double> x, QVector<double> y);
-    Q_INVOKABLE void drawPoint();
+    Q_INVOKABLE void drawPoint(int duration);
 
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
 
@@ -29,6 +29,7 @@ private slots:
 private:
     int m_count;
     int m_timeElapsed;
+    int m_duration;
 };
 
 #endif // CURVE_H

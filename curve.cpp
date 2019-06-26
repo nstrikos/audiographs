@@ -14,6 +14,7 @@ Curve::Curve(QQuickItem *parent)
     timer.setInterval(50);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
     m_count = 0;
+    m_duration = 0;
 }
 
 Curve::~Curve()
@@ -28,8 +29,9 @@ void Curve::draw(QVector<double> x, QVector<double> y)
     update();
 }
 
-void Curve::drawPoint()
+void Curve::drawPoint(int duration)
 {
+    m_duration = duration * 1000;
     m_count = 0;
     m_timeElapsed = 0;
     timer.start();
@@ -104,7 +106,7 @@ QSGNode *Curve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
     if (m_xLineCoords.size() > 0) {
 
         int num_segments = 64;
-        int cx = (double) m_timeElapsed / 60000 * width();
+        int cx = (double) m_timeElapsed / m_duration * width();
         int x = round(cx * m_xLineCoords.size() / width());
         if (x >= m_yLineCoords.size())
             x = m_yLineCoords.size() - 1;
@@ -138,8 +140,9 @@ void Curve::timerExpired()
 {
     m_count++;
     m_timeElapsed += timer.interval();
-    if (m_timeElapsed >= 60000) {
+    if (m_timeElapsed >= m_duration) {
         m_count = 0;
+        m_duration = 0;
         timer.stop();
     }
     update();

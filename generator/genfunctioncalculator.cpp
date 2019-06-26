@@ -92,17 +92,17 @@ void GenFunctionCalculatorThread::run()
 
         if (is_positive_infinite(result)) {
             functionValues[i] = std::numeric_limits<double>::max();
-            qDebug() << "Positive infinity at i: " << i;
+//            qDebug() << "Positive infinity at i: " << i;
         }
 
         if (is_negative_infinite(result)) {
             functionValues[i] = -std::numeric_limits<double>::max();
-            qDebug() << "Negative infinity at i: " << i;
+//            qDebug() << "Negative infinity at i: " << i;
         }
 
         if (is_nan(result)) {
             functionValues[i] = 0;
-            qDebug() << "Not a number at i: " << i;
+//            qDebug() << "Not a number at i: " << i;
         }
         //        qDebug() << "x: " << x << ", " << functionValues[i];
         //        m_functionValues[i] = sin(x)*x*x*x - x*x*sin(x);
