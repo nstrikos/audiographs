@@ -449,8 +449,9 @@ Window {
                                settingsRect.minFreq,
                                settingsRect.maxFreq);
                     graphRect.pointCanvas.updatePoints()
-                    graphRect.pointCanvas.startPoints()
+                    //graphRect.pointCanvas.startPoints()
                     timer1.running = true
+                    graphRect.curve.drawPoint()
                 }
             }
         }

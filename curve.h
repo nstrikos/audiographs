@@ -3,6 +3,7 @@
 
 
 #include <QtQuick/QQuickItem>
+#include <QTimer>
 
 class Curve : public QQuickItem
 {
@@ -13,11 +14,21 @@ public:
     ~Curve();
 
     Q_INVOKABLE void draw(QVector<double> x, QVector<double> y);
+    Q_INVOKABLE void drawPoint();
 
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
 
     QVector<double> m_xLineCoords;
     QVector<double> m_yLineCoords;
+
+    QTimer timer;
+
+private slots:
+    void timerExpired();
+
+private:
+    int m_count;
+    int m_timeElapsed;
 };
 
 #endif // CURVE_H

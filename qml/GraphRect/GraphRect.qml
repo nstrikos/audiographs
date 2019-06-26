@@ -19,9 +19,10 @@ Rectangle {
 
     property int state: 1
 
+    property alias curve: curve
+
     property var xLineCoords: []
     property var yLineCoords:[]
-    property alias curve: curve
     property alias pointCanvas: pointCanvas
 
     onWidthChanged: controlsRect.calculate()
