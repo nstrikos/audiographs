@@ -167,10 +167,10 @@ Canvas {
         if (currentPoint < 0)
             currentPoint = 0
         CanvasJS.drawCurrentPixel()
-        var fmin = myparameters.minFreq
-        var fmax = myparameters.maxFreq
-        var a =  (fmax-fmin)/(myfunction.maxY - myfunction.minY);
-        var b = fmax - a * myfunction.maxY;
+        var fmin = settingsRect.minFreq
+        var fmax = settingsRect.maxFreq
+        var a =  (fmax-fmin)/(myfunction.maxY2 - myfunction.minY2);
+        var b = fmax - a * myfunction.maxY2;
         var l = myfunction.y(currentPoint)
         var f = a * l + b;
         var freq = f;

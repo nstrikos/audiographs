@@ -177,6 +177,16 @@ void Function::calculatePoints()
     emit update();
 }
 
+double Function::maxY2() const
+{
+    return m_maxY2;
+}
+
+double Function::minY2() const
+{
+    return m_minY2;
+}
+
 double Function::maxY() const
 {
     return m_maxY;
@@ -229,15 +239,15 @@ void Function::calcScrCoords(int width, int height)
 
 
 
-//        m_minY = m_points.first().y;
-//        m_maxY = m_minY;
+        m_minY2 = m_points.first().y;
+        m_maxY2 = m_minY2;
 
-//        for (int i = 0; i < m_points.size(); i++) {
-//            if (m_points.at(i).y < m_minY)
-//                m_minY = m_points.at(i).y;
-//            if (m_points.at(i).y > m_maxY)
-//                m_maxY = m_points.at(i).y;
-//        }
+        for (int i = 0; i < m_points.size(); i++) {
+            if (m_points.at(i).y < m_minY2)
+                m_minY2 = m_points.at(i).y;
+            if (m_points.at(i).y > m_maxY2)
+                m_maxY2 = m_points.at(i).y;
+        }
 
         for (int i = 0; i < m_points.size(); i++) {
 //            int x =  round( width / (xEnd - xStart) * (m_points.at(i).x - xStart) );

@@ -339,6 +339,18 @@ Window {
                     anchors.right: graphRect.right
                 }
 
+                AnchorChanges {
+                    target: modeButton
+                    anchors.top: graphRect.top
+                    anchors.right: settingsButton.left
+                }
+
+                AnchorChanges {
+                    target: modeButton2
+                    anchors.top: graphRect.top
+                    anchors.right: modeButton.left
+                }
+
                 PropertyChanges {
                     target: controlsRect
                     anchors.rightMargin: 0
@@ -430,29 +442,32 @@ Window {
 
         property bool running: false
 
+        onRunningChanged: {
+            if (modeButton.running) {
+                modeButton.color = "light green"
+                test.start(controlsRect.expression,
+                           controlsRect.textInput2.text,
+                           controlsRect.textInput3.text,
+                           settingsRect.duration,
+                           settingsRect.minFreq,
+                           settingsRect.maxFreq);
+                graphRect.pointCanvas.updatePoints()
+                //graphRect.pointCanvas.startPoints()
+                timer1.running = true
+                graphRect.curve.drawPoint(settingsRect.duration)
+
+            } else {
+                modeButton.color = "lightgray"
+                timer1.running = false
+                test.stop()
+            }
+        }
+
         MouseArea {
             anchors.fill: parent
             onPressed: {
-
-                if (modeButton.running) {
-                    modeButton.running = false
-                    modeButton.color = "lightgray"
-                    timer1.running = false
-                    test.stop()
-                } else {
-                    modeButton.running = true
-                    modeButton.color = "light green"
-                    test.start(controlsRect.expression,
-                               controlsRect.textInput2.text,
-                               controlsRect.textInput3.text,
-                               settingsRect.duration,
-                               settingsRect.minFreq,
-                               settingsRect.maxFreq);
-                    graphRect.pointCanvas.updatePoints()
-                    //graphRect.pointCanvas.startPoints()
-                    timer1.running = true
-                    graphRect.curve.drawPoint(settingsRect.duration)
-                }
+                modeButton2.running = false
+                modeButton.running = !modeButton.running
             }
         }
 
@@ -463,6 +478,44 @@ Window {
             onTriggered: {
                 modeButton.running = false
                 modeButton.color = "lightgray"
+            }
+        }
+    }
+
+    Rectangle {
+        id: modeButton2
+        z: 100
+        anchors.right: modeButton.left
+        anchors.leftMargin: window.width / 8 - width
+        anchors.rightMargin: 10
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        width: 30
+        height: 30
+        color: "lightgray"
+
+        Image {
+            anchors.fill: parent
+            source: "qrc:/qml/images/240px-Speaker_Icon.svg.png"
+        }
+
+        property bool running: false
+
+        onRunningChanged: {
+            if (modeButton2.running) {
+                modeButton2.color = "light green"
+                window.mode = 1
+            } else {
+                modeButton2.color = "lightgray"
+                window.mode = 0
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                modeButton2.running = !modeButton2.running
+                modeButton.running = false
             }
         }
     }

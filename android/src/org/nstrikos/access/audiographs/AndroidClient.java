@@ -66,6 +66,6 @@ public class AndroidClient extends QtActivity implements TextToSpeech.OnInitList
                 }
             }
         }
-        else m_vibrator.vibrate(5000);
+        else m_vibrator.vibrate(500);
     }
 }

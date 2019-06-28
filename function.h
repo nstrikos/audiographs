@@ -32,6 +32,8 @@ class Function : public QObject
     Q_PROPERTY(QVector<double> yLineCoords READ yLineCoords())
     Q_PROPERTY(double minY READ minY())
     Q_PROPERTY(double maxY READ maxY())
+    Q_PROPERTY(double minY2 READ minY2())
+    Q_PROPERTY(double maxY2 READ maxY2())
     
 public:
 
@@ -52,6 +54,9 @@ public:
 
     double minY() const;
     double maxY() const;
+
+    double minY2() const;
+    double maxY2() const;
 
 public slots:
     void calculate(FunctionInput functionInput);
@@ -83,6 +88,8 @@ private:
     double m_max;
     double m_minY;
     double m_maxY;
+    double m_minY2;
+    double m_maxY2;
     int m_numPoints;
     FunctionParser m_fparser;
 #ifndef Q_OS_ANDROID

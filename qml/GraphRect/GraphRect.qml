@@ -2,6 +2,8 @@ import QtQuick 2.10
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.3
 
+import QtMultimedia 5.12
+
 import CustomGeometry 1.0
 
 import "../.."
@@ -27,6 +29,11 @@ Rectangle {
 
     onWidthChanged: controlsRect.calculate()
     onHeightChanged: controlsRect.calculate()
+
+    SoundEffect {
+        id: playSound
+        source: "qrc:/qml/sounds/426888__thisusernameis__beep4.wav"
+    }
 
     MultiPointTouchArea {
         id: multiPointTouchArea
@@ -77,6 +84,14 @@ Rectangle {
                     else {
                         mousePressed = false
                     }
+                } else if (window.mode === 1) {
+                    if (pressed) {
+                        mousePressed = true
+                    } else {
+                        mousePressed = false
+                        audioPoints.stopAudio()
+                        playSound.play()
+                    }
                 }
             }
 
@@ -84,6 +99,8 @@ Rectangle {
                 if (window.mode === 0) {
                     if (mousePressed)
                         controlsRect.handleDrag(mouseX - x0, mouseY - y0)
+                } else if (window.mode === 1) {
+                    pointCanvas.drawMousePoint(mouseX, graphRect.width)
                 }
             }
         }
