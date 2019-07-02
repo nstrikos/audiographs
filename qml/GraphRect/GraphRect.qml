@@ -22,10 +22,12 @@ Rectangle {
     property int state: 1
 
     property alias curve: curve
+    property alias multipointTouchArea: multiPointTouchArea
+    property alias pointCanvas: pointCanvas
+    property alias graphCanvas: graphCanvas
 
     property var xLineCoords: []
     property var yLineCoords:[]
-    property alias pointCanvas: pointCanvas
 
     onWidthChanged: controlsRect.calculate()
     onHeightChanged: controlsRect.calculate()
@@ -34,24 +36,6 @@ Rectangle {
         id: playSound
         source: "qrc:/qml/sounds/426888__thisusernameis__beep4.wav"
     }
-
-    MultiPointTouchArea {
-        id: multiPointTouchArea
-        anchors.fill: parent
-        touchPoints: [
-            TouchPoint {
-                id: point1
-                onXChanged: handleState3()
-                onPressedChanged: handleState3()
-            },
-            TouchPoint { id: point2 },
-            TouchPoint { id: point3 },
-            TouchPoint { id: point4 }
-        ]
-        onPressed: handleMultiPointTouchArea()
-    }
-
-
 
     PinchArea {
         enabled: (window.mode === 0)
@@ -155,6 +139,23 @@ Rectangle {
         visible: (settingsRect.width > 0)
     }
 
+    MultiPointTouchArea {
+        id: multiPointTouchArea
+        anchors.fill: parent
+        enabled: false
+        touchPoints: [
+            TouchPoint {
+                id: point1
+                onXChanged: handleState3()
+                onPressedChanged: handleState3()
+            },
+            TouchPoint { id: point2 },
+            TouchPoint { id: point3 },
+            TouchPoint { id: point4 }
+        ]
+        onPressed: handleMultiPointTouchArea()
+    }
+
 
 
     function draw() {
@@ -182,16 +183,21 @@ Rectangle {
     }
 
     function handleMultiPointTouchArea() {
+        //        console.log("ok")
 
-        if (point4.pressed) {
-            handle3Points()
-        }
-        else if (point3.pressed)
-            handle2Points()
-        //        else if (point2.pressed)
+        //        if (point4.pressed) {
+        //            handle3Points()
+        //        }
+        //        else if (point3.pressed)
         //            handle2Points()
-        else
-            handle1Point()
+        //        //        else if (point2.pressed)
+        //        //            handle2Points()
+        //        else
+        //            handle1Point()
+        if (point2.pressed)
+            pointCanvas.drawCurrentPoint2()
+        else if (point1.pressed)
+            pointCanvas.drawCurrentPoint()
     }
 
     function handle1Point() {

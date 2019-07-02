@@ -351,6 +351,12 @@ Window {
                     anchors.right: modeButton.left
                 }
 
+                AnchorChanges {
+                    target: modeButton3
+                    anchors.top: graphRect.top
+                    anchors.right: modeButton2.left
+                }
+
                 PropertyChanges {
                     target: controlsRect
                     anchors.rightMargin: 0
@@ -467,6 +473,7 @@ Window {
             anchors.fill: parent
             onPressed: {
                 modeButton2.running = false
+                modeButton3.running = false
                 modeButton.running = !modeButton.running
             }
         }
@@ -515,6 +522,54 @@ Window {
             anchors.fill: parent
             onPressed: {
                 modeButton2.running = !modeButton2.running
+                modeButton.running = false
+                modeButton3.running = false
+            }
+        }
+    }
+
+    Rectangle {
+        id: modeButton3
+        z: 100
+        anchors.right: modeButton2.left
+        anchors.leftMargin: window.width / 8 - width
+        anchors.rightMargin: 10
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        width: 30
+        height: 30
+        color: "lightgray"
+
+        Image {
+            anchors.fill: parent
+            source: "qrc:/qml/images/240px-Speaker_Icon.svg.png"
+        }
+
+        property bool running: false
+
+        onRunningChanged: {
+            if (modeButton3.running) {
+                modeButton3.color = "light green"
+                window.mode = 2
+                graphRect.multipointTouchArea.enabled = true
+                graphRect.pointCanvas.visible = false
+                graphRect.curve.visible = false
+                graphRect.graphCanvas.visible = false
+            } else {
+                modeButton3.color = "lightgray"
+                window.mode = 0
+                graphRect.multipointTouchArea.enabled = false
+                graphRect.pointCanvas.visible = true
+                graphRect.curve.visible = true
+                graphRect.graphCanvas.visible = true
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                modeButton3.running = !modeButton3.running
+                modeButton2.running = false
                 modeButton.running = false
             }
         }
