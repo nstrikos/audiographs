@@ -5,6 +5,7 @@ import QtQuick.Controls 2.3
 import QtMultimedia 5.12
 
 import CustomGeometry 1.0
+import CurveMovingPoint 1.0
 
 import "../.."
 
@@ -22,8 +23,10 @@ Rectangle {
     property int state: 1
 
     property alias curve: curve
+    property alias curveMovingPoint: curveMovingPoint
+
     property alias multipointTouchArea: multiPointTouchArea
-    property alias pointCanvas: pointCanvas
+//    property alias pointCanvas: pointCanvas
     property alias graphCanvas: graphCanvas
 
     property var xLineCoords: []
@@ -31,6 +34,10 @@ Rectangle {
 
     onWidthChanged: controlsRect.calculate()
     onHeightChanged: controlsRect.calculate()
+
+    function start() {
+        pointCanvas.start()
+    }
 
     SoundEffect {
         id: playSound
@@ -90,24 +97,43 @@ Rectangle {
         }
     }
 
-    Curve {
-        id: curve
-        anchors.fill: parent
-        layer.enabled: true
-        layer.samples: 256
-    }
-
     GraphCanvas {
         id: graphCanvas
         visible: false
         anchors.fill: parent
     }
 
-    GraphCanvas {
-        id: pointCanvas
-        visible: true
+    Curve {
+        id: curve
         anchors.fill: parent
+        layer.enabled: true
+        layer.samples: 256
+        color: "red"
     }
+
+    CurveMovingPoint {
+        id: curveMovingPoint
+        anchors.fill: parent
+        layer.enabled: true
+        layer.samples: 256
+        color: "blue"
+    }
+
+    Connections {
+        target: curve
+        onMovePoint: {
+            pointCanvas.movePoint(newX, newY, previousX, previousY)
+        }
+        onStopPoint: {
+            pointCanvas.stopPoint()
+        }
+    }
+
+//    GraphCanvas {
+//        id: pointCanvas
+//        visible: true
+//        anchors.fill: parent
+//    }
 
     BeautifyGraphRect {
 
@@ -156,19 +182,12 @@ Rectangle {
         onPressed: handleMultiPointTouchArea()
     }
 
-
-
-    function draw() {
-        xLineCoords = myfunction.xLineCoords
-        yLineCoords = myfunction.yLineCoords
-        curve.draw(xLineCoords, yLineCoords)
-    }
-
     function updatePoints() {
         graphCanvas.updatePoints();
-        pointCanvas.updatePoints();
+//        pointCanvas.updatePoints();
         visible = true
         graphCanvas.visible = true
+        curve.draw(myfunction)
     }
 
     function startPoints() {
@@ -250,7 +269,6 @@ Rectangle {
             else
                 stopAudio()
         }
-
     }
 
     function stopAudio() {

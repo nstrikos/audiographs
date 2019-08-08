@@ -17,6 +17,7 @@ Window {
     title: qsTr("Audio graphs")
 
     property alias myItem: myItem
+    property alias modeButton: modeButton
 
     property int mode: 0
 
@@ -374,10 +375,10 @@ Window {
             }
         ]
 
-        transitions: Transition {
-            // smoothly reanchor myRect and move into new position
-            AnchorAnimation { duration: 250 }
-        }
+//        transitions: Transition {
+//            // smoothly reanchor myRect and move into new position
+//            AnchorAnimation { duration: 250 }
+//        }
     }
 
     property var expression
@@ -451,19 +452,18 @@ Window {
         onRunningChanged: {
             if (modeButton.running) {
                 modeButton.color = "light green"
-                test.start(controlsRect.expression,
-                           controlsRect.textInput2.text,
-                           controlsRect.textInput3.text,
-                           settingsRect.duration,
-                           settingsRect.minFreq,
-                           settingsRect.maxFreq);
-                graphRect.pointCanvas.updatePoints()
-                //graphRect.pointCanvas.startPoints()
+//                test.start(controlsRect.expression,
+//                           controlsRect.textInput2.text,
+//                           controlsRect.textInput3.text,
+//                           settingsRect.duration,
+//                           settingsRect.minFreq,
+//                           settingsRect.maxFreq);
                 timer1.running = true
-                graphRect.curve.drawPoint(settingsRect.duration)
+                graphRect.curveMovingPoint.drawPoint(myfunction, settingsRect.duration)
 
             } else {
                 modeButton.color = "lightgray"
+                graphRect.curveMovingPoint.stopPoint()
                 timer1.running = false
                 test.stop()
             }
@@ -524,6 +524,7 @@ Window {
                 modeButton2.running = !modeButton2.running
                 modeButton.running = false
                 modeButton3.running = false
+                graphRect.start()
             }
         }
     }
@@ -613,7 +614,6 @@ Window {
         target: myfunction
         onUpdate: {
             graphRect.updatePoints()
-            graphRect.draw()
         }
         onError: console.log(err)
     }

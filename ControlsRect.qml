@@ -315,12 +315,16 @@ Rectangle {
     }
 
     function calculate () {
+        window.modeButton.running = false
+        graphRect.curveMovingPoint.stopPoint()
         expression = textInput.text
         myfunction.calculate(textInput.text,
                              textInput2.text,
                              textInput3.text,
                              textInput4.text,
                              textInput5.text,
-                             textInput6.text)
+                             textInput6.text,
+                             graphRect.width,
+                             graphRect.height)
     }
 }

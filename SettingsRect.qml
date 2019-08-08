@@ -45,7 +45,7 @@ Rectangle {
         anchors.top: settingsTitleBar.bottom
         anchors.topMargin: 40
         anchors.bottom: parent.bottom
-        contentHeight: 400
+        contentHeight: 1500
         z: 0
 
         Item {
@@ -129,11 +129,297 @@ Rectangle {
             }
 
             Label {
+                id: f0label
+                text: (parent.width > 0) ? "f0 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: textInput3.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f0textInput
+                anchors.left: f0label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f0label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 100
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f0 = value / 100.0;
+            }
+
+            Label {
+                id: f1label
+                text: (parent.width > 0) ? "f1 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f0textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f1textInput
+                anchors.left: f1label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f1label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f1 = value / 100.0;
+            }
+
+            Label {
+                id: f2label
+                text: (parent.width > 0) ? "f2 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f1textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f2textInput
+                anchors.left: f2label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f2label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f2 = value / 100.0;
+            }
+
+            Label {
+                id: f3label
+                text: (parent.width > 0) ? "f3 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f2textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f3textInput
+                anchors.left: f3label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f3label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f3 = value / 100.0;
+            }
+
+            Label {
+                id: f4label
+                text: (parent.width > 0) ? "f4 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f3textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f4textInput
+                anchors.left: f4label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f4label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f4 = value / 100.0;
+            }
+
+            Label {
+                id: f5label
+                text: (parent.width > 0) ? "f5 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f4textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f5textInput
+                anchors.left: f5label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f5label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f5 = value / 100.0;
+            }
+
+            Label {
+                id: f6label
+                text: (parent.width > 0) ? "f6 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f5textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f6textInput
+                anchors.left: f6label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f6label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f6 = value / 100.0;
+            }
+
+            Label {
+                id: f7label
+                text: (parent.width > 0) ? "f7 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f6textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f7textInput
+                anchors.left: f7label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f7label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f7 = value / 100.0;
+            }
+
+            Label {
+                id: f8label
+                text: (parent.width > 0) ? "f8 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f7textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f8textInput
+                anchors.left: f8label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f8label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f8 = value / 100.0;
+            }
+
+            Label {
+                id: f9label
+                text: (parent.width > 0) ? "f9 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f8textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f9textInput
+                anchors.left: f9label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f9label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f9 = value / 100.0;
+            }
+
+            Label {
+                id: f10label
+                text: (parent.width > 0) ? "f10 frequency : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: f9textInput.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            SpinBox {
+                id: f10textInput
+                anchors.left: f10label.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: f10label.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                value: 0
+                from: 0
+                to: 100
+                stepSize: 1
+                onValueChanged: audioPoints.f10 = value / 100.0;
+            }
+
+            Label {
                 id: label4
                 text: (parent.width > 0) ? "Select mode : " : ""
                 anchors.left: parent.left
                 anchors.leftMargin: 5
-                anchors.top: textInput3.bottom
+                anchors.top: f10textInput.bottom
                 anchors.topMargin: 40
                 width: 100
             }

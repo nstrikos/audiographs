@@ -11,10 +11,11 @@
 #include "AndroidClient.h"
 
 #include "curve.h"
+#include "curvemovingpoint.h"
 
 #ifndef Q_OS_ANDROID
 #include <QApplication>
-#include "appwindow.h"
+//#include "appwindow.h"
 #else
 #include <QGuiApplication>
 #endif
@@ -40,6 +41,8 @@ int main(int argc, char *argv[])
     //#endif
 
     qmlRegisterType<Curve>("CustomGeometry", 1, 0, "Curve");
+    qmlRegisterType<CurveMovingPoint>("CurveMovingPoint", 1, 0, "CurveMovingPoint");
+
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("myfunction", &function);

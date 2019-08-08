@@ -39,7 +39,7 @@ Canvas {
 
     function updatePoints() {
 
-        if (myfunction.size() > 0) {
+//        if (myfunction.size() > 0) {
             //            currentPoint = 0
             //            var interval = 10000 / myfunction.size();
             //            console.log(interval)
@@ -47,7 +47,7 @@ Canvas {
 
             //            timer.start()
             CanvasJS.paintCanvas()
-        }
+//        }
     }
 
     function mousePressed(x, y) {
@@ -159,6 +159,37 @@ Canvas {
         texttospeech.speak(l)
     }
 
+    function start() {
+        currentPoint = 0
+        timer4.start()
+    }
+
+    Timer {
+        id: timer4
+        running: false
+        interval: 10
+        onTriggered: {
+            currentPoint += 1
+            if (currentPoint >= 100) {
+                currentPoint = 0
+                audioPoints.stopAudio()
+                return
+            }
+            if (currentPoint < 0)
+                currentPoint = 0
+//            CanvasJS.drawCurrentPixel()
+            var fmin = settingsRect.minFreq
+            var fmax = settingsRect.maxFreq
+            var a =  (fmax-fmin)/(myfunction.maxY2 - myfunction.minY2);
+            var b = fmax - a * myfunction.maxY2;
+            var l = myfunction.y(currentPoint)
+            var f = a * l + b;
+            var freq = f;
+            audioPoints.setFreq(freq)
+            timer4.start()
+        }
+    }
+
     function drawMousePoint(x, width) {
         var k = x / width * myfunction.size()
         currentPoint = Math.round(k)
@@ -180,19 +211,4 @@ Canvas {
     function clear() {
         CanvasJS.clear()
     }
-
-//    onHeightChanged: {
-//        timer.restart()
-//        //        timer.running = true
-//        //        if (canvasDataAreValid)
-//        //            CanvasJS.paintCanvas()
-//        //            CanvasJS.updatePoints()
-//    }
-//    onWidthChanged: {
-//        timer.restart()
-//        //        if (canvasDataAreValid) {
-//        //    CanvasJS.paintCanvas()
-//        //            updatePoints()
-//        //        }
-//    }
 }

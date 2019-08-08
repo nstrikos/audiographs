@@ -5,67 +5,40 @@
 #include <QVector>
 #include <qmath.h>
 #include "fparser/fparser.hh"
-
-class FunctionInput
-{
-public:
-    QString expression;
-    QString minimum;
-    QString maximum;
-    QString numPoints;
-};
-
-class Point{
-public:
-    double x;
-    double y;
-    bool isValid;
-};
+#include "constants.h"
 
 class Function : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVector<double> xCoords READ xCoords())
-    Q_PROPERTY(QVector<double> yCoords READ yCoords())
-    Q_PROPERTY(QVector<double> xLineCoords READ xLineCoords())
-    Q_PROPERTY(QVector<double> yLineCoords READ yLineCoords())
-    Q_PROPERTY(double minY READ minY())
-    Q_PROPERTY(double maxY READ maxY())
-    Q_PROPERTY(double minY2 READ minY2())
-    Q_PROPERTY(double maxY2 READ maxY2())
-    
+    Q_PROPERTY(double min READ min)
+    Q_PROPERTY(double max READ max)
+    Q_PROPERTY(double minY READ minY)
+    Q_PROPERTY(double maxY READ maxY)
+
 public:
 
-    Q_INVOKABLE double x(int point);
-    Q_INVOKABLE double y(int point);
-    Q_INVOKABLE bool isValid(int point);
-    Q_INVOKABLE double xLine(int point);
-    Q_INVOKABLE double yLine(int point);
-    Q_INVOKABLE bool isValidLine(int point);
-    Q_INVOKABLE int size();
-    Q_INVOKABLE int lineSize();
-    Q_INVOKABLE void calcScrCoords(int width, int height);
-
-    QVector<double> xCoords() const;
-    QVector<double> yCoords() const;
-    QVector<double> xLineCoords() const;
-    QVector<double> yLineCoords() const;
-
+    double min() const;
+    double max() const;
     double minY() const;
     double maxY() const;
+    QVector<double> *xCoords();
+    QVector<double> *yCoords();
+    QVector<double> *xLineCoords();
+    QVector<double> *yLineCoords();
 
-    double minY2() const;
-    double maxY2() const;
-
+    double maxValue() const;
+    double minValue() const;
+    double Y(int i) const;
 public slots:
-    void calculate(FunctionInput functionInput);
     void calculate(QString expression,
                    QString min,
                    QString max,
                    QString minY,
                    QString maxY,
-                   QString numPoints);
+                   QString numPoints,
+                   int width,
+                   int height);
     
 signals:
     void update();
@@ -76,27 +49,35 @@ private:
     void replaceConstants();
     bool check();
     void calculatePoints();
-    QVector<Point> m_points;
-    QVector<Point> m_linePoints;
+    void calcScrCoords();
     QString m_expression;
     QString m_minString;
     QString m_maxString;
     QString m_minYString;
     QString m_maxYString;
     QString m_pointsString;
+    int m_width;
+    int m_height;
     double m_min;
     double m_max;
     double m_minY;
     double m_maxY;
-    double m_minY2;
-    double m_maxY2;
+    double m_maxValue;
+    double m_minValue;
     int m_numPoints;
     FunctionParser m_fparser;
-#ifndef Q_OS_ANDROID
-    const int LINE_POINTS = 10000;
-#else
-    const int LINE_POINTS = 10000;
-#endif
+
+    const int MIN_POINTS = 1;
+    const int MAX_POINTS = 10000;
+
+    QVector<double> m_xValues;
+    QVector<double> m_yValues;
+    QVector<bool> m_isValid;
+
+    QVector<double> m_xLineValues;
+    QVector<double> m_yLineValues;
+    QVector<bool> m_isLineValid;
+
     QVector<double> m_xCoords;
     QVector<double> m_yCoords;
     QVector<double> m_xLineCoords;

@@ -1,12 +1,7 @@
-var previousPoint = 0
-var oldPositionX = 0;
-var oldPositionY = 0;
-
 function paintCanvas()
 {
     initializeCanvas()
     initializeArrays()
-    calculateScreenCoords()
     draw()
 }
 
@@ -31,82 +26,21 @@ function initializeArrays()
     yGridValues.length = 0
     xGridCoords.length = 0
     yGridCoords.length = 0
-    xCoords.length = 0
-    yCoords.length = 0
-    xLineCoords.length = 0
-    yLineCoords.length = 0
-}
-
-function calculateScreenCoords()
-{
-    myfunction.calcScrCoords(canvas.width, canvas.height)
-    xCoords = myfunction.xCoords
-    yCoords = myfunction.yCoords
-    xLineCoords = myfunction.xLineCoords
-    yLineCoords = myfunction.yLineCoords
 }
 
 function draw()
 {
     drawGrid()
 
-//    if (myparameters.showLine)
-//        drawLines()
-
-    if (myparameters.showPoints)
-        drawPixels()
-
     requestPaint()
-}
-
-function drawPixels()
-{
-    if (canvasDataAreValid) {
-        for (var i = 0; i < xCoords.length; i++) {
-            var centreX = xCoords[i];
-            var centreY = yCoords[i];
-            var radius = 10//myparameters.pointSize;
-
-            ctx.beginPath();
-            ctx.fillStyle = myparameters.pointColor;
-            ctx.moveTo(centreX, centreY);
-            ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI, false);
-            ctx.lineTo(centreX, centreY);
-            ctx.fill();
-        }
-    }
-}
-
-function drawLines()
-{
-    var x,y
-    ctx.lineWidth = 1//myparameters.lineWidth
-    ctx.strokeStyle = myparameters.lineColor
-//    ctx.setLineDash([]);
-
-    ctx.beginPath()
-
-    //Go to first point without drawing a line
-    y = yLineCoords[0]
-    x = xLineCoords[0]
-    ctx.moveTo(x, y)
-
-    //Begin drawing lines
-    for (var i = 1; i < xLineCoords.length; i++) {
-        y = yLineCoords[i]
-        x = xLineCoords[i]
-        ctx.lineTo(x, y)
-    }
-
-    ctx.stroke()
 }
 
 function drawGrid()
 {
     drawAxes()
 
-    var xStart = myfunction.x(0)
-    var xEnd = myfunction.x(myfunction.size() - 1)
+    var xStart = myfunction.min
+    var xEnd = myfunction.max
     var xInterval = findInterval(xEnd - xStart)
     findVerticalGridLines(xStart, xEnd, xInterval)
 
@@ -127,8 +61,8 @@ function drawGrid()
 
 function drawAxes()
 {
-    var x0 = myfunction.x(0)
-    var x1 = myfunction.x(myfunction.size() - 1)
+    var x0 = myfunction.min
+    var x1 = myfunction.max
     var y0 = myfunction.minY
     var y1 = myfunction.maxY
     ctx.beginPath()
@@ -185,8 +119,6 @@ function findVerticalGridLines(x0, x1, dl)
     point = point / dl
     point = Math.floor(point)
     point = point * dl
-    //tempGrid.push(Math.round( strip( canvas.width / (xEnd - xStart) * (point - xStart) ) ))
-    //xGrid.push(point)
 
     var done = false
     while (!done) {
@@ -274,89 +206,4 @@ function drawHorizontalLines()
 
 function strip(number) {
     return (parseFloat(number).toPrecision(10));
-}
-
-function drawCurrentPixel()
-{
-    xCoords = myfunction.xCoords
-    yCoords = myfunction.yCoords
-
-    ctx = canvas.getContext("2d")
-    var radius = myparameters.highlightSize;
-
-    //    if (canvas.width > 0 && canvas.height > 0) {
-    //There is a problem initializing canvas, that's why we use canvasDataAreValid variable
-    //        canvasDataAreValid = true
-    //        canvasData = ctx.createImageData(canvas.width, canvas.height)
-    //        ctx.reset()
-    ctx.clearRect(xCoords[previousPoint] - radius,
-                  yCoords[previousPoint] - radius,
-                  radius * 2,
-                  radius * 2)
-    //    }
-
-
-    //    if (canvasDataAreValid) {
-    //        if (currentPoint < myfunction.size()) {
-    var centreX = xCoords[currentPoint];
-    var centreY = yCoords[currentPoint];
-
-    ctx.beginPath();
-    ctx.fillStyle = myparameters.highlightColor;
-    ctx.moveTo(centreX, centreY);
-    ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI, false);
-    ctx.lineTo(centreX, centreY);
-    ctx.fill();
-    requestPaint()
-    //        }
-    //    }
-    previousPoint = currentPoint
-}
-
-function drawMousePixel (x, y) {
-    ctx = canvas.getContext("2d")
-
-    if (canvas.width > 0 && canvas.height > 0) {
-        //There is a problem initializing canvas, that's why we use canvasDataAreValid variable
-        //        canvasDataAreValid = true
-        //        canvasData = ctx.createImageData(canvas.width, canvas.height)
-        //        ctx.reset()
-        //        ctx.fillStyle = myparameters.backgroundColor;
-        //        ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-
-        var radius = myparameters.highlightSize;
-
-        ctx.clearRect(oldPositionX - radius,
-                      oldPositionY - radius,
-                      radius * 2,
-                      radius * 2)
-        oldPositionX = x;
-        oldPositionY = y;
-        var centreX = x;
-        var centreY = y;
-
-        ctx.beginPath();
-        ctx.fillStyle = myparameters.highlightColor;
-        ctx.moveTo(centreX, centreY);
-        ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI, false);
-        ctx.lineTo(centreX, centreY);
-        ctx.fill();
-        requestPaint()
-
-    }
-}
-
-function clear() {
-    //ctx = canvas.getContext("2d")
-
-    var radius = myparameters.highlightSize;
-
-    if (canvas.width > 0 && canvas.height > 0) {
-        ctx.clearRect(oldPositionX - radius,
-                      oldPositionY - radius,
-                      radius * 2,
-                      radius * 2)
-    }
-    requestPaint()
 }

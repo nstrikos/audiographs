@@ -1,21 +1,13 @@
 #include "function.h"
 
-void Function::calculate(FunctionInput functionInput)
-{
-    m_expression = functionInput.expression;
-    m_minString = functionInput.minimum;
-    m_maxString = functionInput.maximum;
-    m_pointsString = functionInput.numPoints;
-
-    performCalculation();
-}
-
 void Function::calculate(QString expression,
                          QString min,
                          QString max,
                          QString minY,
                          QString maxY,
-                         QString numPoints)
+                         QString numPoints,
+                         int width,
+                         int height)
 {
     m_expression = expression;
     m_minString = min;
@@ -23,6 +15,8 @@ void Function::calculate(QString expression,
     m_minYString = minY;
     m_maxYString = maxY;
     m_pointsString = numPoints;
+    m_width = width;
+    m_height = height;
 
     performCalculation();
 }
@@ -30,8 +24,10 @@ void Function::calculate(QString expression,
 void Function::performCalculation()
 {
     replaceConstants();
-    if (check())
+    if (check()) {
         calculatePoints();
+        calcScrCoords();
+    }
 }
 
 void Function::replaceConstants()
@@ -108,13 +104,13 @@ bool Function::check()
         return false;
     }
 
-    if (m_numPoints < 1) {
+    if (m_numPoints < MIN_POINTS) {
         emit error (tr("Points must be greater than zero."));
         return false;
     }
 
-    if (m_numPoints > 100000) {
-        emit error (tr("Points must be fewer than 100000"));
+    if (m_numPoints > MAX_POINTS) {
+        emit error (tr("Points must be fewer than 10000"));
         return false;
     }
 
@@ -122,7 +118,7 @@ bool Function::check()
     m_fparser.AddConstant("pi", M_PI);
     m_fparser.AddConstant("e", M_E);
     int res = m_fparser.Parse(m_expression.toStdString(), "x");
-//    m_fparser.Optimize();
+    //    m_fparser.Optimize();
     if(res > 0) {
         emit error(tr("Cannot understand expression.\n") + m_fparser.ErrorMsg());
         return false;
@@ -135,28 +131,31 @@ void Function::calculatePoints()
 {
     double x, result;
 
-    m_points.clear();
-    m_linePoints.clear();
+    m_xValues.clear();
+    m_yValues.clear();
+    m_isValid.clear();
+
+    m_xLineValues.clear();
+    m_yLineValues.clear();
+    m_isLineValid.clear();
 
     double vals[] = { 0 };
     double step;
     int res;
 
     step = (m_max - m_min) / m_numPoints;
-    Point tmpPoint;
     int pointsToCalculate = m_numPoints + 1;
     for (int i = 0; i < pointsToCalculate; i++) {
         x = m_min + i * step;
         vals[0] = x;
         result = m_fparser.Eval(vals);
         res = m_fparser.EvalError();
-        tmpPoint.x = x;
-        tmpPoint.y = result;
+        m_xValues.append(x);
+        m_yValues.append(result);
         if (res == 0)
-            tmpPoint.isValid = true;
+            m_isValid.append(true);
         else if (res > 0)
-            tmpPoint.isValid = false;
-        m_points.append(tmpPoint);
+            m_isValid.append(false);
     }
 
     step = (m_max - m_min) / LINE_POINTS;
@@ -165,26 +164,87 @@ void Function::calculatePoints()
         vals[0] = x;
         result = m_fparser.Eval(vals);
         res = m_fparser.EvalError();
-        tmpPoint.x = x;
-        tmpPoint.y = result;
+        m_xLineValues.append(x);
+        m_yLineValues.append(result);
         if (res == 0)
-            tmpPoint.isValid = true;
+            m_isLineValid.append(true);
         else if (res > 0)
-            tmpPoint.isValid = false;
-        m_linePoints.append(tmpPoint);
+            m_isLineValid.append(false);
+    }
+
+    m_minValue = m_yLineValues.at(0);
+    m_maxValue = m_yLineValues.at(0);
+
+    for (int i = 1; i < LINE_POINTS; i++) {
+        if (m_yLineValues.at(i) < m_minValue)
+            m_minValue = m_yLineValues.at(i);
+        if (m_yLineValues.at(i) > m_maxValue)
+            m_maxValue = m_yLineValues.at(i);
     }
 
     emit update();
 }
 
-double Function::maxY2() const
+void Function::calcScrCoords()
 {
-    return m_maxY2;
+    m_xCoords.clear();
+    m_yCoords.clear();
+    m_xLineCoords.clear();
+    m_yLineCoords.clear();
+    double xStart = m_xValues.first();
+    double xEnd = m_xValues.last();
+
+    for (int i = 0; i < m_xValues.size(); i++) {
+        double x =  ( m_width / (xEnd - xStart) * (m_xValues.at(i) - xStart) );
+        double y = ( m_height / (m_maxY - m_minY) * (m_yValues.at(i) - m_minY) );
+
+        y = m_height - y;
+        m_xCoords.append(x);
+        m_yCoords.append(y);
+    }
+
+    for (int i = 0; i < LINE_POINTS; i++) {
+        double x =  ( m_width / (xEnd - xStart) * (m_xLineValues.at(i) - xStart) );
+        double y = ( m_height / (m_maxY - m_minY) * (m_yLineValues.at(i) - m_minY) );
+        y = m_height - y;
+        m_xLineCoords.append(x);
+        m_yLineCoords.append(y);
+    }
 }
 
-double Function::minY2() const
+double Function::minValue() const
 {
-    return m_minY2;
+    return m_minValue;
+}
+
+double Function::Y(int i) const
+{
+    return m_yLineValues.at(i);
+}
+
+double Function::maxValue() const
+{
+    return m_maxValue;
+}
+
+QVector<double>* Function::xCoords()
+{
+    return &m_xCoords;
+}
+
+QVector<double>* Function::yCoords()
+{
+    return &m_yCoords;
+}
+
+QVector<double>* Function::xLineCoords()
+{
+    return &m_xLineCoords;
+}
+
+QVector<double>* Function::yLineCoords()
+{
+    return &m_yLineCoords;
 }
 
 double Function::maxY() const
@@ -197,110 +257,12 @@ double Function::minY() const
     return m_minY;
 }
 
-QVector<double> Function::yLineCoords() const
+double Function::max() const
 {
-    return m_yLineCoords;
+    return m_max;
 }
 
-QVector<double> Function::xLineCoords() const
+double Function::min() const
 {
-    return m_xLineCoords;
-}
-
-QVector<double> Function::xCoords() const
-{
-    return m_xCoords;
-}
-
-QVector<double> Function::yCoords() const
-{
-    return m_yCoords;
-}
-
-int Function::size()
-{
-    return m_points.size();
-}
-
-int Function::lineSize()
-{
-    return m_linePoints.size();
-}
-
-void Function::calcScrCoords(int width, int height)
-{
-    if (m_points.size() > 0) {
-        m_xCoords.clear();
-        m_yCoords.clear();
-        m_xLineCoords.clear();
-        m_yLineCoords.clear();
-        double xStart = m_points.first().x;
-        double xEnd = m_points.last().x;
-
-
-
-        m_minY2 = m_points.first().y;
-        m_maxY2 = m_minY2;
-
-        for (int i = 0; i < m_points.size(); i++) {
-            if (m_points.at(i).y < m_minY2)
-                m_minY2 = m_points.at(i).y;
-            if (m_points.at(i).y > m_maxY2)
-                m_maxY2 = m_points.at(i).y;
-        }
-
-        for (int i = 0; i < m_points.size(); i++) {
-//            int x =  round( width / (xEnd - xStart) * (m_points.at(i).x - xStart) );
-//            int y = round( height / (m_maxY - m_minY) * (m_points.at(i).y - m_minY) );
-
-            double x =  ( width / (xEnd - xStart) * (m_points.at(i).x - xStart) );
-            double y = ( height / (m_maxY - m_minY) * (m_points.at(i).y - m_minY) );
-
-            y = height - y;
-            m_xCoords.push_back(x);
-            m_yCoords.push_back(y);
-        }
-
-        for (int i = 0; i < LINE_POINTS; i++) {
-//            int x =  round( width / (xEnd - xStart) * (m_linePoints.at(i).x - xStart) );
-//            int y = round( height / (m_maxY - m_minY) * (m_linePoints.at(i).y - m_minY) );
-
-            double x =  ( width / (xEnd - xStart) * (m_linePoints.at(i).x - xStart) );
-            double y = ( height / (m_maxY - m_minY) * (m_linePoints.at(i).y - m_minY) );
-
-            y = height - y;
-            m_xLineCoords.push_back(x);
-            m_yLineCoords.push_back(y);
-        }
-    }
-}
-
-double Function::x(int point)
-{
-    return m_points.at(point).x;
-}
-
-double Function::y(int point)
-{
-    return m_points.at(point).y;
-}
-
-bool Function::isValid(int point)
-{
-    return m_points.at(point).isValid;
-}
-
-double Function::xLine(int point)
-{
-    return m_linePoints.at(point).x;
-}
-
-double Function::yLine(int point)
-{
-    return m_linePoints.at(point).y;
-}
-
-bool Function::isValidLine(int point)
-{
-    return m_linePoints.at(point).isValid;
+    return m_min;
 }

@@ -1,22 +1,24 @@
-#ifndef CURVE_H
-#define CURVE_H
+#ifndef CURVEMOVINGPOINT_H
+#define CURVEMOVINGPOINT_H
+
 
 #include <QtQuick/QQuickItem>
 #include <QTimer>
 #include "function.h"
+#include "audiopoints.h"
 
-class Curve : public QQuickItem
+class CurveMovingPoint : public QQuickItem
 {
     Q_OBJECT
 
     Q_PROPERTY(QColor color READ color WRITE setColor)
 
 public:
-    Curve(QQuickItem *parent = 0);
-    ~Curve();
+    CurveMovingPoint(QQuickItem *parent = 0);
+    ~CurveMovingPoint();
 
-    Q_INVOKABLE void drawPoint(int duration);
-    Q_INVOKABLE void draw(Function *function);
+    Q_INVOKABLE void drawPoint(Function *function, int duration);
+    Q_INVOKABLE void stopPoint();
 
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
 
@@ -36,14 +38,10 @@ private:
 
     QColor m_color;
 
-    double m_previousX;
-    double m_previousY;
-    double m_newX;
-    double m_newY;
+    double m_X;
+    double m_Y;
 
-signals:
-    void movePoint(double newX, double newY, double previousX, double previousY);
-    void stopPoint();
+    AudioPoints m_audioPoints;
 };
 
-#endif // CURVE_H
+#endif // CURVEMOVINGPOINT_H

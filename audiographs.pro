@@ -19,7 +19,9 @@ HEADERS       = \
     audioengine.h \
     audiooutput.h \
     audiopoints.h \
+    constants.h \
     curve.h \
+    curvemovingpoint.h \
     fparser/fparser.hh \
     fparser/fparser_gmpint.hh \
     fparser/fparser_mpfr.hh \
@@ -47,6 +49,7 @@ SOURCES       = \
     audiooutput.cpp \
     audiopoints.cpp \
     curve.cpp \
+    curvemovingpoint.cpp \
     fparser/fparser.cc \
     fparser/fpoptimizer.cc \
     function.cpp \
@@ -66,21 +69,21 @@ SOURCES       = \
     texttospeech.cpp
     #functiondomainparser.cpp \
 
-unix:!android {
-    HEADERS +=  \
-    appwindow.h \
-    graphsettingsdialog.h \
-    renderarea.h \
+#unix:!android {
+#    HEADERS +=  \
+#    appwindow.h \
+#    graphsettingsdialog.h \
+#    renderarea.h \
 
-    SOURCES +=  \
-    appwindow.cpp \
-    graphsettingsdialog.cpp \
-    renderarea.cpp \
-}
+#    SOURCES +=  \
+#    appwindow.cpp \
+#    graphsettingsdialog.cpp \
+#    renderarea.cpp \
+#}
 
-FORMS += \
-    appwindow.ui \
-    graphsettingsdialog.ui
+#FORMS += \
+#    appwindow.ui \
+#    graphsettingsdialog.ui
 
 DISTFILES += \
     android/AndroidManifest.xml \
