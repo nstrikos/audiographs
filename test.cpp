@@ -1,6 +1,6 @@
 #include "test.h"
 
-Test::Test(QObject *parent) : QObject(parent)
+Test::Test()
 {
     m_audioEngine = nullptr;
 }

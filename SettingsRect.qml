@@ -18,6 +18,7 @@ Rectangle {
     property int duration: 10
     property int minFreq: 200
     property int maxFreq: 2000
+    property bool useNotes: checkBox.checked
 
     Rectangle {
         id: settingsTitleBar
@@ -96,7 +97,7 @@ Rectangle {
                 height: 50
                 property bool active: true
                 value: 200
-                from: 200
+                from: 100
                 to: 4000
                 stepSize: 100
                 onValueChanged: minFreq = value
@@ -129,11 +130,37 @@ Rectangle {
             }
 
             Label {
+                id: checkBoxlabel
+                text: (parent.width > 0) ? "Use notes : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: textInput3.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            CheckBox {
+                id: checkBox
+                anchors.left: checkBoxlabel.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: checkBoxlabel.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                //value: 2000
+                //from: 200
+                //to: 4000
+                //stepSize: 100
+                //onValueChanged: maxFreq = value
+            }
+
+            Label {
                 id: f0label
                 text: (parent.width > 0) ? "f0 frequency : " : ""
                 anchors.left: parent.left
                 anchors.leftMargin: 5
-                anchors.top: textInput3.bottom
+                anchors.top: checkBox.bottom
                 anchors.topMargin: 40
                 width: 100
             }
@@ -151,7 +178,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f0 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f0 = value / 100.0;
             }
 
             Label {
@@ -177,7 +204,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f1 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f1 = value / 100.0;
             }
 
             Label {
@@ -203,7 +230,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f2 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f2 = value / 100.0;
             }
 
             Label {
@@ -229,7 +256,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f3 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f3 = value / 100.0;
             }
 
             Label {
@@ -255,7 +282,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f4 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f4 = value / 100.0;
             }
 
             Label {
@@ -281,7 +308,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f5 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f5 = value / 100.0;
             }
 
             Label {
@@ -307,7 +334,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f6 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f6 = value / 100.0;
             }
 
             Label {
@@ -333,7 +360,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f7 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f7 = value / 100.0;
             }
 
             Label {
@@ -359,7 +386,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f8 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f8 = value / 100.0;
             }
 
             Label {
@@ -385,7 +412,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f9 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f9 = value / 100.0;
             }
 
             Label {
@@ -411,7 +438,7 @@ Rectangle {
                 from: 0
                 to: 100
                 stepSize: 1
-                onValueChanged: audioPoints.f10 = value / 100.0;
+                onValueChanged: graphRect.curveMovingPoint.f10 = value / 100.0;
             }
 
             Label {
@@ -423,8 +450,6 @@ Rectangle {
                 anchors.topMargin: 40
                 width: 100
             }
-
-
 
             Rectangle {
                 anchors.top: label4.bottom
@@ -454,11 +479,6 @@ Rectangle {
     function modeChanged(value) {
         window.mode = value
     }
-
-
-
-
-
 
     BeautifyRect {
         anchors.left: parent.left

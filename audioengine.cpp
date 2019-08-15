@@ -4,7 +4,7 @@
 AudioEngine::AudioEngine(QString expression, double start, double end, int seconds, int fmin, int fmax)
 {
     generator = NULL;
-    audioOutput = NULL;
+    audioOutput = nullptr;
 
     this->seconds = seconds;
     this->fmin = fmin;
@@ -22,7 +22,7 @@ AudioEngine::~AudioEngine()
 {
     if (generator != NULL)
         delete generator;
-    if (audioOutput != NULL)
+    if (audioOutput != nullptr)
         delete audioOutput;
     qDebug() << "Audio engine deleted";
 }
@@ -40,7 +40,7 @@ void AudioEngine::createAudioOutput()
 
 void AudioEngine::stop()
 {
-    if (audioOutput != NULL)
+    if (audioOutput != nullptr)
         audioOutput->stop();
     qDebug() << "Audio engine stopped";
 }

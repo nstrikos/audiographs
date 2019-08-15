@@ -8,7 +8,7 @@ class Test : public QObject
 {
     Q_OBJECT
 public:
-    explicit Test(QObject *parent = nullptr);
+    Test();
     ~Test();
     Q_INVOKABLE void start(QString expression, double start, double end, int seconds, int fmin, int fmax);
     Q_INVOKABLE void stop();

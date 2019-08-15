@@ -38,105 +38,109 @@ void AudioPoints::stopAudio()
     //    setFreq(0);
 }
 
-void AudioPoints::setFreq(double freq)
+void AudioPoints::setFreq(double freq, bool useNotes, bool n)
 {
     xx = freq;
-    if ( xx >= 220.0 && xx <  233.08) // A3
-        xx = 220.0;
-    else if ( xx >= 233.08 && xx < 246.94) //A#3
-        xx = 233.08;
-    else if ( xx >= 246.94 && xx < 261.63) //B3
-        xx = 246.94;
-    else if ( xx >= 261.63 && xx < 277.18) //C4
-        xx = 261.63;
-    else if ( xx >= 277.18 && xx < 293.66) //C#4
-        xx = 277.18;
-    else if ( xx >= 293.66 && xx < 311.13) //D4
-        xx = 293.66;
-    else if ( xx >= 311.13 && xx < 329.63) //D#4
-        xx = 311.13;
-    else if ( xx >= 329.63 && xx < 349.23) //E4
-        xx = 329.63;
-    else if ( xx >= 349.23 && xx < 369.99) //F4
-        xx = 349.23;
-    else if ( xx >= 369.99 && xx < 392.00) //F#4
-        xx = 369.99;
-    else if ( xx >= 392.00 && xx < 415.30) //G4
-        xx = 392.00;
-    else if ( xx >= 415.30 && xx < 440.00) //G#4
-        xx = 415.30;
-    else if ( xx >= 440.00 && xx < 466.16) //A4
-        xx = 440.0;
-    else if ( xx >= 466.16 && xx < 493.88) //A#4
-        xx = 466.16;
-    else if ( xx >= 493.88 && xx < 523.25) //B4
-        xx = 493.88;
-    else if ( xx >= 523.25 && xx < 554.37) //C5
-        xx = 523.25;
-    else if ( xx >= 554.37 && xx < 587.33) //C#5
-        xx = 554.37;
-    else if ( xx >= 587.33 && xx < 622.25) //D5
-        xx = 587.33;
-    else if ( xx >= 622.25 && xx < 659.25) //D#5
-        xx = 622.25;
-    else if ( xx >= 659.25 && xx < 698.46) //E5
-        xx = 659.25;
-    else if ( xx >= 698.46 && xx < 739.99) //F5
-        xx = 698.46;
-    else if ( xx >= 739.99 && xx < 783.99) //F#5
-        xx = 739.99;
-    else if ( xx >= 783.99 && xx < 830.61) //G5
-        xx = 783.99;
-    else if ( xx >= 830.61 && xx < 880.00) //G#5
-        xx = 830.61;
-    else if ( xx >= 880.00 && xx < 932.33) //A5
-        xx = 880.00;
-    else if ( xx >= 932.33 && xx < 987.77) //A#5
-        xx = 932.33;
-    else if ( xx >= 987.77 && xx < 1046.50) //B5
-        xx = 987.77;
-    else if ( xx >= 1046.50 && xx < 1108.73) //C6
-        xx = 1046.50;
-    else if ( xx >= 1108.73 && xx < 1174.66) //C#6
-        xx =  1108.73;
-    else if ( xx >= 1174.66 && xx < 1244.51) //D6
-        xx = 1174.66;
-    else if ( xx >= 1244.51 && xx < 1318.51) //D#6
-        xx = 1244.51;
-    else if ( xx >= 1318.51 && xx < 1396.91) //E6
-        xx = 1318.51;
-    else if ( xx >= 1396.91 && xx < 1479.98) //F6
-        xx = 1396.91;
-    else if ( xx >= 1479.98 && xx <  1567.98) //F#6
-        xx = 1479.98;
-    else if ( xx >= 1567.98 && xx < 1661.22) //G6
-        xx = 1567.98;
-    else if ( xx >= 1661.22 && xx < 1760.00) //G#6
-        xx = 1661.22;
-    else if ( xx >= 1760.00 && xx < 1864.66) //A6
-        xx = 1760.00;
-    else if ( xx >= 1864.66 && xx < 1975.53) //A#6
-        xx = 1864.66;
-    else if ( xx >= 1975.53 && xx < 2093.00) //B6
-        xx = 1975.53;
-    else if ( xx >= 2093.00 && xx < 2217.46) //C7
-        xx = 2093.00;
-    else if ( xx >= 2217.46 && xx < 2349.32) //C#7
-        xx = 2217.46;
-    else if ( xx >= 2349.32 && xx < 2489.02) //D7
-        xx = 2349.32;
-    else if ( xx >= 2489.02 && xx < 2637.02) //D#7
-        xx = 2489.02;
-    else if ( xx >= 2637.02 && xx < 2793.83) //E7
-        xx = 2637.02;
-    else if ( xx >= 2793.83 && xx < 2959.96) //F7
-        xx = 2793.83;
-    else if ( xx >= 2959.96 && xx < 3135.96) //F#7
-        xx = 2959.96;
-    else if ( xx >= 3135.96) //G7
-        xx = 3135.96;
+    m_n = n;
 
-    xx = xx / 4;
+    if (useNotes) {
+        if ( xx >= 220.0 && xx <  233.08) // A3
+            xx = 220.0;
+        else if ( xx >= 233.08 && xx < 246.94) //A#3
+            xx = 233.08;
+        else if ( xx >= 246.94 && xx < 261.63) //B3
+            xx = 246.94;
+        else if ( xx >= 261.63 && xx < 277.18) //C4
+            xx = 261.63;
+        else if ( xx >= 277.18 && xx < 293.66) //C#4
+            xx = 277.18;
+        else if ( xx >= 293.66 && xx < 311.13) //D4
+            xx = 293.66;
+        else if ( xx >= 311.13 && xx < 329.63) //D#4
+            xx = 311.13;
+        else if ( xx >= 329.63 && xx < 349.23) //E4
+            xx = 329.63;
+        else if ( xx >= 349.23 && xx < 369.99) //F4
+            xx = 349.23;
+        else if ( xx >= 369.99 && xx < 392.00) //F#4
+            xx = 369.99;
+        else if ( xx >= 392.00 && xx < 415.30) //G4
+            xx = 392.00;
+        else if ( xx >= 415.30 && xx < 440.00) //G#4
+            xx = 415.30;
+        else if ( xx >= 440.00 && xx < 466.16) //A4
+            xx = 440.0;
+        else if ( xx >= 466.16 && xx < 493.88) //A#4
+            xx = 466.16;
+        else if ( xx >= 493.88 && xx < 523.25) //B4
+            xx = 493.88;
+        else if ( xx >= 523.25 && xx < 554.37) //C5
+            xx = 523.25;
+        else if ( xx >= 554.37 && xx < 587.33) //C#5
+            xx = 554.37;
+        else if ( xx >= 587.33 && xx < 622.25) //D5
+            xx = 587.33;
+        else if ( xx >= 622.25 && xx < 659.25) //D#5
+            xx = 622.25;
+        else if ( xx >= 659.25 && xx < 698.46) //E5
+            xx = 659.25;
+        else if ( xx >= 698.46 && xx < 739.99) //F5
+            xx = 698.46;
+        else if ( xx >= 739.99 && xx < 783.99) //F#5
+            xx = 739.99;
+        else if ( xx >= 783.99 && xx < 830.61) //G5
+            xx = 783.99;
+        else if ( xx >= 830.61 && xx < 880.00) //G#5
+            xx = 830.61;
+        else if ( xx >= 880.00 && xx < 932.33) //A5
+            xx = 880.00;
+        else if ( xx >= 932.33 && xx < 987.77) //A#5
+            xx = 932.33;
+        else if ( xx >= 987.77 && xx < 1046.50) //B5
+            xx = 987.77;
+        else if ( xx >= 1046.50 && xx < 1108.73) //C6
+            xx = 1046.50;
+        else if ( xx >= 1108.73 && xx < 1174.66) //C#6
+            xx =  1108.73;
+        else if ( xx >= 1174.66 && xx < 1244.51) //D6
+            xx = 1174.66;
+        else if ( xx >= 1244.51 && xx < 1318.51) //D#6
+            xx = 1244.51;
+        else if ( xx >= 1318.51 && xx < 1396.91) //E6
+            xx = 1318.51;
+        else if ( xx >= 1396.91 && xx < 1479.98) //F6
+            xx = 1396.91;
+        else if ( xx >= 1479.98 && xx <  1567.98) //F#6
+            xx = 1479.98;
+        else if ( xx >= 1567.98 && xx < 1661.22) //G6
+            xx = 1567.98;
+        else if ( xx >= 1661.22 && xx < 1760.00) //G#6
+            xx = 1661.22;
+        else if ( xx >= 1760.00 && xx < 1864.66) //A6
+            xx = 1760.00;
+        else if ( xx >= 1864.66 && xx < 1975.53) //A#6
+            xx = 1864.66;
+        else if ( xx >= 1975.53 && xx < 2093.00) //B6
+            xx = 1975.53;
+        else if ( xx >= 2093.00 && xx < 2217.46) //C7
+            xx = 2093.00;
+        else if ( xx >= 2217.46 && xx < 2349.32) //C#7
+            xx = 2217.46;
+        else if ( xx >= 2349.32 && xx < 2489.02) //D7
+            xx = 2349.32;
+        else if ( xx >= 2489.02 && xx < 2637.02) //D#7
+            xx = 2489.02;
+        else if ( xx >= 2637.02 && xx < 2793.83) //E7
+            xx = 2637.02;
+        else if ( xx >= 2793.83 && xx < 2959.96) //F7
+            xx = 2793.83;
+        else if ( xx >= 2959.96 && xx < 3135.96) //F#7
+            xx = 2959.96;
+        else if ( xx >= 3135.96) //G7
+            xx = 3135.96;
+    }
+
+        xx = xx / 4;
 
     if (audioPlaying == false)
         startAudio();
@@ -292,6 +296,7 @@ void AudioPoints::writeMoreData()
     int periodSize = audioOutput->periodSize(); // Check the ideal chunk size, in bytes
 
     int chunks = emptyBytes/periodSize;
+
     while (chunks){
 
         for (int sample=0; sample<periodSize/2; sample++) {
@@ -301,6 +306,24 @@ void AudioPoints::writeMoreData()
             m_phi2 = m_sum2 * 2 * M_PI;
 
             double x;
+
+            if (!m_n) {
+                m_f0 = 10;
+                m_f1 = 35;
+                m_f2 = 5;
+                m_f3 = 5;
+                m_f4 = 5;
+                m_f10 = 0;
+            } else {
+                m_f0 = 100;
+                m_f1 = 0;
+                m_f2 = 0;
+                m_f3 = 0;
+                m_f4 = 0;
+                m_f10 = 5;
+            }
+
+
             x = 1/(m_f0 + m_f1 + m_f2 + m_f3 + m_f4 + m_f5 + m_f6 + m_f7 + m_f8 + m_f9 + m_f10) *
                     (m_f0 * qSin(m_phi) +
                      m_f1 * qSin(2 * m_phi) +
@@ -368,10 +391,6 @@ void AudioPoints::writeMoreData()
             //                    0.05 * qSin(4 * m_phi) +
             //                    0.05 * qSin(5 * m_phi) +
             //                    0.05 * qSin(6 * m_phi) );
-
-
-
-
 
             signed short value = static_cast<signed short>(x * 32767);
             aubuffer[sample] = value;

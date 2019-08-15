@@ -80,8 +80,9 @@ Rectangle {
                         mousePressed = true
                     } else {
                         mousePressed = false
-                        audioPoints.stopAudio()
-                        playSound.play()
+//                        audioPoints.stopAudio()
+//                        playSound.play()
+                        curveMovingPoint.clearMouse()
                     }
                 }
             }
@@ -91,7 +92,12 @@ Rectangle {
                     if (mousePressed)
                         controlsRect.handleDrag(mouseX - x0, mouseY - y0)
                 } else if (window.mode === 1) {
-                    pointCanvas.drawMousePoint(mouseX, graphRect.width)
+                    //pointCanvas.drawMousePoint(mouseX, graphRect.width)
+                    curveMovingPoint.setMouseX(myfunction,
+                                               mouseX,
+                                               settingsRect.minFreq,
+                                               settingsRect.maxFreq,
+                                               settingsRect.useNotes)
                 }
             }
         }
@@ -109,6 +115,7 @@ Rectangle {
         layer.enabled: true
         layer.samples: 256
         color: "red"
+        visible: false
     }
 
     CurveMovingPoint {
@@ -187,6 +194,7 @@ Rectangle {
 //        pointCanvas.updatePoints();
         visible = true
         graphCanvas.visible = true
+        curve.visible = true
         curve.draw(myfunction)
     }
 

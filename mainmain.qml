@@ -452,14 +452,15 @@ Window {
         onRunningChanged: {
             if (modeButton.running) {
                 modeButton.color = "light green"
-//                test.start(controlsRect.expression,
-//                           controlsRect.textInput2.text,
-//                           controlsRect.textInput3.text,
-//                           settingsRect.duration,
-//                           settingsRect.minFreq,
-//                           settingsRect.maxFreq);
                 timer1.running = true
-                graphRect.curveMovingPoint.drawPoint(myfunction, settingsRect.duration)
+                graphRect.curveMovingPoint.drawPoint(myfunction,
+                                                     controlsRect.expression,
+                                                     controlsRect.textInput2.text,
+                                                     controlsRect.textInput3.text,
+                                                     settingsRect.duration,
+                                                     settingsRect.minFreq,
+                                                     settingsRect.maxFreq,
+                                                     settingsRect.useNotes)
 
             } else {
                 modeButton.color = "lightgray"
