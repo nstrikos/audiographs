@@ -21,6 +21,7 @@ HEADERS       = \
     audiopoints.h \
     constants.h \
     curve.h \
+    curveabstract.h \
     curvemovingpoint.h \
     fparser/fparser.hh \
     fparser/fparser_gmpint.hh \
@@ -38,6 +39,7 @@ HEADERS       = \
     generator/genphicalculator.h \
     generator/gensum.h \
     parameters.h \
+    point.h \
     test.h \
     texttospeech.h
     #functiondomainparser.h \
@@ -49,6 +51,7 @@ SOURCES       = \
     audiooutput.cpp \
     audiopoints.cpp \
     curve.cpp \
+    curveabstract.cpp \
     curvemovingpoint.cpp \
     fparser/fparser.cc \
     fparser/fpoptimizer.cc \
@@ -65,6 +68,7 @@ SOURCES       = \
     generator/gensum.cpp \
     main.cpp \
     parameters.cpp \
+    point.cpp \
     test.cpp \
     texttospeech.cpp
     #functiondomainparser.cpp \

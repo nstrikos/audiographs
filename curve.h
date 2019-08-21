@@ -2,10 +2,10 @@
 #define CURVE_H
 
 #include <QtQuick/QQuickItem>
-#include <QTimer>
-#include "function.h"
+#include "curveabstract.h"
+#include "point.h"
 
-class Curve : public QQuickItem
+class Curve : public QQuickItem, public CurveAbstract
 {
     Q_OBJECT
 
@@ -15,35 +15,9 @@ public:
     Curve(QQuickItem *parent = 0);
     ~Curve();
 
-    Q_INVOKABLE void drawPoint(int duration);
     Q_INVOKABLE void draw(Function *function);
 
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
-
-    QTimer timer;
-
-    void setColor(const QColor &color);
-    QColor color() const;
-
-private slots:
-    void timerExpired();
-
-private:
-    int m_count;
-    int m_timeElapsed;
-    int m_duration;
-    Function *m_function;
-
-    QColor m_color;
-
-    double m_previousX;
-    double m_previousY;
-    double m_newX;
-    double m_newY;
-
-signals:
-    void movePoint(double newX, double newY, double previousX, double previousY);
-    void stopPoint();
 };
 
 #endif // CURVE_H

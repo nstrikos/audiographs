@@ -375,10 +375,10 @@ Window {
             }
         ]
 
-//        transitions: Transition {
-//            // smoothly reanchor myRect and move into new position
-//            AnchorAnimation { duration: 250 }
-//        }
+        //        transitions: Transition {
+        //            // smoothly reanchor myRect and move into new position
+        //            AnchorAnimation { duration: 250 }
+        //        }
     }
 
     property var expression
@@ -453,15 +453,13 @@ Window {
             if (modeButton.running) {
                 modeButton.color = "light green"
                 timer1.running = true
-                graphRect.curveMovingPoint.drawPoint(myfunction,
-                                                     controlsRect.expression,
-                                                     controlsRect.textInput2.text,
-                                                     controlsRect.textInput3.text,
-                                                     settingsRect.duration,
-                                                     settingsRect.minFreq,
-                                                     settingsRect.maxFreq,
-                                                     settingsRect.useNotes)
-
+                test.start(controlsRect.expression,
+                           controlsRect.textInput2.text,
+                           controlsRect.textInput3.text,
+                           settingsRect.duration,
+                           settingsRect.minFreq,
+                           settingsRect.maxFreq)
+                graphRect.curveMovingPoint.drawPoint(myfunction, settingsRect.duration)
             } else {
                 modeButton.color = "lightgray"
                 graphRect.curveMovingPoint.stopPoint()

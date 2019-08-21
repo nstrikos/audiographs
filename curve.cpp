@@ -9,13 +9,6 @@ Curve::Curve(QQuickItem *parent)
     : QQuickItem(parent)
 {
     setFlag(ItemHasContents, true);
-
-    timer.setTimerType(Qt::PreciseTimer);
-    timer.setInterval(50);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
-    m_count = 0;
-    m_duration = 0;
-    m_function = nullptr;
 }
 
 Curve::~Curve()
@@ -23,18 +16,10 @@ Curve::~Curve()
 
 }
 
-void Curve::drawPoint(int duration)
-{
-    m_duration = duration * 1000;
-    m_count = 0;
-    m_timeElapsed = 0;
-    timer.start();
-    update();
-}
-
 void Curve::draw(Function *function)
 {
     m_function = function;
+    calcCoords(this->width(), this->height());
     update();
 }
 
@@ -105,19 +90,11 @@ QSGNode *Curve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
 
 #ifndef Q_OS_ANDROID
     if (m_function != nullptr) {
-        QVector<double> *xLineCoords = m_function->xLineCoords();
-        QVector<double> *yLineCoords = m_function->yLineCoords();
-        for (int i = 0; i < LINE_POINTS; i++) {
-
-            float x = xLineCoords->at(i);
-            float y = yLineCoords->at(i);
-
-            lineVertices[i].set(x, y);
-        }
+        for (int i = 0; i < LINE_POINTS; i++)
+            lineVertices[i].set(m_points[i].x, m_points[i].y);
     } else {
-        for (int i = 0; i < LINE_POINTS; i++) {
+        for (int i = 0; i < LINE_POINTS; i++)
             lineVertices[i].set(-10, -10);
-        }
     }
 #else
     lineVertices[0].set(-10, -10);
@@ -125,19 +102,16 @@ QSGNode *Curve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
 
 #ifdef Q_OS_ANDROID
     if (m_function != nullptr) {
-        QVector<double> *xLineCoords = m_function->xLineCoords();
-        QVector<double> *yLineCoords = m_function->yLineCoords();
-
         if (geometryVector.size() > 0) {
-            if (xLineCoords->size() > 0) {
+            if (m_points.size() > 0) {
                 for (int i = 0; i < LINE_POINTS; i++) {
                     QSGGeometryNode *tmpNode = nodeVector.at(i);
                     QSGGeometry::Point2D *vertices = geometryVector.at(i)->vertexDataAsPoint2D();
 
                     int cx;
                     int cy;
-                    cx = xLineCoords->at(i);
-                    cy = yLineCoords->at(i);
+                    cx = m_points[i].x;
+                    cy = m_points[i].y;
 
                     int r = 5;
                     for(int ii = 0; ii < POINT_SEGMENTS; ii++) {
@@ -157,43 +131,4 @@ QSGNode *Curve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
 
     node->markDirty(QSGNode::DirtyGeometry);
     return node;
-}
-
-void Curve::timerExpired()
-{
-    m_count++;
-    m_timeElapsed += timer.interval();
-    if (m_timeElapsed >= m_duration) {
-        m_count = 0;
-        m_duration = 0;
-        timer.stop();
-        emit stopPoint();
-        return;
-    }
-
-    if (m_function != nullptr) {
-        QVector<double> *xLineCoords = m_function->xLineCoords();
-        QVector<double> *yLineCoords = m_function->yLineCoords();
-
-        double cx = (double) m_timeElapsed / m_duration;
-        int x = round(cx * xLineCoords->size());
-        if (x >= xLineCoords->size())
-            x = xLineCoords->size() - 1;
-        if (x < 0)
-            x = 0;
-
-        emit movePoint(xLineCoords->at(x), yLineCoords->at(x), m_previousX, m_previousY);
-        m_previousX = xLineCoords->at(x);
-        m_previousY = yLineCoords->at(x);
-    }
-}
-
-QColor Curve::color() const
-{
-    return m_color;
-}
-
-void Curve::setColor(const QColor &color)
-{
-    m_color = color;
 }

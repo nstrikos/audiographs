@@ -1,22 +1,18 @@
 #include "function.h"
 
 void Function::calculate(QString expression,
-                         QString min,
-                         QString max,
+                         QString minX,
+                         QString maxX,
                          QString minY,
                          QString maxY,
-                         QString numPoints,
-                         int width,
-                         int height)
+                         QString numPoints)
 {
     m_expression = expression;
-    m_minString = min;
-    m_maxString = max;
+    m_minXString = minX;
+    m_maxXString = maxX;
     m_minYString = minY;
     m_maxYString = maxY;
     m_pointsString = numPoints;
-    m_width = width;
-    m_height = height;
 
     performCalculation();
 }
@@ -24,10 +20,8 @@ void Function::calculate(QString expression,
 void Function::performCalculation()
 {
     replaceConstants();
-    if (check()) {
-        calculatePoints();
-        calcScrCoords();
-    }
+    if (check())
+        calculatePoints();    
 }
 
 void Function::replaceConstants()
@@ -35,13 +29,13 @@ void Function::replaceConstants()
     QString piString = QString::number(M_PI);
     QString eString = QString::number(M_E);
 
-    m_minString.replace("pi", piString);
-    m_minString.replace("e", eString);
+    m_minXString.replace("pi", piString);
+    m_minXString.replace("e", eString);
     m_minYString.replace("pi", piString);
     m_minYString.replace("e", eString);
 
-    m_maxString.replace("pi", piString);
-    m_maxString.replace("e", eString);
+    m_maxXString.replace("pi", piString);
+    m_maxXString.replace("e", eString);
     m_maxYString.replace("pi", piString);
     m_maxYString.replace("e", eString);
 }
@@ -49,18 +43,18 @@ void Function::replaceConstants()
 bool Function::check()
 {
     bool okMin, okMax, okMinY, okMaxY, okPoints;
-    double minDouble = m_minString.toDouble(&okMin);
+    double minDouble = m_minXString.toDouble(&okMin);
     if (okMin) {
-        m_min = minDouble;
+        m_minX = minDouble;
     }
     else {
         emit error(tr("Minimum is not a real number."));
         return false;
     }
 
-    double maxDouble = m_maxString.toDouble(&okMax);
+    double maxDouble = m_maxXString.toDouble(&okMax);
     if (okMax) {
-        m_max = maxDouble;
+        m_maxX = maxDouble;
     }
     else {
         emit error(tr("Maximum is not a real number."));
@@ -94,7 +88,7 @@ bool Function::check()
         return false;
     }
 
-    if (m_max <= m_min) {
+    if (m_maxX <= m_minX) {
         emit error(tr("Maximum must be greater than minimum."));
         return false;
     }
@@ -118,7 +112,6 @@ bool Function::check()
     m_fparser.AddConstant("pi", M_PI);
     m_fparser.AddConstant("e", M_E);
     int res = m_fparser.Parse(m_expression.toStdString(), "x");
-    //    m_fparser.Optimize();
     if(res > 0) {
         emit error(tr("Cannot understand expression.\n") + m_fparser.ErrorMsg());
         return false;
@@ -130,126 +123,66 @@ bool Function::check()
 void Function::calculatePoints()
 {
     double x, result;
+    Point tmpPoint;
 
-    m_xValues.clear();
-    m_yValues.clear();
-    m_isValid.clear();
-
-    m_xLineValues.clear();
-    m_yLineValues.clear();
-    m_isLineValid.clear();
+    m_linePoints.clear();
 
     double vals[] = { 0 };
     double step;
     int res;
 
-    step = (m_max - m_min) / m_numPoints;
-    int pointsToCalculate = m_numPoints + 1;
-    for (int i = 0; i < pointsToCalculate; i++) {
-        x = m_min + i * step;
-        vals[0] = x;
-        result = m_fparser.Eval(vals);
-        res = m_fparser.EvalError();
-        m_xValues.append(x);
-        m_yValues.append(result);
-        if (res == 0)
-            m_isValid.append(true);
-        else if (res > 0)
-            m_isValid.append(false);
-    }
-
-    step = (m_max - m_min) / LINE_POINTS;
+    step = (m_maxX - m_minX) / LINE_POINTS;
     for (int i = 0; i < LINE_POINTS; i++) {
-        x = m_min + i * step;
+        x = m_minX + i * step;
         vals[0] = x;
         result = m_fparser.Eval(vals);
         res = m_fparser.EvalError();
-        m_xLineValues.append(x);
-        m_yLineValues.append(result);
+        tmpPoint.x = x;
+        tmpPoint.y = result;
         if (res == 0)
-            m_isLineValid.append(true);
+            tmpPoint.isValid = true;
         else if (res > 0)
-            m_isLineValid.append(false);
+            tmpPoint.isValid = false;
+
+        m_linePoints.append(tmpPoint);
     }
 
-    m_minValue = m_yLineValues.at(0);
-    m_maxValue = m_yLineValues.at(0);
+    m_minValue = m_linePoints[0].y;
+    m_maxValue = m_linePoints[0].y;
 
     for (int i = 1; i < LINE_POINTS; i++) {
-        if (m_yLineValues.at(i) < m_minValue)
-            m_minValue = m_yLineValues.at(i);
-        if (m_yLineValues.at(i) > m_maxValue)
-            m_maxValue = m_yLineValues.at(i);
+        if (m_linePoints[i].y < m_minValue)
+            m_minValue = m_linePoints[i].y;
+        if (m_linePoints[i].y > m_maxValue)
+            m_maxValue = m_linePoints[i].y;
     }
 
     emit update();
 }
 
-void Function::calcScrCoords()
+double Function::x(int i) const
 {
-    m_xCoords.clear();
-    m_yCoords.clear();
-    m_xLineCoords.clear();
-    m_yLineCoords.clear();
-    double xStart = m_xValues.first();
-    double xEnd = m_xValues.last();
-
-    for (int i = 0; i < m_xValues.size(); i++) {
-        double x =  ( m_width / (xEnd - xStart) * (m_xValues.at(i) - xStart) );
-        double y = ( m_height / (m_maxY - m_minY) * (m_yValues.at(i) - m_minY) );
-
-        y = m_height - y;
-        m_xCoords.append(x);
-        m_yCoords.append(y);
-    }
-
-    for (int i = 0; i < LINE_POINTS; i++) {
-        double x =  ( m_width / (xEnd - xStart) * (m_xLineValues.at(i) - xStart) );
-        double y = ( m_height / (m_maxY - m_minY) * (m_yLineValues.at(i) - m_minY) );
-        y = m_height - y;
-        m_xLineCoords.append(x);
-        m_yLineCoords.append(y);
-    }
+    return m_linePoints[i].x;
 }
 
-double Function::minValue() const
+double Function::y(int i) const
 {
-    return m_minValue;
+    return m_linePoints[i].y;
 }
 
-double Function::Y(int i) const
+int Function::lineSize() const
 {
-    return m_yLineValues.at(i);
+    return m_linePoints.size();
 }
 
-double Function::maxValue() const
+double Function::minX() const
 {
-    return m_maxValue;
+    return m_minX;
 }
 
-QVector<double>* Function::xCoords()
+double Function::maxX() const
 {
-    return &m_xCoords;
-}
-
-QVector<double>* Function::yCoords()
-{
-    return &m_yCoords;
-}
-
-QVector<double>* Function::xLineCoords()
-{
-    return &m_xLineCoords;
-}
-
-QVector<double>* Function::yLineCoords()
-{
-    return &m_yLineCoords;
-}
-
-double Function::maxY() const
-{
-    return m_maxY;
+    return m_maxX;
 }
 
 double Function::minY() const
@@ -257,12 +190,17 @@ double Function::minY() const
     return m_minY;
 }
 
-double Function::max() const
+double Function::maxY() const
 {
-    return m_max;
+    return m_maxY;
 }
 
-double Function::min() const
+double Function::minValue() const
 {
-    return m_min;
+    return m_minValue;
+}
+
+double Function::maxValue() const
+{
+    return m_maxValue;
 }

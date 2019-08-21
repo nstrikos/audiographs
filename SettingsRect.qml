@@ -452,6 +452,7 @@ Rectangle {
             }
 
             Rectangle {
+                id: rect
                 anchors.top: label4.bottom
                 anchors.topMargin: 10
                 border.color: "gray"
@@ -472,6 +473,29 @@ Rectangle {
                         onCheckedChanged: modeChanged(2)
                     }
                 }
+            }
+
+            Label {
+                id: slowPointLabel
+                text: (parent.width > 0) ? "Slow response : " : ""
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: rect.bottom
+                anchors.topMargin: 40
+                width: 100
+            }
+
+            CheckBox {
+                id: slowPointCheckbox
+                anchors.left: slowPointLabel.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: slowPointLabel.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                height: 50
+                property bool active: true
+                checked: false
+                onCheckedChanged: graphRect.curveMovingPoint.slowPoint = checked
             }
         }
     }

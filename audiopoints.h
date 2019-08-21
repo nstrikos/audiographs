@@ -91,6 +91,8 @@ private:
     int instrument = 0;
     QTimer *timer;
     int k = 0;
+    int m = 0;
+    int m_2 = 0;
 
     double m_f0 = 1.0;
     double m_f1 = 0.0;

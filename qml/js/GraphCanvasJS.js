@@ -39,8 +39,8 @@ function drawGrid()
 {
     drawAxes()
 
-    var xStart = myfunction.min
-    var xEnd = myfunction.max
+    var xStart = myfunction.minX()
+    var xEnd = myfunction.maxX()
     var xInterval = findInterval(xEnd - xStart)
     findVerticalGridLines(xStart, xEnd, xInterval)
 
@@ -50,8 +50,8 @@ function drawGrid()
 
     drawVerticalLines()
 
-    var yStart = myfunction.minY
-    var yEnd = myfunction.maxY
+    var yStart = myfunction.minY()
+    var yEnd = myfunction.maxY()
     var yInterval = findInterval(yEnd - yStart)
     findHorizontalGridLines(yStart, yEnd, yInterval)
     drawHorizontalLines()
@@ -61,10 +61,10 @@ function drawGrid()
 
 function drawAxes()
 {
-    var x0 = myfunction.min
-    var x1 = myfunction.max
-    var y0 = myfunction.minY
-    var y1 = myfunction.maxY
+    var x0 = myfunction.minX()
+    var x1 = myfunction.maxX()
+    var y0 = myfunction.minY()
+    var y1 = myfunction.maxY()
     ctx.beginPath()
     ctx.lineWidth = 4
     ctx.strokeStyle = myparameters.axesColor;

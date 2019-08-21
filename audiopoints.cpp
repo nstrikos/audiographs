@@ -179,6 +179,139 @@ void AudioPoints::initializeAudio()
 #endif
 }
 
+void AudioPoints::writeMoreData()
+{
+    int emptyBytes = audioOutput->bytesFree();
+    //if (emptyBytes > BufferSize) emptyBytes = BufferSize;// Check how many empty bytes are in the device buffer
+    int periodSize = audioOutput->periodSize(); // Check the ideal chunk size, in bytes
+
+    int chunks = emptyBytes/periodSize;
+
+    while (chunks){
+
+        for (int sample=0; sample<periodSize/2; sample++) {
+            m_sum += xx/DataFrequencyHz;
+            m_sum2 += xx2/DataFrequencyHz;
+            m_phi = m_sum * 2 * M_PI;
+            m_phi2 = m_sum2 * 2 * M_PI;
+
+            m++;
+            m_2++;
+            if (m > DataFrequencyHz / 4)
+                m = 0;
+            float time = (float) m/DataFrequencyHz ;
+
+            if (m_2 > DataFrequencyHz / 4)
+                m_2 = 0;
+            float time2 = (float)m_2/DataFrequencyHz;
+
+            double x;
+
+            if (!m_n) {
+                m_f0 = 10;
+                m_f1 = 35;
+                m_f2 = 5;
+                m_f3 = 5;
+                m_f4 = 5;
+                m_f10 = 0;
+            } else {
+                m_f0 = 100;
+                m_f1 = 0;
+                m_f2 = 0;
+                m_f3 = 0;
+                m_f4 = 0;
+                m_f10 = 5;
+            }
+
+
+            x = 1/(m_f0 + m_f1 + m_f2 + m_f3 + m_f4 + m_f5 + m_f6 + m_f7 + m_f8 + m_f9 + m_f10) *
+                    (m_f0 * qSin(m_phi) +
+                     m_f1 * qSin(2 * m_phi) +
+                     m_f2 * qSin(3 * m_phi) +
+                     m_f3 * qSin(4 * m_phi) +
+                     m_f4 * qSin(5 * m_phi) +
+                     m_f5 * qSin(6 * m_phi) +
+                     m_f6 * qSin(7 * m_phi) +
+                     m_f7 * qSin(8 * m_phi) +
+                     m_f8 * qSin(9 * m_phi) +
+                     m_f9 * qSin(10 * m_phi) +
+                     m_f10 * qSin(11 * m_phi));
+            //            if (instrument == 0) {
+            //                x = qSin(m_phi);
+            //            } else if (instrument == 1) {
+            //                x = 1/1 * (0.1155 * qSin(m_phi) +
+            //                           0.3417 * qSin(2 * m_phi) +
+            //                           0.1789 * qSin(3 * m_phi) +
+            //                           0.1232 * qSin(4 * m_phi) +
+            //                           0.0678 * qSin(5 * m_phi) +
+            //                           0.0473 * qSin(6 * m_phi) +
+            //                           0.0260 * qSin(7 * m_phi) +
+            //                           0.0045 * qSin(8 * m_phi) +
+            //                           0.0020 * qSin(9 * m_phi) );
+            //            } else if (instrument == 2) {
+            //                x = 1/4.2 * (0.75 * qSin(m_phi) +
+            //                                    0.3 * qSin(2 * m_phi) +
+            //                                    0.8 * qSin(3 * m_phi) +
+            //                                    1.0 * qSin(4 * m_phi) +
+            //                                    0.75 * qSin(5 * m_phi) +
+            //                                    0.3 * qSin(6 * m_phi) +
+            //                                    0.2 * qSin(7 * m_phi) +
+            //                                    0.1 * qSin(8 * m_phi) );
+            //            } else {
+            //                x = 1/5.65 * (0.4 * qSin(m_phi) +
+            //                           0.8 * qSin(2 * m_phi) +
+            //                           1.0 * qSin(3 * m_phi) +
+            //                           0.8 * qSin(4 * m_phi) +
+            //                           0.6 * qSin(5 * m_phi) +
+            //                           0.5 * qSin(6 * m_phi) +
+            //                           0.45 * qSin(7 * m_phi) +
+            //                           0.4 * qSin(8 * m_phi) +
+            //                           0.3 * qSin(9 * m_phi) +
+            //                           0.3 * qSin(10 * m_phi) +
+            //                           0.3 * qSin(11 * m_phi) +
+            //                           0.2 * qSin(12 * m_phi));
+            //            }
+
+
+            //            double x = 0.8 * qSin(m_phi) +
+            //                    0.1 * qSin(2 * m_phi) +
+            //                    0.05 * qSin(3 * m_phi) +
+            //                    0.025 * qSin(4 * m_phi) +
+            //                    0.025 * qSin(5 * m_phi);
+
+            //            double x = 1/16.5 * (1.0 * qSin(m_phi) +
+            //                    9.0 * qSin(2 * m_phi) +
+            //                    4.0 * qSin(3 * m_phi) +
+            //                    2.0 * qSin(4 * m_phi) +
+            //                    0.5 * qSin(5 * m_phi));
+
+            //            double x = 1/1.6 * (1.0 * qSin(m_phi) +
+            //                    0.1 * qSin(2 * m_phi) +
+            //                    0.35 * qSin(3 * m_phi) +
+            //                    0.05 * qSin(4 * m_phi) +
+            //                    0.05 * qSin(5 * m_phi) +
+            //                    0.05 * qSin(6 * m_phi) );
+
+            if (time > 0.05)
+                time = 0;
+
+            if (time2 > 0.1)
+                time2 = 0;
+
+            float x2 = qSin(2 * M_PI * 4000 * time);
+            float x3 = qSin(2 * M_PI * 200 * time2);
+
+            float x_x = 1.0 * x + 0.0 * x2 + 0.0 * x3;
+
+            signed short value = static_cast<signed short>(x_x * 32767);
+            aubuffer[sample] = value;
+        }
+
+        auIObuffer->write((const char*) &aubuffer[0], periodSize);
+        --chunks;
+    }
+}
+
 double AudioPoints::f10() const
 {
     return m_f10;
@@ -287,116 +420,4 @@ double AudioPoints::f0() const
 void AudioPoints::setF0(double f0)
 {
     m_f0 = f0;
-}
-
-void AudioPoints::writeMoreData()
-{
-    int emptyBytes = audioOutput->bytesFree();
-    //if (emptyBytes > BufferSize) emptyBytes = BufferSize;// Check how many empty bytes are in the device buffer
-    int periodSize = audioOutput->periodSize(); // Check the ideal chunk size, in bytes
-
-    int chunks = emptyBytes/periodSize;
-
-    while (chunks){
-
-        for (int sample=0; sample<periodSize/2; sample++) {
-            m_sum += xx/DataFrequencyHz;
-            m_sum2 += xx2/DataFrequencyHz;
-            m_phi = m_sum * 2 * M_PI;
-            m_phi2 = m_sum2 * 2 * M_PI;
-
-            double x;
-
-            if (!m_n) {
-                m_f0 = 10;
-                m_f1 = 35;
-                m_f2 = 5;
-                m_f3 = 5;
-                m_f4 = 5;
-                m_f10 = 0;
-            } else {
-                m_f0 = 100;
-                m_f1 = 0;
-                m_f2 = 0;
-                m_f3 = 0;
-                m_f4 = 0;
-                m_f10 = 5;
-            }
-
-
-            x = 1/(m_f0 + m_f1 + m_f2 + m_f3 + m_f4 + m_f5 + m_f6 + m_f7 + m_f8 + m_f9 + m_f10) *
-                    (m_f0 * qSin(m_phi) +
-                     m_f1 * qSin(2 * m_phi) +
-                     m_f2 * qSin(3 * m_phi) +
-                     m_f3 * qSin(4 * m_phi) +
-                     m_f4 * qSin(5 * m_phi) +
-                     m_f5 * qSin(6 * m_phi) +
-                     m_f6 * qSin(7 * m_phi) +
-                     m_f7 * qSin(8 * m_phi) +
-                     m_f8 * qSin(9 * m_phi) +
-                     m_f9 * qSin(10 * m_phi) +
-                     m_f10 * qSin(11 * m_phi));
-            //            if (instrument == 0) {
-            //                x = qSin(m_phi);
-            //            } else if (instrument == 1) {
-            //                x = 1/1 * (0.1155 * qSin(m_phi) +
-            //                           0.3417 * qSin(2 * m_phi) +
-            //                           0.1789 * qSin(3 * m_phi) +
-            //                           0.1232 * qSin(4 * m_phi) +
-            //                           0.0678 * qSin(5 * m_phi) +
-            //                           0.0473 * qSin(6 * m_phi) +
-            //                           0.0260 * qSin(7 * m_phi) +
-            //                           0.0045 * qSin(8 * m_phi) +
-            //                           0.0020 * qSin(9 * m_phi) );
-            //            } else if (instrument == 2) {
-            //                x = 1/4.2 * (0.75 * qSin(m_phi) +
-            //                                    0.3 * qSin(2 * m_phi) +
-            //                                    0.8 * qSin(3 * m_phi) +
-            //                                    1.0 * qSin(4 * m_phi) +
-            //                                    0.75 * qSin(5 * m_phi) +
-            //                                    0.3 * qSin(6 * m_phi) +
-            //                                    0.2 * qSin(7 * m_phi) +
-            //                                    0.1 * qSin(8 * m_phi) );
-            //            } else {
-            //                x = 1/5.65 * (0.4 * qSin(m_phi) +
-            //                           0.8 * qSin(2 * m_phi) +
-            //                           1.0 * qSin(3 * m_phi) +
-            //                           0.8 * qSin(4 * m_phi) +
-            //                           0.6 * qSin(5 * m_phi) +
-            //                           0.5 * qSin(6 * m_phi) +
-            //                           0.45 * qSin(7 * m_phi) +
-            //                           0.4 * qSin(8 * m_phi) +
-            //                           0.3 * qSin(9 * m_phi) +
-            //                           0.3 * qSin(10 * m_phi) +
-            //                           0.3 * qSin(11 * m_phi) +
-            //                           0.2 * qSin(12 * m_phi));
-            //            }
-
-
-            //            double x = 0.8 * qSin(m_phi) +
-            //                    0.1 * qSin(2 * m_phi) +
-            //                    0.05 * qSin(3 * m_phi) +
-            //                    0.025 * qSin(4 * m_phi) +
-            //                    0.025 * qSin(5 * m_phi);
-
-            //            double x = 1/16.5 * (1.0 * qSin(m_phi) +
-            //                    9.0 * qSin(2 * m_phi) +
-            //                    4.0 * qSin(3 * m_phi) +
-            //                    2.0 * qSin(4 * m_phi) +
-            //                    0.5 * qSin(5 * m_phi));
-
-            //            double x = 1/1.6 * (1.0 * qSin(m_phi) +
-            //                    0.1 * qSin(2 * m_phi) +
-            //                    0.35 * qSin(3 * m_phi) +
-            //                    0.05 * qSin(4 * m_phi) +
-            //                    0.05 * qSin(5 * m_phi) +
-            //                    0.05 * qSin(6 * m_phi) );
-
-            signed short value = static_cast<signed short>(x * 32767);
-            aubuffer[sample] = value;
-        }
-
-        auIObuffer->write((const char*) &aubuffer[0], periodSize);
-        --chunks;
-    }
 }
