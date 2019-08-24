@@ -83,6 +83,7 @@ Rectangle {
 //                        audioPoints.stopAudio()
 //                        playSound.play()
                         curveMovingPoint.clearMouse()
+                        audioNotes.stopNotes()
                     }
                 }
             }
@@ -94,10 +95,13 @@ Rectangle {
                 } else if (window.mode === 1) {
                     //pointCanvas.drawMousePoint(mouseX, graphRect.width)
                     curveMovingPoint.setMouseX(myfunction,
-                                               mouseX,
-                                               settingsRect.minFreq,
-                                               settingsRect.maxFreq,
-                                               settingsRect.useNotes)
+                                               mouseX)
+                    audioNotes.setNote(myfunction,
+                                       mouseX,
+                                       width,
+                                       settingsRect.minFreq,
+                                       settingsRect.maxFreq,
+                                       settingsRect.useNotes)
                 }
             }
         }

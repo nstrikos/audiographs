@@ -1,16 +1,17 @@
-#ifndef CURVEABSTRACT_H
-#define CURVEABSTRACT_H
+#ifndef CURVEINTERFACE_H
+#define CURVEINTERFACE_H
 
 #include <QColor>
 #include "function.h"
+#include "point.h"
+#include <QVector>
 
-class CurveAbstract
+class CurveInterface
 {
-//    Q_PROPERTY(QColor color READ color WRITE setColor)
 
 public:
-    CurveAbstract();
-    ~CurveAbstract();
+    CurveInterface();
+    ~CurveInterface();
 
     void setColor(const QColor &color);
     QColor color() const;
@@ -22,4 +23,4 @@ protected:
     void calcCoords(int width, int height);
 };
 
-#endif // CURVEABSTRACT_H
+#endif // CURVEINTERFACE_H

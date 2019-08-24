@@ -453,18 +453,26 @@ Window {
             if (modeButton.running) {
                 modeButton.color = "light green"
                 timer1.running = true
-                test.start(controlsRect.expression,
-                           controlsRect.textInput2.text,
-                           controlsRect.textInput3.text,
-                           settingsRect.duration,
-                           settingsRect.minFreq,
-                           settingsRect.maxFreq)
+                if (settingsRect.useNotes == true) {
+                    audioNotes.startNotes(myfunction,
+                                          settingsRect.minFreq,
+                                          settingsRect.maxFreq,
+                                          settingsRect.duration)
+                } else {
+                    test.start(controlsRect.expression,
+                               controlsRect.textInput2.text,
+                               controlsRect.textInput3.text,
+                               settingsRect.duration,
+                               settingsRect.minFreq,
+                               settingsRect.maxFreq)
+                }
                 graphRect.curveMovingPoint.drawPoint(myfunction, settingsRect.duration)
             } else {
                 modeButton.color = "lightgray"
                 graphRect.curveMovingPoint.stopPoint()
                 timer1.running = false
                 test.stop()
+                audioNotes.stopNotes()
             }
         }
 

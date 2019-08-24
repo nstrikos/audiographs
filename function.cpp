@@ -1,5 +1,10 @@
 #include "function.h"
 
+Function::~Function()
+{
+
+}
+
 void Function::calculate(QString expression,
                          QString minX,
                          QString maxX,

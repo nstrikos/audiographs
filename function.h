@@ -13,6 +13,7 @@ class Function : public QObject
     Q_OBJECT
 
 public:
+    ~Function();
     Q_INVOKABLE void calculate(QString expression,
                                QString minX,
                                QString maxX,

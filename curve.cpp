@@ -13,7 +13,7 @@ Curve::Curve(QQuickItem *parent)
 
 Curve::~Curve()
 {
-
+    qDebug() << "Curve destructor called";
 }
 
 void Curve::draw(Function *function)

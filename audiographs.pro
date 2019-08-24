@@ -17,11 +17,12 @@ HEADERS       = \
     AndroidClient.h \
     atmsp.h \
     audioengine.h \
+    audionotes.h \
     audiooutput.h \
     audiopoints.h \
     constants.h \
     curve.h \
-    curveabstract.h \
+    curveinterface.h \
     curvemovingpoint.h \
     fparser/fparser.hh \
     fparser/fparser_gmpint.hh \
@@ -48,10 +49,11 @@ HEADERS       = \
 SOURCES       = \
     AndroidClient.cpp \
     audioengine.cpp \
+    audionotes.cpp \
     audiooutput.cpp \
     audiopoints.cpp \
     curve.cpp \
-    curveabstract.cpp \
+    curveinterface.cpp \
     curvemovingpoint.cpp \
     fparser/fparser.cc \
     fparser/fpoptimizer.cc \

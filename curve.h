@@ -2,10 +2,9 @@
 #define CURVE_H
 
 #include <QtQuick/QQuickItem>
-#include "curveabstract.h"
-#include "point.h"
+#include "curveinterface.h"
 
-class Curve : public QQuickItem, public CurveAbstract
+class Curve : public QQuickItem, public CurveInterface
 {
     Q_OBJECT
 
@@ -17,6 +16,7 @@ public:
 
     Q_INVOKABLE void draw(Function *function);
 
+private:
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
 };
 

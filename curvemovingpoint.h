@@ -3,14 +3,14 @@
 
 
 #include <QtQuick/QQuickItem>
-#include "curveabstract.h"
+#include "curveinterface.h"
 #include <QTimer>
 
 //#include "function.h"
 //#include "test.h"
 //#include "audiopoints.h"
 
-class CurveMovingPoint : public QQuickItem, public CurveAbstract
+class CurveMovingPoint : public QQuickItem, public CurveInterface
 {
     Q_OBJECT
 
@@ -24,9 +24,7 @@ public:
     Q_INVOKABLE void drawPoint(Function *function, int duration);
     Q_INVOKABLE void stopPoint();
 
-    QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
 
-    QTimer timer;
 
 //    Q_PROPERTY(double f0 READ f0 WRITE setF0)
 //    Q_PROPERTY(double f1 READ f1 WRITE setF1)
@@ -73,8 +71,8 @@ public:
 //    double f10() const;
 //    void setF10(double f10);
 
-//    Q_INVOKABLE void setMouseX(Function *function, int mouseX, int fmin, int fmax, bool useNotes);
-//    Q_INVOKABLE void clearMouse();
+    Q_INVOKABLE void setMouseX(Function *function, int mouseX);
+    Q_INVOKABLE void clearMouse();
 
     double slowPoint() const;
     void setSlowPoint(double useSlowPoint);
@@ -95,8 +93,12 @@ private:
 
     double m_X;
     double m_Y;
+    QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
+    QTimer timer;
 
-//    int m_mouseX;
+
+
+    int m_mouseX;
 
 //    AudioPoints m_audioPoints;
 //    Test m_test;

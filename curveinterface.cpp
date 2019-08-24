@@ -1,16 +1,17 @@
-#include "curveabstract.h"
+#include "curveinterface.h"
+#include <QDebug>
 
-CurveAbstract::CurveAbstract()
+CurveInterface::CurveInterface()
 {
     m_function = nullptr;
 }
 
-CurveAbstract::~CurveAbstract()
+CurveInterface::~CurveInterface()
 {
-
+    qDebug() << "curve interface destructor called";
 }
 
-void CurveAbstract::calcCoords(int width, int height)
+void CurveInterface::calcCoords(int width, int height)
 {
     if (m_function != nullptr) {
         m_points.clear();
@@ -35,12 +36,12 @@ void CurveAbstract::calcCoords(int width, int height)
     }
 }
 
-QColor CurveAbstract::color() const
+QColor CurveInterface::color() const
 {
     return m_color;
 }
 
-void CurveAbstract::setColor(const QColor &color)
+void CurveInterface::setColor(const QColor &color)
 {
     m_color = color;
 }

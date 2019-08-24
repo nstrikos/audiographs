@@ -5,10 +5,11 @@
 #include "function.h"
 #include "parameters.h"
 #include "test.h"
-#include "audiopoints.h"
-#include "texttospeech.h"
+//#include "audiopoints.h"
+#include "audionotes.h"
+//#include "texttospeech.h"
 
-#include "AndroidClient.h"
+//#include "AndroidClient.h"
 
 #include "curve.h"
 #include "curvemovingpoint.h"
@@ -28,8 +29,9 @@ int main(int argc, char *argv[])
     Function function;
     Parameters parameters;
     Test test;
-    AudioPoints audioPoints;
-    TextToSpeech textToSpeech(parameters);
+//    AudioPoints audioPoints;
+    AudioNotes audioNotes;
+//    TextToSpeech textToSpeech(parameters);
 
     //#ifndef Q_OS_ANDROID
     //    QApplication application(argc, argv);
@@ -48,11 +50,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("myfunction", &function);
     engine.rootContext()->setContextProperty("myparameters", &parameters);
     engine.rootContext()->setContextProperty("test", &test);
-    engine.rootContext()->setContextProperty("audioPoints", &audioPoints);
-    engine.rootContext()->setContextProperty("texttospeech", &textToSpeech);
+    engine.rootContext()->setContextProperty("audioNotes", &audioNotes);
+//    engine.rootContext()->setContextProperty("texttospeech", &textToSpeech);
 
-    AndroidClient androidClient(&engine);
-    engine.rootContext()->setContextProperty("androidClient", &androidClient);
+//    AndroidClient androidClient(&engine);
+//    engine.rootContext()->setContextProperty("androidClient", &androidClient);
 
 
     engine.load(QUrl(QStringLiteral("qrc:/mainmain.qml")));
