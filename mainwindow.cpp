@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->minYLineEdit->installEventFilter(this);
     ui->maxYLineEdit->installEventFilter(this);
     ui->startSoundPushButton->installEventFilter(this);
+    ui->helpPushButton->installEventFilter(this);
     ui->previousPushButton->installEventFilter(this);
     ui->nextPushButton->installEventFilter(this);
     ui->xPushButton->installEventFilter(this);
@@ -1230,7 +1231,10 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         } else if (obj == ui->maxFreqSpinBox) {
             accessText(ui->maxFreqSpinBox, ui->maxFreqSpinBox->text() + " hertz");
         } else if (obj == ui->precisionDigitsSpinBox) {
-            accessText(ui->precisionDigitsSpinBox, ui->precisionDigitsSpinBox->text() + " digits");
+            if (ui->precisionDigitsSpinBox->value() == 1)
+                accessText(ui->precisionDigitsSpinBox, ui->precisionDigitsSpinBox->text() + " digit");
+            else
+                accessText(ui->precisionDigitsSpinBox, ui->precisionDigitsSpinBox->text() + " digits");
         }  else if (obj == ui->selfVoiceCheckBox) {
             QString text = (ui->selfVoiceCheckBox->isChecked() ? "checked" : "not checked");
             accessText(ui->selfVoiceCheckBox, text);
@@ -1363,9 +1367,15 @@ void MainWindow::decPrecision()
 
 void MainWindow::precisionDigitsSpinboxValueChanged(int value)
 {
+    QString text;
+
     m_parameters->setPrecisionDigits(value);
-    accessText(ui->precisionDigitsSpinBox, QString::number(value) + " digits");
-    updateLabelText(tr("Precision ") + QString::number(value) + tr(" digits"));
+    if (value == 1)
+        text = tr("digit");
+    else
+        text = tr("digits");
+    accessText(ui->precisionDigitsSpinBox, QString::number(value) + text);
+    updateLabelText(tr("Precision ") + QString::number(value) + text);
 }
 
 void MainWindow::selfVoiceCheckBoxStateChanged()

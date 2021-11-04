@@ -42,7 +42,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-656</y>
          <width>300</width>
          <height>1564</height>
         </rect>
@@ -359,7 +359,7 @@
            </font>
           </property>
           <property name="accessibleName">
-           <string>F1 help</string>
+           <string>F1 help push button</string>
           </property>
           <property name="accessibleDescription">
            <string>F1 help</string>
@@ -403,7 +403,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Page down Previous pushbutton</string>
+              <string>Page down Previous push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Previous pushbutton</string>
@@ -435,7 +435,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>page up Next pushbutton</string>
+              <string>page up Next push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Next pushbutton</string>
@@ -467,7 +467,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Contro plus X X coordinate pushbutton</string>
+              <string>Contro plus X X coordinate push button</string>
              </property>
              <property name="accessibleDescription">
               <string>X coordinate</string>
@@ -499,7 +499,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus Y Y coordinate pushbutton</string>
+              <string>Control plus Y Y coordinate push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Y coordinate</string>
@@ -531,7 +531,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Derivative</string>
+              <string>Control + D Derivative push button</string>
              </property>
              <property name="text">
               <string>Ctrl+D - Derivative</string>
@@ -560,7 +560,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus left Previous point of interest pushbutton</string>
+              <string>Control plus left Previous point of interest push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Previous point of interest</string>
@@ -592,7 +592,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus right Next point of interest pushbutton</string>
+              <string>Control plus right Next point of interest push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Next point of interest</string>
@@ -624,7 +624,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>shift plus left Previous point fast pushbutton</string>
+              <string>shift plus left Previous point fast push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Previous point fast</string>
@@ -656,7 +656,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Shift plus right Next point fast pushbutton</string>
+              <string>Shift plus right Next point fast push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Next point fast</string>
@@ -688,7 +688,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Home First point pushbutton</string>
+              <string>Home First point push button</string>
              </property>
              <property name="accessibleDescription">
               <string>First point</string>
@@ -720,7 +720,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>End - Last point pushbutton</string>
+              <string>End - Last point push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Last point</string>
@@ -752,7 +752,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus left bracket Decrease step pushbutton</string>
+              <string>Control plus left bracket Decrease step push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Decrease step</string>
@@ -784,7 +784,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus right bracket Increase step pushbutton</string>
+              <string>Control plus right bracket Increase step push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Increase step</string>
@@ -816,7 +816,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus zero Normal mode pushbutton</string>
+              <string>Control plus zero Normal mode push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Normal mode</string>
@@ -848,7 +848,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus one First derivative pushbutton</string>
+              <string>Control plus one First derivative push button</string>
              </property>
              <property name="accessibleDescription">
               <string>First derivative</string>
@@ -880,7 +880,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Control plus two Second derivative pushbutton</string>
+              <string>Control plus two Second derivative push button</string>
              </property>
              <property name="accessibleDescription">
               <string>Second derivative</string>
@@ -928,7 +928,7 @@
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>duration spinbox</string>
+                   <string>duration spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>duration spinox</string>
@@ -969,7 +969,7 @@
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>minimum frequency spinbox</string>
+                   <string>minimum frequency spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>minimum frequency</string>
@@ -1013,7 +1013,7 @@
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>maximum frequency spinbox</string>
+                   <string>maximum frequency spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>maximum frequency</string>
@@ -1057,7 +1057,7 @@
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>precision digits spinbox</string>
+                   <string>precision digits spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>precision digits</string>
@@ -1091,7 +1091,7 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>self voice checkbox</string>
+                 <string>self voice check box</string>
                 </property>
                 <property name="accessibleDescription">
                  <string>self voice checkbox</string>
@@ -1126,7 +1126,7 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>use notes</string>
+                 <string>use notes check box</string>
                 </property>
                 <property name="accessibleDescription">
                  <string>use notes</string>
@@ -1158,7 +1158,7 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>Use different notes for negative values</string>
+                 <string>Use different notes for negative values check box</string>
                 </property>
                 <property name="text">
                  <string>F4 - Use different notes
@@ -1176,7 +1176,7 @@ for negative values</string>
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>Reset audio parameters pushbutton</string>
+                 <string>Reset audio parameters push button</string>
                 </property>
                 <property name="text">
                  <string>Reset audio parameters</string>
@@ -1229,7 +1229,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>Graph color pushbutton</string>
+                   <string>Graph color push button</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -1275,7 +1275,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>Background color pushbutton</string>
+                   <string>Background color push button</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -1321,7 +1321,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>Highlight color pushbutton</string>
+                   <string>Highlight color push button</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -1367,7 +1367,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>Axes color pushbutton</string>
+                   <string>Axes color push button</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -1407,7 +1407,7 @@ for negative values</string>
                    </size>
                   </property>
                   <property name="accessibleName">
-                   <string>Derivative color pushbutton</string>
+                   <string>Derivative color push button</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -1453,7 +1453,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>graph width spinbox</string>
+                   <string>graph width spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>graph width</string>
@@ -1505,7 +1505,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>highlight size spinbox</string>
+                   <string>highlight size spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>highlight size</string>
@@ -1557,7 +1557,7 @@ for negative values</string>
                    </font>
                   </property>
                   <property name="accessibleName">
-                   <string>axes size spinbox</string>
+                   <string>axes size spin box</string>
                   </property>
                   <property name="accessibleDescription">
                    <string>axes size</string>
@@ -1582,7 +1582,7 @@ for negative values</string>
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>show grid checkbutton</string>
+                 <string>show grid check button</string>
                 </property>
                 <property name="accessibleDescription">
                  <string>show grid</string>
@@ -1605,7 +1605,7 @@ for negative values</string>
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>Reset graph settings pushbutton</string>
+                 <string>Reset graph settings push button</string>
                 </property>
                 <property name="text">
                  <string>Reset graph settings</string>
