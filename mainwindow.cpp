@@ -1374,8 +1374,8 @@ void MainWindow::precisionDigitsSpinboxValueChanged(int value)
         text = tr("digit");
     else
         text = tr("digits");
-    accessText(ui->precisionDigitsSpinBox, QString::number(value) + text);
-    updateLabelText(tr("Precision ") + QString::number(value) + text);
+    accessText(ui->precisionDigitsSpinBox, QString::number(value) + " " + text);
+    updateLabelText(tr("Precision ") + QString::number(value) + " " + text);
 }
 
 void MainWindow::selfVoiceCheckBoxStateChanged()
