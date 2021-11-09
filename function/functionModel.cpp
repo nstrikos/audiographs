@@ -429,7 +429,7 @@ bool FunctionModel::validLimit(double x)
 int FunctionModel::size()
 {
     //return m_points.size();
-    return 10000;
+    return LINE_POINTS;
 }
 
 void FunctionModel::calculateDerivative()

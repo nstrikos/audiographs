@@ -6,6 +6,7 @@ using namespace std;
 
 #include <QObject>
 
+#include "constants.h"
 
 class Point
 {
@@ -28,7 +29,7 @@ public:
     bool validAt(int i);
 
 private:
-    array<Point, 10000> m_points;
+    array<Point, LINE_POINTS> m_points;
 };
 
 #endif // POINT_H

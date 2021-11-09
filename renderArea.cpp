@@ -100,7 +100,7 @@ void RenderArea::calcCoordinates()
 
     Point tmpPoint;
 
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < LINE_POINTS; i++) {
         if (m_points->validAt(i)) {
             int k = static_cast<int>( round(  w / (m_xMax - m_xMin) * (m_points->xAt(i) - m_xMin) ));
             int l = static_cast<int>( round( (h / (m_yMax - m_yMin) * (m_points->yAt(i) - m_yMin) )));
@@ -130,7 +130,7 @@ void RenderArea::calcDerivCoordinates()
 
     Point tmpPoint;
 
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < LINE_POINTS; i++) {
         if (m_points->validAt(i)) {
             int k = static_cast<int>( round(  w / (m_xMax - m_xMin) * (m_derivPoints->xAt(i) - m_xMin) ));
             int l = static_cast<int>( round( (h / (m_yMax - m_yMin) * (m_derivPoints->yAt(i) - m_yMin) ) ));
