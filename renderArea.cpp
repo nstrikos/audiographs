@@ -100,10 +100,12 @@ void RenderArea::calcCoordinates()
 
     Point tmpPoint;
 
+    double k, l;
+
     for (int i = 0; i < LINE_POINTS; i++) {
         if (m_points->validAt(i)) {
-            int k = static_cast<int>( round(  w / (m_xMax - m_xMin) * (m_points->xAt(i) - m_xMin) ));
-            int l = static_cast<int>( round( (h / (m_yMax - m_yMin) * (m_points->yAt(i) - m_yMin) )));
+            k = (w / (m_xMax - m_xMin) * (m_points->xAt(i) - m_xMin));
+            l = (h / (m_yMax - m_yMin) * (m_points->yAt(i) - m_yMin));
             l = h - l;
             tmpPoint.x = k;
             tmpPoint.y = l;
@@ -130,10 +132,12 @@ void RenderArea::calcDerivCoordinates()
 
     Point tmpPoint;
 
+    double k, l;
+
     for (int i = 0; i < LINE_POINTS; i++) {
         if (m_points->validAt(i)) {
-            int k = static_cast<int>( round(  w / (m_xMax - m_xMin) * (m_derivPoints->xAt(i) - m_xMin) ));
-            int l = static_cast<int>( round( (h / (m_yMax - m_yMin) * (m_derivPoints->yAt(i) - m_yMin) ) ));
+            k = (w / (m_xMax - m_xMin) * (m_derivPoints->xAt(i) - m_xMin));
+            l = (h / (m_yMax - m_yMin) * (m_derivPoints->yAt(i) - m_yMin));
             l = h - l;
             tmpPoint.x = k;
             tmpPoint.y = l;
@@ -163,11 +167,9 @@ void RenderArea::paintEvent(QPaintEvent *event)
     painter.setBrush(pointBrush);
     painter.setPen(Qt::NoPen);
 
+    double radius = m_parameters->lineWidth();
     for (int i = 0; i < m_coordPoints.size(); i++) {
-        int center_x = m_coordPoints.at(i).x;
-        int center_y = m_coordPoints.at(i).y;
-        int radius = m_parameters->lineWidth();
-        QRectF rectangle(center_x - radius / 2, center_y - radius / 2, radius, radius );
+        QRectF rectangle(m_coordPoints.at(i).x - radius / 2.0 , m_coordPoints.at(i).y - radius / 2.0, radius, radius );
         painter.drawRect(rectangle);
     }
 
@@ -176,19 +178,17 @@ void RenderArea::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::NoPen);
 
     for (int i = 0; i < m_derivCoordPoints.size(); i++) {
-        int center_x = m_derivCoordPoints.at(i).x;
-        int center_y = m_derivCoordPoints.at(i).y;
-        int radius = m_parameters->lineWidth();
-        QRectF rectangle(center_x - radius / 2, center_y - radius / 2, radius, radius );
+        QRectF rectangle(m_derivCoordPoints.at(i).x - radius / 2.0, m_derivCoordPoints.at(i).y - radius / 2.0, radius, radius );
         painter.drawRect(rectangle);
     }
 
+
+    radius = m_parameters->highlightSize();
     if (m_showCurrentPoint) {
         QBrush brush3(m_parameters->highlightColor());
         painter.setBrush(brush3);
-        painter.setPen(Qt::NoPen);
-        int radius = m_parameters->highlightSize();
-        QRectF rectangle(m_x - radius / 2, m_y - radius / 2, radius, radius );
+        painter.setPen(Qt::NoPen);        
+        QRectF rectangle(m_x - radius / 2.0, m_y - radius / 2.0, radius, radius );
         if (m_y == m_y) //check for nan (not a number)
             painter.drawEllipse(rectangle);
         painter.setPen(linePen);
