@@ -21,10 +21,12 @@ void FunctionDisplayViewInterface::calcCoords(int width, int height)
 
     Point tmpPoint;
 
+    double k, l;
+
     for (int i = 0; i < LINE_POINTS; i++) {
         if (m_points->validAt(i)) {
-            int k = static_cast<int>( round(  width / (m_xMax - m_xMin) * (m_points->xAt(i) - m_xMin) ));
-            int l = static_cast<int>( round( (height / (m_yMax - m_yMin) * (m_points->yAt(i) - m_yMin))));
+            k = (width / (m_xMax - m_xMin) * (m_points->xAt(i) - m_xMin));
+            l = (height / (m_yMax - m_yMin) * (m_points->yAt(i) - m_yMin));
             l = height - l;
             tmpPoint.x = k;
             tmpPoint.y = l;
