@@ -80,7 +80,7 @@ void AudioNotes::setNoteFromMouse(int mouseX, int width, int fmin, int fmax, boo
             l = m_model.y(i);
         else
             l = m_model.derivative(i);
-        if (l >= 0)
+        if (!std::signbit(l))
             n = true;
         else
             n = false;
@@ -144,7 +144,7 @@ void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNotes, in
             l = m_model.derivative(m_currentPoint);
 
         if (useNegativeNotes) {
-            if (l >= 0)
+            if (!std::signbit(l))
                 n = true;
             else
                 n = false;
@@ -218,7 +218,7 @@ void AudioNotes::timerExpired()
         else
             l = m_model.derivative(i);
         if (m_useNegativeNotes) {
-            if (l >= 0)
+            if (!std::signbit(l))
                 n = true;
             else
                 n = false;
