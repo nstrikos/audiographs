@@ -43,7 +43,7 @@ FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     symbol_table.add_function(
-                "powerint",
+                "pwr",
                 [](double v0, double v1, double v2) -> double
     {
 
@@ -73,47 +73,47 @@ FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
         }
     });
 
-    symbol_table.add_function(
-                "power",
-                [](double v0, double v1) -> double
-    {
+//    symbol_table.add_function(
+//                "power",
+//                [](double v0, double v1) -> double
+//    {
 
-        QString n = QString::number(v1);
-        int position = n.indexOf(".");
-        int count;
+//        QString n = QString::number(v1);
+//        int position = n.indexOf(".");
+//        int count;
 
-        if (position == -1)
-            return pow(v0, v1);
-        else
-            n = n.right(n.length() - position - 1);
+//        if (position == -1)
+//            return pow(v0, v1);
+//        else
+//            n = n.right(n.length() - position - 1);
 
-        count = n.size();
-        int b = pow(10, count);
+//        count = n.size();
+//        int b = pow(10, count);
 
-        int a = (int) (v1 * b);
+//        int a = (int) (v1 * b);
 
-        int d = mygcd(a, b);
+//        int d = mygcd(a, b);
 
-        a = a / d;
-        b = b / d;
+//        a = a / d;
+//        b = b / d;
 
-        double ratio = (double) a / b;
+//        double ratio = (double) a / b;
 
-        int sign;
-        if (v0 > 0) sign = 1;
-        if (v0 < 0) sign = -1;
-        if (v0 == 0) sign = 0;
+//        int sign;
+//        if (v0 > 0) sign = 1;
+//        if (v0 < 0) sign = -1;
+//        if (v0 == 0) sign = 0;
 
-        if ((int)b % 2 == 0) {
-            return pow(v0, ratio);
-        } else {
-            if ((int)a % 2 == 0) {
-                return pow(abs(v0), ratio);
-            } else {
-                return sign * pow(abs(v0), ratio);
-            }
-        }
-    });
+//        if ((int)b % 2 == 0) {
+//            return pow(v0, ratio);
+//        } else {
+//            if ((int)a % 2 == 0) {
+//                return pow(abs(v0), ratio);
+//            } else {
+//                return sign * pow(abs(v0), ratio);
+//            }
+//        }
+//    });
 
     symbol_table.add_variable("x",m_x);
     symbol_table.add_constant("pi", M_PI);
