@@ -130,7 +130,7 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
 
     parser_expression.register_symbol_table(symbol_table);
 #else
-    m_fparser.AddFunction("powerint", powerint, 3);
+    m_fparser.AddFunction("pwr", pwr, 3);
 #endif
 }
 

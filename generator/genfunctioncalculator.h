@@ -10,7 +10,7 @@ using namespace std;
 #include "parsers/exprtk/exprtk.hpp"
 #else
 #include "parsers/fparser/fparser.hh"
-double powerint(const double* p);
+double pwr(const double* p);
 #endif
 
 class GenFunctionCalculatorThread : public QThread

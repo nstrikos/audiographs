@@ -11,7 +11,7 @@ int mygcd(int a, int b)
 
 #if defined Q_OS_WIN || defined(Q_OS_ANDROID)
 
-double powerint(const double *p)
+double pwr(const double *p)
 {
     int a = p[1];
     int b = p[2];
@@ -122,7 +122,7 @@ FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
     parser_expression.register_symbol_table(symbol_table);
 
 #else
-    m_fparser.AddFunction("powerint", powerint, 3);
+    m_fparser.AddFunction("pwr", pwr, 3);
 #endif
 }
 

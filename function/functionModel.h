@@ -12,7 +12,7 @@ typedef exprtk::expression<double>     expression_t;
 typedef exprtk::parser<double>             parser_t;
 #else
 #include "parsers/fparser/fparser.hh"
-double powerint(const double* p);
+double pwr(const double* p);
 #endif
 
 int mygcd(int a, int b);
