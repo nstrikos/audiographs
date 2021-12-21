@@ -15,7 +15,7 @@
       <li><a href="#Quick_introduction">Quick introduction</a></li>
       <li><a href="#User_guide">User guide</a></li>
       <li><a href="#Application_shortcuts">Application shortcuts</a></li>
-      <li><a href="#Table_functions">Table of supported functions</a></li>
+      <li><a href="#Table_functions">List of supported functions</a></li>
     </ol>
     <br>
     <h3><a name="Quick_introduction"></a>1. Quick introduction</h3>
@@ -340,6 +340,21 @@ function has positive curvature, at the right of 0.00 the function has negative 
     11. So the function has positive curvature till it reaches 0.00 and then the function has negative curvature till it reaches the
 ending point.<br>
     <p> </p>
+<h4>Exercise 12. Study function f(x) = x^(2/3)<br> </h4>
+    0. Start the application or press Control plus N to start a new expression if you already study an expression <br>
+    1. Don't use the ^ operand. ^ operand in the form of x^(a/b) may not produce correct result. Use instead the powint function. Press p o w i n t ( x , 2 , 3 )<br>
+    2. Press Enter. You will hear the function going down and then going up.<br>
+    3. Press Home. You will hear that you are at the starting point.<br>
+    4. Press Control + x. You will hear -10.00<br>
+    5. Press Control + y. You will hear 4.64<br>
+    6. Press Control + right. You will reach local minimum.<br>
+    7. Press Control + x. You will hear 0.00<br>
+    8. Press Control + y. You will hear 0.00<br>
+    9. Press Control + right. You will reach ending point.<br>
+    10. Press Control + x. You will hear 10.00<br>
+    11. Press Control + y. You will hear 4.64<br>
+    12. So the function starts at (-10, 4.64) goes to a minimum at (0,0) and then goes up to (10, 4.64)
+    <p> </p>
     <h3><a name="Application_shortcuts"></a>3. Application shortcuts</h3>
     <p> </p>
     <p>Help dialog - F1<br>
@@ -396,6 +411,51 @@ ending point.<br>
     <p> </p>
     <p>Recent function expressions - Alt + 1 to 9</p>
     <p> </p>
+    <h3><a name="Table_functions"></a>3. List of supported functions</h3>
+Audiographs uses Function Parser for C++. <br>
+For more information visit <a href="http://warp.povusers.org/FunctionParser/fparser.html">http://warp.povusers.org/FunctionParser/fparser.html</a>
+    <p><h4>abs(A)</h4> 	Absolute value (magnitude) of A. With real numbers, if A is negative, returns -A otherwise returns A. With complex numbers, equivalent to hypot(real(x),imag(x)).<br>
+<h4>acos(A)</h4> 	Arc-cosine of A. Returns the angle, measured in radians, whose cosine is A.<br>
+<h4>acosh(A)</h4> 	Same as acos() but for hyperbolic cosine.<br>
+<h4>arg(A)</h4> 	Phase angle of complex number A. Equivalent to atan2(imag(x),real(x)).<br>
+<h4>asin(A)</h4> 	Arc-sine of A. Returns the angle, measured in radians, whose sine is A.<br>
+<h4>asinh(A)</h4> 	Same as asin() but for hyperbolic sine.<br>
+<h4>atan(A)</h4> 	Arc-tangent of (A). Returns the angle, measured in radians, whose tangent is A.<br>
+<h4>atan2(A,B)</h4> 	Principal arc-tangent of A/B, using the signs of the two arguments to determine the quadrant of the result. Returns the solution to the two expressions hypot(A,B)*sin(x)=A, hypot(A,B)*cos(x)=B. The return value is in range -pi to pi, inclusive.<br>
+<h4>atanh(A)</h4> 	Same as atan() but for hyperbolic tangent.<br>
+<h4>cbrt(A)</h4> 	Cube root of A. Returns a solution to expression pow(x,3)=A.<br>
+<h4>conj(A)</h4> 	Complex conjugate of A. Equivalent to real(x) - 1i*imag(x) or polar(abs(x),-arg(x)).<br>
+<h4>ceil(A)</h4> 	Ceiling of A. Returns the smallest integer not smaller than A. Rounds up to the next higher integer. E.g. -2.9, -2.5 and -2.1 are rounded to -2.0, and 2.9, 2.5 and 2.1 are rounded to 3.0.<br>
+<h4>cos(A)</h4> 	Cosine of A. Returns the cosine of the angle A, where A is measured in radians.<br>
+<h4>cosh(A)</h4> 	Same as cos() but for hyperbolic cosine.<br>
+<h4>cot(A)</h4> 	Cotangent of A. Equivalent to 1/tan(A).<br>
+<h4>csc(A)</h4> 	Cosecant of A. Equivalent to 1/sin(A).<br>
+<h4>eval(...)</h4> 	This a recursive call to the function to be evaluated. The number of parameters must be the same as the number of parameters taken by the function. Must be called inside if() to avoid infinite recursion.<br>
+<h4>exp(A)</h4> 	Exponential of A. Returns the value of e raised to the power A where e is the base of the natural logarithm, i.e. the non-repeating value approximately equal to 2.71828182846.<br>
+<h4>exp2(A)</h4> 	Base 2 exponential of A. Equivalent to pow(2,A).<br>
+<h4>floor(A)</h4> 	Floor of A. Returns the largest integer not greater than A. Rounds down to the next lower integer. E.g. -2.9, -2.5 and -2.1 are rounded to -3.0, and 2.9, 2.5 and 2.1 are rounded to 2.0.<br>
+<h4>hypot(A,B)</h4> 	Euclidean distance function. Equivalent to sqrt(A^2+B^2).<br>
+<h4>if(A,B,C)</h4> 	If int(A) differs from 0, the return value of this function is B, else C. Only the parameter which needs to be evaluated is evaluated, the other parameter is skipped; this makes it safe to use eval() in them.<br>
+<h4>imag(A)</h4> 	Return the imaginary part of complex number A. Equivalent to abs(A)*sin(arg(A)).<br>
+<h4>int(A)</h4> 	Rounds A to the closest integer. Equidistant values are rounded away from zero. E.g. -2.9 and -2.5 are rounded to -3.0; -2.1 is rounded to -2.0, and 2.9 and 2.5 are rounded to 3.0; 2.1 is rounded to 2.0.<br>
+<h4>log(A)</h4> 	Natural (base e) logarithm of A. Returns the solution to expression exp(x)=A.<br>
+<h4>log2(A)</h4> 	Base 2 logarithm of A. Equivalent to log(A)/log(2).<br>
+<h4>log10(A)</h4> 	Base 10 logarithm of A.<br>
+<h4>max(A,B)</h4> 	If A>B, the result is A, else B.<br>
+<h4>min(A,B)</h4> 	If A < B, the result is A, else B.<br>
+<h4>polar(A,B)</h4> 	Returns a complex number from magnitude A, phase angle B (in radians). Equivalent to real(A)*(cos(real(B))+1i*sin(real(B))).<br>
+<h4>pow(A,B)</h4> 	Exponentiation (A raised to the power B).<br>
+<h4>powint(A,B,C)</h4>     Exponentiation (A raised to the power B / C). B and C must be integers.<br>
+<h4>real(A)</h4> 	Return the real part of complex number A. Equivalent to abs(A)*cos(arg(A)).<br>
+<h4>sec(A)/</h4> 	Secant of A. Equivalent to 1/cos(A).<br>
+<h4>sin(A)</h4> 	Sine of A. Returns the sine of the angle A, where A is measured in radians.<br>
+<h4>sinh(A)</h4> 	Same as sin() but for hyperbolic sine.<br>
+<h4>sqrt(A)</h4> 	Square root of A. Returns a solution to expression pow(x,2)=A.<br>
+<h4>tan(A)</h4> 	Tangent of A. Returns the tangent of the angle A, where A is measured in radians.<br>
+<h4>tanh(A)</h4> 	Same as tan() but for hyperbolic tangent.<br>
+<h4>trunc(A)</h4> 	Truncated value of A. Returns an integer corresponding to the value of A without its fractional part. E.g. -2.9, -2.5 and -2.1 are rounded to -2.0, and 2.9, 2.5 and 2.1 are rounded to 2.0. </p><br>
+
+
     <p>
       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     </p>
