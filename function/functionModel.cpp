@@ -11,7 +11,7 @@ int mygcd(int a, int b)
 
 #if defined Q_OS_WIN || defined(Q_OS_ANDROID)
 
-double pwr(const double *p)
+double powint(const double *p)
 {
     int a = p[1];
     int b = p[2];
@@ -43,7 +43,7 @@ FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     symbol_table.add_function(
-                "pwr",
+                "powint",
                 [](double v0, double v1, double v2) -> double
     {
 
@@ -122,7 +122,7 @@ FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
     parser_expression.register_symbol_table(symbol_table);
 
 #else
-    m_fparser.AddFunction("pwr", pwr, 3);
+    m_fparser.AddFunction("powint", powint, 3);
 #endif
 }
 

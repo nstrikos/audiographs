@@ -51,7 +51,7 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     symbol_table.add_function(
-                "pwr",
+                "powint",
                 [](double v0, double v1, double v2) -> double
     {
 
@@ -130,7 +130,7 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
 
     parser_expression.register_symbol_table(symbol_table);
 #else
-    m_fparser.AddFunction("pwr", pwr, 3);
+    m_fparser.AddFunction("powint", powint, 3);
 #endif
 }
 
