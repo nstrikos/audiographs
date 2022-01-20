@@ -651,7 +651,7 @@ void FunctionModel::refreshDerivative()
         else {
             tmpPoint.isValid = false;
         }
-        m_derivPoints.setPoint(i, tmpPoint);
+        m_firstDerivPoints.setPoint(i, tmpPoint);
     }
 
 
@@ -665,55 +665,54 @@ void FunctionModel::refreshDerivative()
     double x_init;
     double x;
     double result;
+    int res;
+
+    double y0, y1, y2, y3;
 
     for (int i = 0; i < LINE_POINTS; i++) {
         x_init = m_points.xAt(i);
-        x = x_init + h2;
-        vals[0] = x;
-        double y0 = m_fparser.Eval(vals);
-        x = x_init + h;
-        vals[0] = x;
-        double y1 = m_fparser.Eval(vals);
-        x = x_init - h;
-        vals[0] = x;
-        double y2 = m_fparser.Eval(vals);
-        x = x_init - h2;
-        vals[0] = x;
-        double y3 = m_fparser.Eval(vals);
 
+        vals[0] = x_init;
         tmpPoint.x = x_init;
-        result = (-y0 + 8 * (y1 - y2) + y3) / (12 * h);
+        m_fparser.Eval(vals);
+        res = m_fparser.EvalError();
 
-        tmpPoint.y = result;
-
-        if (result != result)
+        if (res > 0) {
             tmpPoint.isValid = false;
-        else
-            tmpPoint.isValid = true;
+        } else {
+            x = x_init + h2;
+            vals[0] = x;
+            y1 = m_fparser.Eval(vals);
+            x = x_init - h;
+            vals[0] = x;
+            y2 = m_fparser.Eval(vals);
+            x = x_init - h2;
+            vals[0] = x;
+            y3 = m_fparser.Eval(vals);
 
-        m_derivPoints.setPoint(i, tmpPoint);
+            result = (-y0 + 8 * (y1 - y2) + y3) / (12 * h);
+
+            tmpPoint.y = result;
+
+            if (result != result)
+                tmpPoint.isValid = false;
+            else
+                tmpPoint.isValid = true;
+        }
+
+        m_firstDerivPoints.setPoint(i, tmpPoint);
     }
-
-
-
 #endif
-
-    m_minDerivValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
-    m_maxDerivValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
-
-    for (int i = 1; i < LINE_POINTS; i++) {
-        if (!m_derivPoints.validAt(i))
-            continue;
-        if (m_derivPoints.yAt(i) < m_minDerivValue)
-            m_minDerivValue = m_derivPoints.yAt(i);
-        if (m_derivPoints.yAt(i) > m_maxDerivValue)
-            m_maxDerivValue = m_derivPoints.yAt(i);
-    }
 }
 
 double FunctionModel::derivative(int i)
 {
     return m_derivPoints.yAt(i);
+}
+
+double FunctionModel::firstDerivative(int i)
+{
+    return m_firstDerivPoints.yAt(i);
 }
 
 bool FunctionModel::validExpression() const

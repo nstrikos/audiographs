@@ -17,7 +17,7 @@ class FunctionDescription
 {
 public:
     FunctionDescription();
-    QVector<InterestingPoint> points(FunctionModel *model);
+    QVector<InterestingPoint> points(FunctionModel *model, int derivativeMode);
 
 private:
     QVector<InterestingPoint> m_points;

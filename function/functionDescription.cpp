@@ -7,7 +7,7 @@ FunctionDescription::FunctionDescription()
 
 }
 
-QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
+QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model, int derivativeMode)
 {
     InterestingPoint tmp;
     m_points.clear();
@@ -20,9 +20,14 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
     if (model == nullptr)
         return m_points;
     else {
+
+        if (derivativeMode == 2 || derivativeMode == 1)
+            model->refreshDerivative();
+
         int prev = 0;
         int next = 0;
         for (int i = 0; i < model->size(); i++) {
+            tmp.label = "";
             if (!model->isValid(i))
                 continue;
             prev = i - 1;
@@ -32,34 +37,10 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
             if (next >= model->size())
                 next = model->size() - 1;
 
-            //            if (model->isValid(next)) {
-            //                if (model->y(i) * model->y(next) <= 0) {
-            //                    tmp.x = i;
-            //                    tmp.y = model->y(i);
-            //                    tmp.label = "zero";
-            //                    m_points.append(tmp);
-            //                }
-            //            }
-
-            //            if (model->isValid(next)) {
-            //                if (model->x(i) == 0) {
-            //                    tmp.x = i;
-            //                    tmp.y = model->y(i);
-            //                    tmp.label = "y crossing";
-            //                    m_points.append(tmp);
-            //                } else if (model->x(i) * model->x(next) < 0 && (model->x(i) < 0)) {
-            //                    tmp.x = i;
-            //                    tmp.y = model->y(i);
-            //                    tmp.label = "y crossing";
-            //                    m_points.append(tmp);
-            //                }
-            //            }
-
             if (!model->isValid(prev) && !model->isValid(next)) {
                 tmp.x = i;
                 tmp.y = model->y(i);
-                tmp.label = "edge";
-                m_points.append(tmp);
+                tmp.label += " edge";
             } else if (!model->isValid(prev) && model->isValid(next)) {
 
                 if (!model->validLimit(model->x(prev))) {
@@ -67,8 +48,7 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
                     if (model->y(i) > model->y(next)) {
                         tmp.x = i;
                         tmp.y = model->y(i);
-                        tmp.label = "maximum";
-                        m_points.append(tmp);
+                        tmp.label += " maximum";
                     }
                 }
             } else if (model->isValid(prev) && !model->isValid(next)) {
@@ -78,16 +58,28 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
                     if (model->y(i) > model->y(prev)) {
                         tmp.x = i;
                         tmp.y = model->y(i);
-                        tmp.label = "maximum";
-                        m_points.append(tmp);
+                        tmp.label += " maximum";
                     }
                 }
             } else if (model->isValid(prev) && model->isValid(next)) {
                 if (model->y(i) > model->y(prev) && model->y(i) > model->y(next)) {
                     tmp.x = i;
                     tmp.y = model->y(i);
-                    tmp.label = "local maximum";
-                    m_points.append(tmp);
+                    tmp.label += " local maximum";
+                }
+
+                if (derivativeMode == 2) {
+                    if ( (model->firstDerivative(i) < model->firstDerivative(prev)) &&
+                         (model->firstDerivative(i) < model->firstDerivative(next)) ) {
+                        tmp.x = i;
+                        tmp.y = model->y(i);
+                        tmp.label += " point of inflection";
+                    } else if ( (model->firstDerivative(i) > model->firstDerivative(prev)) &&
+                                (model->firstDerivative(i) > model->firstDerivative(next)) ) {
+                        tmp.x = i;
+                        tmp.y = model->y(i);
+                        tmp.label += " point of inflection";
+                    }
                 }
             }
 
@@ -97,8 +89,7 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
                     if (model->y(i) < model->y(next)) {
                         tmp.x = i;
                         tmp.y = model->y(i);
-                        tmp.label = "minimum";
-                        m_points.append(tmp);
+                        tmp.label += " minimum";
                     }
                 }
             } else if (model->isValid(prev) && !model->isValid(next)) {
@@ -107,18 +98,19 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
                     if (model->y(i) < model->y(prev)) {
                         tmp.x = i;
                         tmp.y = model->y(i);
-                        tmp.label = "minimum";
-                        m_points.append(tmp);
+                        tmp.label += " minimum";
                     }
                 }
             } else if (model->isValid(prev) && model->isValid(next)) {
                 if (model->y(i) < model->y(prev) && model->y(i) < model->y(next)) {
                     tmp.x = i;
                     tmp.y = model->y(i);
-                    tmp.label = "local minimum";
-                    m_points.append(tmp);
+                    tmp.label += " local minimum";
                 }
             }
+
+            if (tmp.label != "")
+                m_points.append(tmp);
         }
 
         tmp.x = model->size() - 1;

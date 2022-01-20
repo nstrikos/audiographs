@@ -47,6 +47,8 @@ public:
 
     double derivative(int i);
 
+    double firstDerivative(int i);
+
     double minDerivValue() const;
 
     double maxDerivValue() const;
@@ -95,6 +97,7 @@ private:
     //array<Point,10000>m_points;
     Points m_points;
     Points m_derivPoints;
+    Points m_firstDerivPoints;
 };
 
 #endif // FUNCTIONMODEL_H
