@@ -385,47 +385,6 @@ bool FunctionModel::isValid(int i)
     return m_points.validAt(i);
 }
 
-bool FunctionModel::validLimit(double x)
-{
-    double h = 1e-5;
-    double limit_right;
-    double limit_left;
-
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-
-    typedef exprtk::parser<double>::settings_t settings_t;
-
-    std::size_t compile_options = settings_t::e_joiner            +
-            settings_t::e_commutative_check +
-            settings_t::e_strength_reduction;
-
-    parser_t parser(compile_options);
-    parser.compile(m_expression.toStdString(), parser_expression);
-
-    m_x = x + h;
-    limit_right = parser_expression.value();
-
-    m_x = x - h;
-    limit_left = parser_expression.value();
-
-#else
-    double vals[] = { 0 };
-
-    vals[0] = x + h;
-    limit_right = m_fparser.Eval(vals);
-
-    vals[0] = x - h;
-    limit_left = m_fparser.Eval(vals);
-#endif
-
-    double diff = abs((limit_right - limit_left)/limit_right);
-
-    if ( (diff < 1e-4) && (abs(limit_right) < 1e8) )
-        return true;
-    else
-        return false;
-}
-
 int FunctionModel::size()
 {
     //return m_points.size();
@@ -653,9 +612,6 @@ void FunctionModel::refreshDerivative()
         }
         m_firstDerivPoints.setPoint(i, tmpPoint);
     }
-
-
-
 
 #else
 

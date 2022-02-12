@@ -37,8 +37,6 @@ public:
 
     bool isValid(int i);
 
-    bool validLimit(double x);
-
     int size();
 
     void calculateDerivative();

@@ -37,87 +37,50 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model, int 
             if (next >= model->size())
                 next = model->size() - 1;
 
-            if (!model->isValid(prev) && !model->isValid(next)) {
-                tmp.x = i;
-                tmp.y = model->y(i);
-                tmp.label += " edge";
-            } else if (!model->isValid(prev) && model->isValid(next)) {
+            tmp.x = i;
+            tmp.y = model->y(i);
+            tmp.label = "";
 
-                if (!model->validLimit(model->x(prev))) {
+            if (!model->isValid(prev) && model->isValid(next)) {
+                if (model->y(i) > model->y(next))
+                    tmp.label += " maximum after undefined point";
+                else if (model->y(i) < model->y(next))
+                    tmp.label += " minimum after undefined point";
 
-                    if (model->y(i) > model->y(next)) {
-                        tmp.x = i;
-                        tmp.y = model->y(i);
-                        tmp.label += " maximum";
-                    }
-                }
             } else if (model->isValid(prev) && !model->isValid(next)) {
-
-                if (!model->validLimit(model->x(next))) {
-
-                    if (model->y(i) > model->y(prev)) {
-                        tmp.x = i;
-                        tmp.y = model->y(i);
-                        tmp.label += " maximum";
-                    }
-                }
+                if (model->y(i) > model->y(prev))
+                    tmp.label += " maximum before undefined point";
+                else if (model->y(i) < model->y(prev))
+                    tmp.label += " minimum before undefined point";
             } else if (model->isValid(prev) && model->isValid(next)) {
-                if (model->y(i) > model->y(prev) && model->y(i) > model->y(next)) {
-                    tmp.x = i;
-                    tmp.y = model->y(i);
+                if (model->y(i) > model->y(prev) && model->y(i) > model->y(next))
                     tmp.label += " local maximum";
-                }
+                else if (model->y(i) < model->y(prev) && model->y(i) < model->y(next))
+                    tmp.label += " local minimum";
 
                 if (derivativeMode == 2) {
                     if ( (model->firstDerivative(i) < model->firstDerivative(prev)) &&
                          (model->firstDerivative(i) < model->firstDerivative(next)) ) {
-                        tmp.x = i;
-                        tmp.y = model->y(i);
                         tmp.label += " point of inflection";
                     } else if ( (model->firstDerivative(i) > model->firstDerivative(prev)) &&
                                 (model->firstDerivative(i) > model->firstDerivative(next)) ) {
-                        tmp.x = i;
-                        tmp.y = model->y(i);
                         tmp.label += " point of inflection";
                     }
                 }
             }
 
-            if (!model->isValid(prev) && model->isValid(next)) {
-                if (!model->validLimit(model->x(prev))) {
 
-                    if (model->y(i) < model->y(next)) {
-                        tmp.x = i;
-                        tmp.y = model->y(i);
-                        tmp.label += " minimum";
-                    }
-                }
-            } else if (model->isValid(prev) && !model->isValid(next)) {
-                if (!model->validLimit(model->x(next))) {
-
-                    if (model->y(i) < model->y(prev)) {
-                        tmp.x = i;
-                        tmp.y = model->y(i);
-                        tmp.label += " minimum";
-                    }
-                }
-            } else if (model->isValid(prev) && model->isValid(next)) {
-                if (model->y(i) < model->y(prev) && model->y(i) < model->y(next)) {
-                    tmp.x = i;
-                    tmp.y = model->y(i);
-                    tmp.label += " local minimum";
-                }
-            }
-
-            if (tmp.label != "")
+            if (tmp.label != "") {
+                tmp.label = tmp.label.trimmed();
                 m_points.append(tmp);
+            }
         }
-
-        tmp.x = model->size() - 1;
-        tmp.y = model->y(tmp.x);
-        tmp.label = "ending point";
-        m_points.append(tmp);
-
-        return m_points;
     }
+
+    tmp.x = model->size() - 1;
+    tmp.y = model->y(tmp.x);
+    tmp.label = "ending point";
+    m_points.append(tmp);
+
+    return m_points;
 }
