@@ -42,7 +42,7 @@ Source: "C:\Users\nick\Desktop\audiographs-setup\*"; DestDir: "{app}"; Flags: ig
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+;Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
