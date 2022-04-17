@@ -1,9 +1,8 @@
 #ifndef FUNCTIONMODEL_H
 #define FUNCTIONMODEL_H
 
-#include <QObject>
-
 #include "point.h"
+#include "requests.h"
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 #include "parsers/exprtk/exprtk.hpp"
@@ -17,12 +16,13 @@ double powint(const double* p);
 
 int mygcd(int a, int b);
 
-class FunctionModel : public QObject
+class FunctionModel : public RequestReceiver
 {
-    Q_OBJECT
 public:
-    explicit FunctionModel(QObject *parent = nullptr);
-    void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY);
+    FunctionModel();
+    ~FunctionModel();
+
+    void accept(Request *request);
 
     QString expression() const;
     double minX() const;
@@ -53,12 +53,13 @@ public:
 
     bool validExpression() const;
 
-signals:
-    void error(QString);
-    void newGraph(Points *points, double minX, double maxX, double minY, double maxY);
-    void updateDerivative(Points *points, double minX, double maxX, double minY, double maxY);
-
 private:
+    RequestHandler *requestHandler;
+    UpdateRequest *updateRequest;
+    ErrorRequest *errorRequest;
+    UpdateDerivativeRequest *updateDerivativeRequest;
+    void performCalculate(CalculateRequest *request);
+    void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY);
     void replaceConstants();
     bool check();
 

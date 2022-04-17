@@ -14,11 +14,28 @@ FunctionPointView::FunctionPointView(QQuickItem *parent)
     m_timer.setInterval(50);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
     m_timer.start();
+
+    requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_update);
 }
 
 FunctionPointView::~FunctionPointView()
 {
 
+}
+
+void FunctionPointView::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "FunctionPointView accepted id: " << request->id << " type: " << request->type;
+    if (request->type == request_update) {
+        UpdateRequest *tmp_request = static_cast<UpdateRequest*>(request);
+        draw(tmp_request->points,
+             tmp_request->minX,
+             tmp_request->maxX,
+             tmp_request->minY,
+             tmp_request->maxY);
+    }
 }
 
 void FunctionPointView::draw(Points *points, double xMin, double xMax, double yMin, double yMax)

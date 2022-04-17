@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QVector>
-#include "functionModel.h"
+#include "../functionModel.h"
 
 class InterestingPoint
 {

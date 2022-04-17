@@ -7,8 +7,9 @@
 #include <QtQuick/qsgflatcolormaterial.h>
 
 #include "function/point.h"
+#include "requests.h"
 
-class FunctionPointView : public QQuickItem
+class FunctionPointView : public QQuickItem , public RequestReceiver
 {
     Q_OBJECT
 
@@ -18,6 +19,8 @@ class FunctionPointView : public QQuickItem
 public:
     FunctionPointView(QQuickItem *parent = 0);
     ~FunctionPointView();
+    virtual void accept(Request *request) override;
+
 
     QColor color() const;
     void setColor(const QColor &color);
@@ -36,7 +39,9 @@ public slots:
     void setCurrentPoint(double x, double y);
 
 private:
-    QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
+    QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *) override;
+
+    RequestHandler *requestHandler;
 
     Points *m_points;
     double m_xMin;

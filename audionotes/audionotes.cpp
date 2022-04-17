@@ -10,12 +10,51 @@ AudioNotes::AudioNotes(FunctionModel &model) : m_model(model)
     m_timer.setInterval(INTERVAL_MILLISECONDS);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
     m_audioPoints = new AudioPoints();
-    //    connect(m_audioPoints, SIGNAL(finished()), this, SIGNAL(finished()));
+
+    audioFinishedRequest = nullptr;
+
+    requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_notes_start);
+    requestHandler->add(this, request_set_note);
+    requestHandler->add(this, request_stop_sound);
+    requestHandler->add(this, request_stop_notes);
+    requestHandler->add(this, request_new_point);
 }
 
 AudioNotes::~AudioNotes()
 {
     delete m_audioPoints;
+    if (audioFinishedRequest != nullptr)
+        delete audioFinishedRequest;
+}
+
+void AudioNotes::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "Audionotes accepted id: " << request->id << " type: " << request->type;
+
+    if (request->type == request_notes_start) {
+        int fmin = static_cast<NotesStartRequest*>(request)->fmin;
+        int fmax = static_cast<NotesStartRequest*>(request)->fmax;
+        int duration = static_cast<NotesStartRequest*>(request)->duration;
+        int mode = 0;
+        bool useNegativeNotes = static_cast<NotesStartRequest*>(request)->useNegativeNotes;
+        startNotes(fmin, fmax, duration, mode, useNegativeNotes);
+    }
+    else if (request->type == request_set_note) {
+        int fmin = static_cast<SetNoteRequest*>(request)->fmin;
+        int fmax = static_cast<SetNoteRequest*>(request)->fmax;
+        bool useNotes = static_cast<SetNoteRequest*>(request)->useNotes;
+        int mode = static_cast<SetNoteRequest*>(request)->mode;
+        bool useNegativeNotes = static_cast<SetNoteRequest*>(request)->useNegativeNotes;
+        setNote(fmin, fmax, useNotes, mode, useNegativeNotes);
+    } else if (request->type == request_stop_notes) {
+        stopNotes();
+    } else if (request->type == request_stop_sound) {
+        stopNotes();
+    } else if (request->type == request_new_point) {
+        setPoint(static_cast<NewPointRequest*>(request)->point);
+    }
 }
 
 void AudioNotes::startNotes(int fmin,
@@ -99,17 +138,20 @@ void AudioNotes::setNoteFromMouse(int mouseX, int width, int fmin, int fmax, boo
         m_audioPoints->setFreq((m_fmax - m_fmin) / 2, useNotes, n, ratio);
     }
 }
-
-void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNotes, int mode, bool useNegativeNotes)
+void AudioNotes::setPoint(int point)
 {
-    m_fmin = fmin;
-    m_fmax = fmax;
-    m_currentPoint = currentPoint;
+    m_currentPoint = point;
 
     if (m_currentPoint < 0)
         m_currentPoint = 0;
     if (m_currentPoint >= LINE_POINTS)
         m_currentPoint = LINE_POINTS - 1;
+}
+
+void AudioNotes::setNote(int fmin, int fmax, bool useNotes, int mode, bool useNegativeNotes)
+{
+    m_fmin = fmin;
+    m_fmax = fmax;
 
     double min = m_model.minValue();
     double max = m_model.maxValue();
@@ -178,7 +220,12 @@ void AudioNotes::timerExpired()
     m_timeElapsed += m_timer.interval();
     if (m_timeElapsed > m_duration) {
         stopNotes();
-        emit finished();
+
+        if (audioFinishedRequest == nullptr)
+            audioFinishedRequest = new AudioFinishedRequest();
+        audioFinishedRequest->sender = "Audionotes";
+        requestHandler->handleRequest(audioFinishedRequest);
+
         return;
     }
 

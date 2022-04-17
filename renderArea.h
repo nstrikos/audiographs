@@ -4,11 +4,12 @@
 #include <QWidget>
 #include "function/point.h"
 #include "parameters.h"
+#include "requests.h"
 
 #include<array>
 using namespace std;
 
-class RenderArea : public QWidget
+class RenderArea : public QWidget,  public RequestReceiver
 {
     Q_OBJECT
 
@@ -16,6 +17,9 @@ public:
 
     RenderArea(QWidget *parent = nullptr);
     ~RenderArea() override;
+
+    void accept(Request *request) override;
+
     void updateGraph(Points *points,
                      double xMin,
                      double xMax,
@@ -32,7 +36,7 @@ public:
     void setDerivativeMode(int mode);
 
     void setParameters(Parameters *parameters);
-    void newCurrentPoint(double x, double y);
+    void drawPoint(double x, double y);
     void enableCurrentPoint();
     void disableCurrentPoint();
 
@@ -63,6 +67,8 @@ private:
     void getResizedCoords(double x, double y);
 
     void clearDerivative();
+
+    RequestHandler *requestHandler;
 
     Points *m_points;
     QVector<Point> m_coordPoints;

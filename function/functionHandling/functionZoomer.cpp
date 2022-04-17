@@ -1,9 +1,19 @@
 #include "functionZoomer.h"
-#include "functionModel.h"
+#include "../functionModel.h"
 
 FunctionZoomer::FunctionZoomer(QObject *parent) : QObject(parent)
 {
+    calculateRequest = nullptr;
+    newInputValuesRequest = nullptr;
+    requestHandler = &RequestHandler::getInstance();
+}
 
+FunctionZoomer::~FunctionZoomer()
+{
+    if (newInputValuesRequest != nullptr)
+        delete newInputValuesRequest;
+    if (calculateRequest != nullptr)
+        delete calculateRequest;
 }
 
 void FunctionZoomer::zoom(FunctionModel &model, double delta, int derivMode)
@@ -85,16 +95,24 @@ void FunctionZoomer::performZoom(FunctionModel &model, double factor, int derivM
 
     //    //We calculate with the new values, but we need to round them before displaying them
     //    //if we round the values before zooming, zoom will not be smooth
-    model.calculate(model.expression(),
-                    QString::number(newMinX),
-                    QString::number(newMaxX),
-                    QString::number(newMinY),
-                    QString::number(newMaxY));
+    if (calculateRequest == nullptr)
+        calculateRequest = new CalculateRequest;
+    calculateRequest->sender = "FunctionZoomer";
+    calculateRequest->expression = model.expression();
+    calculateRequest->minX = QString::number(newMinX);
+    calculateRequest->maxX = QString::number(newMaxX);
+    calculateRequest->minY = QString::number(newMinY);
+    calculateRequest->maxY = QString::number(newMaxY);
 
-    if (derivMode == 1)
-        model.calculateDerivative();
-    else if (derivMode == 2)
-        model.calculateSecondDerivative();
+    requestHandler->handleRequest(calculateRequest);
 
-    emit newInputValues(minX, maxX, minY, maxY);
+    if (newInputValuesRequest == nullptr)
+        newInputValuesRequest = new NewInputValuesRequest();
+    newInputValuesRequest->sender = "FunctionZoomer";
+    newInputValuesRequest->minX = minX;
+    newInputValuesRequest->maxX = maxX;
+    newInputValuesRequest->minY = minY;
+    newInputValuesRequest->maxY = maxY;
+
+    requestHandler->handleRequest(newInputValuesRequest);
 }

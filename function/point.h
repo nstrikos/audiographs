@@ -4,8 +4,6 @@
 #include<array>
 using namespace std;
 
-#include <QObject>
-
 #include "constants.h"
 
 class Point
@@ -17,9 +15,8 @@ public:
     bool isValid;
 };
 
-class Points : public QObject
+class Points
 {
-        Q_OBJECT
 public:
     Points();
 

@@ -6,15 +6,23 @@
 #include <QString>
 #include <QVector>
 #include "parameters.h"
+#include "requests.h"
 
 
-class TextToSpeech : public QObject
+class TextToSpeech : public QObject , public RequestReceiver
 {
     Q_OBJECT
 
-public:
-    TextToSpeech();
+public:    
+    static TextToSpeech& getInstance()
+    {
+        static TextToSpeech instance;
+        return instance;
+    }
+
     ~TextToSpeech();
+
+    void accept(Request *request);
 
     Q_PROPERTY(QStringList engines  READ engines NOTIFY enginesChanged())
     Q_PROPERTY(QStringList languages  READ languages NOTIFY languagesChanged())
@@ -55,6 +63,10 @@ signals:
     void rateChanged();
 
 private:
+    TextToSpeech();
+    TextToSpeech(TextToSpeech const&);     // Don't Implement
+    void operator=(TextToSpeech const&); // Don't implement
+
     QTextToSpeech *m_speech;
     QVector<QVoice> m_voices;
     QStringList m_languages;
@@ -66,6 +78,7 @@ private:
     double m_pitch;
     double m_rate;
     Parameters *m_parameters;
+    RequestHandler *requestHandler;
 };
 
 #endif // TEXTTOSPEECH_H

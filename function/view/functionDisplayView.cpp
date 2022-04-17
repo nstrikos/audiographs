@@ -19,11 +19,38 @@ FunctionDisplayView::FunctionDisplayView(QQuickItem *parent)
 #endif
 
     m_update = true;
+
+    requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_update);
+    requestHandler->add(this, request_error);    
 }
 
 FunctionDisplayView::~FunctionDisplayView()
 {
 
+}
+
+void FunctionDisplayView::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "FunctionDisplayView  accepted id: " << request->id << " type: " << request->type;
+    if (request->type == request_update) {
+        UpdateRequest *tmp_request = static_cast<UpdateRequest*>(request);
+        draw(tmp_request->points,
+             tmp_request->minX,
+             tmp_request->maxX,
+             tmp_request->minY,
+             tmp_request->maxY);
+    } else if (request->type == request_error) {
+        clear();
+    } else if (request->type == request_update_derivative) {
+        UpdateDerivativeRequest *tmp_request = static_cast<UpdateDerivativeRequest*>(request);
+        draw(tmp_request->points,
+             tmp_request->minX,
+             tmp_request->maxX,
+             tmp_request->minY,
+             tmp_request->maxY);
+    }
 }
 
 void FunctionDisplayView::updateView()
@@ -34,6 +61,8 @@ void FunctionDisplayView::updateView()
     calcCoords(this->width(), this->height());
     update();
 }
+
+
 
 void FunctionDisplayView::draw(Points *points,
                                double xMin,
@@ -50,10 +79,10 @@ void FunctionDisplayView::draw(Points *points,
     m_yMin = yMin;
     m_yMax = yMax;
 
-//    if (m_points->size() > 0) {
-        calcCoords(this->width(), this->height());
-        update();
-//    }
+    //    if (m_points->size() > 0) {
+    calcCoords(this->width(), this->height());
+    update();
+    //    }
 }
 
 //void FunctionDisplayView::drawDerivative(FunctionModel *model)
@@ -114,13 +143,13 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
         node = static_cast<QSGGeometryNode *>(oldNode);
         geometry = node->geometry();
         geometry->setLineWidth(m_lineWidth);
-//        if (m_newColor != m_color) {
-            QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-            material->setColor(m_color);
-            node->setMaterial(material);
-            node->setFlag(QSGNode::OwnsMaterial);
-            node->markDirty(QSGNode::DirtyMaterial);
-//        }
+        //        if (m_newColor != m_color) {
+        QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
+        material->setColor(m_color);
+        node->setMaterial(material);
+        node->setFlag(QSGNode::OwnsMaterial);
+        node->markDirty(QSGNode::DirtyMaterial);
+        //        }
 #ifndef Q_OS_ANDROID
         geometry->allocate(LINE_POINTS / m_factor);
 #else
@@ -162,13 +191,13 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
                 for (int i = 0; i < LINE_POINTS  / m_factor; i++) {
                     QSGGeometryNode *tmpNode = nodeVector.at(i);
                     QSGGeometry::Point2D *vertices = geometryVector.at(i)->vertexDataAsPoint2D();
-//                    if (m_newColor != m_color) {
-                        QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-                        material->setColor(m_color);
-                        tmpNode->setMaterial(material);
-                        tmpNode->setFlag(QSGNode::OwnsMaterial);
-                        tmpNode->markDirty(QSGNode::DirtyMaterial);
-//                    }
+                    //                    if (m_newColor != m_color) {
+                    QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
+                    material->setColor(m_color);
+                    tmpNode->setMaterial(material);
+                    tmpNode->setFlag(QSGNode::OwnsMaterial);
+                    tmpNode->markDirty(QSGNode::DirtyMaterial);
+                    //                    }
 
 
                     int cx;
@@ -193,13 +222,13 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
         for (int i = 0; i < LINE_POINTS / m_factor; i++) {
             QSGGeometryNode *tmpNode = nodeVector.at(i);
             QSGGeometry::Point2D *vertices = geometryVector.at(i)->vertexDataAsPoint2D();
-//                    if (m_newColor != m_color) {
-                QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-                material->setColor(m_color);
-                tmpNode->setMaterial(material);
-                tmpNode->setFlag(QSGNode::OwnsMaterial);
-                tmpNode->markDirty(QSGNode::DirtyMaterial);
-//                    }
+            //                    if (m_newColor != m_color) {
+            QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
+            material->setColor(m_color);
+            tmpNode->setMaterial(material);
+            tmpNode->setFlag(QSGNode::OwnsMaterial);
+            tmpNode->markDirty(QSGNode::DirtyMaterial);
+            //                    }
 
 
             int cx;
@@ -208,16 +237,16 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
             cy = -10;//m_points[i].y;
 
             int r = m_lineWidth;
-//            for(int ii = 0; ii < POINT_SEGMENTS; ii++) {
-//                float theta = 2.0f * 3.1415926f * float(ii) / float(POINT_SEGMENTS);//get the current angle
+            //            for(int ii = 0; ii < POINT_SEGMENTS; ii++) {
+            //                float theta = 2.0f * 3.1415926f * float(ii) / float(POINT_SEGMENTS);//get the current angle
 
-//                float x = r * cos(theta);
-//                float y = r * sin(theta);
+            //                float x = r * cos(theta);
+            //                float y = r * sin(theta);
 
-//                qDebug() << cos(theta) << sin(theta);
+            //                qDebug() << cos(theta) << sin(theta);
 
-//                vertices[ii].set(x + cx, y + cy);//output vertex
-//            }
+            //                vertices[ii].set(x + cx, y + cy);//output vertex
+            //            }
 
             vertices[0].set(cx + r, cy);
             vertices[1].set(cx, cy + r);
@@ -234,10 +263,24 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
     return node;
 }
 
+void FunctionDisplayView::setDerivative(bool newDerivative)
+{
+    m_derivative = newDerivative;
+    if (m_derivative) {
+        requestHandler->add(this, request_update_derivative);
+    }
+}
+
+bool FunctionDisplayView::derivative()
+{
+    return m_derivative;
+}
+
 void FunctionDisplayView::setUpdate(bool update)
 {
     m_update = update;
 }
+
 
 int FunctionDisplayView::lineWidth() const
 {

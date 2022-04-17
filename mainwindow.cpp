@@ -20,9 +20,46 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    m_textToSpeech = new TextToSpeech();
+    m_textToSpeech = &TextToSpeech::getInstance();
 
     m_points = nullptr;
+
+    requestHandler = &RequestHandler::getInstance();
+
+    requestHandler->add(this, request_update);
+    requestHandler->add(this, request_error);
+    requestHandler->add(this, request_new_values);
+    requestHandler->add(this, request_update_derivative);
+    requestHandler->add(this, request_audio_finished);
+    requestHandler->add(this, request_update_text);
+    requestHandler->add(this, request_interesting_point_finished);
+
+    calculateRequest = nullptr;
+    playSoundRequest = nullptr;
+    stopSoundRequest = nullptr;
+    zoomRequest = nullptr;
+    startDragRequest = nullptr;
+    dragRequest = nullptr;
+    previousPointRequest = nullptr;
+    nextPointRequest = nullptr;
+    sayXRequest = nullptr;
+    sayYRequest = nullptr;
+    getXRequest = nullptr;
+    getYRequest = nullptr;
+    sayDerivativeRequest = nullptr;
+    getDerivativeRequest = nullptr;
+    incStepRequest = nullptr;
+    decStepRequest = nullptr;
+    previousPointInterestRequest = nullptr;
+    nextPointInterestRequest = nullptr;
+    previousFastRequest = nullptr;
+    nextFastRequest = nullptr;
+    firstPointRequest = nullptr;
+    lastPointRequest = nullptr;
+    setDerivativeRequest = nullptr;
+    audioStartRequest = nullptr;
+    notesStartRequest = nullptr;
+    setNoteRequest= nullptr;
 
     initStateMachine();
 
@@ -30,7 +67,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->renderArea, &RenderArea::mousePressed, this, &MainWindow::mousePressed);
     connect(ui->renderArea, &RenderArea::mouseMove, this, &MainWindow::mouseMove);
     connect(ui->renderArea, &RenderArea::mouseReleased, this, &MainWindow::mouseReleased);
-    connect(this, &MainWindow::newCurrentPoint, ui->renderArea, &RenderArea::newCurrentPoint);
 
     m_parameters = &Parameters::getInstance();
     ui->renderArea->setParameters(m_parameters);
@@ -162,9 +198,84 @@ MainWindow::~MainWindow()
     if (aboutDialog != nullptr)
         delete aboutDialog;
 
-    delete m_textToSpeech;
+    if (calculateRequest != nullptr)
+        delete calculateRequest;
+    if (playSoundRequest != nullptr)
+        delete playSoundRequest;
+    if (stopSoundRequest != nullptr)
+        delete stopSoundRequest;
+    if (zoomRequest != nullptr)
+        delete zoomRequest;
+    if (startDragRequest != nullptr)
+        delete startDragRequest;
+    if (dragRequest != nullptr)
+        delete dragRequest;
+    if (previousPointRequest != nullptr)
+        delete previousPointRequest;
+    if (nextPointRequest != nullptr)
+        delete nextPointRequest;
+    if (sayXRequest != nullptr)
+        delete sayXRequest;
+    if (sayYRequest != nullptr)
+        delete sayYRequest;
+    if (getXRequest != nullptr)
+        delete getXRequest;
+    if (getYRequest != nullptr)
+        delete getYRequest;
+    if (sayDerivativeRequest != nullptr)
+        delete sayDerivativeRequest;
+    if (getDerivativeRequest != nullptr)
+        delete getDerivativeRequest;
+    if (incStepRequest != nullptr)
+        delete incStepRequest;
+    if (decStepRequest != nullptr)
+        delete decStepRequest;
+    if (previousPointInterestRequest != nullptr)
+        delete previousPointInterestRequest;
+    if (nextPointInterestRequest != nullptr)
+        delete nextPointInterestRequest;
+    if (previousFastRequest != nullptr)
+        delete previousFastRequest;
+    if (nextFastRequest != nullptr)
+        delete nextFastRequest;
+    if (firstPointRequest != nullptr)
+        delete firstPointRequest;
+    if (lastPointRequest != nullptr)
+        delete lastPointRequest;
+    if (setDerivativeRequest != nullptr)
+        delete setDerivativeRequest;
+    if (audioStartRequest != nullptr)
+        delete audioStartRequest;
+    if (notesStartRequest != nullptr)
+        delete notesStartRequest;
+    if (setNoteRequest!= nullptr)
+        delete setNoteRequest;
 
     delete ui;
+}
+
+void MainWindow::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "MainWindow accepted id: " << request->id << " type: " << request->type;
+    switch (request->type) {
+        case request_update: updateGraph(static_cast<UpdateRequest*>(request));
+        break;
+    case request_error: error(static_cast<ErrorRequest*>(request));
+        break;
+    case request_new_values: newInputValues(static_cast<NewInputValuesRequest*>(request));
+        break;
+    case request_update_derivative: updateDerivative(static_cast<UpdateDerivativeRequest*>(request));
+        break;
+    case request_audio_finished: emit audioFinished();
+        break;
+    case request_update_text: updateLabelText(static_cast<UpdateTextRequest*>(request)->text);
+        break;
+    case request_interesting_point_finished: emit interestingPointFinished();
+        break;
+    default:
+        break;
+    }
 }
 
 void MainWindow::initStateMachine()
@@ -487,7 +598,8 @@ void MainWindow::writeSettings()
 
 void MainWindow::initialStateActivated()
 {
-    qDebug() << "initial state";
+//    if (m_log)
+        qDebug() << "initial state";
     disableControls();
     //    ui->minXLineEdit->setText("-10");
     //    ui->maxXLineEdit->setText("10");
@@ -495,27 +607,35 @@ void MainWindow::initialStateActivated()
     //    ui->maxYLineEdit->setText("10");
     ui->renderArea->clear();
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    //emit derivativeMode(0);
 }
 
 void MainWindow::evaluateStateActivated()
 {
-    qDebug() << "evaluate state";
+//    if (m_log)
+        qDebug() << "evaluate state";
     clearLabel();
     disableControls();
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    //emit derivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
-    emit calculate(ui->functionLineEdit->text(),
-                   ui->minXLineEdit->text(),
-                   ui->maxXLineEdit->text(),
-                   ui->minYLineEdit->text(),
-                   ui->maxYLineEdit->text());
+
+    if (calculateRequest == nullptr)
+        calculateRequest = new CalculateRequest();
+    calculateRequest->sender = "MainWindow";
+
+    calculateRequest->expression = ui->functionLineEdit->text();
+    calculateRequest->minX = ui->minXLineEdit->text();
+    calculateRequest->maxX = ui->maxXLineEdit->text();
+    calculateRequest->minY = ui->minYLineEdit->text();
+    calculateRequest->maxY = ui->maxYLineEdit->text();
+    requestHandler->handleRequest(calculateRequest);
 }
 
 void MainWindow::graphReadyStateActivated()
 {
-    qDebug() << "graph ready state";
+//    if (m_log)
+        qDebug() << "graph ready state";
     ui->renderArea->updateGraph(m_points,
                                 m_minX,
                                 m_maxX,
@@ -536,7 +656,38 @@ void MainWindow::playSoundStateActivated()
     ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
     ui->renderArea->enableCurrentPoint();
     enableControls();
-    emit playSound();
+
+//    if (playSoundRequest == nullptr)
+//        playSoundRequest = new PlaySoundRequest();
+//    requestHandler->handleRequest(playSoundRequest);
+
+    if (m_parameters->useNotes()) {
+        if (notesStartRequest == nullptr)
+            notesStartRequest = new NotesStartRequest();
+        notesStartRequest->sender = "Mainwindow";
+        notesStartRequest->fmin = m_parameters->minFreq();
+        notesStartRequest->fmax = m_parameters->maxFreq();
+        notesStartRequest->duration = m_parameters->duration();
+        notesStartRequest->mode = 0;
+        notesStartRequest->useNegativeNotes = m_parameters->useNegativeNotes();
+
+        requestHandler->handleRequest(notesStartRequest);
+    } else {
+        if (audioStartRequest == nullptr)
+            audioStartRequest = new AudioStartRequest();
+        audioStartRequest->sender = "Mainwindow";
+        audioStartRequest->expression = ui->functionLineEdit->text();
+        audioStartRequest->start = ui->minXLineEdit->text().toDouble();
+        audioStartRequest->end = ui->maxXLineEdit->text().toDouble();
+        audioStartRequest->minY = ui->minYLineEdit->text().toDouble();
+        audioStartRequest->maxY = ui->maxYLineEdit->text().toDouble();
+        audioStartRequest->seconds = m_parameters->duration();
+        audioStartRequest->fmin = m_parameters->minFreq();
+        audioStartRequest->fmax = m_parameters->maxFreq();
+        audioStartRequest->mode = 0;
+        requestHandler->handleRequest(audioStartRequest);
+    }
+
     clearLabel();
 }
 
@@ -545,7 +696,11 @@ void MainWindow::playSoundStateDeactivated()
     qDebug() << "play sound state deactivated";
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     ui->renderArea->disableCurrentPoint();
-    emit stopSound();
+
+    if (stopSoundRequest == nullptr)
+        stopSoundRequest = new StopSoundRequest();
+    stopSoundRequest->sender = "MainWindow";
+    requestHandler->handleRequest(stopSoundRequest);
 }
 
 void MainWindow::exploreStateActivated()
@@ -572,7 +727,10 @@ void MainWindow::interestingPointStateDeactivated()
     qDebug() << "interesting point state deactivated";
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     //ui->renderArea->disableCurrentPoint();
-    emit stopSound();
+    if (stopSoundRequest == nullptr)
+        stopSoundRequest = new StopSoundRequest();
+    stopSoundRequest->sender = "MainWindow";
+    requestHandler->handleRequest(stopSoundRequest);
 }
 
 void MainWindow::interestingPointStoppedStateActivated()
@@ -608,33 +766,33 @@ void MainWindow::errorDisplayStateActivated()
         m_textToSpeech->speak(tr("Error ") + m_textToSpeech->normalizeText(m_errorString));
 }
 
-void MainWindow::updateGraph(Points *points, double minX, double maxX, double minY, double maxY)
+void MainWindow::updateGraph(UpdateRequest *request)
 {
-    m_points = points;
-    m_minX = minX;
-    m_maxX = maxX;
-    m_minY = minY;
-    m_maxY = maxY;
+    m_points = request->points;
+    m_minX = request->minX;
+    m_maxX = request->maxX;
+    m_minY = request->minY;
+    m_maxY = request->maxY;
     emit newgraph();
     clearLabel();
 }
 
-void MainWindow::newInputValues(double minX, double maxX, double minY, double maxY)
+void MainWindow::newInputValues(NewInputValuesRequest *request)
 {
     //we update with the rounded values
-    ui->minXLineEdit->setText(QString::number(minX));
-    ui->maxXLineEdit->setText(QString::number(maxX));
-    ui->minYLineEdit->setText(QString::number(minY));
-    ui->maxYLineEdit->setText(QString::number(maxY));
+    ui->minXLineEdit->setText(QString::number(request->minX));
+    ui->maxXLineEdit->setText(QString::number(request->maxX));
+    ui->minYLineEdit->setText(QString::number(request->minY));
+    ui->maxYLineEdit->setText(QString::number(request->maxY));
 }
 
-void MainWindow::updateDerivative(Points *points, double minX, double maxX, double minY, double maxY)
+void MainWindow::updateDerivative(UpdateDerivativeRequest *request)
 {
-    m_derivPoints = points;
-    m_minX = minX;
-    m_maxX = maxX;
-    m_minY = minY;
-    m_maxY = maxY;
+    m_derivPoints = request->points;
+    m_minX = request->minX;
+    m_maxX = request->maxX;
+    m_minY = request->minY;
+    m_maxY = request->maxY;
 
     ui->renderArea->updateDerivative(m_derivPoints,
                                      m_minX,
@@ -643,12 +801,11 @@ void MainWindow::updateDerivative(Points *points, double minX, double maxX, doub
                                      m_maxY);
 }
 
-void MainWindow::error(QString errorString)
+void MainWindow::error(ErrorRequest *request)
 {
-    qDebug() << errorString;
     ui->renderArea->clear();
     clearLabel();
-    m_errorString = errorString;
+    m_errorString = request->error;
     emit functionError();
 }
 
@@ -658,9 +815,14 @@ void MainWindow::performZoom(int delta)
         return;
 
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    //emit derivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
-    emit zoom(delta);
+
+    if (zoomRequest == nullptr)
+        zoomRequest = new ZoomRequest();
+    zoomRequest->delta = delta;
+    requestHandler->handleRequest(zoomRequest);
+
     clearLabel();
 }
 
@@ -672,9 +834,15 @@ void MainWindow::mousePressed(int x, int y)
     m_mousePressed = true;
 
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    //emit derivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
-    emit startDrag(x, y);
+
+    if (startDragRequest == nullptr)
+        startDragRequest = new StartDragRequest();
+    startDragRequest->x = x;
+    startDragRequest->y = y;
+
+    requestHandler->handleRequest(startDragRequest);
 }
 
 void MainWindow::mouseMove(int diffX, int diffY)
@@ -682,8 +850,14 @@ void MainWindow::mouseMove(int diffX, int diffY)
     if (!m_mousePressed)
         return;
 
+    if (dragRequest == nullptr)
+        dragRequest = new DragRequest();
+    dragRequest->diffX = diffX;
+    dragRequest->diffY = diffY;
+    dragRequest->width = ui->renderArea->width();
+    dragRequest->height = ui->renderArea->height();
+    requestHandler->handleRequest(dragRequest);
 
-    emit drag(diffX, diffY, ui->renderArea->width(), ui->renderArea->height());
     clearLabel();
 }
 
@@ -1028,6 +1202,22 @@ void MainWindow::initMenu()
 void MainWindow::on_nextPushButton_clicked()
 {
     if (ui->nextPushButton->isEnabled()) {
+
+        if (nextPointRequest == nullptr)
+            nextPointRequest = new NextPointRequest;
+        nextPointRequest->sender = "MainWindow";
+        requestHandler->handleRequest(nextPointRequest);
+
+        if (setNoteRequest == nullptr)
+            setNoteRequest = new SetNoteRequest();
+        setNoteRequest->sender = "MainWindow";
+        setNoteRequest->fmin = m_parameters->minFreq();
+        setNoteRequest->fmax = m_parameters->maxFreq();
+        setNoteRequest->useNotes = m_parameters->useNotes();
+        setNoteRequest->mode = 0;
+        setNoteRequest->useNegativeNotes = m_parameters->useNegativeNotes();
+        requestHandler->handleRequest(setNoteRequest);
+
         emit nextPoint();
         clearLabel();
     }
@@ -1036,7 +1226,24 @@ void MainWindow::on_nextPushButton_clicked()
 void MainWindow::on_previousPushButton_clicked()
 {
     if (ui->previousPushButton->isEnabled()) {
+
+        if (previousPointRequest == nullptr)
+            previousPointRequest = new PreviousPointRequest;
+        previousPointRequest->sender = "MainWindow";
+        requestHandler->handleRequest(previousPointRequest);
+
         emit previousPoint();
+
+        if (setNoteRequest == nullptr)
+            setNoteRequest = new SetNoteRequest();
+        setNoteRequest->sender = "MainWindow";
+        setNoteRequest->fmin = m_parameters->minFreq();
+        setNoteRequest->fmax = m_parameters->maxFreq();
+        setNoteRequest->useNotes = m_parameters->useNotes();
+        setNoteRequest->mode = 0;
+        setNoteRequest->useNegativeNotes = m_parameters->useNegativeNotes();
+        requestHandler->handleRequest(setNoteRequest);
+
         clearLabel();
     }
 }
@@ -1045,8 +1252,14 @@ void MainWindow::on_xPushButton_clicked()
 {
     if (ui->xPushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
+            if (sayXRequest == nullptr)
+                sayXRequest = new SayXRequest();
+            requestHandler->handleRequest(sayXRequest);
             emit sayX();
         }
+        if (getXRequest == nullptr)
+            getXRequest = new GetXRequest();
+        requestHandler->handleRequest(getXRequest);
         emit getX();
     }
 }
@@ -1055,27 +1268,42 @@ void MainWindow::on_yPushButton_clicked()
 {
     if(ui->yPushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
+            if (sayYRequest == nullptr)
+                sayYRequest = new SayYRequest();
+            requestHandler->handleRequest(sayYRequest);
             emit sayY();
         }
+        if (getYRequest == nullptr)
+            getYRequest = new GetYRequest();
+        requestHandler->handleRequest(getYRequest);
         emit getY();
     }
 }
 
 void MainWindow::on_decStepPushButton_clicked()
 {
-    emit decStep();
+    if (decStepRequest == nullptr)
+        decStepRequest = new DecStepRequest();
+    requestHandler->handleRequest(decStepRequest);
 }
 
 void MainWindow::on_incStepPushButton_clicked()
 {
-    emit incStep();
+    if (incStepRequest == nullptr)
+        incStepRequest = new IncStepRequest();
+    requestHandler->handleRequest(incStepRequest);
 }
 
 void MainWindow::on_previousPointInterestPushButton_clicked()
 {
     if (ui->previousPointInterestPushButton->isEnabled()) {
         emit previousPointInterest();
-        emit externalPreviousPointInterest();
+
+        if (previousPointInterestRequest == nullptr)
+            previousPointInterestRequest = new PreviousPointInterestRequest();
+        requestHandler->handleRequest(previousPointInterestRequest);
+
+
         clearLabel();
     }
 }
@@ -1084,7 +1312,11 @@ void MainWindow::on_nextPointInterestPushButton_clicked()
 {
     if (ui->nextPointInterestPushButton->isEnabled()) {
         emit nextPointInterest();
-        emit externalNextPointInterest();
+
+        if (nextPointInterestRequest == nullptr)
+            nextPointInterestRequest = new NextPointInterestRequest();
+        requestHandler->handleRequest(nextPointInterestRequest);
+
         clearLabel();
     }
 }
@@ -1093,7 +1325,9 @@ void MainWindow::on_previousFastPushButton_clicked()
     if(ui->previousFastPushButton->isEnabled()) {
         clearLabel();
         emit previousFast();
-        emit externalPreviousFast();
+        if (previousFastRequest == nullptr)
+            previousFastRequest = new PreviousFastRequest;
+        requestHandler->handleRequest(previousFastRequest);
     }
 }
 
@@ -1102,7 +1336,9 @@ void MainWindow::on_nextFastPushButton_clicked()
     if(ui->nextFastPushButton->isEnabled()) {
         clearLabel();
         emit nextFast();
-        emit externalNextFast();
+        if (nextFastRequest == nullptr)
+            nextFastRequest = new NextFastRequest;
+        requestHandler->handleRequest(nextFastRequest);
     }
 }
 
@@ -1110,7 +1346,11 @@ void MainWindow::on_firstPointPushButton_clicked()
 {
     if (firstPointAction->isEnabled()) {
         emit firstPoint();
-        //clearLabel();
+
+        if (firstPointRequest == nullptr)
+            firstPointRequest = new FirstPointRequest();
+        requestHandler->handleRequest(firstPointRequest);
+
         updateLabelText(tr("starting point"));
     }
 }
@@ -1119,7 +1359,11 @@ void MainWindow::on_lastPointPushButton_clicked()
 {
     if (lastPointAction->isEnabled()) {
         emit lastPoint();
-        //clearLabel();
+
+        if (lastPointRequest == nullptr)
+            lastPointRequest = new LastPointRequest();
+        requestHandler->handleRequest(lastPointRequest);
+
         updateLabelText(tr("ending point"));
     }
 }
@@ -1140,6 +1384,15 @@ void MainWindow::updateLabelText(QString text)
         if (!m_parameters->selfVoice())
             ui->coordLabel2->setFocus();
     }
+}
+
+void MainWindow::derivativeMode(int mode)
+{
+    if (setDerivativeRequest == nullptr)
+        setDerivativeRequest = new SetDerivativeRequest();
+    setDerivativeRequest->sender = "Mainwindow";
+    setDerivativeRequest->mode = mode;
+    requestHandler->handleRequest(setDerivativeRequest);
 }
 
 void MainWindow::exit()
@@ -1209,6 +1462,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             return false;
         } else if (key->key() == Qt::Key_E && key->modifiers()==Qt::ControlModifier ) {
             focusExpression();
+            return true;
+        } else if (key->key() == Qt::Key_L && key->modifiers()==Qt::ControlModifier ) {
+            requestHandler->setLog(!requestHandler->log());
             return true;
         }
     }
@@ -1298,7 +1554,7 @@ void MainWindow::useNegativeNotesActionActivated()
 
 void MainWindow::on_normalModePushButton_clicked()
 {
-    emit derivativeMode(0);
+    //derivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Normal mode"));
@@ -1309,7 +1565,7 @@ void MainWindow::on_normalModePushButton_clicked()
 
 void MainWindow::on_firstDerivativePushButton_clicked()
 {
-    emit derivativeMode(1);
+    //derivativeMode(1);
     ui->renderArea->setDerivativeMode(1);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("First derivative mode"));
@@ -1320,7 +1576,7 @@ void MainWindow::on_firstDerivativePushButton_clicked()
 
 void MainWindow::on_secondDerivativePushButton_clicked()
 {
-    emit derivativeMode(2);
+    //derivativeMode(2);
     ui->renderArea->setDerivativeMode(2);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Second derivative mode"));
@@ -1527,9 +1783,15 @@ void MainWindow::updateLabel()
 void MainWindow::on_derivativePushButton_clicked()
 {
     if (ui->derivativePushButton->isEnabled()) {
-        if (m_parameters->selfVoice())
-            emit sayDerivative();
-        emit getDerivative();
+        if (m_parameters->selfVoice()) {
+            if (sayDerivativeRequest == nullptr)
+                sayDerivativeRequest = new SayDerivativeRequest;
+            requestHandler->handleRequest(sayDerivativeRequest);
+        }
+
+        if (getDerivativeRequest == nullptr)
+            getDerivativeRequest = new GetDerivativeRequest();
+        requestHandler->handleRequest(getDerivativeRequest);
     }
 }
 

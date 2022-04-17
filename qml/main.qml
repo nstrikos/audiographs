@@ -11,6 +11,7 @@ import "SettingsRect"
 
 Window {
     id: window
+    objectName: "window"
     visible: true
 
     //on android setting width and height results in
@@ -119,8 +120,8 @@ Window {
     //    }
 
     Connections {
-        target: functionExpression
-        function onNewGraph(points, minX, maxX, minY, maxY) {
+        target: qmlConnector
+        function onNewGraph(minX, maxX, minY, maxY) {
             graphRect.minX = minX
             graphRect.maxX = maxX
             graphRect.minY = minY
@@ -130,7 +131,7 @@ Window {
     }
 
     Connections {
-        target: functionExpression
+        target: qmlConnector
         function onNewInputValues(minX, maxX, minY, maxY) {
             controlsRect.newInputValues(minX, maxX, minY, maxY)
         }
@@ -151,8 +152,9 @@ Window {
     }
 
     Connections {
-        target: functionExpression
-        function onError() {
+        target: qmlConnector
+        function onError(errorString) {
+            console.log(errorString)
             error()
         }
     }

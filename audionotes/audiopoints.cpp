@@ -202,7 +202,7 @@ void AudioPoints::initializeAudio()
     }
     audioOutput = new QAudioOutput(deviceinfo, format, this);
     audioOutput->setBufferSize(BufferSize);
-    timer = new QTimer;
+    timer = new QTimer(this);
     timer->setTimerType(Qt::PreciseTimer);
     connect(timer, SIGNAL(timeout()), this, SLOT(writeMoreData()));
     m_time = 0;

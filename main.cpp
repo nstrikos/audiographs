@@ -3,15 +3,16 @@
 #include <QApplication>
 
 #include "function/functionExpression.h"
-#include "function/functionConnector.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "function/functionDisplayView.h"
-#include "function/functionPointView.h"
+#include "function/view//functionDisplayView.h"
+#include "function/view/functionPointView.h"
 #include "function/functionExpression.h"
 #include "function/point.h"
+
+#include "qmlconnector.h"
 
 #include "texttospeech.h"
 
@@ -34,10 +35,6 @@ int main(int argc, char *argv[])
 
         FunctionExpression functionExpression;
 
-        FunctionConnector functionConnector;
-
-        functionConnector.start(w, functionExpression);
-
         return a.exec();
     } else {
         QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -50,16 +47,18 @@ int main(int argc, char *argv[])
 
         qmlRegisterType<FunctionDisplayView>("DisplayView", 1, 0, "DisplayView");
         qmlRegisterType<FunctionPointView>("PointView", 1, 0, "PointView");
-        qmlRegisterType<Points>("Points", 1, 0, "Points");
 
         Parameters *parameters = &Parameters::getInstance();
         FunctionExpression functionExpression;
-        TextToSpeech textToSpeech;
+        TextToSpeech *textToSpeech = &TextToSpeech::getInstance();
+
+        QmlConnector qmlConnector;
 
         QQmlApplicationEngine engine;
         engine.rootContext()->setContextProperty("parameters", parameters);
         engine.rootContext()->setContextProperty("functionExpression", &functionExpression);
-        engine.rootContext()->setContextProperty("textToSpeech", &textToSpeech);
+        engine.rootContext()->setContextProperty("textToSpeech", textToSpeech);
+        engine.rootContext()->setContextProperty("qmlConnector", &qmlConnector);
         //qRegisterMetaType<FunctionController*>("FunctionController*");
 
 
@@ -77,17 +76,11 @@ int main(int argc, char *argv[])
         QObject *qmlDerivativeView = rootObject->findChild<QObject*>("derivativeView");
 
         //            FunctionPointView *pointView = static_cast<FunctionPointView*>(qmlPointView);
-        FunctionDisplayView *displayView = static_cast<FunctionDisplayView*>(qmlDisplayView);
-        QObject::connect(&functionExpression, &FunctionExpression::newGraph, displayView, &FunctionDisplayView::draw);
-        QObject::connect(&functionExpression, &FunctionExpression::error, displayView, &FunctionDisplayView::clear);
+
 
         FunctionPointView *pointView = static_cast<FunctionPointView*>(qmlPointView);
-        QObject::connect(&functionExpression, &FunctionExpression::newGraph, pointView, &FunctionPointView::draw);
-        QObject::connect(&functionExpression, &FunctionExpression::newCurrentPoint, pointView, &FunctionPointView::setCurrentPoint);
-
-        FunctionDisplayView *derivativeView = static_cast<FunctionDisplayView*>(qmlDerivativeView);
-        QObject::connect(&functionExpression, &FunctionExpression::updateDerivative, derivativeView, &FunctionDisplayView::draw);
-        QObject::connect(&functionExpression, &FunctionExpression::error, derivativeView, &FunctionDisplayView::clear);
+//        QObject::connect(&functionExpression, &FunctionExpression::newGraph, pointView, &FunctionPointView::draw);
+        //QObject::connect(&functionExpression, &FunctionExpression::newCurrentPoint, pointView, &FunctionPointView::setCurrentPoint);
 
         return app.exec();
     }

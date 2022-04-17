@@ -4,19 +4,22 @@
 
 #include <QtQuick/QQuickItem>
 #include "functionDisplayViewInterface.h"
+#include "requests.h"
 
-class FunctionDisplayView : public QQuickItem, public FunctionDisplayViewInterface
+class FunctionDisplayView : public QQuickItem, public FunctionDisplayViewInterface, public RequestReceiver
 {
     Q_OBJECT
 
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(int lineWidth READ lineWidth WRITE setLineWidth)
+    Q_PROPERTY(bool derivative READ derivative  WRITE setDerivative)
 
 public:
     FunctionDisplayView(QQuickItem *parent = nullptr);
     ~FunctionDisplayView () override;
 
     Q_INVOKABLE void updateView();
+    virtual void accept(Request *request) override;
 
 //    void drawDerivative(FunctionModel *model);
 
@@ -28,6 +31,9 @@ public:
 
     Q_INVOKABLE void setUpdate(bool update);
 
+    void setDerivative(bool newDerivative);
+    bool derivative();
+
 public slots:
     void draw(Points *points,
               double xMin,
@@ -38,12 +44,14 @@ public slots:
 
 
 private:
+    RequestHandler *requestHandler;
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *) override;
     QColor m_color;
     QColor m_newColor;
     int m_lineWidth;
     int m_factor;
     bool m_update;
+    bool m_derivative;
 };
 
 #endif // FUNCTIONDISPLAYVIEW_H

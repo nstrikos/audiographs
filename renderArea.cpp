@@ -22,11 +22,26 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
     m_showCurrentPoint = false;
 
     m_derivMode = 0;
+
+    requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_draw_point);
 }
 
 RenderArea::~RenderArea()
 {
 
+}
+
+void RenderArea::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "RenderArea accepted id: " << request->id << " type: " << request->type;
+
+    if (request->type == request_draw_point) {
+        double x = static_cast<DrawPointRequest*>(request)->x;
+        double y = static_cast<DrawPointRequest*>(request)->y;
+        drawPoint(x, y);
+    }
 }
 
 void RenderArea::updateGraph(Points *points, double xMin, double xMax, double yMin, double yMax)
@@ -433,7 +448,7 @@ void RenderArea::mouseReleaseEvent(QMouseEvent *event)
     emit mouseReleased();
 }
 
-void RenderArea::newCurrentPoint(double x, double y)
+void RenderArea::drawPoint(double x, double y)
 {
     m_oldX = x;
     m_oldY = y;

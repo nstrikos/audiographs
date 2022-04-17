@@ -235,17 +235,17 @@ Item {
                 targetState: evaluateState
                 signal: window.evaluate
             }
-//            DSM.SignalTransition {
-//                targetState: errorDisplayState
-//                signal: window.playPressed
-//            }
+            //            DSM.SignalTransition {
+            //                targetState: errorDisplayState
+            //                signal: window.playPressed
+            //            }
             onEntered: {
                 console.log("initial state")
                 functionExpression.setDerivativeMode(0)
                 window.graphRect.pointView.clear()
                 window.graphRect.derivativeView.setUpdate(false);
                 window.graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
-                disableControls()               
+                disableControls()
             }
         }
 
@@ -277,11 +277,11 @@ Item {
                 functionExpression.setDerivativeMode(0)
                 window.graphRect.derivativeView.setUpdate(false);
                 window.graphRect.derivativeView.visible = false
-                functionExpression.calculate(controlsRect.textInput.text,
-                                             controlsRect.textInput2.text,
-                                             controlsRect.textInput3.text,
-                                             controlsRect.textInput4.text,
-                                             controlsRect.textInput5.text)
+                qmlConnector.calculate(controlsRect.textInput.text,
+                                       controlsRect.textInput2.text,
+                                       controlsRect.textInput3.text,
+                                       controlsRect.textInput4.text,
+                                       controlsRect.textInput5.text)
             }
         }
 

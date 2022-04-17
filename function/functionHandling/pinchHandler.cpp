@@ -1,10 +1,20 @@
 #include "pinchHandler.h"
 
-#include "functionModel.h"
+#include "../functionModel.h"
 
 PinchHandler::PinchHandler(QObject *parent) : QObject(parent)
 {
+    calculateRequest = nullptr;
+    newInputValuesRequest = nullptr;
+    requestHandler = &RequestHandler::getInstance();
+}
 
+PinchHandler::~PinchHandler()
+{
+    if (newInputValuesRequest != nullptr)
+        delete newInputValuesRequest;
+    if (calculateRequest != nullptr)
+        delete calculateRequest;
 }
 
 void PinchHandler::startPinch(FunctionModel &model)
@@ -51,16 +61,27 @@ void PinchHandler::pinch(FunctionModel &model, double scale)
     double minY = centerY - distanceY / 2;
     double maxY = centerY + distanceY / 2;
 
-    model.calculate(model.expression(),
-                    QString::number(minX),
-                    QString::number(maxX),
-                    QString::number(minY),
-                    QString::number(maxY));
+    if (calculateRequest == nullptr)
+        calculateRequest = new CalculateRequest;
+    calculateRequest->expression = model.expression();
+    calculateRequest->minX = QString::number(minX);
+    calculateRequest->maxX = QString::number(maxX);
+    calculateRequest->minY = QString::number(minY);
+    calculateRequest->maxY = QString::number(maxY);
+
+    requestHandler->handleRequest(calculateRequest);
 
     minX = round(minX * ten) / ten;
     maxX = round(maxX * ten) / ten;
     minY = round(minY * ten) / ten;
     maxY = round(maxY * ten) / ten;
 
-    emit newInputValues(minX, maxX, minY, maxY);
+    if (newInputValuesRequest == nullptr)
+        newInputValuesRequest = new NewInputValuesRequest();
+    newInputValuesRequest->minX = minX;
+    newInputValuesRequest->maxX = maxX;
+    newInputValuesRequest->minY = minY;
+    newInputValuesRequest->maxY = maxY;
+
+    requestHandler->handleRequest(newInputValuesRequest);
 }

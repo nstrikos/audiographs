@@ -1,8 +1,9 @@
 #include "functionModel.h"
 
-//#include <QtMath>
-
 #include "constants.h"
+#include <QObject>
+
+#include <QDebug>
 
 int mygcd(int a, int b)
 {
@@ -38,7 +39,7 @@ double powint(const double *p)
 }
 #endif
 
-FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
+FunctionModel::FunctionModel()
 {
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
@@ -124,6 +125,50 @@ FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
 #else
     m_fparser.AddFunction("powint", powint, 3);
 #endif
+
+   requestHandler = &RequestHandler::getInstance();
+   requestHandler->add(this, request_calculate);
+
+   updateRequest = nullptr;
+   errorRequest = nullptr;
+   updateDerivativeRequest = nullptr;
+}
+
+FunctionModel::~FunctionModel()
+{
+    if (updateRequest != nullptr)
+        delete updateRequest;
+    if (errorRequest != nullptr)
+        delete errorRequest;
+    if (updateDerivativeRequest != nullptr)
+        delete updateDerivativeRequest;
+}
+
+void FunctionModel::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "FunctionModel accepted id: " << request->id << " type: " << request->type;
+    if (request->type == request_calculate)
+        performCalculate(static_cast<CalculateRequest*>(request));
+}
+
+void FunctionModel::performCalculate(CalculateRequest *request)
+{
+    QString expression = request->expression;
+    QString minX = request->minX;
+    QString maxX = request->maxX;
+    QString minY = request->minY;
+    QString maxY = request->maxY;
+
+//    if (m_derivativeMode == 0) {
+        calculate(expression, minX, maxX, minY, maxY);
+//    } else if (m_derivativeMode == 1) {
+//        calculate(expression, minX, maxX, minY, maxY);
+//        calculateDerivative();
+//    } else if (m_derivativeMode == 2) {
+//        calculate(expression, minX, maxX, minY, maxY);
+//        calculateSecondDerivative();
+//    }
 }
 
 void FunctionModel::calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY)
@@ -137,10 +182,21 @@ void FunctionModel::calculate(QString expression, QString minX, QString maxX, QS
     if ( check() ) {
         m_validExpression = true;
         calculatePoints();
-        emit newGraph(&m_points, m_minX, m_maxX, m_minY, m_maxY);
+        if (updateRequest == nullptr)
+            updateRequest = new UpdateRequest;
+        updateRequest->sender = "FunctionModel";
+        updateRequest->points = &m_points;
+        updateRequest->minX = m_minX;
+        updateRequest->maxX = m_maxX;
+        updateRequest->minY = m_minY;
+        updateRequest->maxY = m_maxY;
+        requestHandler->handleRequest(updateRequest);
     } else {
         m_validExpression = false;
-        emit error(m_errorString);
+        if (errorRequest == nullptr)
+            errorRequest = new ErrorRequest();
+        errorRequest->error = m_errorString;
+        requestHandler->handleRequest(errorRequest);
     }
 }
 
@@ -155,7 +211,7 @@ bool FunctionModel::check()
         m_minX = minDouble;
     }
     else {
-        m_errorString = tr("Minimum is not a real number.");
+        m_errorString = QObject::tr("Minimum is not a real number.");
         return false;
     }
 
@@ -164,7 +220,7 @@ bool FunctionModel::check()
         m_maxX = maxDouble;
     }
     else {
-        m_errorString = tr("Maximum is not a real number.");
+        m_errorString = QObject::tr("Maximum is not a real number.");
         return false;
     }
 
@@ -173,7 +229,7 @@ bool FunctionModel::check()
         m_minY = minYDouble;
     }
     else {
-        m_errorString = tr("Minimum Y is not a real number.");
+        m_errorString = QObject::tr("Minimum Y is not a real number.");
         return false;
     }
 
@@ -182,17 +238,17 @@ bool FunctionModel::check()
         m_maxY = maxYDouble;
     }
     else {
-        m_errorString = tr("Maximum Y is not a real number.");
+        m_errorString = QObject::tr("Maximum Y is not a real number.");
         return false;
     }
 
     if (m_maxX <= m_minX) {
-        m_errorString = tr("Maximum must be greater than minimum.");
+        m_errorString = QObject::tr("Maximum must be greater than minimum.");
         return false;
     }
 
     if (m_maxY <= m_minY) {
-        m_errorString = tr("Maximum Y must be greater than minimum Y.");
+        m_errorString = QObject::tr("Maximum Y must be greater than minimum Y.");
         return false;
     }
 
@@ -482,7 +538,14 @@ void FunctionModel::calculateDerivative()
             m_maxDerivValue = m_derivPoints.yAt(i);
     }
 
-    emit updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+    if (updateDerivativeRequest == nullptr)
+        updateDerivativeRequest = new UpdateDerivativeRequest;
+    updateDerivativeRequest->points = &m_derivPoints;
+    updateDerivativeRequest->minX = m_minX;
+    updateDerivativeRequest->maxX = m_maxX;
+    updateDerivativeRequest->minY = m_minY;
+    updateDerivativeRequest->maxY = m_maxY;
+    requestHandler->handleRequest(updateDerivativeRequest);
 }
 
 void FunctionModel::calculateSecondDerivative()
@@ -585,7 +648,14 @@ void FunctionModel::calculateSecondDerivative()
             m_maxDerivValue = m_derivPoints.yAt(i);
     }
 
-    emit updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+    if (updateDerivativeRequest == nullptr)
+        updateDerivativeRequest = new UpdateDerivativeRequest;
+    updateDerivativeRequest->points = &m_derivPoints;
+    updateDerivativeRequest->minX = m_minX;
+    updateDerivativeRequest->maxX = m_maxX;
+    updateDerivativeRequest->minY = m_minY;
+    updateDerivativeRequest->maxY = m_maxY;
+    requestHandler->handleRequest(updateDerivativeRequest);
 }
 
 void FunctionModel::refreshDerivative()

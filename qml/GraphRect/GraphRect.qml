@@ -50,6 +50,7 @@ Rectangle {
         layer.samples: 256
         color: "blue"
         lineWidth: parameters.lineWidth
+        derivative: true
     }
 
     DisplayView {
@@ -76,10 +77,10 @@ Rectangle {
     PinchArea {
         anchors.fill: parent
         onPinchStarted: {
-            functionExpression.startPinch()
+            qmlConnector.startPinch()
         }
         onPinchUpdated: {
-            functionExpression.pinch(pinch.scale)
+            qmlConnector.pinch(pinch.scale)
         }
         MouseArea {
             anchors.fill: parent
@@ -90,7 +91,7 @@ Rectangle {
                         functionExpression.setDerivativeMode(0)
                         window.graphRect.derivativeView.setUpdate(false);
                         window.graphRect.derivativeView.visible = false
-                        functionExpression.zoom(wheel.angleDelta.y)
+                        qmlConnector.zoom(wheel.angleDelta.y)
                     }
                 }
             }
@@ -101,7 +102,7 @@ Rectangle {
                             functionExpression.setDerivativeMode(0)
                             window.graphRect.derivativeView.setUpdate(false);
                             window.graphRect.derivativeView.visible = false
-                            functionExpression.startDrag(mouseX, mouseY)
+                            qmlConnector.startDrag(mouseX, mouseY)
                         }
                 } else {
                     if (!pressed)
@@ -115,7 +116,7 @@ Rectangle {
                             functionExpression.setDerivativeMode(0)
                             window.graphRect.derivativeView.setUpdate(false);
                             window.graphRect.derivativeView.visible = false
-                            functionExpression.drag(mouseX, mouseY, width, height)
+                            qmlConnector.drag(mouseX, mouseY, width, height)
                         }
                 } else {
                     if (pressed)

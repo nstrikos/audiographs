@@ -11,6 +11,9 @@ TextToSpeech::TextToSpeech()
 
     m_speech = nullptr;
 
+    requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_say_text);
+
     foreach (QString engine, QTextToSpeech::availableEngines())
         m_engines.append(engine);
 
@@ -20,6 +23,14 @@ TextToSpeech::TextToSpeech()
 TextToSpeech::~TextToSpeech()
 {
 
+}
+
+void TextToSpeech::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "TextToSpeech accepted id: " << request->id << " type: " << request->type;
+    if (request->type == request_say_text)
+        speak(static_cast<SayTextRequest*>(request)->text);
 }
 
 QVector<QVoice> TextToSpeech::voices() const
@@ -146,7 +157,8 @@ QStringList TextToSpeech::languages() const
 
 void TextToSpeech::speak(QString text)
 {
-    m_speech->say(text);
+    if (m_parameters->selfVoice())
+        m_speech->say(text);
     qDebug() << text;
 }
 

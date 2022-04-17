@@ -13,6 +13,7 @@
 #include "errorDisplayDialog.h"
 #include "aboutDialog.h"
 #include "texttospeech.h"
+#include "requests.h"
 
 #include<array>
 using namespace std;
@@ -23,7 +24,7 @@ QT_END_NAMESPACE
 
 class KeyReceiver;
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public RequestReceiver
 {
     Q_OBJECT
 
@@ -31,54 +32,34 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void accept(Request *request);
+
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
 
 signals:
-    void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY);
     void evaluate();
     void functionError();
     void newgraph();
-    void playPressed();
-    void playSound();
-    void stopSound();
+    void playPressed();    
     void audioFinished();
-    void newCurrentPoint(double x, double y);
     void nextPoint();
     void previousPoint();
     void sayX();
     void sayY();
     void getX();
     void getY();
-    void sayDerivative();
-    void getDerivative();
-    void decStep();
-    void incStep();
     void previousPointInterest();
     void nextPointInterest();
-    void externalPreviousPointInterest();
-    void externalNextPointInterest();
     void interestingPointFinished();
     void stopInterestingPoint();
     void previousFast();
     void nextFast();
-    void externalPreviousFast();
-    void externalNextFast();
     void firstPoint();
     void lastPoint();
     void errorAccepted();
-    void derivativeMode(int mode);
-    void startDrag(int x , int y);
-    void drag(int diffX, int diffY, int width, int height);
-    void zoom(double delta);
 
-public slots:
-    void updateGraph(Points *points, double minX, double maxX, double minY, double maxY);
-    void newInputValues(double minX, double maxX, double minY, double maxY);
-    void updateDerivative(Points *points, double minX, double maxX, double minY, double maxY);
-
-    void error(QString errorString);
-
+public slots:    
     void on_startSoundPushButton_clicked();
 
     void on_nextPushButton_clicked();
@@ -99,9 +80,7 @@ public slots:
 
     void on_firstPointPushButton_clicked();
 
-    void on_lastPointPushButton_clicked();
-
-    void updateLabelText(QString text);
+    void on_lastPointPushButton_clicked();    
 
     void exit();
 
@@ -200,6 +179,34 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    CalculateRequest *calculateRequest;
+    PlaySoundRequest *playSoundRequest;
+    StopSoundRequest *stopSoundRequest;
+    ZoomRequest *zoomRequest;
+    StartDragRequest *startDragRequest;
+    DragRequest *dragRequest;
+    PreviousPointRequest *previousPointRequest;
+    NextPointRequest *nextPointRequest;
+    SayXRequest *sayXRequest;
+    SayYRequest *sayYRequest;
+    GetXRequest *getXRequest;
+    GetYRequest *getYRequest;
+    SayDerivativeRequest *sayDerivativeRequest;
+    GetDerivativeRequest *getDerivativeRequest;
+    IncStepRequest *incStepRequest;
+    DecStepRequest *decStepRequest;
+    PreviousPointInterestRequest *previousPointInterestRequest;
+    NextPointInterestRequest *nextPointInterestRequest;
+    PreviousFastRequest *previousFastRequest;
+    NextFastRequest *nextFastRequest;
+    FirstPointRequest *firstPointRequest;
+    LastPointRequest *lastPointRequest;
+    SetDerivativeRequest *setDerivativeRequest;
+    NotesStartRequest *notesStartRequest;
+    AudioStartRequest *audioStartRequest;
+    SetNoteRequest *setNoteRequest;
+
+    RequestHandler *requestHandler;
 
     void initActions();
     void initMenu();
@@ -211,6 +218,13 @@ private:
     void focusExpression();
     void clearLabel();
     void stopIntro();
+
+    void updateGraph(UpdateRequest *request);
+    void error(ErrorRequest *request);
+    void newInputValues(NewInputValuesRequest *request);
+    void updateDerivative(UpdateDerivativeRequest *request);
+    void updateLabelText(QString text);
+    void derivativeMode(int mode);
 
     QStateMachine stateMachine;
     QState initialState, errorDisplayState, evaluateState, graphReadyState,

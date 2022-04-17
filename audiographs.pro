@@ -18,18 +18,17 @@ SOURCES += \
     audionotes/audiopoints.cpp \
     errorDisplayDialog.cpp \
     function/currentPoint.cpp \
-    function/dragHandler.cpp \
-    function/functionConnector.cpp \
-    function/functionDescription.cpp \
-    function/functionDisplayView.cpp \
-    function/functionDisplayViewInterface.cpp \
     function/functionExpression.cpp \
+    function/functionHandling/dragHandler.cpp \
+    function/functionHandling/functionZoomer.cpp \
+    function/functionHandling/pinchHandler.cpp \
     function/functionModel.cpp \
-    function/functionPointView.cpp \
-    function/functionZoomer.cpp \
-    function/pinchHandler.cpp \
     function/point.cpp \
-    function/pointInterest.cpp \
+    function/pointInterest/functionDescription.cpp \
+    function/pointInterest/pointInterest.cpp \
+    function/view/functionDisplayView.cpp \
+    function/view/functionDisplayViewInterface.cpp \
+    function/view/functionPointView.cpp \
     generator/audio.cpp \
     generator/audioengine.cpp \
     generator/genclipper.cpp \
@@ -45,7 +44,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp \
+    qmlconnector.cpp \
     renderArea.cpp \
+    requests.cpp \
     texttospeech.cpp
 
 HEADERS += \
@@ -55,18 +56,17 @@ HEADERS += \
     constants.h \
     errorDisplayDialog.h \
     function/currentPoint.h \
-    function/dragHandler.h \
-    function/functionConnector.h \
-    function/functionDescription.h \
-    function/functionDisplayView.h \
-    function/functionDisplayViewInterface.h \
     function/functionExpression.h \
+    function/functionHandling/dragHandler.h \
+    function/functionHandling/functionZoomer.h \
+    function/functionHandling/pinchHandler.h \
     function/functionModel.h \
-    function/functionPointView.h \
-    function/functionZoomer.h \
-    function/pinchHandler.h \
     function/point.h \
-    function/pointInterest.h \
+    function/pointInterest/functionDescription.h \
+    function/pointInterest/pointInterest.h \
+    function/view/functionDisplayView.h \
+    function/view/functionDisplayViewInterface.h \
+    function/view/functionPointView.h \
     generator/audio.h \
     generator/audioengine.h \
     generator/genclipper.h \
@@ -81,7 +81,9 @@ HEADERS += \
     generator/gensum.h \
     mainwindow.h \
     parameters.h \
+    qmlconnector.h \
     renderArea.h \
+    requests.h \
     texttospeech.h
 
 linux:!android: {
