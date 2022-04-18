@@ -258,3 +258,13 @@ NotesStartRequest::NotesStartRequest()
 {
     type = request_notes_start;
 }
+
+CalculateDerivativeRequest::CalculateDerivativeRequest()
+{
+    type = request_calculate_derivative;
+}
+
+CalculateSecondDerivativeRequest::CalculateSecondDerivativeRequest()
+{
+    type = request_calculate_second_derivative;
+}

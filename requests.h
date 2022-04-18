@@ -48,7 +48,9 @@ enum request_type
     request_set_note = 38,
     request_stop_notes = 39,
     request_audio_start = 40,
-    request_notes_start = 41
+    request_notes_start = 41,
+    request_calculate_derivative = 42,
+    request_calculate_second_derivative = 43
 };
 
 class Request
@@ -400,6 +402,18 @@ public:
     int duration;
     int mode;
     bool useNegativeNotes;
+};
+
+class CalculateDerivativeRequest : public Request
+{
+public:
+    CalculateDerivativeRequest();
+};
+
+class CalculateSecondDerivativeRequest : public Request
+{
+public:
+    CalculateSecondDerivativeRequest();
 };
 
 #endif // REQUESTS_H

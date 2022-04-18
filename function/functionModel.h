@@ -92,11 +92,11 @@ private:
     FunctionParser m_fparser;
 #endif
 
-    //QVector<Point> m_points;
-    //array<Point,10000>m_points;
     Points m_points;
     Points m_derivPoints;
     Points m_firstDerivPoints;
+
+    int derivative_mode = 0;
 };
 
 #endif // FUNCTIONMODEL_H

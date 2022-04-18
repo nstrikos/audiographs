@@ -74,48 +74,6 @@ FunctionModel::FunctionModel()
         }
     });
 
-//    symbol_table.add_function(
-//                "power",
-//                [](double v0, double v1) -> double
-//    {
-
-//        QString n = QString::number(v1);
-//        int position = n.indexOf(".");
-//        int count;
-
-//        if (position == -1)
-//            return pow(v0, v1);
-//        else
-//            n = n.right(n.length() - position - 1);
-
-//        count = n.size();
-//        int b = pow(10, count);
-
-//        int a = (int) (v1 * b);
-
-//        int d = mygcd(a, b);
-
-//        a = a / d;
-//        b = b / d;
-
-//        double ratio = (double) a / b;
-
-//        int sign;
-//        if (v0 > 0) sign = 1;
-//        if (v0 < 0) sign = -1;
-//        if (v0 == 0) sign = 0;
-
-//        if ((int)b % 2 == 0) {
-//            return pow(v0, ratio);
-//        } else {
-//            if ((int)a % 2 == 0) {
-//                return pow(abs(v0), ratio);
-//            } else {
-//                return sign * pow(abs(v0), ratio);
-//            }
-//        }
-//    });
-
     symbol_table.add_variable("x",m_x);
     symbol_table.add_constant("pi", M_PI);
     symbol_table.add_constant("e", M_E);
@@ -128,6 +86,8 @@ FunctionModel::FunctionModel()
 
    requestHandler = &RequestHandler::getInstance();
    requestHandler->add(this, request_calculate);
+   requestHandler->add(this, request_calculate_derivative);
+   requestHandler->add(this, request_calculate_second_derivative);
 
    updateRequest = nullptr;
    errorRequest = nullptr;
@@ -150,6 +110,10 @@ void FunctionModel::accept(Request *request)
         qDebug() << "FunctionModel accepted id: " << request->id << " type: " << request->type;
     if (request->type == request_calculate)
         performCalculate(static_cast<CalculateRequest*>(request));
+    else if (request->type == request_calculate_derivative)
+        calculateDerivative();
+    else if (request->type == request_calculate_second_derivative)
+        calculateSecondDerivative();
 }
 
 void FunctionModel::performCalculate(CalculateRequest *request)
@@ -159,6 +123,8 @@ void FunctionModel::performCalculate(CalculateRequest *request)
     QString maxX = request->maxX;
     QString minY = request->minY;
     QString maxY = request->maxY;
+
+    derivative_mode = 0;
 
 //    if (m_derivativeMode == 0) {
         calculate(expression, minX, maxX, minY, maxY);
@@ -295,8 +261,6 @@ bool FunctionModel::check()
 
 void FunctionModel::replaceConstants()
 {
-    QString piString = QString::number(M_PI);
-    QString eString = QString::number(M_E);
     QString ln = "ln";
 
     m_expression.replace(ln, "log");
@@ -305,10 +269,6 @@ void FunctionModel::replaceConstants()
 void FunctionModel::calculatePoints()
 {
     Point tmpPoint;
-
-    //m_points.clear();
-    //m_points.fill(0);
-    //m_derivPoints.clear();
 
     double step;
 
@@ -336,7 +296,7 @@ void FunctionModel::calculatePoints()
         else {
             tmpPoint.isValid = false;
         }
-        //m_points.append(tmpPoint);
+
         m_points.setPoint(i, tmpPoint);
     }
 
@@ -433,7 +393,10 @@ double FunctionModel::x(int i)
 
 double FunctionModel::y(int i)
 {
-    return m_points.yAt(i);
+    if (derivative_mode == 0)
+        return m_points.yAt(i);
+    else
+        return m_derivPoints.yAt(i);
 }
 
 bool FunctionModel::isValid(int i)
@@ -443,18 +406,14 @@ bool FunctionModel::isValid(int i)
 
 int FunctionModel::size()
 {
-    //return m_points.size();
     return LINE_POINTS;
 }
 
 void FunctionModel::calculateDerivative()
 {
-    //    if (m_points.size() <= 0)
-    //        return;
-
     Point tmpPoint;
 
-    //m_derivPoints.clear();
+    derivative_mode = 1;
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
@@ -471,9 +430,6 @@ void FunctionModel::calculateDerivative()
         }
         m_derivPoints.setPoint(i, tmpPoint);
     }
-
-
-
 
 #else
 
@@ -540,6 +496,7 @@ void FunctionModel::calculateDerivative()
 
     if (updateDerivativeRequest == nullptr)
         updateDerivativeRequest = new UpdateDerivativeRequest;
+    updateDerivativeRequest->sender = "FunctionModel";
     updateDerivativeRequest->points = &m_derivPoints;
     updateDerivativeRequest->minX = m_minX;
     updateDerivativeRequest->maxX = m_maxX;
@@ -550,12 +507,9 @@ void FunctionModel::calculateDerivative()
 
 void FunctionModel::calculateSecondDerivative()
 {
-    //    if (m_points.size() <= 0)
-    //        return;
-
     Point tmpPoint;
 
-    //    m_derivPoints.clear();
+    derivative_mode = 2;
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
@@ -577,10 +531,6 @@ void FunctionModel::calculateSecondDerivative()
         }
         m_derivPoints.setPoint(i, tmpPoint);
     }
-
-
-
-
 
 #else
 

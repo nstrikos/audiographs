@@ -205,6 +205,8 @@ private:
     NotesStartRequest *notesStartRequest;
     AudioStartRequest *audioStartRequest;
     SetNoteRequest *setNoteRequest;
+    CalculateDerivativeRequest *calculateDerivativeRequest;
+    CalculateSecondDerivativeRequest *calculateSecondDerivativeRequest;
 
     RequestHandler *requestHandler;
 

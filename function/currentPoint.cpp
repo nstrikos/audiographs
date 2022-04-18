@@ -115,8 +115,10 @@ void CurrentPoint::accept(Request *request)
         break;
     case request_getX:
         getX();
+        break;
     case request_getY:
         getY();
+        break;
     default:
         break;
     }
@@ -201,13 +203,8 @@ void CurrentPoint::endPoint()
 
 void CurrentPoint::drawPoint()
 {
-    if (m_derivMode == 0) {
-        m_X = m_model.x(m_point);
-        m_Y = m_model.y(m_point);
-    } else {
-        m_X = m_model.x(m_point);
-        m_Y = m_model.derivative(m_point);
-    }
+    m_X = m_model.x(m_point);
+    m_Y = m_model.y(m_point);
 
     if (drawPointRequest == nullptr)
         drawPointRequest = new DrawPointRequest();

@@ -60,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent)
     audioStartRequest = nullptr;
     notesStartRequest = nullptr;
     setNoteRequest= nullptr;
+    calculateDerivativeRequest = nullptr;
+    calculateSecondDerivativeRequest = nullptr;
 
     initStateMachine();
 
@@ -250,6 +252,10 @@ MainWindow::~MainWindow()
         delete notesStartRequest;
     if (setNoteRequest!= nullptr)
         delete setNoteRequest;
+    if (calculateDerivativeRequest != nullptr)
+        delete calculateDerivativeRequest;
+    if (calculateSecondDerivativeRequest != nullptr)
+        delete calculateSecondDerivativeRequest;
 
     delete ui;
 }
@@ -1402,9 +1408,6 @@ void MainWindow::exit()
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-
-    //    Q_UNUSED(obj);
-
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent* key = static_cast<QKeyEvent*>(event);
         if ( (key->key() == Qt::Key_Space && key->modifiers()==Qt::ControlModifier) ) {
@@ -1554,33 +1557,47 @@ void MainWindow::useNegativeNotesActionActivated()
 
 void MainWindow::on_normalModePushButton_clicked()
 {
+    emit evaluate();
     //derivativeMode(0);
-    ui->renderArea->setDerivativeMode(0);
+    //ui->renderArea->setDerivativeMode(0);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Normal mode"));
-    emit newgraph();
+    //emit newgraph();
     //clearLabel();
     updateLabelText(tr("normal mode"));
 }
 
 void MainWindow::on_firstDerivativePushButton_clicked()
 {
+    if (calculateDerivativeRequest == nullptr)
+        calculateDerivativeRequest = new CalculateDerivativeRequest();
+    calculateDerivativeRequest->sender = "MainWindow";
+
+    requestHandler->handleRequest(calculateDerivativeRequest);
+
     //derivativeMode(1);
-    ui->renderArea->setDerivativeMode(1);
+    //ui->renderArea->setDerivativeMode(1);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("First derivative mode"));
-    emit newgraph();
+    //emit newgraph();
     //clearLabel();
     updateLabelText(tr("first derivative"));
 }
 
 void MainWindow::on_secondDerivativePushButton_clicked()
 {
+    if (calculateSecondDerivativeRequest == nullptr)
+        calculateSecondDerivativeRequest = new CalculateSecondDerivativeRequest();
+    calculateSecondDerivativeRequest->sender = "MainWindow";
+
+    requestHandler->handleRequest(calculateSecondDerivativeRequest);
+
+
     //derivativeMode(2);
-    ui->renderArea->setDerivativeMode(2);
+    //ui->renderArea->setDerivativeMode(2);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Second derivative mode"));
-    emit newgraph();
+    //emit newgraph();
     //    clearLabel();
     updateLabelText(tr("second derivative"));
 }
