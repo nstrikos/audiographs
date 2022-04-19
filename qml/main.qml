@@ -137,19 +137,19 @@ Window {
         }
     }
 
-    Connections {
-        target: functionExpression
-        function onAudioFinished() {
-            stopAudio()
-        }
-    }
+//    Connections {
+//        target: functionExpression
+//        function onAudioFinished() {
+//            stopAudio()
+//        }
+//    }
 
-    Connections {
-        target: functionExpression
-        function onInterestingPointFinished() {
-            interestingPointFinished()
-        }
-    }
+//    Connections {
+//        target: functionExpression
+//        function onInterestingPointFinished() {
+//            interestingPointFinished()
+//        }
+//    }
 
     Connections {
         target: qmlConnector

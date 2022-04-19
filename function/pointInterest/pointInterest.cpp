@@ -116,7 +116,7 @@ void PointsInterest::nextPointFast()
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model, m_derivMode);
+        m_points = m_funcDescription->points(&m_model);
         m_isUpdated = true;
     }
 
@@ -141,7 +141,7 @@ void PointsInterest::previousPointFast()
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model, m_derivMode);
+        m_points = m_funcDescription->points(&m_model);
         m_isUpdated = true;
     }
 
@@ -163,7 +163,7 @@ void PointsInterest::start()
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model, m_derivMode);
+        m_points = m_funcDescription->points(&m_model);
         m_isUpdated = true;
     }
 
@@ -297,8 +297,6 @@ int PointsInterest::getStep()
 
 void PointsInterest::setDerivativeMode(SetDerivativeRequest *request)
 {
-    m_derivMode = request->mode;
-
     if (m_model.size() == 0)
         return;
 
@@ -307,7 +305,7 @@ void PointsInterest::setDerivativeMode(SetDerivativeRequest *request)
     if (m_funcDescription == nullptr)
         m_funcDescription = new FunctionDescription;
 
-    m_points = m_funcDescription->points(&m_model, m_derivMode);
+    m_points = m_funcDescription->points(&m_model);
     m_isUpdated = true;
 }
 
@@ -342,7 +340,7 @@ void PointsInterest::updateLabel(QString text)
     requestHandler->handleRequest(updateTextRequest);
 }
 
-void PointsInterest::sendNoteRequest(int fmin, int fmax, bool useNotes, int mode, bool useNegativeNotes)
+void PointsInterest::sendNoteRequest(int fmin, int fmax, bool useNotes, bool useNegativeNotes)
 {
     if (setNoteRequest == nullptr)
         setNoteRequest = new SetNoteRequest();
@@ -350,7 +348,6 @@ void PointsInterest::sendNoteRequest(int fmin, int fmax, bool useNotes, int mode
     setNoteRequest->fmin = fmin;
     setNoteRequest->fmax = fmax;
     setNoteRequest->useNotes = useNotes;
-    setNoteRequest->mode = mode;
     setNoteRequest->useNegativeNotes = useNegativeNotes;
     requestHandler->handleRequest(setNoteRequest);
 }
@@ -385,7 +382,7 @@ void PointsInterest::timerExpired()
             updateLabel(label);
             finished();
         } else {
-            sendNoteRequest(parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_derivMode, m_parameters->useNegativeNotes());
+            sendNoteRequest(parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_parameters->useNegativeNotes());
         }
     } else {
 
@@ -404,7 +401,7 @@ void PointsInterest::timerExpired()
             updateLabel(label);
             finished();
         } else {
-            sendNoteRequest( parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_derivMode, m_parameters->useNegativeNotes());
+            sendNoteRequest( parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_parameters->useNegativeNotes());
         }
     }
 }

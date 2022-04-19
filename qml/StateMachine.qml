@@ -241,7 +241,7 @@ Item {
             //            }
             onEntered: {
                 console.log("initial state")
-                functionExpression.setDerivativeMode(0)
+                //functionExpression.setDerivativeMode(0)
                 window.graphRect.pointView.clear()
                 window.graphRect.derivativeView.setUpdate(false);
                 window.graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
@@ -274,7 +274,7 @@ Item {
             onEntered: {
                 console.log("evaluate state")
                 disableControls()
-                functionExpression.setDerivativeMode(0)
+                //functionExpression.setDerivativeMode(0)
                 window.graphRect.derivativeView.setUpdate(false);
                 window.graphRect.derivativeView.visible = false
                 qmlConnector.calculate(controlsRect.textInput.text,

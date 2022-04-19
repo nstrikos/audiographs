@@ -37,17 +37,15 @@ void AudioNotes::accept(Request *request)
         int fmin = static_cast<NotesStartRequest*>(request)->fmin;
         int fmax = static_cast<NotesStartRequest*>(request)->fmax;
         int duration = static_cast<NotesStartRequest*>(request)->duration;
-        int mode = 0;
         bool useNegativeNotes = static_cast<NotesStartRequest*>(request)->useNegativeNotes;
-        startNotes(fmin, fmax, duration, mode, useNegativeNotes);
+        startNotes(fmin, fmax, duration, useNegativeNotes);
     }
     else if (request->type == request_set_note) {
         int fmin = static_cast<SetNoteRequest*>(request)->fmin;
         int fmax = static_cast<SetNoteRequest*>(request)->fmax;
         bool useNotes = static_cast<SetNoteRequest*>(request)->useNotes;
-        int mode = static_cast<SetNoteRequest*>(request)->mode;
         bool useNegativeNotes = static_cast<SetNoteRequest*>(request)->useNegativeNotes;
-        setNote(fmin, fmax, useNotes, mode, useNegativeNotes);
+        setNote(fmin, fmax, useNotes, useNegativeNotes);
     } else if (request->type == request_stop_notes) {
         stopNotes();
     } else if (request->type == request_stop_sound) {
@@ -60,84 +58,16 @@ void AudioNotes::accept(Request *request)
 void AudioNotes::startNotes(int fmin,
                             int fmax,
                             int duration,
-                            int mode,
                             bool useNegativeNotes)
 {
     m_fmin = fmin;
     m_fmax = fmax;
     m_duration = duration * 1000;
-    m_derivMode = mode;
     m_useNegativeNotes = useNegativeNotes;
     m_timeElapsed = 0;
     m_timer.start();
 }
 
-void AudioNotes::setNoteFromMouse(int mouseX, int width, int fmin, int fmax, bool useNotes, int mode)
-{
-    m_mouseX = mouseX;
-    m_fmin = fmin;
-    m_fmax = fmax;
-
-    if (m_mouseX < 0)
-        m_mouseX = 0;
-    if (m_mouseX > width)
-        m_mouseX = width;
-
-    double ratio = (double) m_mouseX / width;
-
-    int i = round((1.0 * m_mouseX / width) * LINE_POINTS);
-    if (i < 0)
-        i = 0;
-    if (i >= LINE_POINTS)
-        i = LINE_POINTS - 1;
-
-    double min = m_model.minValue();
-    double max = m_model.maxValue();
-
-
-    if (mode > 0 ) {
-        min = m_model.minDerivValue();
-        max = m_model.maxDerivValue();
-    }
-
-    if (max > m_model.maxY())
-        max = m_model.maxY();
-    if (min < m_model.minY())
-        min = m_model.minY();
-
-    double a;
-    double b;
-    double l;
-    double freq;
-    bool n = true;
-    if ( abs(max - min) > 1e-8) {
-        m_fmin = 110;
-        m_fmax = 880;
-        a =  (m_fmax-m_fmin)/(max - min);
-        b = m_fmax - a * max;
-        if (mode == 0)
-            l = m_model.y(i);
-        else
-            l = m_model.derivative(i);
-        if (!std::signbit(l))
-            n = true;
-        else
-            n = false;
-        freq = a * l + b;
-
-        if (freq > m_fmax)
-            freq = m_fmax;
-        if (freq < m_fmin)
-            freq = m_fmin;
-
-        if (m_model.isValid(i))
-            m_audioPoints->setFreq(freq, useNotes, n, ratio);
-        else
-            m_audioPoints->setFreq(0, useNotes, n, ratio);
-    } else {
-        m_audioPoints->setFreq((m_fmax - m_fmin) / 2, useNotes, n, ratio);
-    }
-}
 void AudioNotes::setPoint(int point)
 {
     m_currentPoint = point;
@@ -148,19 +78,13 @@ void AudioNotes::setPoint(int point)
         m_currentPoint = LINE_POINTS - 1;
 }
 
-void AudioNotes::setNote(int fmin, int fmax, bool useNotes, int mode, bool useNegativeNotes)
+void AudioNotes::setNote(int fmin, int fmax, bool useNotes, bool useNegativeNotes)
 {
     m_fmin = fmin;
     m_fmax = fmax;
 
     double min = m_model.minValue();
     double max = m_model.maxValue();
-
-    if (mode > 0) {
-        min = m_model.minDerivValue();
-        max = m_model.maxDerivValue();
-    }
-
 
     if (max > 1 * m_model.maxY())
         max = 1 * m_model.maxY();
@@ -180,10 +104,7 @@ void AudioNotes::setNote(int fmin, int fmax, bool useNotes, int mode, bool useNe
         m_fmax = 880;
         a =  (m_fmax-m_fmin)/(max - min);
         b = m_fmax - a * max;
-        if (mode == 0)
-            l = m_model.y(m_currentPoint);
-        else
-            l = m_model.derivative(m_currentPoint);
+        l = m_model.y(m_currentPoint);
 
         if (useNegativeNotes) {
             if (!std::signbit(l))
@@ -239,12 +160,6 @@ void AudioNotes::timerExpired()
     double min = m_model.minValue();
     double max = m_model.maxValue();
 
-    if (m_derivMode > 0) {
-        min = m_model.minDerivValue();
-        max = m_model.maxDerivValue();
-    }
-
-
     if (max > 1 * m_model.maxY())
         max = 1 * m_model.maxY();
     if (min < 1 * m_model.minY())
@@ -260,10 +175,8 @@ void AudioNotes::timerExpired()
         m_fmax = 880;
         a =  (m_fmax-m_fmin)/(max - min);
         b = m_fmax - a * max;
-        if (m_derivMode == 0)
-            l = m_model.y(i);
-        else
-            l = m_model.derivative(i);
+        l = m_model.y(i);
+
         if (m_useNegativeNotes) {
             if (!std::signbit(l))
                 n = true;

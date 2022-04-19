@@ -368,7 +368,6 @@ public:
     int fmin;
     int fmax;
     bool useNotes;
-    int mode;
     bool useNegativeNotes;
 };
 
@@ -400,7 +399,6 @@ public:
     int fmin;
     int fmax;
     int duration;
-    int mode;
     bool useNegativeNotes;
 };
 

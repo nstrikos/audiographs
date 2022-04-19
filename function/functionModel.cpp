@@ -341,24 +341,20 @@ void FunctionModel::calculatePoints()
     }
 }
 
-double FunctionModel::maxDerivValue() const
-{
-    return m_maxDerivValue;
-}
-
-double FunctionModel::minDerivValue() const
-{
-    return m_minDerivValue;
-}
-
 double FunctionModel::minValue() const
 {
-    return m_minValue;
+    if (derivative_mode == 0)
+        return m_minValue;
+    else
+        return m_minDerivValue;
 }
 
 double FunctionModel::maxValue() const
 {
-    return m_maxValue;
+    if (derivative_mode == 0)
+        return m_maxValue;
+    else
+        return m_maxDerivValue;
 }
 
 double FunctionModel::maxY() const

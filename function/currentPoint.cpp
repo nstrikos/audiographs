@@ -21,7 +21,6 @@ CurrentPoint::CurrentPoint(FunctionModel &model) : m_model(model)
     requestHandler->add(this, request_inc_point);
     requestHandler->add(this, request_dec_point);
     requestHandler->add(this, request_last_point);
-    requestHandler->add(this, request_set_derivative);
     requestHandler->add(this, request_audio_start);
     requestHandler->add(this, request_notes_start);
     requestHandler->add(this, request_sayX);
@@ -43,8 +42,6 @@ CurrentPoint::CurrentPoint(FunctionModel &model) : m_model(model)
 
     m_point = 0;
     m_step = 10;
-
-    m_derivMode = 0;
 }
 
 CurrentPoint::~CurrentPoint()
@@ -103,9 +100,6 @@ void CurrentPoint::accept(Request *request)
         break;
     case request_last_point:
         endPoint();
-        break;
-    case request_set_derivative:
-        setDerivativeMode(static_cast<SetDerivativeRequest*>(request)->mode);
         break;
     case request_sayX:
         sayX();
@@ -299,11 +293,6 @@ void CurrentPoint::previous()
     setPoint(m_point);
 }
 
-int CurrentPoint::point()
-{
-    return m_point;
-}
-
 void CurrentPoint::decStep()
 {
     m_step -= 10;
@@ -333,11 +322,6 @@ void CurrentPoint::incStep()
 
     updateText(text);
     sayText(text);
-}
-
-void CurrentPoint::setDerivativeMode(int mode)
-{
-    m_derivMode = mode;
 }
 
 void CurrentPoint::sayText(QString text)

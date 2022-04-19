@@ -42,7 +42,6 @@ private:
     FunctionDescription *m_funcDescription;
     QVector<InterestingPoint> m_points;
     bool m_isUpdated;
-    int m_derivMode = 0;
     int m_step = 1;
     int m_timerInterVal = 40;
     int m_curPoint = 0;
@@ -54,7 +53,7 @@ private:
 
     void finished();
     void updateLabel(QString text);
-    void sendNoteRequest(int fmin, int fmax, bool useNotes, int mode, bool useNegativeNotes);
+    void sendNoteRequest(int fmin, int fmax, bool useNotes, bool useNegativeNotes);
     void sayText(QString text);
     void nextPoint();
     void previousPoint();

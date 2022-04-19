@@ -16,7 +16,7 @@ FunctionZoomer::~FunctionZoomer()
         delete calculateRequest;
 }
 
-void FunctionZoomer::zoom(FunctionModel &model, double delta, int derivMode)
+void FunctionZoomer::zoom(FunctionModel &model, double delta)
 {
     //    if (!model.validExpression())
     //        return;
@@ -27,10 +27,10 @@ void FunctionZoomer::zoom(FunctionModel &model, double delta, int derivMode)
     else
         factor = 0.9;
 
-    performZoom(model, factor, derivMode);
+    performZoom(model, factor);
 }
 
-void FunctionZoomer::performZoom(FunctionModel &model, double factor, int derivMode)
+void FunctionZoomer::performZoom(FunctionModel &model, double factor)
 {
     double minX = model.minX();
     double maxX = model.maxX();

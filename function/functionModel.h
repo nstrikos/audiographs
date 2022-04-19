@@ -31,25 +31,16 @@ public:
     double maxY() const;
     double x(int i);
     double y(int i);
-
     double minValue() const;
     double maxValue() const;
-
     bool isValid(int i);
-
     int size();
 
-    void calculateDerivative();
-    void calculateSecondDerivative();
     void refreshDerivative();
 
     double derivative(int i);
 
     double firstDerivative(int i);
-
-    double minDerivValue() const;
-
-    double maxDerivValue() const;
 
     bool validExpression() const;
 
@@ -64,6 +55,8 @@ private:
     bool check();
 
     void calculatePoints();
+    void calculateDerivative();
+    void calculateSecondDerivative();
 
     QString m_expression;
     QString m_minXString;

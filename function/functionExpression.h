@@ -49,9 +49,6 @@ private:
     FunctionZoomer *m_zoomer;
     PinchHandler *m_pinchHandler;
 
-    int m_derivativeMode;
-    int curPoint;
-
     void startPinch();
     void pinch(PinchRequest *request);
     void zoom(ZoomRequest *request);
@@ -60,8 +57,6 @@ private:
     void getDerivative();
     void firstPoint();
     void lastPoint();
-    void setDerivativeMode(SetDerivativeRequest *request);
-    void setPoint(int point);
 };
 
 #endif // FUNCTIONEXPRESSION_H

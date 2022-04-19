@@ -7,7 +7,7 @@ FunctionDescription::FunctionDescription()
 
 }
 
-QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model, int derivativeMode)
+QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model)
 {
     InterestingPoint tmp;
     m_points.clear();
@@ -21,8 +21,8 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model, int 
         return m_points;
     else {
 
-        if (derivativeMode == 2 || derivativeMode == 1)
-            model->refreshDerivative();
+//        if (derivativeMode == 2 || derivativeMode == 1)
+//            model->refreshDerivative();
 
         int prev = 0;
         int next = 0;
@@ -58,15 +58,15 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model, int 
                 else if (model->y(i) < model->y(prev) && model->y(i) < model->y(next))
                     tmp.label += " local minimum";
 
-                if (derivativeMode == 2) {
-                    if ( (model->firstDerivative(i) < model->firstDerivative(prev)) &&
-                         (model->firstDerivative(i) < model->firstDerivative(next)) ) {
-                        tmp.label += " point of inflection";
-                    } else if ( (model->firstDerivative(i) > model->firstDerivative(prev)) &&
-                                (model->firstDerivative(i) > model->firstDerivative(next)) ) {
-                        tmp.label += " point of inflection";
-                    }
-                }
+//                if (derivativeMode == 2) {
+//                    if ( (model->firstDerivative(i) < model->firstDerivative(prev)) &&
+//                         (model->firstDerivative(i) < model->firstDerivative(next)) ) {
+//                        tmp.label += " point of inflection";
+//                    } else if ( (model->firstDerivative(i) > model->firstDerivative(prev)) &&
+//                                (model->firstDerivative(i) > model->firstDerivative(next)) ) {
+//                        tmp.label += " point of inflection";
+//                    }
+//                }
             }
 
 

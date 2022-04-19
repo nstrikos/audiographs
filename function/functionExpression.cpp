@@ -23,8 +23,6 @@ FunctionExpression::FunctionExpression(QObject *parent) : QObject(parent)
     m_pinchHandler = new PinchHandler();
     connect(m_pinchHandler, &PinchHandler::newInputValues, this, &FunctionExpression::newInputValues);
 
-    m_derivativeMode = 0;
-
     audioFinishedRequest = new AudioFinishedRequest();
     updateTextRequest = nullptr;
     setNoteRequest = nullptr;
@@ -40,8 +38,6 @@ FunctionExpression::FunctionExpression(QObject *parent) : QObject(parent)
     requestHandler->add(this, request_get_derivative);
     requestHandler->add(this, request_first_point);
     requestHandler->add(this, request_last_point);
-    requestHandler->add(this, request_set_derivative);
-    requestHandler->add(this, request_new_point);
 }
 
 FunctionExpression::~FunctionExpression()
@@ -86,10 +82,6 @@ void FunctionExpression::accept(Request *request)
         break;
     case request_last_point: lastPoint();
         break;
-    case request_set_derivative: setDerivativeMode(static_cast<SetDerivativeRequest*>(request));
-        break;
-    case request_new_point : setPoint(static_cast<NewPointRequest*>(request)->point);
-        break;
     default:
         break;
     }
@@ -97,7 +89,7 @@ void FunctionExpression::accept(Request *request)
 
 void FunctionExpression::zoom(ZoomRequest *request)
 {
-    m_zoomer->zoom(functionModel, request->delta, m_derivativeMode);
+    m_zoomer->zoom(functionModel, request->delta);
 }
 
 void FunctionExpression::startPinch()
@@ -121,42 +113,42 @@ void FunctionExpression::updateText(QString text)
 
 void FunctionExpression::sayDerivative()
 {
-    if (functionModel.isValid(curPoint)) {
+//    if (functionModel.isValid(curPoint)) {
 
-        if (m_derivativeMode == 0)
-            functionModel.refreshDerivative();
+//        if (m_derivativeMode == 0)
+//            functionModel.refreshDerivative();
 
-        double y = functionModel.derivative(curPoint);
+//        double y = functionModel.derivative(curPoint);
 
-        double Pow = pow(10.0, m_parameters->precisionDigits());
-        y = round (y * Pow) / Pow;
+//        double Pow = pow(10.0, m_parameters->precisionDigits());
+//        y = round (y * Pow) / Pow;
 
-        char c = 'f';
-        QString value = QString::number(y, c, m_parameters->precisionDigits());
-        m_textToSpeech->speak(value);
-    } else {
-        m_textToSpeech->speak(tr("Not defined"));
-    }
+//        char c = 'f';
+//        QString value = QString::number(y, c, m_parameters->precisionDigits());
+//        m_textToSpeech->speak(value);
+//    } else {
+//        m_textToSpeech->speak(tr("Not defined"));
+//    }
 }
 
 void FunctionExpression::getDerivative()
 {
-    if (functionModel.isValid(curPoint)) {
+//    if (functionModel.isValid(curPoint)) {
 
-        if (m_derivativeMode == 0)
-            functionModel.refreshDerivative();
+//        if (m_derivativeMode == 0)
+//            functionModel.refreshDerivative();
 
-        double y = functionModel.derivative(curPoint);
+//        double y = functionModel.derivative(curPoint);
 
-        double Pow = pow(10.0, m_parameters->precisionDigits());
-        y = round (y * Pow) / Pow;
+//        double Pow = pow(10.0, m_parameters->precisionDigits());
+//        y = round (y * Pow) / Pow;
 
-        char c = 'f';
-        QString value = QString::number(y, c, m_parameters->precisionDigits());
-        updateText(value);
-    } else {
-        updateText(tr("Not defined"));
-    }
+//        char c = 'f';
+//        QString value = QString::number(y, c, m_parameters->precisionDigits());
+//        updateText(value);
+//    } else {
+//        updateText(tr("Not defined"));
+//    }
 }
 
 void FunctionExpression::firstPoint()
@@ -169,22 +161,6 @@ void FunctionExpression::lastPoint()
 {
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("ending point"));
-}
-
-void FunctionExpression::setDerivativeMode(SetDerivativeRequest *request)
-{
-    m_derivativeMode = request->mode;
-    if (m_derivativeMode == 0) {
-    } else if (m_derivativeMode == 1) {
-        functionModel.calculateDerivative();
-    } else if (m_derivativeMode == 2) {
-        functionModel.calculateSecondDerivative();
-    }
-}
-
-void FunctionExpression::setPoint(int point)
-{
-    curPoint = point;
 }
 
 void FunctionExpression::newInputValues(double minX, double maxX, double minY, double maxY)

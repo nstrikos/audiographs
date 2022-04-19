@@ -674,7 +674,6 @@ void MainWindow::playSoundStateActivated()
         notesStartRequest->fmin = m_parameters->minFreq();
         notesStartRequest->fmax = m_parameters->maxFreq();
         notesStartRequest->duration = m_parameters->duration();
-        notesStartRequest->mode = 0;
         notesStartRequest->useNegativeNotes = m_parameters->useNegativeNotes();
 
         requestHandler->handleRequest(notesStartRequest);
@@ -1220,7 +1219,6 @@ void MainWindow::on_nextPushButton_clicked()
         setNoteRequest->fmin = m_parameters->minFreq();
         setNoteRequest->fmax = m_parameters->maxFreq();
         setNoteRequest->useNotes = m_parameters->useNotes();
-        setNoteRequest->mode = 0;
         setNoteRequest->useNegativeNotes = m_parameters->useNegativeNotes();
         requestHandler->handleRequest(setNoteRequest);
 
@@ -1246,7 +1244,6 @@ void MainWindow::on_previousPushButton_clicked()
         setNoteRequest->fmin = m_parameters->minFreq();
         setNoteRequest->fmax = m_parameters->maxFreq();
         setNoteRequest->useNotes = m_parameters->useNotes();
-        setNoteRequest->mode = 0;
         setNoteRequest->useNegativeNotes = m_parameters->useNegativeNotes();
         requestHandler->handleRequest(setNoteRequest);
 

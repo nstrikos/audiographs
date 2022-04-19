@@ -12,13 +12,13 @@ class FunctionZoomer : public QObject
 public:
     explicit FunctionZoomer(QObject *parent = nullptr);
     ~FunctionZoomer();
-    void zoom(FunctionModel &model, double delta, int derivMode);
+    void zoom(FunctionModel &model, double delta);
 
 signals:
     void newInputValues(double minX, double maxX, double minY, double maxY);
 
 private:
-    void performZoom(FunctionModel &model, double factor, int derivMode);
+    void performZoom(FunctionModel &model, double factor);
     RequestHandler *requestHandler;
     CalculateRequest *calculateRequest;
     NewInputValuesRequest *newInputValuesRequest;

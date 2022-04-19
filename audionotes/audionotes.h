@@ -16,14 +16,6 @@ public:
     ~AudioNotes();
     void accept(Request *request);
 
-    Q_INVOKABLE void setNoteFromMouse(int mouseX,
-                                      int width,
-                                      int fmin,
-                                      int fmax,
-                                      bool useNotes,
-                                      int mode);
-
-
 private slots:
     void timerExpired();
 
@@ -40,19 +32,16 @@ private:
     int m_mouseX;
     int m_currentPoint = 0;
 
-    int m_derivMode = 0;
     bool m_useNegativeNotes = false;
 
     void startNotes(int fmin,
-                                int fmax,
-                                int duration,
-                                int mode,
-                                bool useNegativeNotes);
+                    int fmax,
+                    int duration,
+                    bool useNegativeNotes);
 
     void setNote(int fmin,
                  int fmax,
                  bool useNotes,
-                 int mode,
                  bool useNegativeNotes);
     void stopNotes();
 

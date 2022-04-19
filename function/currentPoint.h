@@ -39,8 +39,6 @@ private:
     int m_point;
     int m_step;
 
-    int m_derivMode = 0;
-
     void startMoving();
     void stop();
     void reset();
@@ -52,12 +50,10 @@ private:
     void sayText(QString text);
     void updateText(QString text);
 
-    int point();
     void setPoint(int point);
     void incPoint(int step);
     void decPoint(int step);
     void endPoint();
-    void setDerivativeMode(int mode);
     void drawPoint();
 
     void sayX();
