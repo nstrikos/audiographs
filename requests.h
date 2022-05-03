@@ -50,7 +50,8 @@ enum request_type
     request_audio_start = 40,
     request_notes_start = 41,
     request_calculate_derivative = 42,
-    request_calculate_second_derivative = 43
+    request_calculate_second_derivative = 43,
+    request_normal_mode = 44
 };
 
 class Request
@@ -412,6 +413,12 @@ class CalculateSecondDerivativeRequest : public Request
 {
 public:
     CalculateSecondDerivativeRequest();
+};
+
+class NormalModeRequest : public Request
+{
+public:
+    NormalModeRequest();
 };
 
 #endif // REQUESTS_H

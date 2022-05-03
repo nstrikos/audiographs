@@ -34,8 +34,6 @@ FunctionExpression::FunctionExpression(QObject *parent) : QObject(parent)
     requestHandler->add(this, request_start_pinch);
     requestHandler->add(this, request_pinch);
     requestHandler->add(this, request_zoom);
-    requestHandler->add(this, request_say_derivative);
-    requestHandler->add(this, request_get_derivative);
     requestHandler->add(this, request_first_point);
     requestHandler->add(this, request_last_point);
 }
@@ -74,10 +72,6 @@ void FunctionExpression::accept(Request *request)
         break;
     case request_zoom : zoom(static_cast<ZoomRequest*>(request));
         break;
-    case request_say_derivative: sayDerivative();
-        break;
-    case request_get_derivative: getDerivative();
-        break;
     case request_first_point: firstPoint();
         break;
     case request_last_point: lastPoint();
@@ -109,46 +103,6 @@ void FunctionExpression::updateText(QString text)
     updateTextRequest->sender = "FunctionExpression";
     updateTextRequest->text = text;
     requestHandler->handleRequest(updateTextRequest);
-}
-
-void FunctionExpression::sayDerivative()
-{
-//    if (functionModel.isValid(curPoint)) {
-
-//        if (m_derivativeMode == 0)
-//            functionModel.refreshDerivative();
-
-//        double y = functionModel.derivative(curPoint);
-
-//        double Pow = pow(10.0, m_parameters->precisionDigits());
-//        y = round (y * Pow) / Pow;
-
-//        char c = 'f';
-//        QString value = QString::number(y, c, m_parameters->precisionDigits());
-//        m_textToSpeech->speak(value);
-//    } else {
-//        m_textToSpeech->speak(tr("Not defined"));
-//    }
-}
-
-void FunctionExpression::getDerivative()
-{
-//    if (functionModel.isValid(curPoint)) {
-
-//        if (m_derivativeMode == 0)
-//            functionModel.refreshDerivative();
-
-//        double y = functionModel.derivative(curPoint);
-
-//        double Pow = pow(10.0, m_parameters->precisionDigits());
-//        y = round (y * Pow) / Pow;
-
-//        char c = 'f';
-//        QString value = QString::number(y, c, m_parameters->precisionDigits());
-//        updateText(value);
-//    } else {
-//        updateText(tr("Not defined"));
-//    }
 }
 
 void FunctionExpression::firstPoint()

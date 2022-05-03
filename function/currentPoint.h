@@ -60,6 +60,8 @@ private:
     void sayY();
     void getX();
     void getY();
+    void sayDerivative();
+    void getDerivative();
 };
 
 #endif // CURRENTPOINT_H

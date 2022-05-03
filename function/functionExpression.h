@@ -53,8 +53,6 @@ private:
     void pinch(PinchRequest *request);
     void zoom(ZoomRequest *request);
     void updateText(QString text);
-    void sayDerivative();
-    void getDerivative();
     void firstPoint();
     void lastPoint();
 };

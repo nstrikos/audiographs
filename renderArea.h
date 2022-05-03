@@ -33,6 +33,7 @@ public:
                           double yMax);
 
     void clear();
+    void normalMode();
     void setDerivativeMode(int mode);
 
     void setParameters(Parameters *parameters);

@@ -207,6 +207,7 @@ private:
     SetNoteRequest *setNoteRequest;
     CalculateDerivativeRequest *calculateDerivativeRequest;
     CalculateSecondDerivativeRequest *calculateSecondDerivativeRequest;
+    NormalModeRequest *normalModeRequest;
 
     RequestHandler *requestHandler;
 

@@ -20,16 +20,15 @@ private slots:
     void timerExpired();
 
 private:
-    RequestHandler *requestHandler;
-    AudioFinishedRequest *audioFinishedRequest;
     FunctionModel &m_model;
+    RequestHandler *requestHandler;
+    AudioFinishedRequest *audioFinishedRequest;    
     int m_fmin;
     int m_fmax;
     int m_duration;
     QTimer m_timer;
     int m_timeElapsed;
     AudioPoints *m_audioPoints;
-    int m_mouseX;
     int m_currentPoint = 0;
 
     bool m_useNegativeNotes = false;

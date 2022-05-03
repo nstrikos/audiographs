@@ -45,9 +45,10 @@ private:
     int m_step = 1;
     int m_timerInterVal = 40;
     int m_curPoint = 0;
+    int m_derivativeMode = 0;
 
     int getStep();
-    void setUpdated(bool updated);
+    void setUpdated(int mode);
     int getNextPointInterest();
     void start();
 
@@ -61,7 +62,6 @@ private:
     void previousPointFast();
     void stop();
     QString currentPointLabel();
-    void setDerivativeMode(SetDerivativeRequest *request);
 
     Parameters *m_parameters;
 };

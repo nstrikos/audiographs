@@ -25,6 +25,7 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
 
     requestHandler = &RequestHandler::getInstance();
     requestHandler->add(this, request_draw_point);
+    requestHandler->add(this, request_normal_mode);
 }
 
 RenderArea::~RenderArea()
@@ -41,6 +42,8 @@ void RenderArea::accept(Request *request)
         double x = static_cast<DrawPointRequest*>(request)->x;
         double y = static_cast<DrawPointRequest*>(request)->y;
         drawPoint(x, y);
+    } else if (request->type == request_normal_mode) {
+        normalMode();
     }
 }
 
@@ -85,6 +88,12 @@ void RenderArea::clear()
     m_xMax = 10;
     m_yMin = -10;
     m_yMax = 10;
+    update();
+}
+
+void RenderArea::normalMode()
+{
+    m_derivCoordPoints.clear();
     update();
 }
 

@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     setNoteRequest= nullptr;
     calculateDerivativeRequest = nullptr;
     calculateSecondDerivativeRequest = nullptr;
+    normalModeRequest = nullptr;
 
     initStateMachine();
 
@@ -256,6 +257,8 @@ MainWindow::~MainWindow()
         delete calculateDerivativeRequest;
     if (calculateSecondDerivativeRequest != nullptr)
         delete calculateSecondDerivativeRequest;
+    if (normalModeRequest != nullptr)
+        delete normalModeRequest;
 
     delete ui;
 }
@@ -1554,7 +1557,11 @@ void MainWindow::useNegativeNotesActionActivated()
 
 void MainWindow::on_normalModePushButton_clicked()
 {
-    emit evaluate();
+    if (normalModeRequest == nullptr)
+        normalModeRequest = new NormalModeRequest();
+    normalModeRequest->sender = "MainWindow";
+    requestHandler->handleRequest(normalModeRequest);
+    //emit evaluate();
     //derivativeMode(0);
     //ui->renderArea->setDerivativeMode(0);
     if (m_parameters->selfVoice())
@@ -1572,12 +1579,10 @@ void MainWindow::on_firstDerivativePushButton_clicked()
 
     requestHandler->handleRequest(calculateDerivativeRequest);
 
-    //derivativeMode(1);
-    //ui->renderArea->setDerivativeMode(1);
+
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("First derivative mode"));
-    //emit newgraph();
-    //clearLabel();
+
     updateLabelText(tr("first derivative"));
 }
 

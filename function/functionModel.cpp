@@ -84,14 +84,15 @@ FunctionModel::FunctionModel()
     m_fparser.AddFunction("powint", powint, 3);
 #endif
 
-   requestHandler = &RequestHandler::getInstance();
-   requestHandler->add(this, request_calculate);
-   requestHandler->add(this, request_calculate_derivative);
-   requestHandler->add(this, request_calculate_second_derivative);
+    requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_calculate);
+    requestHandler->add(this, request_calculate_derivative);
+    requestHandler->add(this, request_calculate_second_derivative);
+    requestHandler->add(this, request_normal_mode);
 
-   updateRequest = nullptr;
-   errorRequest = nullptr;
-   updateDerivativeRequest = nullptr;
+    updateRequest = nullptr;
+    errorRequest = nullptr;
+    updateDerivativeRequest = nullptr;
 }
 
 FunctionModel::~FunctionModel()
@@ -114,6 +115,8 @@ void FunctionModel::accept(Request *request)
         calculateDerivative();
     else if (request->type == request_calculate_second_derivative)
         calculateSecondDerivative();
+    else if (request->type == request_normal_mode)
+        normalMode();
 }
 
 void FunctionModel::performCalculate(CalculateRequest *request)
@@ -125,16 +128,8 @@ void FunctionModel::performCalculate(CalculateRequest *request)
     QString maxY = request->maxY;
 
     derivative_mode = 0;
+    calculate(expression, minX, maxX, minY, maxY);
 
-//    if (m_derivativeMode == 0) {
-        calculate(expression, minX, maxX, minY, maxY);
-//    } else if (m_derivativeMode == 1) {
-//        calculate(expression, minX, maxX, minY, maxY);
-//        calculateDerivative();
-//    } else if (m_derivativeMode == 2) {
-//        calculate(expression, minX, maxX, minY, maxY);
-//        calculateSecondDerivative();
-//    }
 }
 
 void FunctionModel::calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY)
@@ -290,12 +285,10 @@ void FunctionModel::calculatePoints()
         y = parser_expression.value();
         tmpPoint.x = m_x;
         tmpPoint.y = y;
-        if (std::isfinite(y)) {
+        if (std::isfinite(y))
             tmpPoint.isValid = true;
-        }
-        else {
+        else
             tmpPoint.isValid = false;
-        }
 
         m_points.setPoint(i, tmpPoint);
     }
@@ -328,8 +321,8 @@ void FunctionModel::calculatePoints()
 
 #endif
 
-    m_minValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
-    m_maxValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
+    m_minValue = std::numeric_limits<double>::max();
+    m_maxValue = -std::numeric_limits<double>::max();
 
     for (int i = 1; i < LINE_POINTS; i++) {
         if (!m_points.validAt(i))
@@ -478,8 +471,8 @@ void FunctionModel::calculateDerivative()
 
 #endif
 
-    m_minDerivValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
-    m_maxDerivValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
+    m_minDerivValue = std::numeric_limits<double>::max();
+    m_maxDerivValue = -std::numeric_limits<double>::max();
 
     for (int i = 1; i < LINE_POINTS; i++) {
         if (!m_derivPoints.validAt(i))
@@ -582,8 +575,8 @@ void FunctionModel::calculateSecondDerivative()
     }
 #endif
 
-    m_minDerivValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
-    m_maxDerivValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
+    m_minDerivValue = std::numeric_limits<double>::max();
+    m_maxDerivValue = -std::numeric_limits<double>::max();
 
     for (int i = 1; i < LINE_POINTS; i++) {
         if (!m_derivPoints.validAt(i))
@@ -677,14 +670,33 @@ void FunctionModel::refreshDerivative()
 #endif
 }
 
+double FunctionModel::y0(int i)
+{
+    return m_points.yAt(i);
+}
+
 double FunctionModel::derivative(int i)
 {
-    return m_derivPoints.yAt(i);
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+
+    m_x = m_points.xAt(i);
+    if (derivative_mode == 0 || derivative_mode == 1)
+        return  exprtk::derivative(parser_expression, m_x);
+    else
+        return exprtk::second_derivative(parser_expression, m_x);
+#else
+
+#endif
 }
 
 double FunctionModel::firstDerivative(int i)
 {
     return m_firstDerivPoints.yAt(i);
+}
+
+void FunctionModel::normalMode()
+{
+    derivative_mode = 0;
 }
 
 bool FunctionModel::validExpression() const

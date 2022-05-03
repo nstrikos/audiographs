@@ -268,3 +268,8 @@ CalculateSecondDerivativeRequest::CalculateSecondDerivativeRequest()
 {
     type = request_calculate_second_derivative;
 }
+
+NormalModeRequest::NormalModeRequest()
+{
+    type = request_normal_mode;
+}

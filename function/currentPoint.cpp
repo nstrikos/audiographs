@@ -27,6 +27,11 @@ CurrentPoint::CurrentPoint(FunctionModel &model) : m_model(model)
     requestHandler->add(this, request_sayY);
     requestHandler->add(this, request_getX);
     requestHandler->add(this, request_getY);
+    requestHandler->add(this, request_update_derivative);
+    requestHandler->add(this, request_calculate_second_derivative);
+    requestHandler->add(this, request_normal_mode);
+    requestHandler->add(this, request_say_derivative);
+    requestHandler->add(this, request_get_derivative);
 
     parameters = &Parameters::getInstance();
 
@@ -112,6 +117,16 @@ void CurrentPoint::accept(Request *request)
         break;
     case request_getY:
         getY();
+        break;
+    case request_update_derivative:
+    case request_normal_mode:
+        drawPoint();
+        break;
+    case request_say_derivative:
+        sayDerivative();
+        break;
+    case request_get_derivative:
+        getDerivative();
         break;
     default:
         break;
@@ -252,6 +267,40 @@ void CurrentPoint::getY()
 {
     if (m_model.isValid(m_point)) {
         double y = m_model.y(m_point);
+
+        double Pow = pow(10.0, parameters->precisionDigits());
+        y = round (y * Pow) / Pow;
+
+        char c = 'f';
+        QString value = QString::number(y, c, parameters->precisionDigits());
+        updateText(value);
+    } else {
+        updateText(tr("Not defined"));
+    }
+}
+
+void CurrentPoint::sayDerivative()
+{
+    if (m_model.isValid(m_point)) {
+
+        double y = m_model.derivative(m_point);
+
+        double Pow = pow(10.0, parameters->precisionDigits());
+        y = round (y * Pow) / Pow;
+
+        char c = 'f';
+        QString value = QString::number(y, c, parameters->precisionDigits());
+        sayText(value);
+    } else {
+        sayText(tr("Not defined"));
+    }
+}
+
+void CurrentPoint::getDerivative()
+{
+    if (m_model.isValid(m_point)) {
+
+        double y = m_model.derivative(m_point);
 
         double Pow = pow(10.0, parameters->precisionDigits());
         y = round (y * Pow) / Pow;

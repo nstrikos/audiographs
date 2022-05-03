@@ -35,14 +35,12 @@ public:
     double maxValue() const;
     bool isValid(int i);
     int size();
+    bool validExpression() const;
 
     void refreshDerivative();
-
+    double y0(int i);
     double derivative(int i);
-
     double firstDerivative(int i);
-
-    bool validExpression() const;
 
 private:
     RequestHandler *requestHandler;
@@ -53,10 +51,10 @@ private:
     void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY);
     void replaceConstants();
     bool check();
-
     void calculatePoints();
     void calculateDerivative();
     void calculateSecondDerivative();
+    void normalMode();
 
     QString m_expression;
     QString m_minXString;

@@ -24,7 +24,9 @@ PointsInterest::PointsInterest(FunctionModel &functionModel) : m_model(functionM
     requestHandler->add(this, request_next_fast);
     requestHandler->add(this, request_previous_fast);
     requestHandler->add(this, request_stop_sound);
-    requestHandler->add(this, request_set_derivative);
+    requestHandler->add(this, request_calculate_derivative);
+    requestHandler->add(this, request_calculate_second_derivative);
+    requestHandler->add(this, request_normal_mode);
     setPointRequest = nullptr;
     incPointRequest = nullptr;
     decPointRequest = nullptr;
@@ -62,11 +64,10 @@ void PointsInterest::accept(Request *request)
     if (m_log)
         qDebug() << "PointsInterest accepted id: " << request->id << " type: " << request->type;
     switch(request->type) {
-    case request_calculate: setUpdated(false);
-        break;
-    case request_start_drag: setUpdated(false);
-        break;
-    case request_zoom: setUpdated(false);
+    case request_calculate:
+    case request_start_drag:
+    case request_zoom:
+        setUpdated(0);
         break;
     case request_new_point : m_curPoint = (static_cast<NewPointRequest*>(request)->point);
         break;
@@ -80,7 +81,15 @@ void PointsInterest::accept(Request *request)
         break;
     case request_stop_sound : stop();
         break;
-    case request_set_derivative: setDerivativeMode(static_cast<SetDerivativeRequest*>(request));
+    case request_calculate_derivative:
+        setUpdated(1);
+        break;
+    case request_calculate_second_derivative:
+        setUpdated(2);
+        m_derivativeMode = 2;
+        break;
+    case request_normal_mode:
+        setUpdated(0);
         break;
     default:
         break;
@@ -111,12 +120,12 @@ void PointsInterest::nextPointFast()
         return;
 
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model);
+        m_points = m_funcDescription->points(m_derivativeMode);
         m_isUpdated = true;
     }
 
@@ -136,12 +145,12 @@ void PointsInterest::previousPointFast()
     if (m_model.size() == 0)
         return;
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model);
+        m_points = m_funcDescription->points(m_derivativeMode);
         m_isUpdated = true;
     }
 
@@ -158,12 +167,12 @@ void PointsInterest::previousPointFast()
 void PointsInterest::start()
 {
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model);
+        m_points = m_funcDescription->points(m_derivativeMode);
         m_isUpdated = true;
     }
 
@@ -295,20 +304,6 @@ int PointsInterest::getStep()
     return step;
 }
 
-void PointsInterest::setDerivativeMode(SetDerivativeRequest *request)
-{
-    if (m_model.size() == 0)
-        return;
-
-    m_points.clear();
-
-    if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
-
-    m_points = m_funcDescription->points(&m_model);
-    m_isUpdated = true;
-}
-
 void PointsInterest::stop()
 {
     m_timer.stop();
@@ -318,9 +313,10 @@ void PointsInterest::stop()
     requestHandler->handleRequest(stopNotesRequest);
 }
 
-void PointsInterest::setUpdated(bool updated)
+void PointsInterest::setUpdated(int mode)
 {
-    m_isUpdated = updated;
+    m_isUpdated = false;
+    m_derivativeMode = mode;
 }
 
 void PointsInterest::finished()
