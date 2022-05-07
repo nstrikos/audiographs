@@ -1,11 +1,14 @@
 #include "functionZoomer.h"
 #include "../functionModel.h"
 
-FunctionZoomer::FunctionZoomer(QObject *parent) : QObject(parent)
+#include <QDebug>
+
+FunctionZoomer::FunctionZoomer(FunctionModel &model) : m_model(model)
 {
     calculateRequest = nullptr;
     newInputValuesRequest = nullptr;
     requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_zoom);
 }
 
 FunctionZoomer::~FunctionZoomer()
@@ -16,7 +19,15 @@ FunctionZoomer::~FunctionZoomer()
         delete calculateRequest;
 }
 
-void FunctionZoomer::zoom(FunctionModel &model, double delta)
+void FunctionZoomer::accept(Request *request)
+{
+    if (m_log)
+        qDebug() << "FunctionZoomer used id: " << request->id << " type: " << request->description;
+    if (request->type == request_zoom)
+        zoom(static_cast<ZoomRequest*>(request)->delta);
+}
+
+void FunctionZoomer::zoom(double delta)
 {
     //    if (!model.validExpression())
     //        return;
@@ -27,15 +38,15 @@ void FunctionZoomer::zoom(FunctionModel &model, double delta)
     else
         factor = 0.9;
 
-    performZoom(model, factor);
+    performZoom(factor);
 }
 
-void FunctionZoomer::performZoom(FunctionModel &model, double factor)
+void FunctionZoomer::performZoom(double factor)
 {
-    double minX = model.minX();
-    double maxX = model.maxX();
-    double minY = model.minY();
-    double maxY = model.maxY();
+    double minX = m_model.minX();
+    double maxX = m_model.maxX();
+    double minY = m_model.minY();
+    double maxY = m_model.maxY();
 
     double newMinX, newMaxX, newMinY, newMaxY;
 
@@ -98,7 +109,7 @@ void FunctionZoomer::performZoom(FunctionModel &model, double factor)
     if (calculateRequest == nullptr)
         calculateRequest = new CalculateRequest;
     calculateRequest->sender = "FunctionZoomer";
-    calculateRequest->expression = model.expression();
+    calculateRequest->expression = m_model.expression();
     calculateRequest->minX = QString::number(newMinX);
     calculateRequest->maxX = QString::number(newMaxX);
     calculateRequest->minY = QString::number(newMinY);

@@ -1,32 +1,30 @@
 #ifndef PINCHHANDLER_H
 #define PINCHHANDLER_H
 
-#include <QObject>
 #include "requestHandler.h"
 
 class FunctionModel;
 
-class PinchHandler : public QObject
+class PinchHandler : public RequestReceiver
 {
-    Q_OBJECT
 public:
-    explicit PinchHandler(QObject *parent = nullptr);
-    ~PinchHandler();
-    void startPinch(FunctionModel &model);
-    void pinch(FunctionModel &model, double scale);
+    explicit PinchHandler(FunctionModel &model);
+    virtual ~PinchHandler();
+    void accept(Request *request);
 
-signals:
-    void newInputValues(double minX, double maxX, double minY, double maxY);
 
 private:
     RequestHandler *requestHandler;
     CalculateRequest *calculateRequest;
     NewInputValuesRequest *newInputValuesRequest;
+    FunctionModel &m_model;
     double m_minX;
     double m_maxX;
     double m_minY;
     double m_maxY;
-
+    void startPinch();
+    void pinch(double scale);
+    void newInputValues(double minX, double maxX, double minY, double maxY);
 };
 
 #endif // PINCHHANDLER_H

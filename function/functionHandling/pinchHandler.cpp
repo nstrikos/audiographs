@@ -2,11 +2,15 @@
 
 #include "../functionModel.h"
 
-PinchHandler::PinchHandler(QObject *parent) : QObject(parent)
+#include <QDebug>
+
+PinchHandler::PinchHandler(FunctionModel &model) : m_model(model)
 {
     calculateRequest = nullptr;
     newInputValuesRequest = nullptr;
     requestHandler = &RequestHandler::getInstance();
+    requestHandler->add(this, request_start_pinch);
+    requestHandler->add(this, request_pinch);
 }
 
 PinchHandler::~PinchHandler()
@@ -17,20 +21,34 @@ PinchHandler::~PinchHandler()
         delete calculateRequest;
 }
 
-void PinchHandler::startPinch(FunctionModel &model)
+void PinchHandler::accept(Request *request)
 {
-    if (!model.validExpression())
-        return;
-
-    m_minX = model.minX();
-    m_maxX = model.maxX();
-    m_minY = model.minY();
-    m_maxY = model.maxY();
+    if (m_log)
+        qDebug() << "PinchHandler used id: " << request->id << " type: " << request->description;
+    switch(request->type) {
+    case request_start_pinch : startPinch();
+        break;
+    case request_pinch : pinch(static_cast<PinchRequest*>(request)->scale);
+        break;
+    default:
+        break;
+    }
 }
 
-void PinchHandler::pinch(FunctionModel &model, double scale)
+void PinchHandler::startPinch()
 {
-    if (!model.validExpression())
+    if (!m_model.validExpression())
+        return;
+
+    m_minX = m_model.minX();
+    m_maxX = m_model.maxX();
+    m_minY = m_model.minY();
+    m_maxY = m_model.maxY();
+}
+
+void PinchHandler::pinch(double scale)
+{
+    if (!m_model.validExpression())
         return;
 
     scale = 1 / scale;
@@ -63,7 +81,7 @@ void PinchHandler::pinch(FunctionModel &model, double scale)
 
     if (calculateRequest == nullptr)
         calculateRequest = new CalculateRequest;
-    calculateRequest->expression = model.expression();
+    calculateRequest->expression = m_model.expression();
     calculateRequest->minX = QString::number(minX);
     calculateRequest->maxX = QString::number(maxX);
     calculateRequest->minY = QString::number(minY);

@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
         QQmlApplicationEngine engine;
         engine.rootContext()->setContextProperty("parameters", parameters);
-        engine.rootContext()->setContextProperty("functionExpression", &functionExpression);
+        //engine.rootContext()->setContextProperty("functionExpression", &functionExpression);
         engine.rootContext()->setContextProperty("textToSpeech", textToSpeech);
         engine.rootContext()->setContextProperty("qmlConnector", &qmlConnector);
         //qRegisterMetaType<FunctionController*>("FunctionController*");

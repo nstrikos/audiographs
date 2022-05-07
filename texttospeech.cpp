@@ -13,6 +13,8 @@ TextToSpeech::TextToSpeech()
 
     requestHandler = &RequestHandler::getInstance();
     requestHandler->add(this, request_say_text);
+    requestHandler->add(this, request_first_point);
+    requestHandler->add(this, request_last_point);
 
     foreach (QString engine, QTextToSpeech::availableEngines())
         m_engines.append(engine);
@@ -31,6 +33,10 @@ void TextToSpeech::accept(Request *request)
         qDebug() << "TextToSpeech used id: " << request->id << " type: " << request->description;
     if (request->type == request_say_text)
         speak(static_cast<SayTextRequest*>(request)->text);
+    else if (request->type == request_first_point)
+        speak(tr("starting point"));
+    else if (request_last_point)
+        speak(tr("ending point"));
 }
 
 QVector<QVoice> TextToSpeech::voices() const
