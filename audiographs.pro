@@ -46,6 +46,7 @@ SOURCES += \
     parameters.cpp \
     qmlconnector.cpp \
     renderArea.cpp \
+    requestHandler.cpp \
     requests.cpp \
     texttospeech.cpp
 
@@ -83,6 +84,7 @@ HEADERS += \
     parameters.h \
     qmlconnector.h \
     renderArea.h \
+    requestHandler.h \
     requests.h \
     texttospeech.h
 

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "audioengine.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 class Audio : public QObject, public RequestReceiver
 {

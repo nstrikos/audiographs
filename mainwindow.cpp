@@ -266,7 +266,7 @@ MainWindow::~MainWindow()
 void MainWindow::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "MainWindow accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "MainWindow used id: " << request->id << " type: " << request->description;
     switch (request->type) {
         case request_update: updateGraph(static_cast<UpdateRequest*>(request));
         break;

@@ -2,7 +2,7 @@
 #define FUNCTIONZOOMER_H
 
 #include <QObject>
-#include "requests.h"
+#include "requestHandler.h"
 
 class FunctionModel;
 

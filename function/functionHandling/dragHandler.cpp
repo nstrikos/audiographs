@@ -24,7 +24,7 @@ DragHandler::~DragHandler()
 void DragHandler::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "DragHandler accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "DragHandler used id: " << request->id << " type: " << request->description;
     if (request->type == request_start_drag) {
         int x = static_cast<StartDragRequest*>(request)->x;
         int y = static_cast<StartDragRequest*>(request)->y;

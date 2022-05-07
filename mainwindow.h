@@ -13,7 +13,7 @@
 #include "errorDisplayDialog.h"
 #include "aboutDialog.h"
 #include "texttospeech.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 #include<array>
 using namespace std;

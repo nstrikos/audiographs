@@ -27,7 +27,7 @@ FunctionPointView::~FunctionPointView()
 void FunctionPointView::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "FunctionPointView accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "FunctionPointView used id: " << request->id << " type: " << request->description;
     if (request->type == request_update) {
         UpdateRequest *tmp_request = static_cast<UpdateRequest*>(request);
         draw(tmp_request->points,

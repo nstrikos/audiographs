@@ -24,7 +24,7 @@ Audio::~Audio()
 void Audio::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "Audio accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "Audio used id: " << request->id << " type: " << request->description;
     if (request->type == request_audio_start) {
         QString expression = static_cast<AudioStartRequest*>(request)->expression;
         double start = static_cast<AudioStartRequest*>(request)->start;

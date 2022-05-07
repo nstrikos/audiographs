@@ -5,7 +5,7 @@
 #include <QTimer>
 #include "function/functionModel.h"
 #include "audiopoints.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 class AudioNotes : public QObject, public RequestReceiver
 {

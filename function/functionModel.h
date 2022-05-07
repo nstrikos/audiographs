@@ -2,7 +2,7 @@
 #define FUNCTIONMODEL_H
 
 #include "point.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 #include "parsers/exprtk/exprtk.hpp"

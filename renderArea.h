@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "function/point.h"
 #include "parameters.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 #include<array>
 using namespace std;

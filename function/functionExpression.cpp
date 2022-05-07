@@ -64,7 +64,7 @@ FunctionExpression::~FunctionExpression()
 void FunctionExpression::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "FunctionExpression accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "FunctionExpression used id: " << request->id << " type: " << request->description;
     switch(request->type) {
     case request_start_pinch : startPinch();
         break;

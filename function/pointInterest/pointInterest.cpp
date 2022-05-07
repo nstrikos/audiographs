@@ -62,7 +62,7 @@ PointsInterest::~PointsInterest()
 void PointsInterest::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "PointsInterest accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "PointsInterest used id: " << request->id << " type: " << request->description;
     switch(request->type) {
     case request_calculate:
     case request_start_drag:

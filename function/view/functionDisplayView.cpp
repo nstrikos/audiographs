@@ -33,7 +33,7 @@ FunctionDisplayView::~FunctionDisplayView()
 void FunctionDisplayView::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "FunctionDisplayView  accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "FunctionDisplayView used id: " << request->id << " type: " << request->description;
     if (request->type == request_update) {
         UpdateRequest *tmp_request = static_cast<UpdateRequest*>(request);
         draw(tmp_request->points,

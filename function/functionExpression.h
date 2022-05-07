@@ -15,7 +15,7 @@
 #include "functionHandling/functionZoomer.h"
 #include "functionHandling/pinchHandler.h"
 
-#include "requests.h"
+#include "requestHandler.h"
 
 class FunctionExpression : public QObject, public RequestReceiver
 {

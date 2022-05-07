@@ -2,8 +2,7 @@
 #define QMLCONNECTOR_H
 
 #include <QObject>
-#include "requests.h"
-
+#include "requestHandler.h"
 
 class QmlConnector : public QObject,  public RequestReceiver
 {

@@ -7,7 +7,7 @@
 #include "function/functionModel.h"
 #include "functionDescription.h"
 #include "parameters.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 class PointsInterest : public QObject , public RequestReceiver
 {

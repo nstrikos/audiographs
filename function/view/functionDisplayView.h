@@ -4,7 +4,7 @@
 
 #include <QtQuick/QQuickItem>
 #include "functionDisplayViewInterface.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 class FunctionDisplayView : public QQuickItem, public FunctionDisplayViewInterface, public RequestReceiver
 {

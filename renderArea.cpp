@@ -36,7 +36,7 @@ RenderArea::~RenderArea()
 void RenderArea::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "RenderArea accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "RenderArea used id: " << request->id << " type: " << request->description;
 
     if (request->type == request_draw_point) {
         double x = static_cast<DrawPointRequest*>(request)->x;

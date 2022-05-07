@@ -108,7 +108,7 @@ FunctionModel::~FunctionModel()
 void FunctionModel::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "FunctionModel accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "FunctionModel used id: " << request->id << " type: " << request->description;
     if (request->type == request_calculate)
         performCalculate(static_cast<CalculateRequest*>(request));
     else if (request->type == request_calculate_derivative)

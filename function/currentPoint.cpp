@@ -64,7 +64,7 @@ CurrentPoint::~CurrentPoint()
 void CurrentPoint::accept(Request *request)
 {
     if (m_log)
-        qDebug() << "CurrentPoint accepted id: " << request->id << " type: " << request->type;
+        qDebug() << "CurrentPoint used id: " << request->id << " type: " << request->description;
     switch(request->type) {
     case request_calculate :
     case request_start_drag:

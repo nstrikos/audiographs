@@ -6,8 +6,7 @@
 #include <QString>
 #include <QVector>
 #include "parameters.h"
-#include "requests.h"
-
+#include "requestHandler.h"
 
 class TextToSpeech : public QObject , public RequestReceiver
 {

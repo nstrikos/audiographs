@@ -1,7 +1,7 @@
 #ifndef CURRENTPOINT_H
 #define CURRENTPOINT_H
 
-#include "requests.h"
+#include "requestHandler.h"
 #include "parameters.h"
 #include <QObject>
 #include <QTimer>

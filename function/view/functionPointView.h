@@ -7,7 +7,7 @@
 #include <QtQuick/qsgflatcolormaterial.h>
 
 #include "function/point.h"
-#include "requests.h"
+#include "requestHandler.h"
 
 class FunctionPointView : public QQuickItem , public RequestReceiver
 {
