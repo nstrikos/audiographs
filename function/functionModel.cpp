@@ -599,15 +599,9 @@ void FunctionModel::calculateSecondDerivative()
 
 void FunctionModel::refreshDerivative()
 {
-    //    if (m_points.size() <= 0)
-    //        return;
-
     Point tmpPoint;
 
-    //m_derivPoints.clear();
-
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-
     for (int i = 0; i < LINE_POINTS; i++) {
         m_x = m_points.xAt(i);
         double y = exprtk::derivative(parser_expression, m_x);
@@ -621,9 +615,7 @@ void FunctionModel::refreshDerivative()
         }
         m_firstDerivPoints.setPoint(i, tmpPoint);
     }
-
 #else
-
     double vals[] = { 0 };
     const double h = 0.00000001;
     const double h2 = 2 * h;
@@ -647,6 +639,8 @@ void FunctionModel::refreshDerivative()
         } else {
             x = x_init + h2;
             vals[0] = x;
+            y0 = m_fparser.Eval(vals);
+            x = x_init + h;
             y1 = m_fparser.Eval(vals);
             x = x_init - h;
             vals[0] = x;
@@ -685,7 +679,41 @@ double FunctionModel::derivative(int i)
     else
         return exprtk::second_derivative(parser_expression, m_x);
 #else
+    double vals[] = { 0 };
+    const double h = 0.00000001;
+    const double h2 = 2 * h;
+    double x_init;
+    double x;
+    double result;
+    int res;
 
+    double y0, y1, y2, y3;
+
+    x_init = m_points.xAt(i);
+
+    vals[0] = x_init;
+    m_fparser.Eval(vals);
+    res = m_fparser.EvalError();
+
+    if (res > 0) {
+        ;
+    } else {
+        x = x_init + h2;
+        vals[0] = x;
+        y0 = m_fparser.Eval(vals);
+        x = x_init + h;
+        vals[0] = x;
+        y1 = m_fparser.Eval(vals);
+        x = x_init - h;
+        vals[0] = x;
+        y2 = m_fparser.Eval(vals);
+        x = x_init - h2;
+        vals[0] = x;
+        y3 = m_fparser.Eval(vals);
+
+        result = (-y0 + 8 * (y1 - y2) + y3) / (12 * h);
+        return result;
+    }
 #endif
 }
 

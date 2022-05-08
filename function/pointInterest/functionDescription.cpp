@@ -36,7 +36,7 @@ QVector<InterestingPoint> FunctionDescription::points(int derivativeMode)
 
         tmp.x = i;
         tmp.y = m_model.y(i);
-        tmp.label = "";
+        //tmp.label = "";
 
         if (!m_model.isValid(prev) && m_model.isValid(next)) {
             if (m_model.y0(i) > m_model.y0(next))
@@ -55,7 +55,8 @@ QVector<InterestingPoint> FunctionDescription::points(int derivativeMode)
             else if (m_model.y0(i) < m_model.y0(prev) && m_model.y0(i) < m_model.y0(next))
                 tmp.label += " local minimum";
 
-            if (derivativeMode == 2) {
+            //local minimum and local maximum cannot be point of inflection
+            else if (derivativeMode == 2) {
                 if ( (m_model.firstDerivative(i) < m_model.firstDerivative(prev)) &&
                      (m_model.firstDerivative(i) < m_model.firstDerivative(next)) ) {
                     tmp.label += " point of inflection";
@@ -65,7 +66,6 @@ QVector<InterestingPoint> FunctionDescription::points(int derivativeMode)
                 }
             }
         }
-
 
         if (tmp.label != "") {
             tmp.label = tmp.label.trimmed();
