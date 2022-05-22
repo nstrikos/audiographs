@@ -35,7 +35,7 @@ void TextToSpeech::accept(Request *request)
         speak(static_cast<SayTextRequest*>(request)->text);
     else if (request->type == request_first_point)
         speak(tr("starting point"));
-    else if (request_last_point)
+    else if (request->type == request_last_point)
         speak(tr("ending point"));
 }
 
