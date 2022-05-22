@@ -306,11 +306,13 @@ int PointsInterest::getStep()
 
 void PointsInterest::stop()
 {
-    m_timer.stop();
-    if (stopNotesRequest == nullptr)
-        stopNotesRequest = new StopNotesRequest();
-    stopNotesRequest->sender = "PointsInterest";
-    requestHandler->handleRequest(stopNotesRequest);
+    if (m_timer.isActive()) {
+        m_timer.stop();
+        if (stopNotesRequest == nullptr)
+            stopNotesRequest = new StopNotesRequest();
+        stopNotesRequest->sender = "PointsInterest";
+        requestHandler->handleRequest(stopNotesRequest);
+    }
 }
 
 void PointsInterest::setUpdated(int mode)
