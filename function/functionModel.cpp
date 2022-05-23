@@ -156,6 +156,7 @@ void FunctionModel::calculate(QString expression, QString minX, QString maxX, QS
         m_validExpression = false;
         if (errorRequest == nullptr)
             errorRequest = new ErrorRequest();
+        errorRequest->sender = "FunctionModel";
         errorRequest->error = m_errorString;
         requestHandler->handleRequest(errorRequest);
     }
