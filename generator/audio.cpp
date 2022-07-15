@@ -1,9 +1,10 @@
 #include "audio.h"
+#include "IAudio.h"
 
-#include <QtMath>
-
-Audio::Audio()
+Audio::Audio(IAudio &iface) :
+    iface(iface)
 {
+    iface.addAudio(this);
     m_audioEngine = nullptr;
 //    m_fparser.AddConstant("pi", M_PI);
 //    m_fparser.AddConstant("e", M_E);
@@ -29,7 +30,8 @@ void Audio::start(QString expression,
 
     std::string exp = expression.toStdString();
 
-    m_audioEngine = new AudioEngine(expression,
+    m_audioEngine = new AudioEngine(this,
+                                    expression,
                                     start,
                                     end,
                                     minY,
@@ -38,8 +40,6 @@ void Audio::start(QString expression,
                                     fmin,
                                     fmax,
                                     mode);
-
-    connect(m_audioEngine, &AudioEngine::finished, this, &Audio::audioFinished);
 
     m_audioEngine->createAudioOutput();
 }
@@ -58,4 +58,9 @@ void Audio::reset()
         delete m_audioEngine;
         m_audioEngine = nullptr;
     }
+}
+
+void Audio::audioFinished()
+{
+    iface.audioFinished();
 }

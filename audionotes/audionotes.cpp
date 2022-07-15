@@ -2,10 +2,13 @@
 #include "math.h"
 #include "constants.h"
 
-#include <QDebug>
+#include "IAudio.h"
 
-AudioNotes::AudioNotes(FunctionModel &model) : m_model(model)
+AudioNotes::AudioNotes(IAudio &iface, FunctionModel &model) :
+    iface(iface),
+    m_model(model)
 {
+    iface.addAudionotes(this);
     m_timer.setTimerType(Qt::PreciseTimer);
     m_timer.setInterval(INTERVAL_MILLISECONDS);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
@@ -178,7 +181,7 @@ void AudioNotes::timerExpired()
     m_timeElapsed += m_timer.interval();
     if (m_timeElapsed > m_duration) {
         stopNotes();
-        emit finished();
+        iface.audioFinished();
         return;
     }
 
@@ -238,4 +241,9 @@ void AudioNotes::timerExpired()
     } else {
         m_audioPoints->setFreq((m_fmax + m_fmin) / 2, true, n, cx);
     }
+}
+
+void AudioNotes::audionotesFinished()
+{
+
 }

@@ -1,6 +1,8 @@
 #ifndef AUDIONOTES_H
 #define AUDIONOTES_H
 
+class IAudio;
+
 #include <QObject>
 #include <QTimer>
 #include "function/functionModel.h"
@@ -11,9 +13,9 @@ class AudioNotes : public QObject
     Q_OBJECT
 
 public:
-    AudioNotes(FunctionModel &model);
+    AudioNotes(IAudio &iface, FunctionModel &model);
     ~AudioNotes();
-    Q_INVOKABLE void startNotes(int fmin,
+    void startNotes(int fmin,
                                 int fmax,
                                 int duration,
                                 int mode,
@@ -32,13 +34,13 @@ public:
                              bool useNegativeNotes);
     Q_INVOKABLE void stopNotes();
 
-signals:
-    void finished();
 
 private slots:
     void timerExpired();
+    void audionotesFinished();
 
 private:
+    IAudio &iface;
     FunctionModel &m_model;
     int m_fmin;
     int m_fmax;

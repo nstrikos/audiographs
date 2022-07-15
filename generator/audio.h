@@ -1,16 +1,16 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
-#include <QObject>
+class IAudio;
+
 #include "audioengine.h"
 
-class Audio : public QObject
-{
-    Q_OBJECT
+class Audio
+{    
 public:
-    Audio();
+    Audio(IAudio &iface);
     ~Audio();
-    Q_INVOKABLE void start(QString expression,
+    void start(QString expression,
                            double start,
                            double end,
                            double minY,
@@ -19,12 +19,11 @@ public:
                            double fmin,
                            double fmax,
                            int mode);
-    Q_INVOKABLE void stop();
-
-signals:
+    void stop();
     void audioFinished();
 
 private:
+    IAudio &iface;
     AudioEngine *m_audioEngine;
     void reset();
 };

@@ -1,22 +1,21 @@
 #ifndef FUNCTIONZOOMER_H
 #define FUNCTIONZOOMER_H
 
-#include <QObject>
 
 class FunctionModel;
+class IDragZoom;
 
-class FunctionZoomer : public QObject
+class FunctionZoomer
 {
-    Q_OBJECT
 public:
-    explicit FunctionZoomer(QObject *parent = nullptr);
-    void zoom(FunctionModel &model, double delta, int derivMode);
-
-signals:
-    void newInputValues(double minX, double maxX, double minY, double maxY);
+    FunctionZoomer(IDragZoom &iface, FunctionModel &model);
+    void zoom(double delta, int derivMode);
 
 private:
-    void performZoom(FunctionModel &model, double factor, int derivMode);
+    IDragZoom &iface;
+    FunctionModel &model;
+    void performZoom(double factor, int derivMode);
+
 
 };
 

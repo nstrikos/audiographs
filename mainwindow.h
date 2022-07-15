@@ -14,6 +14,8 @@
 #include "aboutDialog.h"
 #include "texttospeech.h"
 
+#include "IGui.h"
+
 #include<array>
 using namespace std;
 
@@ -28,7 +30,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(IGui &face, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -40,7 +42,6 @@ signals:
     void functionError();
     void newgraph();
     void playPressed();
-    void playSound();
     void stopSound();
     void audioFinished();
     void newCurrentPoint(double x, double y);
@@ -67,10 +68,6 @@ signals:
     void firstPoint();
     void lastPoint();
     void errorAccepted();
-    void derivativeMode(int mode);
-    void startDrag(int x , int y);
-    void drag(int diffX, int diffY, int width, int height);
-    void zoom(double delta);
 
 public slots:
     void updateGraph(Points *points, double minX, double maxX, double minY, double maxY);
@@ -199,6 +196,8 @@ private slots:
     void on_useNegativeNotescheckBox_stateChanged(int arg1);
 
 private:
+    IGui &iface;
+
     Ui::MainWindow *ui;
 
     void initActions();

@@ -9,7 +9,7 @@
 #include "parameters.h"
 #include "currentPoint.h"
 #include "texttospeech.h"
-#include "pointInterest.h"
+#include "pointsInterest.h"
 
 #include "dragHandler.h"
 #include "functionZoomer.h"
@@ -61,7 +61,7 @@ signals:
     void updateText(QString text);
 
 private:
-    FunctionModel functionModel;
+    //FunctionModel functionModel;
     Audio *m_audio;
     AudioNotes *m_audioNotes;
     Parameters *m_parameters;

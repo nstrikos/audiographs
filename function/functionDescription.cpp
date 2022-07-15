@@ -69,7 +69,6 @@ QVector<InterestingPoint> FunctionDescription::points(FunctionModel *model, int 
                 }
             }
 
-
             if (tmp.label != "") {
                 tmp.label = tmp.label.trimmed();
                 m_points.append(tmp);

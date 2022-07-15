@@ -14,6 +14,7 @@
 #include "function/point.h"
 
 #include "texttospeech.h"
+#include "functionController.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,16 +30,41 @@ int main(int argc, char *argv[])
     if (!runMobile) {
         QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
-        MainWindow w;
-        w.showMaximized();
+        //MainWindow w;
+        //w.showMaximized();
 
-        FunctionExpression functionExpression;
+        //FunctionExpression functionExpression;
 
-        FunctionConnector functionConnector;
+        //FunctionConnector functionConnector;
 
-        functionConnector.start(w, functionExpression);
+        //functionConnector.start(w, functionExpression);
 
-        return a.exec();
+        FunctionController *controller = new FunctionController();
+
+        MainWindow *w = new MainWindow(*controller);
+        FunctionModel *model = new FunctionModel(*controller);
+        DragHandler *dragHandler = new DragHandler(*controller, *model);
+        FunctionZoomer *zoomer = new FunctionZoomer(*controller, *model);
+        CurrentPoint *currentPoint = new CurrentPoint(*controller, *model);
+        Audio *audio = new Audio(*controller);
+        AudioNotes *audionotes = new AudioNotes(*controller, *model);
+        PointsInterest *pointsInterest = new PointsInterest(*controller, *model, *audionotes, *currentPoint);
+
+        w->showMaximized();
+
+        int ret = a.exec();
+
+        delete w;
+        delete model;
+        delete dragHandler;
+        delete zoomer;
+        delete currentPoint;
+        delete pointsInterest;
+        delete audio;        
+        delete audionotes;
+        delete controller;
+
+        return ret;
     } else {
         QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -54,12 +80,12 @@ int main(int argc, char *argv[])
 
         Parameters *parameters = &Parameters::getInstance();
         FunctionExpression functionExpression;
-        TextToSpeech textToSpeech;
+        TextToSpeech *textToSpeech = &TextToSpeech::getInstance();
 
         QQmlApplicationEngine engine;
         engine.rootContext()->setContextProperty("parameters", parameters);
         engine.rootContext()->setContextProperty("functionExpression", &functionExpression);
-        engine.rootContext()->setContextProperty("textToSpeech", &textToSpeech);
+        engine.rootContext()->setContextProperty("textToSpeech", textToSpeech);
         //qRegisterMetaType<FunctionController*>("FunctionController*");
 
 

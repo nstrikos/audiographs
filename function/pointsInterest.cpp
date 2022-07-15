@@ -1,18 +1,20 @@
-#include "pointInterest.h"
+#include "pointsInterest.h"
+#include "../IPointsInterest.h"
 
 #include <QDebug>
 
 #include "math.h"
 
-PointsInterest::PointsInterest(FunctionModel &functionModel,
+PointsInterest::PointsInterest(IPointsInterest &iface,
+                               FunctionModel &functionModel,
                                AudioNotes &audioNotes,
-                               CurrentPoint &currentPoint,
-                               TextToSpeech &textToSpeech):
+                               CurrentPoint &currentPoint):
+    iface(iface),
     m_model(functionModel),
     m_audioNotes(audioNotes),
-    m_currentPoint(currentPoint),
-    m_textToSpeech(textToSpeech)
+    m_currentPoint(currentPoint)
 {
+    iface.addPointsInterest(this);
     m_funcDescription = nullptr;
     m_pointInterest = 0;
     //    m_audioNotes = nullptr;
@@ -22,10 +24,13 @@ PointsInterest::PointsInterest(FunctionModel &functionModel,
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
 
     m_parameters = &Parameters::getInstance();
+    m_textToSpeech = &TextToSpeech::getInstance();
 }
 
 PointsInterest::~PointsInterest()
 {
+    m_timer.stop();
+    m_audioNotes.stopNotes();
     if (m_funcDescription != nullptr)
         delete m_funcDescription;
 }
@@ -68,8 +73,8 @@ void PointsInterest::nextPointFast()
     m_currentPoint.setPoint(m_points[m_pointInterest].x);
     QString label = currentPointLabel();
     if (m_parameters->selfVoice())
-        m_textToSpeech.speak(label);
-    emit updateLabel(label);
+        m_textToSpeech->speak(label);
+    iface.updateLabel(label);
 }
 
 void PointsInterest::previousPointFast()
@@ -92,8 +97,8 @@ void PointsInterest::previousPointFast()
     m_currentPoint.setPoint(m_points[m_pointInterest].x);
     QString label = currentPointLabel();
     if (m_parameters->selfVoice())
-        m_textToSpeech.speak(label);
-    emit updateLabel(label);
+        m_textToSpeech->speak(label);
+    iface.updateLabel(label);
 }
 
 void PointsInterest::start()
@@ -307,9 +312,9 @@ void PointsInterest::timerExpired()
             m_timer.stop();
             QString label = currentPointLabel();
             if (m_parameters->selfVoice())
-                m_textToSpeech.speak(label);
-            emit updateLabel(label);
-            emit finished();
+                m_textToSpeech->speak(label);
+            iface.updateLabel(label);
+            iface.interestingPointsfinished();
         } else {
             m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_derivMode, m_parameters->useNegativeNotes());
         }
@@ -320,9 +325,9 @@ void PointsInterest::timerExpired()
             m_timer.stop();
             QString label = currentPointLabel();
             if (m_parameters->selfVoice())
-                m_textToSpeech.speak(label);
-            emit updateLabel(label);
-            emit finished();
+                m_textToSpeech->speak(label);
+            iface.updateLabel(label);
+            iface.interestingPointsfinished();
         } else {
             m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_derivMode, m_parameters->useNegativeNotes());
         }

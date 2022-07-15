@@ -146,8 +146,10 @@ QStringList TextToSpeech::languages() const
 
 void TextToSpeech::speak(QString text)
 {
-    m_speech->say(text);
-    qDebug() << text;
+    if (m_parameters->selfVoice()) {
+        m_speech->say(text);
+        qDebug() << "text : " << text;
+    }
 }
 
 void TextToSpeech::stop()

@@ -6,15 +6,13 @@
 
 AudioPoints::AudioPoints()
 {
-    timer = nullptr;
     audioOutput = nullptr;
     m_isPlaying = false;
 }
 
 AudioPoints::~AudioPoints()
 {
-    if (timer != nullptr)
-        delete timer;
+
     if (audioOutput != nullptr)
         delete audioOutput;
 }
@@ -35,7 +33,7 @@ void AudioPoints::stopAudio()
         audioOutput->stop();
         delete audioOutput;
         audioOutput = nullptr;
-        timer->stop();
+        timer.stop();
     }
     audioPlaying = false;
     //    setFreq(0);
@@ -202,11 +200,11 @@ void AudioPoints::initializeAudio()
     }
     audioOutput = new QAudioOutput(deviceinfo, format, this);
     audioOutput->setBufferSize(BufferSize);
-    timer = new QTimer;
-    timer->setTimerType(Qt::PreciseTimer);
-    connect(timer, SIGNAL(timeout()), this, SLOT(writeMoreData()));
+    //timer = new QTimer;
+    timer.setTimerType(Qt::PreciseTimer);
+    connect(&timer, SIGNAL(timeout()), this, SLOT(writeMoreData()));
     m_time = 0;
-    timer->start(TimerMSeconds);
+    timer.start(TimerMSeconds);
     m_sum = 0;
     m_sum2 = 0;
     m_phi = 0;

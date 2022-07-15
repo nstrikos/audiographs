@@ -1,12 +1,15 @@
 #include "functionZoomer.h"
 #include "functionModel.h"
+#include "IDragZoom.h"
 
-FunctionZoomer::FunctionZoomer(QObject *parent) : QObject(parent)
+FunctionZoomer::FunctionZoomer(IDragZoom &iface, FunctionModel &model) :
+    iface(iface),
+    model(model)
 {
-
+    iface.addZoomer(this);
 }
 
-void FunctionZoomer::zoom(FunctionModel &model, double delta, int derivMode)
+void FunctionZoomer::zoom(double delta, int derivMode)
 {
     //    if (!model.validExpression())
     //        return;
@@ -17,10 +20,10 @@ void FunctionZoomer::zoom(FunctionModel &model, double delta, int derivMode)
     else
         factor = 0.9;
 
-    performZoom(model, factor, derivMode);
+    performZoom(factor, derivMode);
 }
 
-void FunctionZoomer::performZoom(FunctionModel &model, double factor, int derivMode)
+void FunctionZoomer::performZoom(double factor, int derivMode)
 {
     double minX = model.minX();
     double maxX = model.maxX();
@@ -86,15 +89,15 @@ void FunctionZoomer::performZoom(FunctionModel &model, double factor, int derivM
     //    //We calculate with the new values, but we need to round them before displaying them
     //    //if we round the values before zooming, zoom will not be smooth
     model.calculate(model.expression(),
-                    QString::number(newMinX),
-                    QString::number(newMaxX),
-                    QString::number(newMinY),
-                    QString::number(newMaxY));
+                     QString::number(newMinX),
+                     QString::number(newMaxX),
+                     QString::number(newMinY),
+                     QString::number(newMaxY));
 
     if (derivMode == 1)
         model.calculateDerivative();
     else if (derivMode == 2)
         model.calculateSecondDerivative();
 
-    emit newInputValues(minX, maxX, minY, maxY);
+    iface.newInputValues(minX, maxX, minY, maxY);
 }

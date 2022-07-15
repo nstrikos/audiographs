@@ -1,9 +1,13 @@
 #include "audioengine.h"
 
-AudioEngine::AudioEngine(QString expression, double start, double end, double minY, double maxY, int seconds, int fmin, int fmax, int mode)
+#include "audio.h"
+
+AudioEngine::AudioEngine(Audio *audio, QString expression, double start, double end, double minY, double maxY, int seconds, int fmin, int fmax, int mode)
 {
     generator = NULL;
     audioOutput = nullptr;
+
+    this->audio = audio;
 
     this->seconds = seconds;
     this->fmin = fmin;
@@ -113,7 +117,7 @@ int AudioEngine::getFmax() const
 void AudioEngine::stateChanged(QAudio::State state)
 {
     if (state == QAudio::IdleState)
-        emit finished();
+        audio->audioFinished();
 }
 
 int AudioEngine::getFmin() const

@@ -1,6 +1,8 @@
 #ifndef AUDIOENGINE_H
 #define AUDIOENGINE_H
 
+class Audio;
+
 #include <QAudioOutput>
 #include <QAudio>
 #include <QDebug>
@@ -23,7 +25,7 @@ class AudioEngine : public QObject
     Q_OBJECT
 
 public:
-    AudioEngine(QString expression, double m_start, double m_end, double minY, double maxY, int seconds, int fmin, int fmax, int mode);
+    AudioEngine(Audio *audio, QString expression, double m_start, double m_end, double minY, double maxY, int seconds, int fmin, int fmax, int mode);
     ~AudioEngine();
     Q_INVOKABLE void createAudioOutput();
     Q_INVOKABLE void stop();
@@ -38,6 +40,7 @@ private slots:
     void stateChanged(QAudio::State state);
 
 private:
+    Audio *audio;
     void resetAudioOutput();
     void resetGenerator();
     void setDevice();

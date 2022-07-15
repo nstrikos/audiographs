@@ -1,27 +1,27 @@
 #include "currentPoint.h"
-
 #include "constants.h"
+#include "math.h"
+#include "function/functionModel.h"
+#include "ICurrentPoint.h"
 
-#include <QDebug>
-
-CurrentPoint::CurrentPoint(FunctionModel &model) : m_model(model)
+CurrentPoint::CurrentPoint(ICurrentPoint &iface, FunctionModel &model) :
+    iface(iface),
+    model(model)
 {
+    iface.addCurrentPoint(this);
+
     timer.setTimerType(Qt::PreciseTimer);
     timer.setInterval(INTERVAL_MILLISECONDS);
-
     connect(&timer, &QTimer::timeout, this, &CurrentPoint::timerExpired);
 
     m_point = 0;
     m_step = 10;
-
     m_derivMode = 0;
 }
 
 void CurrentPoint::startMoving(int duration)
 {
     m_duration = duration * 1000;
-    //m_X = -100;
-    //m_Y = -100;
     m_point = 0;
     m_timeElapsed = 0;
     timer.start();
@@ -43,15 +43,7 @@ void CurrentPoint::timerExpired()
     if (m_point < 0)
         m_point = 0;
 
-    if (m_derivMode == 0) {
-        m_X = m_model.x(m_point);
-        m_Y = m_model.y(m_point);
-    } else {
-        m_X = m_model.x(m_point);
-        m_Y = m_model.derivative(m_point);
-    }
-
-    emit newCurrentPoint(m_X, m_Y);
+    setPoint(m_point);
 }
 
 int CurrentPoint::step() const
@@ -61,59 +53,27 @@ int CurrentPoint::step() const
 
 void CurrentPoint::setPoint(int point)
 {
-    //    if (m_width == -1 || m_height == -1)
-    //        return;
-
-    //    if (m_model == nullptr)
-    //        return;
-
-    //    if (m_model->lineSize() == 0)
-    //        return;
-
-    //    int size = m_model->lineSize();
-    //    double xStart = m_model->x(0);
-    //    double xEnd = m_model->x(size - 1);
-    //    double minY = m_model->minY();
-    //    double maxY = m_model->maxY();
-
-    //    double x, y;
-    //    if (m_mode == 0) {
-    //        x =  ( m_width / (xEnd - xStart) * (m_model->x(m_point) - xStart) );
-    //        y = ( m_height / (maxY - minY) * (m_model->y(m_point) - minY) );
-    //    } else {
-    //        x =  ( m_width / (xEnd - xStart) * (m_model->x(m_point) - xStart) );
-    //        y = ( m_height / (maxY - minY) * (m_model->derivative(m_point) - minY) );
-    //    }
-
-    //    y = m_height - y;
-
     if (point < 0)
         return;
 
-    if (point >= m_model.size())
+    if (point >= model.size())
         return;
 
     m_point = point;
 
     if (m_derivMode == 0) {
-        m_X = m_model.x(m_point);
-        m_Y = m_model.y(m_point);
+        m_x = model.x(m_point);
+        m_y = model.y(m_point);
     } else {
-        m_X = m_model.x(m_point);
-        m_Y = m_model.derivative(m_point);
+        m_x = model.x(m_point);
+        m_y = model.derivative(m_point);
     }
 
-    emit newCurrentPoint(m_X, m_Y);
+    iface.newCurrentPoint(m_x, m_y);
 }
 
 void CurrentPoint::incPoint(int step)
 {
-    //    if (m_width == -1 || m_height == -1)
-    //        return;
-
-    //    if (m_model == nullptr)
-    //        return;
-
     m_point += step;
 
     if (m_point >= LINE_POINTS)
@@ -122,14 +82,17 @@ void CurrentPoint::incPoint(int step)
     setPoint(m_point);
 }
 
+void CurrentPoint::next()
+{
+    m_point += m_step;
+    if (m_point >= LINE_POINTS)
+        m_point = LINE_POINTS - 1;
+
+    setPoint(m_point);
+}
+
 void CurrentPoint::decPoint(int step)
 {
-    //    if (m_width == -1 || m_height == -1)
-    //        return;
-
-    //    if (m_model == nullptr)
-    //        return;
-
     m_point -= step;
 
     if (m_point <= 0)
@@ -142,8 +105,8 @@ void CurrentPoint::endPoint()
 {
     timer.stop();
 
-    if (m_model.size() > 0) {
-        m_point = m_model.size() - 1;
+    if (model.size() > 0) {
+        m_point = model.size() - 1;
         setPoint(m_point);
     }
 }
@@ -156,20 +119,6 @@ void CurrentPoint::setDerivativeMode(int mode)
 void CurrentPoint::stop()
 {
     timer.stop();
-    //m_point = 0;
-    //    if (m_model.size() > 0) {
-    //        m_X = m_model.x(0);
-    //        m_Y = m_model.y(0);
-    //    } else {
-    //        m_X = -100;
-    //        m_Y = -100;
-    //    }
-    //emit newCurrentPoint(m_X, m_Y);
-}
-
-void CurrentPoint::pause()
-{
-    timer.stop();
 }
 
 void CurrentPoint::reset()
@@ -178,32 +127,13 @@ void CurrentPoint::reset()
     setPoint(0);
 }
 
-void CurrentPoint::next()
-{
-    m_point += m_step;
-    if (m_point >= LINE_POINTS)
-        m_point = LINE_POINTS - 1;
-
-    //m_X = m_model.x(m_point);
-    //m_Y = m_model.y(m_point);
-
-    setPoint(m_point);
-
-    emit newCurrentPoint(m_X, m_Y);
-}
-
 void CurrentPoint::previous()
 {
     m_point -= m_step;
     if (m_point < 0)
         m_point = 0;
 
-    //m_X = m_model.x(m_point);
-    //m_Y = m_model.y(m_point);
-
     setPoint(m_point);
-
-    emit newCurrentPoint(m_X, m_Y);
 }
 
 int CurrentPoint::point()
@@ -230,14 +160,4 @@ void CurrentPoint::incStep()
     m_step = round(m_step);
     if (m_step > 100)
         m_step = 100;
-}
-
-double CurrentPoint::X() const
-{
-    return m_X;
-}
-
-double CurrentPoint::Y() const
-{
-    return m_Y;
 }

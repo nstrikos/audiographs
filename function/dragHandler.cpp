@@ -1,12 +1,15 @@
 #include "dragHandler.h"
 #include "functionModel.h"
+#include "IDragZoom.h"
 
-DragHandler::DragHandler()
+DragHandler::DragHandler(IDragZoom &iface, FunctionModel &model) :
+    iface(iface),
+    model(model)
 {
-
+    iface.addDragHandler(this);
 }
 
-void DragHandler::startDrag(FunctionModel &model, int x, int y)
+void DragHandler::startDrag(int x, int y)
 {
     if (!model.validExpression())
         return;
@@ -19,7 +22,7 @@ void DragHandler::startDrag(FunctionModel &model, int x, int y)
     m_maxY = model.maxY();
 }
 
-void DragHandler::drag(FunctionModel &model, int diffX, int diffY, int width, int height, int derivMode)
+void DragHandler::drag(int diffX, int diffY, int width, int height, int derivMode)
 {
     if (!model.validExpression())
         return;
@@ -63,7 +66,7 @@ void DragHandler::drag(FunctionModel &model, int diffX, int diffY, int width, in
     }
 
 
-    //    //we update with the rounded values
+    //we update with the rounded values
     model.calculate(model.expression(),
                     QString::number(newMinX),
                     QString::number(newMaxX),
@@ -74,5 +77,5 @@ void DragHandler::drag(FunctionModel &model, int diffX, int diffY, int width, in
         model.calculateDerivative();
     else if (derivMode == 2)
         model.calculateSecondDerivative();
-    emit newInputValues(newMinX, newMaxX, newMinY, newMaxY);
+    iface.newInputValues(newMinX, newMaxX, newMinY, newMaxY);
 }

@@ -1,7 +1,9 @@
 #ifndef CURRENTPOINT_H
 #define CURRENTPOINT_H
 
-#include "functionModel.h"
+class ICurrentPoint;
+class FunctionModel;
+
 #include <QObject>
 #include <QTimer>
 
@@ -9,11 +11,11 @@ class CurrentPoint : public QObject
 {
     Q_OBJECT
 public:
-    CurrentPoint(FunctionModel &model);
+    CurrentPoint(ICurrentPoint &iface, FunctionModel &model);
     void startMoving(int duration);
     void stop();
-    void pause();
     void reset();
+    void endPoint();
     void next();
     void previous();
     int point();
@@ -26,28 +28,21 @@ public:
     void incPoint(int step);
     void decPoint(int step);
 
-    void endPoint();
-
     void setDerivativeMode(int mode);
-
-    double X() const;
-    double Y() const;
-
-signals:
-    void newCurrentPoint(double x, double y);
 
 private slots:
     void timerExpired();
 
 private:
-    FunctionModel &m_model;
+    ICurrentPoint &iface;
+    FunctionModel &model;
 
     int m_duration;
     int m_timeElapsed;
     QTimer timer;
 
-    double m_X;
-    double m_Y;
+    double m_x;
+    double m_y;
     int m_point;
     int m_step;
 

@@ -29,7 +29,8 @@ SOURCES += \
     function/functionZoomer.cpp \
     function/pinchHandler.cpp \
     function/point.cpp \
-    function/pointInterest.cpp \
+    function/pointsInterest.cpp \
+    functionController.cpp \
     generator/audio.cpp \
     generator/audioengine.cpp \
     generator/genclipper.cpp \
@@ -49,6 +50,12 @@ SOURCES += \
     texttospeech.cpp
 
 HEADERS += \
+    IAudio.h \
+    ICurrentPoint.h \
+    IDragZoom.h \
+    IFunctionModel.h \
+    IGui.h \
+    IPointsInterest.h \
     aboutDialog.h \
     audionotes/audionotes.h \
     audionotes/audiopoints.h \
@@ -66,7 +73,8 @@ HEADERS += \
     function/functionZoomer.h \
     function/pinchHandler.h \
     function/point.h \
-    function/pointInterest.h \
+    function/pointsInterest.h \
+    functionController.h \
     generator/audio.h \
     generator/audioengine.h \
     generator/genclipper.h \

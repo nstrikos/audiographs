@@ -14,13 +14,16 @@
 #include <QFile>
 #include <QDir>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(IGui &iface, QWidget *parent)
+    : iface(iface),
+      QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    m_textToSpeech = new TextToSpeech();
+    iface.addGui(this);
+
+    m_textToSpeech = &TextToSpeech::getInstance();
 
     m_points = nullptr;
 
@@ -162,7 +165,7 @@ MainWindow::~MainWindow()
     if (aboutDialog != nullptr)
         delete aboutDialog;
 
-    delete m_textToSpeech;
+    //delete m_textToSpeech;
 
     delete ui;
 }
@@ -495,7 +498,7 @@ void MainWindow::initialStateActivated()
     //    ui->maxYLineEdit->setText("10");
     ui->renderArea->clear();
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    iface.setDerivativeMode(0);
 }
 
 void MainWindow::evaluateStateActivated()
@@ -504,13 +507,13 @@ void MainWindow::evaluateStateActivated()
     clearLabel();
     disableControls();
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    iface.setDerivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
-    emit calculate(ui->functionLineEdit->text(),
-                   ui->minXLineEdit->text(),
-                   ui->maxXLineEdit->text(),
-                   ui->minYLineEdit->text(),
-                   ui->maxYLineEdit->text());
+    iface.calculate(ui->functionLineEdit->text(),
+                     ui->minXLineEdit->text(),
+                     ui->maxXLineEdit->text(),
+                     ui->minYLineEdit->text(),
+                     ui->maxYLineEdit->text());
 }
 
 void MainWindow::graphReadyStateActivated()
@@ -536,7 +539,7 @@ void MainWindow::playSoundStateActivated()
     ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
     ui->renderArea->enableCurrentPoint();
     enableControls();
-    emit playSound();
+    iface.playSound();
     clearLabel();
 }
 
@@ -546,6 +549,7 @@ void MainWindow::playSoundStateDeactivated()
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     ui->renderArea->disableCurrentPoint();
     emit stopSound();
+    iface.stopSound();
 }
 
 void MainWindow::exploreStateActivated()
@@ -573,6 +577,7 @@ void MainWindow::interestingPointStateDeactivated()
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     //ui->renderArea->disableCurrentPoint();
     emit stopSound();
+    iface.stopSound();
 }
 
 void MainWindow::interestingPointStoppedStateActivated()
@@ -658,9 +663,9 @@ void MainWindow::performZoom(int delta)
         return;
 
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    iface.setDerivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
-    emit zoom(delta);
+    iface.zoom(delta);
     clearLabel();
 }
 
@@ -672,9 +677,9 @@ void MainWindow::mousePressed(int x, int y)
     m_mousePressed = true;
 
     ui->renderArea->disableCurrentPoint();
-    emit derivativeMode(0);
+    iface.setDerivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
-    emit startDrag(x, y);
+    iface.startDrag(x, y);
 }
 
 void MainWindow::mouseMove(int diffX, int diffY)
@@ -683,7 +688,7 @@ void MainWindow::mouseMove(int diffX, int diffY)
         return;
 
 
-    emit drag(diffX, diffY, ui->renderArea->width(), ui->renderArea->height());
+    iface.drag(diffX, diffY, ui->renderArea->width(), ui->renderArea->height());
     clearLabel();
 }
 
@@ -1029,6 +1034,7 @@ void MainWindow::on_nextPushButton_clicked()
 {
     if (ui->nextPushButton->isEnabled()) {
         emit nextPoint();
+        iface.nextPoint();
         clearLabel();
     }
 }
@@ -1037,6 +1043,7 @@ void MainWindow::on_previousPushButton_clicked()
 {
     if (ui->previousPushButton->isEnabled()) {
         emit previousPoint();
+        iface.previousPoint();
         clearLabel();
     }
 }
@@ -1046,8 +1053,10 @@ void MainWindow::on_xPushButton_clicked()
     if (ui->xPushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
             emit sayX();
+            iface.sayX();
         }
         emit getX();
+        iface.getX();
     }
 }
 
@@ -1056,26 +1065,31 @@ void MainWindow::on_yPushButton_clicked()
     if(ui->yPushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
             emit sayY();
+            iface.sayY();
         }
         emit getY();
+        iface.getY();
     }
 }
 
 void MainWindow::on_decStepPushButton_clicked()
 {
     emit decStep();
+    iface.decStep();
 }
 
 void MainWindow::on_incStepPushButton_clicked()
 {
     emit incStep();
+    iface.incStep();
 }
 
 void MainWindow::on_previousPointInterestPushButton_clicked()
 {
     if (ui->previousPointInterestPushButton->isEnabled()) {
         emit previousPointInterest();
-        emit externalPreviousPointInterest();
+        //emit externalPreviousPointInterest();
+        iface.previousPointInterest();
         clearLabel();
     }
 }
@@ -1084,7 +1098,8 @@ void MainWindow::on_nextPointInterestPushButton_clicked()
 {
     if (ui->nextPointInterestPushButton->isEnabled()) {
         emit nextPointInterest();
-        emit externalNextPointInterest();
+        //emit externalNextPointInterest();
+        iface.nextPointInterest();
         clearLabel();
     }
 }
@@ -1094,6 +1109,7 @@ void MainWindow::on_previousFastPushButton_clicked()
         clearLabel();
         emit previousFast();
         emit externalPreviousFast();
+        iface.previousFast();
     }
 }
 
@@ -1103,6 +1119,7 @@ void MainWindow::on_nextFastPushButton_clicked()
         clearLabel();
         emit nextFast();
         emit externalNextFast();
+        iface.nextFast();
     }
 }
 
@@ -1110,6 +1127,7 @@ void MainWindow::on_firstPointPushButton_clicked()
 {
     if (firstPointAction->isEnabled()) {
         emit firstPoint();
+        iface.firstPoint();
         //clearLabel();
         updateLabelText(tr("starting point"));
     }
@@ -1119,6 +1137,7 @@ void MainWindow::on_lastPointPushButton_clicked()
 {
     if (lastPointAction->isEnabled()) {
         emit lastPoint();
+        iface.lastPoint();
         //clearLabel();
         updateLabelText(tr("ending point"));
     }
@@ -1126,10 +1145,9 @@ void MainWindow::on_lastPointPushButton_clicked()
 
 void MainWindow::updateLabelText(QString text)
 {
-    qDebug() << __func__ << text;
+    qDebug() << "label: " << text;
     QString oldText = ui->coordLabel->text();
     if (text != oldText) {
-        qDebug() << text << oldText;
         ui->coordLabel2->setText("");
         ui->coordLabel->setText(text);
         if (!m_parameters->selfVoice())
@@ -1298,7 +1316,7 @@ void MainWindow::useNegativeNotesActionActivated()
 
 void MainWindow::on_normalModePushButton_clicked()
 {
-    emit derivativeMode(0);
+    iface.setDerivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Normal mode"));
@@ -1309,7 +1327,7 @@ void MainWindow::on_normalModePushButton_clicked()
 
 void MainWindow::on_firstDerivativePushButton_clicked()
 {
-    emit derivativeMode(1);
+    iface.setDerivativeMode(1);
     ui->renderArea->setDerivativeMode(1);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("First derivative mode"));
@@ -1320,7 +1338,7 @@ void MainWindow::on_firstDerivativePushButton_clicked()
 
 void MainWindow::on_secondDerivativePushButton_clicked()
 {
-    emit derivativeMode(2);
+    iface.setDerivativeMode(2);
     ui->renderArea->setDerivativeMode(2);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Second derivative mode"));
@@ -1527,9 +1545,12 @@ void MainWindow::updateLabel()
 void MainWindow::on_derivativePushButton_clicked()
 {
     if (ui->derivativePushButton->isEnabled()) {
-        if (m_parameters->selfVoice())
+        if (m_parameters->selfVoice()) {
             emit sayDerivative();
+            iface.sayDerivative();
+        }
         emit getDerivative();
+        iface.getDerivative();
     }
 }
 

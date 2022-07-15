@@ -1,7 +1,5 @@
 #include "functionModel.h"
-
-//#include <QtMath>
-
+#include "IFunctionModel.h"
 #include "constants.h"
 
 int mygcd(int a, int b)
@@ -38,8 +36,11 @@ double powint(const double *p)
 }
 #endif
 
-FunctionModel::FunctionModel(QObject *parent) : QObject(parent)
+FunctionModel::FunctionModel(IFunctionModel &iface) :
+    iface(iface)
 {
+    iface.addModel(this);
+
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     symbol_table.add_function(
@@ -137,10 +138,10 @@ void FunctionModel::calculate(QString expression, QString minX, QString maxX, QS
     if ( check() ) {
         m_validExpression = true;
         calculatePoints();
-        emit newGraph(&m_points, m_minX, m_maxX, m_minY, m_maxY);
+        iface.newGraph(&m_points, m_minX, m_maxX, m_minY, m_maxY);
     } else {
         m_validExpression = false;
-        emit error(m_errorString);
+        iface.error(m_errorString);
     }
 }
 
@@ -155,7 +156,7 @@ bool FunctionModel::check()
         m_minX = minDouble;
     }
     else {
-        m_errorString = tr("Minimum is not a real number.");
+        m_errorString = "Minimum is not a real number.";
         return false;
     }
 
@@ -164,7 +165,7 @@ bool FunctionModel::check()
         m_maxX = maxDouble;
     }
     else {
-        m_errorString = tr("Maximum is not a real number.");
+        m_errorString = "Maximum is not a real number.";
         return false;
     }
 
@@ -173,7 +174,7 @@ bool FunctionModel::check()
         m_minY = minYDouble;
     }
     else {
-        m_errorString = tr("Minimum Y is not a real number.");
+        m_errorString = "Minimum Y is not a real number.";
         return false;
     }
 
@@ -182,17 +183,17 @@ bool FunctionModel::check()
         m_maxY = maxYDouble;
     }
     else {
-        m_errorString = tr("Maximum Y is not a real number.");
+        m_errorString = "Maximum Y is not a real number.";
         return false;
     }
 
     if (m_maxX <= m_minX) {
-        m_errorString = tr("Maximum must be greater than minimum.");
+        m_errorString = "Maximum must be greater than minimum.";
         return false;
     }
 
     if (m_maxY <= m_minY) {
-        m_errorString = tr("Maximum Y must be greater than minimum Y.");
+        m_errorString = "Maximum Y must be greater than minimum Y.";
         return false;
     }
 
@@ -482,7 +483,7 @@ void FunctionModel::calculateDerivative()
             m_maxDerivValue = m_derivPoints.yAt(i);
     }
 
-    emit updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+    iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
 }
 
 void FunctionModel::calculateSecondDerivative()
@@ -585,7 +586,7 @@ void FunctionModel::calculateSecondDerivative()
             m_maxDerivValue = m_derivPoints.yAt(i);
     }
 
-    emit updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+    iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
 }
 
 void FunctionModel::refreshDerivative()
@@ -663,7 +664,50 @@ void FunctionModel::refreshDerivative()
 
 double FunctionModel::derivative(int i)
 {
-    return m_derivPoints.yAt(i);
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+
+    m_x = m_points.xAt(i);
+    if (derivativeMode == 0 || derivativeMode == 1)
+        return  exprtk::derivative(parser_expression, m_x);
+    else
+        return exprtk::second_derivative(parser_expression, m_x);
+#else
+    double vals[] = { 0 };
+    const double h = 0.00000001;
+    const double h2 = 2 * h;
+    double x_init;
+    double x;
+    double result;
+    int res;
+
+    double y0, y1, y2, y3;
+
+    x_init = m_points.xAt(i);
+
+    vals[0] = x_init;
+    m_fparser.Eval(vals);
+    res = m_fparser.EvalError();
+
+    if (res > 0) {
+        ;
+    } else {
+        x = x_init + h2;
+        vals[0] = x;
+        y0 = m_fparser.Eval(vals);
+        x = x_init + h;
+        vals[0] = x;
+        y1 = m_fparser.Eval(vals);
+        x = x_init - h;
+        vals[0] = x;
+        y2 = m_fparser.Eval(vals);
+        x = x_init - h2;
+        vals[0] = x;
+        y3 = m_fparser.Eval(vals);
+
+        result = (-y0 + 8 * (y1 - y2) + y3) / (12 * h);
+        return result;
+    }
+#endif
 }
 
 double FunctionModel::firstDerivative(int i)

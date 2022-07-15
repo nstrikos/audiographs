@@ -1,5 +1,7 @@
-#ifndef POINTINTEREST_H
-#define POINTINTEREST_H
+#ifndef POINTSINTEREST_H
+#define POINTSINTEREST_H
+
+class IPointsInterest;
 
 #include <QObject>
 #include <QVector>
@@ -16,10 +18,10 @@ class PointsInterest : public QObject
 {
     Q_OBJECT
 public:
-    explicit PointsInterest(FunctionModel &functionModel,
+    explicit PointsInterest(IPointsInterest &iface,
+                            FunctionModel &functionModel,
                             AudioNotes &audioNotes,
-                            CurrentPoint &currentPoint,
-                            TextToSpeech &textToSpeech);
+                            CurrentPoint &currentPoint);
     ~PointsInterest();
     void nextPoint();
 
@@ -39,15 +41,11 @@ public:
 
     void setDerivativeMode(int mode);
 
-signals:
-    void finished();
-    void updateLabel(QString text);
-
-
 private slots:
     void timerExpired();
 
 private:
+    IPointsInterest &iface;
     int m_pointInterest;
     QTimer m_timer;
     bool m_forward;
@@ -56,7 +54,7 @@ private:
     QVector<InterestingPoint> m_points;
     AudioNotes &m_audioNotes;
     CurrentPoint &m_currentPoint;
-    TextToSpeech &m_textToSpeech;
+    TextToSpeech *m_textToSpeech;
     bool m_isUpdated;
     int getNextPointInterest();
     void start();

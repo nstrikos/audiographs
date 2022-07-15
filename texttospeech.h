@@ -13,7 +13,12 @@ class TextToSpeech : public QObject
     Q_OBJECT
 
 public:
-    TextToSpeech();
+
+    static TextToSpeech& getInstance()
+    {
+        static TextToSpeech instance;
+        return instance;
+    }
     ~TextToSpeech();
 
     Q_PROPERTY(QStringList engines  READ engines NOTIFY enginesChanged())
@@ -55,6 +60,10 @@ signals:
     void rateChanged();
 
 private:
+    TextToSpeech();
+    TextToSpeech(TextToSpeech const&);     // Don't Implement
+    void operator=(TextToSpeech const&); // Don't implement
+
     QTextToSpeech *m_speech;
     QVector<QVoice> m_voices;
     QStringList m_languages;

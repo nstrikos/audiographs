@@ -96,7 +96,7 @@ private:
     double m_phi;
     double m_phi2;
     int instrument = 0;
-    QTimer *timer;
+    QTimer timer;
     int k = 0;
     int m = 0;
     int m_2 = 0;
