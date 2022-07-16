@@ -135,6 +135,8 @@ void FunctionModel::calculate(QString expression, QString minX, QString maxX, QS
     m_minYString = minY;
     m_maxYString = maxY;
 
+    derivativeMode = 0;
+
     if ( check() ) {
         m_validExpression = true;
         calculatePoints();
@@ -326,24 +328,20 @@ void FunctionModel::calculatePoints()
     }
 }
 
-double FunctionModel::maxDerivValue() const
-{
-    return m_maxDerivValue;
-}
-
-double FunctionModel::minDerivValue() const
-{
-    return m_minDerivValue;
-}
-
 double FunctionModel::minValue() const
 {
-    return m_minValue;
+    if (derivativeMode == 0)
+        return m_minValue;
+    else
+        return m_minDerivValue;
 }
 
 double FunctionModel::maxValue() const
 {
-    return m_maxValue;
+    if (derivativeMode == 0)
+        return m_maxValue;
+    else
+        return m_maxDerivValue;
 }
 
 double FunctionModel::maxY() const
@@ -378,6 +376,14 @@ double FunctionModel::x(int i)
 
 double FunctionModel::y(int i)
 {
+    if (derivativeMode == 0)
+        return m_points.yAt(i);
+    else
+        return m_derivPoints.yAt(i);
+}
+
+double FunctionModel::y_0(int i)
+{
     return m_points.yAt(i);
 }
 
@@ -394,13 +400,9 @@ int FunctionModel::size()
 
 void FunctionModel::calculateDerivative()
 {
-    //    if (m_points.size() <= 0)
-    //        return;
-
     Point tmpPoint;
 
-    //m_derivPoints.clear();
-
+    derivativeMode = 1;
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     for (int i = 0; i < LINE_POINTS; i++) {
@@ -488,12 +490,9 @@ void FunctionModel::calculateDerivative()
 
 void FunctionModel::calculateSecondDerivative()
 {
-    //    if (m_points.size() <= 0)
-    //        return;
-
     Point tmpPoint;
 
-    //    m_derivPoints.clear();
+    derivativeMode = 2;
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
@@ -591,12 +590,7 @@ void FunctionModel::calculateSecondDerivative()
 
 void FunctionModel::refreshDerivative()
 {
-    //    if (m_points.size() <= 0)
-    //        return;
-
     Point tmpPoint;
-
-    //m_derivPoints.clear();
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
@@ -660,6 +654,11 @@ void FunctionModel::refreshDerivative()
         m_firstDerivPoints.setPoint(i, tmpPoint);
     }
 #endif
+}
+
+void FunctionModel::setNormalMode()
+{
+    derivativeMode = 0;
 }
 
 double FunctionModel::derivative(int i)

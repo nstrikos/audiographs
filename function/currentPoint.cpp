@@ -16,7 +16,6 @@ CurrentPoint::CurrentPoint(ICurrentPoint &iface, FunctionModel &model) :
 
     m_point = 0;
     m_step = 10;
-    m_derivMode = 0;
 }
 
 void CurrentPoint::startMoving(int duration)
@@ -61,13 +60,8 @@ void CurrentPoint::setPoint(int point)
 
     m_point = point;
 
-    if (m_derivMode == 0) {
-        m_x = model.x(m_point);
-        m_y = model.y(m_point);
-    } else {
-        m_x = model.x(m_point);
-        m_y = model.derivative(m_point);
-    }
+    m_x = model.x(m_point);
+    m_y = model.y(m_point);
 
     iface.newCurrentPoint(m_x, m_y);
 }
@@ -109,11 +103,6 @@ void CurrentPoint::endPoint()
         m_point = model.size() - 1;
         setPoint(m_point);
     }
-}
-
-void CurrentPoint::setDerivativeMode(int mode)
-{
-    m_derivMode = mode;
 }
 
 void CurrentPoint::stop()

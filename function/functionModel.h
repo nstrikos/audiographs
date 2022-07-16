@@ -31,6 +31,7 @@ public:
     double maxY() const;
     double x(int i);
     double y(int i);
+    double y_0(int i);
 
     double minValue() const;
     double maxValue() const;
@@ -42,14 +43,11 @@ public:
     void calculateDerivative();
     void calculateSecondDerivative();
     void refreshDerivative();
+    void setNormalMode();
 
     double derivative(int i);
 
     double firstDerivative(int i);
-
-    double minDerivValue() const;
-
-    double maxDerivValue() const;
 
     bool validExpression() const;
 

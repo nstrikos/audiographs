@@ -106,11 +106,11 @@ void FunctionExpression::audio()
 
 void FunctionExpression::startNotes()
 {
-    m_audioNotes->startNotes(m_parameters->maxFreq(),
-                             m_parameters->minFreq(),
-                             m_parameters->duration(),
-                             m_derivativeMode,
-                             m_parameters->useNegativeNotes());
+//    m_audioNotes->startNotes(m_parameters->maxFreq(),
+//                             m_parameters->minFreq(),
+//                             m_parameters->duration(),
+//                             m_derivativeMode,
+//                             m_parameters->useNegativeNotes());
 }
 
 void FunctionExpression::startAudio()
@@ -137,24 +137,24 @@ void FunctionExpression::stopAudio()
 
 void FunctionExpression::nextPoint()
 {
-    m_currentPoint->next();
-    m_audioNotes->setNote(m_currentPoint->point(),
-                          m_parameters->minFreq(),
-                          m_parameters->maxFreq(),
-                          m_parameters->useNotes(),
-                          m_derivativeMode,
-                          m_parameters->useNegativeNotes());
+//    m_currentPoint->next();
+//    m_audioNotes->setNote(m_currentPoint->point(),
+//                          m_parameters->minFreq(),
+//                          m_parameters->maxFreq(),
+//                          m_parameters->useNotes(),
+//                          m_derivativeMode,
+//                          m_parameters->useNegativeNotes());
 }
 
 void FunctionExpression::previousPoint()
 {
-    m_currentPoint->previous();
-    m_audioNotes->setNote(m_currentPoint->point(),
-                          m_parameters->minFreq(),
-                          m_parameters->maxFreq(),
-                          m_parameters->useNotes(),
-                          m_derivativeMode,
-                          m_parameters->useNegativeNotes());
+//    m_currentPoint->previous();
+//    m_audioNotes->setNote(m_currentPoint->point(),
+//                          m_parameters->minFreq(),
+//                          m_parameters->maxFreq(),
+//                          m_parameters->useNotes(),
+//                          m_derivativeMode,
+//                          m_parameters->useNegativeNotes());
 }
 
 void FunctionExpression::sayX()

@@ -11,8 +11,6 @@
 
 FunctionController::FunctionController()
 {
-    derivMode = 0;
-
     parameters = &Parameters::getInstance();
     textToSpeech = &TextToSpeech::getInstance();
 }
@@ -99,14 +97,14 @@ void FunctionController::startDrag(int x, int y)
 
 void FunctionController::drag(int diffX, int diffY, int width, int height)
 {
-    dragHandler->drag(diffX, diffY, width, height, derivMode);
+    dragHandler->drag(diffX, diffY, width, height);
 }
 
 void FunctionController::zoom(double delta)
 {
     currentPoint->reset();
     pointsInterest->setUpdated(false);
-    zoomer->zoom(delta, derivMode);
+    zoomer->zoom(delta);
 }
 
 void FunctionController::newInputValues(double minX, double maxX, double minY, double maxY)
@@ -152,7 +150,6 @@ void FunctionController::startNotes()
     audionotes->startNotes(parameters->maxFreq(),
                            parameters->minFreq(),
                            parameters->duration(),
-                           derivMode,
                            parameters->useNegativeNotes());
 }
 
@@ -171,7 +168,6 @@ void FunctionController::nextPoint()
                         parameters->minFreq(),
                         parameters->maxFreq(),
                         parameters->useNotes(),
-                        derivMode,
                         parameters->useNegativeNotes());
 }
 
@@ -182,7 +178,6 @@ void FunctionController::previousPoint()
                         parameters->minFreq(),
                         parameters->maxFreq(),
                         parameters->useNotes(),
-                        derivMode,
                         parameters->useNegativeNotes());
 }
 
@@ -209,12 +204,13 @@ void FunctionController::nextPointInterest()
 void FunctionController::setDerivativeMode(int mode)
 {
     derivMode = mode;
-    if (derivMode == 1)
+    if (derivMode == 0)
+        model->setNormalMode();
+    else if (derivMode == 1)
         model->calculateDerivative();
     else if (derivMode == 2)
         model->calculateSecondDerivative();
 
-    currentPoint->setDerivativeMode(derivMode);
     pointsInterest->setDerivativeMode(derivMode);
 }
 
@@ -333,8 +329,8 @@ QString FunctionController::derivative()
     QString value;
     if (model->isValid(currentPoint->point())) {
 
-        if (derivMode == 0)
-            model->refreshDerivative();
+//        if (derivMode == 0)
+//            model->refreshDerivative();
 
         double y = model->derivative(currentPoint->point());
 

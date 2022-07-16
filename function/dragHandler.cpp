@@ -22,7 +22,7 @@ void DragHandler::startDrag(int x, int y)
     m_maxY = model.maxY();
 }
 
-void DragHandler::drag(int diffX, int diffY, int width, int height, int derivMode)
+void DragHandler::drag(int diffX, int diffY, int width, int height)
 {
     if (!model.validExpression())
         return;
@@ -73,9 +73,5 @@ void DragHandler::drag(int diffX, int diffY, int width, int height, int derivMod
                     QString::number(newMinY),
                     QString::number(newMaxY));
 
-    if (derivMode == 1)
-        model.calculateDerivative();
-    else if (derivMode == 2)
-        model.calculateSecondDerivative();
     iface.newInputValues(newMinX, newMaxX, newMinY, newMaxY);
 }

@@ -9,7 +9,7 @@ FunctionZoomer::FunctionZoomer(IDragZoom &iface, FunctionModel &model) :
     iface.addZoomer(this);
 }
 
-void FunctionZoomer::zoom(double delta, int derivMode)
+void FunctionZoomer::zoom(double delta)
 {
     //    if (!model.validExpression())
     //        return;
@@ -20,10 +20,10 @@ void FunctionZoomer::zoom(double delta, int derivMode)
     else
         factor = 0.9;
 
-    performZoom(factor, derivMode);
+    performZoom(factor);
 }
 
-void FunctionZoomer::performZoom(double factor, int derivMode)
+void FunctionZoomer::performZoom(double factor)
 {
     double minX = model.minX();
     double maxX = model.maxX();
@@ -93,11 +93,6 @@ void FunctionZoomer::performZoom(double factor, int derivMode)
                      QString::number(newMaxX),
                      QString::number(newMinY),
                      QString::number(newMaxY));
-
-    if (derivMode == 1)
-        model.calculateDerivative();
-    else if (derivMode == 2)
-        model.calculateSecondDerivative();
 
     iface.newInputValues(minX, maxX, minY, maxY);
 }

@@ -9,7 +9,7 @@ class DragHandler
 public:
     DragHandler(IDragZoom &iface, FunctionModel &model);
     void startDrag(int x, int y);
-    void drag(int diffX, int diffY, int width, int height, int derivMode);
+    void drag(int diffX, int diffY, int width, int height);
 
 private:
     FunctionModel &model;

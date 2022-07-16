@@ -28,8 +28,6 @@ public:
     void incPoint(int step);
     void decPoint(int step);
 
-    void setDerivativeMode(int mode);
-
 private slots:
     void timerExpired();
 
@@ -45,8 +43,6 @@ private:
     double m_y;
     int m_point;
     int m_step;
-
-    int m_derivMode = 0;
 };
 
 #endif // CURRENTPOINT_H

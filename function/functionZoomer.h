@@ -9,12 +9,12 @@ class FunctionZoomer
 {
 public:
     FunctionZoomer(IDragZoom &iface, FunctionModel &model);
-    void zoom(double delta, int derivMode);
+    void zoom(double delta);
 
 private:
     IDragZoom &iface;
     FunctionModel &model;
-    void performZoom(double factor, int derivMode);
+    void performZoom(double factor);
 
 
 };

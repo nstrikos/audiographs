@@ -59,12 +59,12 @@ void PointsInterest::nextPointFast()
         return;
 
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model, m_derivMode);
+        m_points = m_funcDescription->points(m_derivMode);
         m_isUpdated = true;
     }
 
@@ -83,12 +83,12 @@ void PointsInterest::previousPointFast()
     if (m_model.size() == 0)
         return;
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model, m_derivMode);
+        m_points = m_funcDescription->points(m_derivMode);
         m_isUpdated = true;
     }
 
@@ -104,12 +104,12 @@ void PointsInterest::previousPointFast()
 void PointsInterest::start()
 {
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(&m_model, m_derivMode);
+        m_points = m_funcDescription->points(m_derivMode);
         m_isUpdated = true;
     }
 
@@ -234,9 +234,9 @@ void PointsInterest::setDerivativeMode(int mode)
     m_points.clear();
 
     if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription;
+        m_funcDescription = new FunctionDescription(m_model);
 
-    m_points = m_funcDescription->points(&m_model, m_derivMode);
+    m_points = m_funcDescription->points(m_derivMode);
     m_isUpdated = true;
 }
 
@@ -316,7 +316,7 @@ void PointsInterest::timerExpired()
             iface.updateLabel(label);
             iface.interestingPointsfinished();
         } else {
-            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_derivMode, m_parameters->useNegativeNotes());
+            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_parameters->useNegativeNotes());
         }
     } else {
         m_currentPoint.decPoint(m_step);
@@ -329,7 +329,7 @@ void PointsInterest::timerExpired()
             iface.updateLabel(label);
             iface.interestingPointsfinished();
         } else {
-            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_derivMode, m_parameters->useNegativeNotes());
+            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_parameters->useNegativeNotes());
         }
     }
 }
