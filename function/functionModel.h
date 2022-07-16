@@ -31,31 +31,29 @@ public:
     double maxY() const;
     double x(int i);
     double y(int i);
-    double y_0(int i);
-
     double minValue() const;
     double maxValue() const;
-
     bool isValid(int i);
-
+    bool validExpression() const;
     int size();
 
-    void calculateDerivative();
-    void calculateSecondDerivative();
+    void setDerivativeMode(int mode);
+
     void refreshDerivative();
-    void setNormalMode();
-
+    double y_0(int i);
     double derivative(int i);
-
     double firstDerivative(int i);
 
-    bool validExpression() const;
+    int derivativeMode() const;
 
 private:
     void replaceConstants();
     bool check();
 
     void calculatePoints();
+    void calculateFirstDerivative();
+    void calculateSecondDerivative();
+    void calculateDerivativeMaxima();
 
     IFunctionModel &iface;
 
@@ -91,7 +89,7 @@ private:
     Points m_points;
     Points m_derivPoints;
     Points m_firstDerivPoints;
-    int derivativeMode = 0;
+    int m_derivativeMode = 0;
 };
 
 #endif // FUNCTIONMODEL_H

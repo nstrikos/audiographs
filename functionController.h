@@ -81,7 +81,6 @@ private:
     PointsInterest *pointsInterest;
     Parameters *parameters;
     TextToSpeech *textToSpeech;
-    int derivMode;
 
     void startAudio();
     void startNotes();

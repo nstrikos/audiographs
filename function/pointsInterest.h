@@ -39,7 +39,7 @@ public:
     double currentPointY();
     QString currentPointLabel();
 
-    void setDerivativeMode(int mode);
+    void init();
 
 private slots:
     void timerExpired();
@@ -58,7 +58,6 @@ private:
     bool m_isUpdated;
     int getNextPointInterest();
     void start();
-    int m_derivMode = 0;
 
     int m_step = 1;
 

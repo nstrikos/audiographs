@@ -7,8 +7,9 @@ FunctionDescription::FunctionDescription(FunctionModel &model) : m_model(model)
 
 }
 
-QVector<InterestingPoint> FunctionDescription::points(int derivativeMode)
+QVector<InterestingPoint> FunctionDescription::points()
 {
+    int derivativeMode = m_model.derivativeMode();
     InterestingPoint tmp;
     m_points.clear();
 

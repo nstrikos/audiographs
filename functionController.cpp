@@ -66,11 +66,6 @@ void FunctionController::calculate(QString expression, QString minX, QString max
     pointsInterest->setUpdated(false);
 
     model->calculate(expression, minX, maxX, minY, maxY);
-
-    if (derivMode == 1)
-        model->calculateDerivative();
-    else if (derivMode == 2)
-        model->calculateSecondDerivative();
 }
 
 void FunctionController::newGraph(Points *points, double minX, double maxX, double minY, double maxY)
@@ -142,7 +137,7 @@ void FunctionController::startAudio()
                  parameters->duration(),
                  parameters->minFreq(),
                  parameters->maxFreq(),
-                 derivMode);
+                 0);//derivMode);
 }
 
 void FunctionController::startNotes()
@@ -203,15 +198,8 @@ void FunctionController::nextPointInterest()
 
 void FunctionController::setDerivativeMode(int mode)
 {
-    derivMode = mode;
-    if (derivMode == 0)
-        model->setNormalMode();
-    else if (derivMode == 1)
-        model->calculateDerivative();
-    else if (derivMode == 2)
-        model->calculateSecondDerivative();
-
-    pointsInterest->setDerivativeMode(derivMode);
+    model->setDerivativeMode(mode);
+    pointsInterest->init();
 }
 
 void FunctionController::sayX()
@@ -328,9 +316,6 @@ QString FunctionController::derivative()
 {
     QString value;
     if (model->isValid(currentPoint->point())) {
-
-//        if (derivMode == 0)
-//            model->refreshDerivative();
 
         double y = model->derivative(currentPoint->point());
 

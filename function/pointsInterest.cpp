@@ -64,7 +64,7 @@ void PointsInterest::nextPointFast()
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(m_derivMode);
+        m_points = m_funcDescription->points();
         m_isUpdated = true;
     }
 
@@ -88,7 +88,7 @@ void PointsInterest::previousPointFast()
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(m_derivMode);
+        m_points = m_funcDescription->points();
         m_isUpdated = true;
     }
 
@@ -109,7 +109,7 @@ void PointsInterest::start()
 
     if (m_isUpdated == false) {
         m_points.clear();
-        m_points = m_funcDescription->points(m_derivMode);
+        m_points = m_funcDescription->points();
         m_isUpdated = true;
     }
 
@@ -224,10 +224,8 @@ void PointsInterest::setStep()
     m_step = step;
 }
 
-void PointsInterest::setDerivativeMode(int mode)
+void PointsInterest::init()
 {
-    m_derivMode = mode;
-
     if (m_model.size() == 0)
         return;
 
@@ -236,7 +234,7 @@ void PointsInterest::setDerivativeMode(int mode)
     if (m_funcDescription == nullptr)
         m_funcDescription = new FunctionDescription(m_model);
 
-    m_points = m_funcDescription->points(m_derivMode);
+    m_points = m_funcDescription->points();
     m_isUpdated = true;
 }
 

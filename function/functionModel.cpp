@@ -135,7 +135,7 @@ void FunctionModel::calculate(QString expression, QString minX, QString maxX, QS
     m_minYString = minY;
     m_maxYString = maxY;
 
-    derivativeMode = 0;
+    m_derivativeMode = 0;
 
     if ( check() ) {
         m_validExpression = true;
@@ -328,81 +328,10 @@ void FunctionModel::calculatePoints()
     }
 }
 
-double FunctionModel::minValue() const
-{
-    if (derivativeMode == 0)
-        return m_minValue;
-    else
-        return m_minDerivValue;
-}
-
-double FunctionModel::maxValue() const
-{
-    if (derivativeMode == 0)
-        return m_maxValue;
-    else
-        return m_maxDerivValue;
-}
-
-double FunctionModel::maxY() const
-{
-    return m_maxY;
-}
-
-double FunctionModel::minY() const
-{
-    return m_minY;
-}
-
-double FunctionModel::maxX() const
-{
-    return m_maxX;
-}
-
-double FunctionModel::minX() const
-{
-    return m_minX;
-}
-
-QString FunctionModel::expression() const
-{
-    return m_expression;
-}
-
-double FunctionModel::x(int i)
-{
-    return m_points.xAt(i);
-}
-
-double FunctionModel::y(int i)
-{
-    if (derivativeMode == 0)
-        return m_points.yAt(i);
-    else
-        return m_derivPoints.yAt(i);
-}
-
-double FunctionModel::y_0(int i)
-{
-    return m_points.yAt(i);
-}
-
-bool FunctionModel::isValid(int i)
-{
-    return m_points.validAt(i);
-}
-
-int FunctionModel::size()
-{
-    //return m_points.size();
-    return LINE_POINTS;
-}
-
-void FunctionModel::calculateDerivative()
+void FunctionModel::calculateFirstDerivative()
 {
     Point tmpPoint;
 
-    derivativeMode = 1;
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     for (int i = 0; i < LINE_POINTS; i++) {
@@ -418,9 +347,6 @@ void FunctionModel::calculateDerivative()
         }
         m_derivPoints.setPoint(i, tmpPoint);
     }
-
-
-
 
 #else
 
@@ -472,27 +398,11 @@ void FunctionModel::calculateDerivative()
     }
 
 #endif
-
-    m_minDerivValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
-    m_maxDerivValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
-
-    for (int i = 1; i < LINE_POINTS; i++) {
-        if (!m_derivPoints.validAt(i))
-            continue;
-        if (m_derivPoints.yAt(i) < m_minDerivValue)
-            m_minDerivValue = m_derivPoints.yAt(i);
-        if (m_derivPoints.yAt(i) > m_maxDerivValue)
-            m_maxDerivValue = m_derivPoints.yAt(i);
-    }
-
-    iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
 }
 
 void FunctionModel::calculateSecondDerivative()
 {
     Point tmpPoint;
-
-    derivativeMode = 2;
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
@@ -514,11 +424,6 @@ void FunctionModel::calculateSecondDerivative()
         }
         m_derivPoints.setPoint(i, tmpPoint);
     }
-
-
-
-
-
 #else
 
     double vals[] = { 0 };
@@ -572,7 +477,10 @@ void FunctionModel::calculateSecondDerivative()
         m_derivPoints.setPoint(i, tmpPoint);
     }
 #endif
+}
 
+void FunctionModel::calculateDerivativeMaxima()
+{
     m_minDerivValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
     m_maxDerivValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
 
@@ -584,8 +492,80 @@ void FunctionModel::calculateSecondDerivative()
         if (m_derivPoints.yAt(i) > m_maxDerivValue)
             m_maxDerivValue = m_derivPoints.yAt(i);
     }
+}
 
-    iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+int FunctionModel::derivativeMode() const
+{
+    return m_derivativeMode;
+}
+
+double FunctionModel::minValue() const
+{
+    if (m_derivativeMode == 0)
+        return m_minValue;
+    else
+        return m_minDerivValue;
+}
+
+double FunctionModel::maxValue() const
+{
+    if (m_derivativeMode == 0)
+        return m_maxValue;
+    else
+        return m_maxDerivValue;
+}
+
+double FunctionModel::maxY() const
+{
+    return m_maxY;
+}
+
+double FunctionModel::minY() const
+{
+    return m_minY;
+}
+
+double FunctionModel::maxX() const
+{
+    return m_maxX;
+}
+
+double FunctionModel::minX() const
+{
+    return m_minX;
+}
+
+QString FunctionModel::expression() const
+{
+    return m_expression;
+}
+
+double FunctionModel::x(int i)
+{
+    return m_points.xAt(i);
+}
+
+double FunctionModel::y(int i)
+{
+    if (m_derivativeMode == 0)
+        return m_points.yAt(i);
+    else
+        return m_derivPoints.yAt(i);
+}
+
+double FunctionModel::y_0(int i)
+{
+    return m_points.yAt(i);
+}
+
+bool FunctionModel::isValid(int i)
+{
+    return m_points.validAt(i);
+}
+
+int FunctionModel::size()
+{
+    return LINE_POINTS;
 }
 
 void FunctionModel::refreshDerivative()
@@ -656,9 +636,19 @@ void FunctionModel::refreshDerivative()
 #endif
 }
 
-void FunctionModel::setNormalMode()
+void FunctionModel::setDerivativeMode(int mode)
 {
-    derivativeMode = 0;
+    m_derivativeMode = mode;
+    if (m_derivativeMode == 1) {
+        calculateFirstDerivative();
+        calculateDerivativeMaxima();
+        iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+    }
+    if (m_derivativeMode == 2) {
+        calculateSecondDerivative();
+        calculateDerivativeMaxima();
+        iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+    }
 }
 
 double FunctionModel::derivative(int i)
@@ -666,7 +656,7 @@ double FunctionModel::derivative(int i)
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     m_x = m_points.xAt(i);
-    if (derivativeMode == 0 || derivativeMode == 1)
+    if (m_derivativeMode == 0 || m_derivativeMode == 1)
         return  exprtk::derivative(parser_expression, m_x);
     else
         return exprtk::second_derivative(parser_expression, m_x);
