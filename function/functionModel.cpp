@@ -699,7 +699,7 @@ double FunctionModel::derivative(int i)
 #endif
 }
 
-double FunctionModel::firstDerivative(int i)
+double FunctionModel::y_1(int i)
 {
     return m_firstDerivPoints.yAt(i);
 }

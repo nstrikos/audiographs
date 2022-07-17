@@ -58,11 +58,11 @@ QVector<InterestingPoint> FunctionDescription::points()
 
             //local minimum and local maximum cannot be point of inflection
             else if (derivativeMode == 2) {
-                if ( (m_model.firstDerivative(i) < m_model.firstDerivative(prev)) &&
-                     (m_model.firstDerivative(i) < m_model.firstDerivative(next)) ) {
+                if ( (m_model.y_1(i) < m_model.y_1(prev)) &&
+                     (m_model.y_1(i) < m_model.y_1(next)) ) {
                     tmp.label += " point of inflection";
-                } else if ( (m_model.firstDerivative(i) > m_model.firstDerivative(prev)) &&
-                            (m_model.firstDerivative(i) > m_model.firstDerivative(next)) ) {
+                } else if ( (m_model.y_1(i) > m_model.y_1(prev)) &&
+                            (m_model.y_1(i) > m_model.y_1(next)) ) {
                     tmp.label += " point of inflection";
                 }
             }

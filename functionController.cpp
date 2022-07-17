@@ -137,7 +137,7 @@ void FunctionController::startAudio()
                  parameters->duration(),
                  parameters->minFreq(),
                  parameters->maxFreq(),
-                 0);//derivMode);
+                 model->derivativeMode());
 }
 
 void FunctionController::startNotes()

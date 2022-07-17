@@ -36,15 +36,14 @@ public:
     bool isValid(int i);
     bool validExpression() const;
     int size();
-
     void setDerivativeMode(int mode);
-
-    void refreshDerivative();
-    double y_0(int i);
     double derivative(int i);
-    double firstDerivative(int i);
 
-    int derivativeMode() const;
+    //Needed to calculate maxima by PointsInterest
+    void refreshDerivative(); //Calculate first order derivative without drawing
+    double y_0(int i); //The value of the function at point i
+    double y_1(int i); //The value of the first derivative at point i
+    int derivativeMode() const; //Derivative mode getter
 
 private:
     void replaceConstants();
