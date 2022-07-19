@@ -587,9 +587,7 @@ void FunctionModel::refreshDerivative()
         }
         m_firstDerivPoints.setPoint(i, tmpPoint);
     }
-
-#else
-
+#else    
     double vals[] = { 0 };
     const double h = 0.00000001;
     const double h2 = 2 * h;
@@ -613,6 +611,8 @@ void FunctionModel::refreshDerivative()
         } else {
             x = x_init + h2;
             vals[0] = x;
+            y0 = m_fparser.Eval(vals);
+            x = x_init + h;
             y1 = m_fparser.Eval(vals);
             x = x_init - h;
             vals[0] = x;
@@ -630,7 +630,6 @@ void FunctionModel::refreshDerivative()
             else
                 tmpPoint.isValid = true;
         }
-
         m_firstDerivPoints.setPoint(i, tmpPoint);
     }
 #endif
