@@ -216,7 +216,7 @@ void FunctionController::sayX()
 
 void FunctionController::sayY()
 {
-    if (model->isValid(currentPoint->point())) {
+    if (model->isValidAt(currentPoint->point())) {
         double y = model->y(currentPoint->point());
 
         double Pow = pow(10.0, parameters->precisionDigits());
@@ -244,7 +244,7 @@ void FunctionController::getX()
 
 void FunctionController::getY()
 {
-    if (model->isValid(currentPoint->point())) {
+    if (model->isValidAt(currentPoint->point())) {
         double y = model->y(currentPoint->point());
 
         double Pow = pow(10.0, parameters->precisionDigits());
@@ -315,7 +315,7 @@ void FunctionController::getDerivative()
 QString FunctionController::derivative()
 {
     QString value;
-    if (model->isValid(currentPoint->point())) {
+    if (model->isValidAt(currentPoint->point())) {
 
         double y = model->derivative(currentPoint->point());
 

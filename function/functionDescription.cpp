@@ -19,14 +19,14 @@ QVector<InterestingPoint> FunctionDescription::points()
     m_points.append(tmp);
 
 
-    if (derivativeMode == 2 || derivativeMode == 1)
-        m_model.refreshDerivative();
+    if (derivativeMode == 2)
+        m_model.updateFirstDerivative();
 
     int prev = 0;
     int next = 0;
     for (int i = 0; i < m_model.size(); i++) {
         tmp.label = "";
-        if (!m_model.isValid(i))
+        if (!m_model.isValidAt(i))
             continue;
         prev = i - 1;
         if (prev < 0)
@@ -39,18 +39,18 @@ QVector<InterestingPoint> FunctionDescription::points()
         tmp.y = m_model.y(i);
         //tmp.label = "";
 
-        if (!m_model.isValid(prev) && m_model.isValid(next)) {
+        if (!m_model.isValidAt(prev) && m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(next))
                 tmp.label += " maximum after undefined point";
             else if (m_model.y_0(i) < m_model.y_0(next))
                 tmp.label += " minimum after undefined point";
 
-        } else if (m_model.isValid(prev) && !m_model.isValid(next)) {
+        } else if (m_model.isValidAt(prev) && !m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(prev))
                 tmp.label += " maximum before undefined point";
             else if (m_model.y_0(i) < m_model.y_0(prev))
                 tmp.label += " minimum before undefined point";
-        } else if (m_model.isValid(prev) && m_model.isValid(next)) {
+        } else if (m_model.isValidAt(prev) && m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(prev) && m_model.y_0(i) > m_model.y_0(next))
                 tmp.label += " local maximum";
             else if (m_model.y_0(i) < m_model.y_0(prev) && m_model.y_0(i) < m_model.y_0(next))

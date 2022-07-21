@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
         qmlRegisterType<FunctionDisplayView>("DisplayView", 1, 0, "DisplayView");
         qmlRegisterType<FunctionPointView>("PointView", 1, 0, "PointView");
-        qmlRegisterType<Points>("Points", 1, 0, "Points");
+        //qmlRegisterType<Points>("Points", 1, 0, "Points");
 
         Parameters *parameters = &Parameters::getInstance();
         FunctionExpression functionExpression;

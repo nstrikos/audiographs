@@ -74,48 +74,6 @@ FunctionModel::FunctionModel(IFunctionModel &iface) :
         }
     });
 
-//    symbol_table.add_function(
-//                "power",
-//                [](double v0, double v1) -> double
-//    {
-
-//        QString n = QString::number(v1);
-//        int position = n.indexOf(".");
-//        int count;
-
-//        if (position == -1)
-//            return pow(v0, v1);
-//        else
-//            n = n.right(n.length() - position - 1);
-
-//        count = n.size();
-//        int b = pow(10, count);
-
-//        int a = (int) (v1 * b);
-
-//        int d = mygcd(a, b);
-
-//        a = a / d;
-//        b = b / d;
-
-//        double ratio = (double) a / b;
-
-//        int sign;
-//        if (v0 > 0) sign = 1;
-//        if (v0 < 0) sign = -1;
-//        if (v0 == 0) sign = 0;
-
-//        if ((int)b % 2 == 0) {
-//            return pow(v0, ratio);
-//        } else {
-//            if ((int)a % 2 == 0) {
-//                return pow(abs(v0), ratio);
-//            } else {
-//                return sign * pow(abs(v0), ratio);
-//            }
-//        }
-//    });
-
     symbol_table.add_variable("x",m_x);
     symbol_table.add_constant("pi", M_PI);
     symbol_table.add_constant("e", M_E);
@@ -223,9 +181,7 @@ bool FunctionModel::check()
         }
         return false;
     }
-
 #else
-
     m_fparser.AddConstant("pi", M_PI);
     m_fparser.AddConstant("e", M_E);
     int res = m_fparser.Parse(m_expression.toStdString(), "x");
@@ -235,7 +191,6 @@ bool FunctionModel::check()
         m_errorString = QString::fromUtf8(s);
         return false;
     }
-
 #endif
     return true;
 }
@@ -252,11 +207,6 @@ void FunctionModel::replaceConstants()
 void FunctionModel::calculatePoints()
 {
     Point tmpPoint;
-
-    //m_points.clear();
-    //m_points.fill(0);
-    //m_derivPoints.clear();
-
     double step;
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
@@ -283,15 +233,11 @@ void FunctionModel::calculatePoints()
         else {
             tmpPoint.isValid = false;
         }
-        //m_points.append(tmpPoint);
         m_points.setPoint(i, tmpPoint);
     }
-
 #else
     double x;
     double result;
-
-
     double vals[] = { 0 };
     int res;
 
@@ -312,9 +258,7 @@ void FunctionModel::calculatePoints()
 
         m_points.setPoint(i, tmpPoint);
     }
-
 #endif
-
     m_minValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
     m_maxValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
 
@@ -347,9 +291,7 @@ void FunctionModel::calculateFirstDerivative()
         }
         m_derivPoints.setPoint(i, tmpPoint);
     }
-
 #else
-
     double vals[] = { 0 };
     const double h = 0.00000001;
     const double h2 = 2 * h;
@@ -393,10 +335,8 @@ void FunctionModel::calculateFirstDerivative()
             else
                 tmpPoint.isValid = true;
         }
-
         m_derivPoints.setPoint(i, tmpPoint);
     }
-
 #endif
 }
 
@@ -422,10 +362,9 @@ void FunctionModel::calculateSecondDerivative()
         else {
             tmpPoint.isValid = false;
         }
-        m_derivPoints.setPoint(i, tmpPoint);
+        m_deriv2Points.setPoint(i, tmpPoint);
     }
 #else
-
     double vals[] = { 0 };
     const double h = 0.00001;
     const double h2 = 2 * h;
@@ -473,8 +412,7 @@ void FunctionModel::calculateSecondDerivative()
             else
                 tmpPoint.isValid = true;
         }
-
-        m_derivPoints.setPoint(i, tmpPoint);
+        m_deriv2Points.setPoint(i, tmpPoint);
     }
 #endif
 }
@@ -484,13 +422,19 @@ void FunctionModel::calculateDerivativeMaxima()
     m_minDerivValue = std::numeric_limits<double>::max();//m_linePoints[0].y;
     m_maxDerivValue = -std::numeric_limits<double>::max();//m_linePoints[0].y;
 
+    Points *tmpPoints;
+    if (m_derivativeMode == 2)
+        tmpPoints = &m_deriv2Points;
+    else
+        tmpPoints = &m_derivPoints;
+
     for (int i = 1; i < LINE_POINTS; i++) {
-        if (!m_derivPoints.validAt(i))
+        if (!tmpPoints->validAt(i))
             continue;
-        if (m_derivPoints.yAt(i) < m_minDerivValue)
-            m_minDerivValue = m_derivPoints.yAt(i);
-        if (m_derivPoints.yAt(i) > m_maxDerivValue)
-            m_maxDerivValue = m_derivPoints.yAt(i);
+        if (tmpPoints->yAt(i) < m_minDerivValue)
+            m_minDerivValue = tmpPoints->yAt(i);
+        if (tmpPoints->yAt(i) > m_maxDerivValue)
+            m_maxDerivValue = tmpPoints->yAt(i);
     }
 }
 
@@ -520,6 +464,11 @@ double FunctionModel::maxY() const
     return m_maxY;
 }
 
+void FunctionModel::updateFirstDerivative()
+{
+    calculateFirstDerivative();
+}
+
 double FunctionModel::minY() const
 {
     return m_minY;
@@ -540,99 +489,34 @@ QString FunctionModel::expression() const
     return m_expression;
 }
 
-double FunctionModel::x(int i)
+double FunctionModel::x(int i) const
 {
     return m_points.xAt(i);
 }
 
-double FunctionModel::y(int i)
+double FunctionModel::y(int i) const
 {
     if (m_derivativeMode == 0)
         return m_points.yAt(i);
-    else
+    else if (m_derivativeMode == 1)
         return m_derivPoints.yAt(i);
+    else
+        return m_deriv2Points.yAt(i);
 }
 
-double FunctionModel::y_0(int i)
+double FunctionModel::y_0(int i) const
 {
     return m_points.yAt(i);
 }
 
-bool FunctionModel::isValid(int i)
+bool FunctionModel::isValidAt(int i) const
 {
     return m_points.validAt(i);
 }
 
-int FunctionModel::size()
+int FunctionModel::size() const
 {
     return LINE_POINTS;
-}
-
-void FunctionModel::refreshDerivative()
-{
-    Point tmpPoint;
-
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-
-    for (int i = 0; i < LINE_POINTS; i++) {
-        m_x = m_points.xAt(i);
-        double y = exprtk::derivative(parser_expression, m_x);
-        tmpPoint.x = m_x;
-        tmpPoint.y = y;
-        if (std::isfinite(y)) {
-            tmpPoint.isValid = true;
-        }
-        else {
-            tmpPoint.isValid = false;
-        }
-        m_firstDerivPoints.setPoint(i, tmpPoint);
-    }
-#else    
-    double vals[] = { 0 };
-    const double h = 0.00000001;
-    const double h2 = 2 * h;
-    double x_init;
-    double x;
-    double result;
-    int res;
-
-    double y0, y1, y2, y3;
-
-    for (int i = 0; i < LINE_POINTS; i++) {
-        x_init = m_points.xAt(i);
-
-        vals[0] = x_init;
-        tmpPoint.x = x_init;
-        m_fparser.Eval(vals);
-        res = m_fparser.EvalError();
-
-        if (res > 0) {
-            tmpPoint.isValid = false;
-        } else {
-            x = x_init + h2;
-            vals[0] = x;
-            y0 = m_fparser.Eval(vals);
-            x = x_init + h;
-            y1 = m_fparser.Eval(vals);
-            x = x_init - h;
-            vals[0] = x;
-            y2 = m_fparser.Eval(vals);
-            x = x_init - h2;
-            vals[0] = x;
-            y3 = m_fparser.Eval(vals);
-
-            result = (-y0 + 8 * (y1 - y2) + y3) / (12 * h);
-
-            tmpPoint.y = result;
-
-            if (result != result)
-                tmpPoint.isValid = false;
-            else
-                tmpPoint.isValid = true;
-        }
-        m_firstDerivPoints.setPoint(i, tmpPoint);
-    }
-#endif
 }
 
 void FunctionModel::setDerivativeMode(int mode)
@@ -646,7 +530,7 @@ void FunctionModel::setDerivativeMode(int mode)
     if (m_derivativeMode == 2) {
         calculateSecondDerivative();
         calculateDerivativeMaxima();
-        iface.updateDerivative(&m_derivPoints, m_minX, m_maxX, m_minY, m_maxY);
+        iface.updateDerivative(&m_deriv2Points, m_minX, m_maxX, m_minY, m_maxY);
     }
 }
 
@@ -698,9 +582,9 @@ double FunctionModel::derivative(int i)
 #endif
 }
 
-double FunctionModel::y_1(int i)
+double FunctionModel::y_1(int i) const
 {
-    return m_firstDerivPoints.yAt(i);
+    return m_derivPoints.yAt(i);
 }
 
 bool FunctionModel::validExpression() const

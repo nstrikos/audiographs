@@ -83,7 +83,7 @@ void AudioNotes::setNoteFromMouse(int mouseX, int width, int fmin, int fmax, boo
         if (freq < m_fmin)
             freq = m_fmin;
 
-        if (m_model.isValid(i))
+        if (m_model.isValidAt(i))
             m_audioPoints->setFreq(freq, useNotes, n, ratio);
         else
             m_audioPoints->setFreq(0, useNotes, n, ratio);
@@ -141,7 +141,7 @@ void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNotes, bo
         if (freq < m_fmin)
             freq = m_fmin;
 
-        if (m_model.isValid(m_currentPoint))
+        if (m_model.isValidAt(m_currentPoint))
             m_audioPoints->setFreq(freq, useNotes, n, ratio);
         else
             m_audioPoints->setFreq(0, useNotes, n, ratio);
@@ -206,7 +206,7 @@ void AudioNotes::timerExpired()
         if (freq > m_fmax)
             freq = m_fmax;
 
-        if (m_model.isValid(i))
+        if (m_model.isValidAt(i))
             m_audioPoints->setFreq(freq, true, n, cx);
         else
             m_audioPoints->setFreq(0, true, n, cx);

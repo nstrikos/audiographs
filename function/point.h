@@ -17,16 +17,15 @@ public:
     bool isValid;
 };
 
-class Points : public QObject
-{
-        Q_OBJECT
+class Points
+{        
 public:
     Points();
 
     void setPoint(int i, Point point);
-    double xAt(int i);
-    double yAt(int i);
-    bool validAt(int i);
+    double xAt(int i) const;
+    double yAt(int i) const;
+    bool validAt(int i) const;
 
 private:
     array<Point, LINE_POINTS> m_points;
