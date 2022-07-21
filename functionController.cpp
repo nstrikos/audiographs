@@ -142,8 +142,8 @@ void FunctionController::startAudio()
 
 void FunctionController::startNotes()
 {
-    audionotes->startNotes(parameters->maxFreq(),
-                           parameters->minFreq(),
+    audionotes->startNotes(parameters->minFreq(),
+                           parameters->maxFreq(),
                            parameters->duration(),
                            parameters->useNegativeNotes());
 }
@@ -162,7 +162,6 @@ void FunctionController::nextPoint()
     audionotes->setNote(currentPoint->point(),
                         parameters->minFreq(),
                         parameters->maxFreq(),
-                        parameters->useNotes(),
                         parameters->useNegativeNotes());
 }
 
@@ -172,7 +171,6 @@ void FunctionController::previousPoint()
     audionotes->setNote(currentPoint->point(),
                         parameters->minFreq(),
                         parameters->maxFreq(),
-                        parameters->useNotes(),
                         parameters->useNegativeNotes());
 }
 

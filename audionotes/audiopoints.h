@@ -31,7 +31,7 @@ public:
 public:
     void startAudio();
     Q_INVOKABLE void stopAudio();
-    Q_INVOKABLE void setFreq(double freq, bool useNotes, bool n, double ratio);
+    Q_INVOKABLE void setFreq(double freq, bool n, double ratio);
 
     Q_PROPERTY(double f0 READ f0 WRITE setF0 NOTIFY f0Changed)
     Q_PROPERTY(double f1 READ f1 WRITE setF1 NOTIFY f1Changed)

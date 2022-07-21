@@ -8,6 +8,16 @@ class IAudio;
 #include "function/functionModel.h"
 #include "audiopoints.h"
 
+/*
+ * startNotes - Starts playing notes
+ *
+ * setNoteFromMouse - Plays note depending on the position of mouse
+ *
+ * setNote - Plays notes depending on the position of currentPoint
+ *
+ * stopNotes - Stops playing notes
+ * */
+
 class AudioNotes : public QObject
 {
     Q_OBJECT
@@ -20,23 +30,21 @@ public:
                     int duration,
                     bool useNegativeNotes);
 
-    Q_INVOKABLE void setNoteFromMouse(int mouseX,
-                                      int width,
-                                      int fmin,
-                                      int fmax,
-                                      bool useNotes);
+    void setNoteFromMouse(int mouseX,
+                          int width,
+                          int fmin,
+                          int fmax,
+                          bool useNotes);
 
-    Q_INVOKABLE void setNote(int currentPoint,
-                             int fmin,
-                             int fmax,
-                             bool useNotes,
-                             bool useNegativeNotes);
-    Q_INVOKABLE void stopNotes();
+    void setNote(int currentPoint,
+                 int fmin,
+                 int fmax,
+                 bool useNegativeNotes);
 
+    void stopNotes();
 
 private slots:
     void timerExpired();
-    void audionotesFinished();
 
 private:
     IAudio &iface;

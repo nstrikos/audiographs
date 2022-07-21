@@ -9,11 +9,12 @@ AudioNotes::AudioNotes(IAudio &iface, FunctionModel &model) :
     m_model(model)
 {
     iface.addAudionotes(this);
+
     m_timer.setTimerType(Qt::PreciseTimer);
     m_timer.setInterval(INTERVAL_MILLISECONDS);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
+
     m_audioPoints = new AudioPoints();
-    //    connect(m_audioPoints, SIGNAL(finished()), this, SIGNAL(finished()));
 }
 
 AudioNotes::~AudioNotes()
@@ -83,16 +84,19 @@ void AudioNotes::setNoteFromMouse(int mouseX, int width, int fmin, int fmax, boo
         if (freq < m_fmin)
             freq = m_fmin;
 
-        if (m_model.isValidAt(i))
-            m_audioPoints->setFreq(freq, useNotes, n, ratio);
-        else
-            m_audioPoints->setFreq(0, useNotes, n, ratio);
-    } else {
-        m_audioPoints->setFreq((m_fmax - m_fmin) / 2, useNotes, n, ratio);
+        if (useNotes) {
+
+            if (m_model.isValidAt(i))
+                m_audioPoints->setFreq(freq, n, ratio);
+            else
+                m_audioPoints->setFreq(0, n, ratio);
+        } else {
+            m_audioPoints->setFreq((m_fmax - m_fmin) / 2, n, ratio);
+        }
     }
 }
 
-void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNotes, bool useNegativeNotes)
+void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNegativeNotes)
 {
     m_fmin = fmin;
     m_fmax = fmax;
@@ -106,28 +110,39 @@ void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNotes, bo
     double min = m_model.minValue();
     double max = m_model.maxValue();
 
-    if (max > 1 * m_model.maxY())
-        max = 1 * m_model.maxY();
-    if (min < 1 * m_model.minY())
-        min = 1 * m_model.minY();
+    if (max > m_model.maxY())
+        max = m_model.maxY();
+    if (min < m_model.minY())
+        min = m_model.minY();
 
 
     double ratio = (double) m_currentPoint / LINE_POINTS;
+
+
+    //Frequency has a linear dependance to the value of the function
+    //freq is the frequency
+    //l is the value of the function
+    //we need to calculate a and b and finally freq with freq = a * l + b
+    //When l is min then freq is fmin
+    //When l is max then freq is fmax
+    //Solving the equations we get:
+    //a = (m_fmax - m_fmin) / (max - min) and
+    //b = m_fmax - a * max;
 
     double a;
     double b;
     double l;
     double freq;
     bool n = true;
+
+    //We are not in a straight line
     if ( abs(max - min) > 1e-8) {
-        m_fmin = 110;
-        m_fmax = 880;
-        a =  (m_fmax-m_fmin)/(max - min);
+        a = (m_fmax - m_fmin) / (max - min);
         b = m_fmax - a * max;
         l = m_model.y(m_currentPoint);
 
         if (useNegativeNotes) {
-            if (!std::signbit(l))
+            if (!std::signbit(l)) //The best way to see if l is positive or negative
                 n = true;
             else
                 n = false;
@@ -142,11 +157,12 @@ void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNotes, bo
             freq = m_fmin;
 
         if (m_model.isValidAt(m_currentPoint))
-            m_audioPoints->setFreq(freq, useNotes, n, ratio);
+            m_audioPoints->setFreq(freq, n, ratio);
         else
-            m_audioPoints->setFreq(0, useNotes, n, ratio);
+            m_audioPoints->setFreq(0, n, ratio); //Zero frequency when the function is not defined
     } else {
-        m_audioPoints->setFreq((m_fmax - m_fmin) / 2, useNotes, n, ratio);
+        //We are in a straight line
+        m_audioPoints->setFreq((m_fmax - m_fmin) / 2, n, ratio);
     }
 }
 
@@ -158,6 +174,7 @@ void AudioNotes::stopNotes()
 
 void AudioNotes::timerExpired()
 {
+    //Calculate the time, calculate the position, set note depending on position
     m_timeElapsed += m_timer.interval();
     if (m_timeElapsed > m_duration) {
         stopNotes();
@@ -166,56 +183,6 @@ void AudioNotes::timerExpired()
     }
 
     double cx = (double) m_timeElapsed / m_duration;
-    int i = round(cx * LINE_POINTS);
-    if (i >= LINE_POINTS)
-        i = LINE_POINTS - 1;
-    if (i < 0)
-        i = 0;
-
-    double min = m_model.minValue();
-    double max = m_model.maxValue();
-
-    if (max > 1 * m_model.maxY())
-        max = 1 * m_model.maxY();
-    if (min < 1 * m_model.minY())
-        min = 1 * m_model.minY();
-
-    double a;
-    double b;
-    double l;
-    double freq;
-    bool n = true;
-    if ( abs(max - min) > 1e-8) {
-        m_fmin = 110;
-        m_fmax = 880;
-        a =  (m_fmax-m_fmin)/(max - min);
-        b = m_fmax - a * max;
-        l = m_model.y(i);
-
-        if (m_useNegativeNotes) {
-            if (!std::signbit(l))
-                n = true;
-            else
-                n = false;
-        } else {
-            n = true;
-        }
-        freq = a * l + b;
-        if (freq < m_fmin)
-            freq = m_fmin;
-        if (freq > m_fmax)
-            freq = m_fmax;
-
-        if (m_model.isValidAt(i))
-            m_audioPoints->setFreq(freq, true, n, cx);
-        else
-            m_audioPoints->setFreq(0, true, n, cx);
-    } else {
-        m_audioPoints->setFreq((m_fmax + m_fmin) / 2, true, n, cx);
-    }
-}
-
-void AudioNotes::audionotesFinished()
-{
-
+    m_currentPoint = round(cx * LINE_POINTS);
+    setNote(m_currentPoint, m_fmin, m_fmax, m_useNegativeNotes);
 }

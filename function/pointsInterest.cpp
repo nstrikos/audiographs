@@ -314,7 +314,7 @@ void PointsInterest::timerExpired()
             iface.updateLabel(label);
             iface.interestingPointsfinished();
         } else {
-            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_parameters->useNegativeNotes());
+            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), m_parameters->useNegativeNotes());
         }
     } else {
         m_currentPoint.decPoint(m_step);
@@ -327,7 +327,7 @@ void PointsInterest::timerExpired()
             iface.updateLabel(label);
             iface.interestingPointsfinished();
         } else {
-            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), parameters->useNotes(), m_parameters->useNegativeNotes());
+            m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), m_parameters->useNegativeNotes());
         }
     }
 }
