@@ -22,7 +22,6 @@ SOURCES += \
     function/functionDescription.cpp \
     function/functionDisplayView.cpp \
     function/functionDisplayViewInterface.cpp \
-    function/functionExpression.cpp \
     function/functionModel.cpp \
     function/functionPointView.cpp \
     function/functionZoomer.cpp \
@@ -65,7 +64,6 @@ HEADERS += \
     function/functionDescription.h \
     function/functionDisplayView.h \
     function/functionDisplayViewInterface.h \
-    function/functionExpression.h \
     function/functionModel.h \
     function/functionPointView.h \
     function/functionZoomer.h \
