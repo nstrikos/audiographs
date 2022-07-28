@@ -4,6 +4,11 @@
 class FunctionModel;
 class IDragZoom;
 
+/*
+ * startDrag - Sets the variables when the drag starts
+ * drag - Calculates function with new rounded values and updates the new values
+ * */
+
 class DragHandler
 {
 public:
