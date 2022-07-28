@@ -3,7 +3,6 @@
 #include <QApplication>
 
 #include "function/functionExpression.h"
-#include "function/functionConnector.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -30,17 +29,8 @@ int main(int argc, char *argv[])
     if (!runMobile) {
         QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
-        //MainWindow w;
-        //w.showMaximized();
-
-        //FunctionExpression functionExpression;
-
-        //FunctionConnector functionConnector;
-
-        //functionConnector.start(w, functionExpression);
 
         FunctionController *controller = new FunctionController();
-
         MainWindow *w = new MainWindow(*controller);
         FunctionModel *model = new FunctionModel(*controller);
         DragHandler *dragHandler = new DragHandler(*controller, *model);

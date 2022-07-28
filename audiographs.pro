@@ -19,7 +19,6 @@ SOURCES += \
     errorDisplayDialog.cpp \
     function/currentPoint.cpp \
     function/dragHandler.cpp \
-    function/functionConnector.cpp \
     function/functionDescription.cpp \
     function/functionDisplayView.cpp \
     function/functionDisplayViewInterface.cpp \
@@ -63,7 +62,6 @@ HEADERS += \
     errorDisplayDialog.h \
     function/currentPoint.h \
     function/dragHandler.h \
-    function/functionConnector.h \
     function/functionDescription.h \
     function/functionDisplayView.h \
     function/functionDisplayViewInterface.h \
