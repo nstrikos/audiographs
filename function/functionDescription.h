@@ -5,6 +5,10 @@
 #include <QVector>
 #include "functionModel.h"
 
+/*
+ * points - Returns a vector of the points of interest of the function
+ * */
+
 class InterestingPoint
 {
 public:

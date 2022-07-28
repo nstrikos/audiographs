@@ -37,7 +37,6 @@ QVector<InterestingPoint> FunctionDescription::points()
 
         tmp.x = i;
         tmp.y = m_model.y(i);
-        //tmp.label = "";
 
         if (!m_model.isValidAt(prev) && m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(next))
@@ -50,6 +49,7 @@ QVector<InterestingPoint> FunctionDescription::points()
                 tmp.label += " maximum before undefined point";
             else if (m_model.y_0(i) < m_model.y_0(prev))
                 tmp.label += " minimum before undefined point";
+
         } else if (m_model.isValidAt(prev) && m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(prev) && m_model.y_0(i) > m_model.y_0(next))
                 tmp.label += " local maximum";
