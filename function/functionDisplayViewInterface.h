@@ -20,7 +20,7 @@ protected:
 
     QVector<Point> m_coordPoints;
     void calcCoords(int width, int height);
-    void calcDerivCoords(int width, int height);
+//    void calcDerivCoords(int width, int height);
 };
 
 #endif // FUNCTIONDISPLAYVIEWINTERFACE_H

@@ -196,9 +196,9 @@ private slots:
     void on_useNegativeNotescheckBox_stateChanged(int arg1);
 
 private:
-    IGui &iface;
-
     Ui::MainWindow *ui;
+
+    IGui &iface;
 
     void initActions();
     void initMenu();

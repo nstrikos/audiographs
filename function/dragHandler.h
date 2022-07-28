@@ -17,8 +17,8 @@ public:
     void drag(int diffX, int diffY, int width, int height);
 
 private:
-    FunctionModel &model;
     IDragZoom &iface;
+    FunctionModel &model;
     int m_dragX;
     int m_dragY;
 

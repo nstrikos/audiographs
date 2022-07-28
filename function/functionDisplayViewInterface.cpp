@@ -39,8 +39,8 @@ void FunctionDisplayViewInterface::calcCoords(int width, int height)
     }
 }
 
-void FunctionDisplayViewInterface::calcDerivCoords(int width, int height)
-{
+//void FunctionDisplayViewInterface::calcDerivCoords(int width, int height)
+//{
 //    if (m_model != nullptr && m_model->size() > 0) {
 
 //        m_coordPoints.clear();
@@ -72,4 +72,4 @@ void FunctionDisplayViewInterface::calcDerivCoords(int width, int height)
 //            m_coordPoints.append(tmpPoint);
 //        }
 //    }
-}
+//}

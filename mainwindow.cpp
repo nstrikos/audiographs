@@ -15,9 +15,9 @@
 #include <QDir>
 
 MainWindow::MainWindow(IGui &iface, QWidget *parent)
-    : iface(iface),
-      QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      iface(iface)
 {
     ui->setupUi(this);
 
@@ -699,6 +699,7 @@ void MainWindow::mouseReleased()
 
 void MainWindow::on_functionLineEdit_textEdited(const QString &arg1)
 {
+    Q_UNUSED(arg1);
     //accessText(ui->functionLineEdit, normalizeText(arg1));
 
     //    if (arg1.size() > 0) {
