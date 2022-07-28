@@ -37,17 +37,7 @@ void CurrentPoint::timerExpired()
 
     double cx = (double) m_timeElapsed / m_duration;
     m_point = round(cx * LINE_POINTS);
-    if (m_point >= LINE_POINTS)
-        m_point = LINE_POINTS - 1;
-    if (m_point < 0)
-        m_point = 0;
-
     setPoint(m_point);
-}
-
-int CurrentPoint::step() const
-{
-    return m_step;
 }
 
 void CurrentPoint::setPoint(int point)
@@ -66,13 +56,21 @@ void CurrentPoint::setPoint(int point)
     iface.newCurrentPoint(m_x, m_y);
 }
 
-void CurrentPoint::incPoint(int step)
+void CurrentPoint::stop()
 {
-    m_point += step;
+    timer.stop();
+}
 
-    if (m_point >= LINE_POINTS)
-        m_point = LINE_POINTS - 1;
+void CurrentPoint::reset()
+{
+    stop();
+    setPoint(0);
+}
 
+void CurrentPoint::endPoint()
+{
+    stop();
+    m_point = model.size() - 1;
     setPoint(m_point);
 }
 
@@ -85,37 +83,6 @@ void CurrentPoint::next()
     setPoint(m_point);
 }
 
-void CurrentPoint::decPoint(int step)
-{
-    m_point -= step;
-
-    if (m_point <= 0)
-        m_point = 0;
-
-    setPoint(m_point);
-}
-
-void CurrentPoint::endPoint()
-{
-    timer.stop();
-
-    if (model.size() > 0) {
-        m_point = model.size() - 1;
-        setPoint(m_point);
-    }
-}
-
-void CurrentPoint::stop()
-{
-    timer.stop();
-}
-
-void CurrentPoint::reset()
-{
-    timer.stop();
-    setPoint(0);
-}
-
 void CurrentPoint::previous()
 {
     m_point -= m_step;
@@ -123,19 +90,6 @@ void CurrentPoint::previous()
         m_point = 0;
 
     setPoint(m_point);
-}
-
-int CurrentPoint::point()
-{
-    return m_point;
-}
-
-void CurrentPoint::decStep()
-{
-    m_step -= 10;
-    m_step = round(m_step);
-    if (m_step < 1)
-        m_step = 1;
 }
 
 void CurrentPoint::incStep()
@@ -149,4 +103,42 @@ void CurrentPoint::incStep()
     m_step = round(m_step);
     if (m_step > 100)
         m_step = 100;
+}
+
+void CurrentPoint::decStep()
+{
+    m_step -= 10;
+    m_step = round(m_step);
+    if (m_step < 1)
+        m_step = 1;
+}
+
+int CurrentPoint::step() const
+{
+    return m_step;
+}
+
+int CurrentPoint::point()
+{
+    return m_point;
+}
+
+void CurrentPoint::incPoint(int i)
+{
+    m_point += i;
+
+    if (m_point >= LINE_POINTS)
+        m_point = LINE_POINTS - 1;
+
+    setPoint(m_point);
+}
+
+void CurrentPoint::decPoint(int i)
+{
+    m_point -= i;
+
+    if (m_point <= 0)
+        m_point = 0;
+
+    setPoint(m_point);
 }

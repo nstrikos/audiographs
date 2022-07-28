@@ -7,6 +7,24 @@ class FunctionModel;
 #include <QObject>
 #include <QTimer>
 
+/*
+ * startMoving - Starts the timer, when timer expires it updates the position *
+ * stop - Stops the timer
+ * reset - Stops the timer, sets the position at zero point
+ * endPoint - Stops the timers,  sets the position to the last point
+ * next - Increases the position of point by step points
+ * previous - Decreases the position of point by step points
+ * incStep - Increases step
+ * decStep - Decreases step
+ * step - Returns step
+ *
+ * pointsInterest:
+ * point - Returns current point
+ * incPoint - Increases the position of point by i points
+ * decPoint - Decreases the position of point by i points
+ * setPoint - Sets the position of point *
+ * */
+
 class CurrentPoint : public QObject
 {
     Q_OBJECT
@@ -18,15 +36,15 @@ public:
     void endPoint();
     void next();
     void previous();
-    int point();
     void decStep();
     void incStep();
-
     int step() const;
-    void setPoint(int point);
 
-    void incPoint(int step);
-    void decPoint(int step);
+    //PointsInterest
+    int point();
+    void incPoint(int i);
+    void decPoint(int i);
+    void setPoint(int point);
 
 private slots:
     void timerExpired();
