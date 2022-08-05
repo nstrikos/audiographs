@@ -561,7 +561,7 @@ double FunctionModel::derivative(int i)
     res = m_fparser.EvalError();
 
     if (res > 0) {
-        ;
+        return 0;
     } else {
         x = x_init + h2;
         vals[0] = x;

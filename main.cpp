@@ -3,11 +3,11 @@
 #include <QApplication>
 
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include "function/functionDisplayView.h"
-#include "function/functionPointView.h"
-#include "function/point.h"
+//#include <QQmlApplicationEngine>
+//#include <QQmlContext>
+//#include "function/functionDisplayView.h"
+//#include "function/functionPointView.h"
+//#include "function/point.h"
 
 #include "functionController.h"
 #include "function/functionModel.h"
@@ -20,16 +20,16 @@
 
 int main(int argc, char *argv[])
 {
-    bool runMobile = false;
+//    bool runMobile = false;
 
-#ifdef Q_OS_ANDROID
-    runMobile = true;
-#endif
+//#ifdef Q_OS_ANDROID
+//    runMobile = true;
+//#endif
 
-    if ((argc == 2) && (strcmp(argv[1], "--mobile") == 0))
-        runMobile = true;
+//    if ((argc == 2) && (strcmp(argv[1], "--mobile") == 0))
+//        runMobile = true;
 
-    if (!runMobile) {
+//    if (!runMobile) {
         QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
         QApplication a(argc, argv);
 
@@ -53,12 +53,12 @@ int main(int argc, char *argv[])
         delete zoomer;
         delete currentPoint;
         delete audio;
-        delete audionotes;
         delete pointsInterest;
+        delete audionotes;
         delete controller;
 
         return ret;
-    } else {
+//    } else {
 //        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 //        QGuiApplication app(argc, argv);
@@ -102,5 +102,5 @@ int main(int argc, char *argv[])
 //        FunctionDisplayView *derivativeView = static_cast<FunctionDisplayView*>(qmlDerivativeView);
 
 //        return app.exec();
-    }
+//    }
 }
