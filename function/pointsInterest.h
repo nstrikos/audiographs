@@ -8,11 +8,20 @@ class IPointsInterest;
 #include <QTimer>
 #include "function/functionModel.h"
 #include "function/functionDescription.h"
+#include "function/currentPoint.h"
 #include "audionotes/audionotes.h"
 #include "parameters.h"
-#include "function/currentPoint.h"
 #include "texttospeech.h"
-#include "parameters.h"
+
+/*
+ * init - initializes pointsInterest
+ * nextPoint - goes to the next point of interest, updating currentPoint
+ * previousPoint - goes to the previous point of interest, updating currentPoint
+ * nextPointFast - goes to the next point of interest immediately
+ * previousPointFast - goes to the previous point of interest immediately
+ * stop - stops pointsInterest
+ * notUpdated - pointsInterest is not updated
+ * */
 
 class PointsInterest : public QObject
 {
@@ -23,49 +32,39 @@ public:
                             AudioNotes &audioNotes,
                             CurrentPoint &currentPoint);
     ~PointsInterest();
-    void nextPoint();
-
-    void previousPoint();
-
-    void nextPointFast();
-
-    void previousPointFast();
-
-    void stop();
-
-    void setUpdated(bool updated);
-
-    double currentPointX();
-    double currentPointY();
-    QString currentPointLabel();
 
     void init();
+    void nextPoint();
+    void previousPoint();
+    void nextPointFast();
+    void previousPointFast();
+    void stop();
+    void notUpdated();
 
 private slots:
     void timerExpired();
 
 private:
     IPointsInterest &iface;
-    int m_pointInterest;
-    QTimer m_timer;
-    bool m_forward;
     FunctionModel &m_model;
-    FunctionDescription *m_funcDescription;
-    QVector<InterestingPoint> m_points;
     AudioNotes &m_audioNotes;
     CurrentPoint &m_currentPoint;
     TextToSpeech *m_textToSpeech;
-    bool m_isUpdated;
-    int getNextPointInterest();
+    Parameters *m_parameters;
+
     void start();
-
-    int m_step = 1;
-
-    int m_timerInterVal = 40;
-
+    int getNextPointInterest();
+    QString currentPointLabel();
     void setStep();
 
-    Parameters *m_parameters;
+    int m_pointInterest;
+    QTimer m_timer;
+    bool m_forward;    
+    FunctionDescription *m_funcDescription;
+    QVector<InterestingPoint> m_points;
+    bool m_isUpdated;
+    int m_step = 1;
+    int m_timerInterVal = 40;
 };
 
 #endif // POINTSINTEREST_H

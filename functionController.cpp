@@ -63,7 +63,7 @@ void FunctionController::addPointsInterest(PointsInterest *pointsInterest)
 void FunctionController::calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY)
 {
     currentPoint->reset();
-    pointsInterest->setUpdated(false);
+    pointsInterest->notUpdated();
 
     model->calculate(expression, minX, maxX, minY, maxY);
 }
@@ -86,7 +86,7 @@ void FunctionController::updateDerivative(Points *points, double minX, double ma
 void FunctionController::startDrag(int x, int y)
 {
     currentPoint->reset();
-    pointsInterest->setUpdated(false);
+    pointsInterest->notUpdated();
     dragHandler->startDrag(x, y);
 }
 
@@ -98,7 +98,7 @@ void FunctionController::drag(int diffX, int diffY, int width, int height)
 void FunctionController::zoom(double delta)
 {
     currentPoint->reset();
-    pointsInterest->setUpdated(false);
+    pointsInterest->notUpdated();
     zoomer->zoom(delta);
 }
 

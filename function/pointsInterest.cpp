@@ -1,8 +1,6 @@
 #include "pointsInterest.h"
 #include "../IPointsInterest.h"
 
-#include <QDebug>
-
 #include "math.h"
 
 PointsInterest::PointsInterest(IPointsInterest &iface,
@@ -17,7 +15,6 @@ PointsInterest::PointsInterest(IPointsInterest &iface,
     iface.addPointsInterest(this);
     m_funcDescription = nullptr;
     m_pointInterest = 0;
-    //    m_audioNotes = nullptr;
     m_forward = true;
     m_isUpdated = false;
     m_timer.setTimerType(Qt::PreciseTimer);
@@ -113,10 +110,6 @@ void PointsInterest::start()
         m_isUpdated = true;
     }
 
-    //    m_audioNotes = audioNotes;
-    //    m_currentPoint = currentPoint;
-    //    m_pointView = pointView;
-
     m_pointInterest = getNextPointInterest();
 
     setStep();
@@ -133,8 +126,6 @@ void PointsInterest::setStep()
 
     long int d;
 
-    //qDebug() << i;
-
     long int min;
     int step;
 
@@ -146,8 +137,6 @@ void PointsInterest::setStep()
     min = diff;
     step = n;
 
-    //qDebug() << n << diff;
-
     n = 2;
 
     d = size / n * m_timerInterVal;
@@ -157,8 +146,6 @@ void PointsInterest::setStep()
         min = diff;
         step = n;
     }
-    //qDebug() << n << diff;
-
 
     n = 4;
 
@@ -169,8 +156,6 @@ void PointsInterest::setStep()
         min = diff;
         step = n;
     }
-    //qDebug() << n << diff;
-
 
     n = 5;
     d = size / n * m_timerInterVal;
@@ -180,8 +165,6 @@ void PointsInterest::setStep()
         min = diff;
         step = n;
     }
-    //qDebug() << n << diff;
-
 
     n = 10;
 
@@ -192,8 +175,6 @@ void PointsInterest::setStep()
         min = diff;
         step = n;
     }
-    //qDebug() << n << diff;
-
 
     n = 20;
 
@@ -204,8 +185,6 @@ void PointsInterest::setStep()
         min = diff;
         step = n;
     }
-    //qDebug() << n << diff;
-
 
     n = 25;
 
@@ -216,10 +195,6 @@ void PointsInterest::setStep()
         min = diff;
         step = n;
     }
-    //qDebug() << n << diff;
-
-
-    //qDebug() << min << step;
 
     m_step = step;
 }
@@ -281,26 +256,16 @@ int PointsInterest::getNextPointInterest()
 void PointsInterest::stop()
 {
     m_timer.stop();
-    //    if (m_audioNotes != nullptr)
     m_audioNotes.stopNotes();
-    //m_isUpdated = false;
-    //        qDebug() << "stop";
 }
 
-void PointsInterest::setUpdated(bool updated)
+void PointsInterest::notUpdated()
 {
-    m_isUpdated = updated;
+    m_isUpdated = false;
 }
 
 void PointsInterest::timerExpired()
 {
-    //    if (m_pointView == nullptr)
-    //        return;
-    //    if (m_audioNotes == nullptr)
-    //        return;
-    //    if (m_model == nullptr)
-    //        return;
-
     Parameters *parameters = &Parameters::getInstance();
 
     if (m_forward) {
@@ -330,16 +295,6 @@ void PointsInterest::timerExpired()
             m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), m_parameters->useNegativeNotes());
         }
     }
-}
-
-double PointsInterest::currentPointX()
-{
-    return m_model.x(m_points[m_pointInterest].x);
-}
-
-double PointsInterest::currentPointY()
-{
-    return m_points[m_pointInterest].y;
 }
 
 QString PointsInterest::currentPointLabel()
