@@ -56,15 +56,18 @@ private:
     int getNextPointInterest();
     QString currentPointLabel();
     void setStep();
+    void update();
+    int util(int i, int size, int n, int timerInterval);
 
-    int m_pointInterest;
+    int m_pointInterest; //current point of interest
+    bool m_forward;    //true means going to right of x axis, false going to the left
+    FunctionDescription *m_funcDescription; //returns the points of interest
+    QVector<InterestingPoint> m_interestingPoints; //store the points of interest
+    bool m_isUpdated; //points are updated only when necessary
+    int m_step; //how fast current point will move
+    int m_timerInterVal;  //how fast current point will be updated
     QTimer m_timer;
-    bool m_forward;    
-    FunctionDescription *m_funcDescription;
-    QVector<InterestingPoint> m_points;
-    bool m_isUpdated;
-    int m_step = 1;
-    int m_timerInterVal = 40;
+    QVector<int> stepCandidates;
 };
 
 #endif // POINTSINTEREST_H

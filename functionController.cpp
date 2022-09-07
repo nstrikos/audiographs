@@ -197,7 +197,7 @@ void FunctionController::nextPointInterest()
 void FunctionController::setDerivativeMode(int mode)
 {
     model->setDerivativeMode(mode);
-    pointsInterest->init();
+    pointsInterest->notUpdated();
 }
 
 void FunctionController::sayX()

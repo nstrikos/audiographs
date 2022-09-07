@@ -3,6 +3,8 @@
 
 #include "math.h"
 
+#include <QDebug>
+
 PointsInterest::PointsInterest(IPointsInterest &iface,
                                FunctionModel &functionModel,
                                AudioNotes &audioNotes,
@@ -13,12 +15,25 @@ PointsInterest::PointsInterest(IPointsInterest &iface,
     m_currentPoint(currentPoint)
 {
     iface.addPointsInterest(this);
+
     m_funcDescription = nullptr;
     m_pointInterest = 0;
     m_forward = true;
     m_isUpdated = false;
+
     m_timer.setTimerType(Qt::PreciseTimer);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
+    m_step = 1;
+    m_timerInterVal = 40;
+    stepCandidates.append(1);
+    stepCandidates.append(2);
+    stepCandidates.append(3);
+    stepCandidates.append(4);
+    stepCandidates.append(5);
+    stepCandidates.append(10);
+    stepCandidates.append(15);
+    stepCandidates.append(20);
+    stepCandidates.append(25);
 
     m_parameters = &Parameters::getInstance();
     m_textToSpeech = &TextToSpeech::getInstance();
@@ -32,195 +47,50 @@ PointsInterest::~PointsInterest()
         delete m_funcDescription;
 }
 
+void PointsInterest::init()
+{
+    m_interestingPoints.clear();
+
+    if (m_funcDescription == nullptr)
+        m_funcDescription = new FunctionDescription(m_model);
+
+    m_interestingPoints = m_funcDescription->points();
+    m_isUpdated = true;
+}
+
 void PointsInterest::nextPoint()
 {
-    if (m_model.size() == 0)
-        return;
-
     m_forward = true;
     start();
 }
 
 void PointsInterest::previousPoint()
 {
-    if (m_model.size() == 0)
-        return;
-
     m_forward = false;
     start();
 }
 
-void PointsInterest::nextPointFast()
-{
-    if (m_model.size() == 0)
-        return;
-
-    if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription(m_model);
-
-
-    if (m_isUpdated == false) {
-        m_points.clear();
-        m_points = m_funcDescription->points();
-        m_isUpdated = true;
-    }
-
-    m_forward = true;
-    m_pointInterest = getNextPointInterest();
-    m_currentPoint.setPoint(m_points[m_pointInterest].x);
-    QString label = currentPointLabel();
-    if (m_parameters->selfVoice())
-        m_textToSpeech->speak(label);
-    iface.updateLabel(label);
-}
-
-void PointsInterest::previousPointFast()
-{
-
-    if (m_model.size() == 0)
-        return;
-    if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription(m_model);
-
-
-    if (m_isUpdated == false) {
-        m_points.clear();
-        m_points = m_funcDescription->points();
-        m_isUpdated = true;
-    }
-
-    m_forward = false;
-    m_pointInterest = getNextPointInterest();
-    m_currentPoint.setPoint(m_points[m_pointInterest].x);
-    QString label = currentPointLabel();
-    if (m_parameters->selfVoice())
-        m_textToSpeech->speak(label);
-    iface.updateLabel(label);
-}
-
 void PointsInterest::start()
 {
-    if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription(m_model);
-
-
-    if (m_isUpdated == false) {
-        m_points.clear();
-        m_points = m_funcDescription->points();
-        m_isUpdated = true;
-    }
+    if (m_isUpdated == false)
+        init();
 
     m_pointInterest = getNextPointInterest();
-
     setStep();
+    qDebug() << m_step;
 
     m_timer.setInterval(m_timerInterVal);
     m_timer.start();
-}
-
-void PointsInterest::setStep()
-{
-    long long int i = m_parameters->duration() * 1000;
-
-    long int diff;
-
-    long int d;
-
-    long int min;
-    int step;
-
-    int n = 1;
-
-    int size = m_model.size();
-    d = size / n * m_timerInterVal;
-    diff = abs(i - d);
-    min = diff;
-    step = n;
-
-    n = 2;
-
-    d = size / n * m_timerInterVal;
-    diff = abs(i-d);
-
-    if (diff < min) {
-        min = diff;
-        step = n;
-    }
-
-    n = 4;
-
-    d = size / n * m_timerInterVal;
-    diff = abs(i-d);
-
-    if (diff < min) {
-        min = diff;
-        step = n;
-    }
-
-    n = 5;
-    d = size / n * m_timerInterVal;
-    diff = abs(i-d);
-
-    if (diff < min) {
-        min = diff;
-        step = n;
-    }
-
-    n = 10;
-
-    d = size / n * m_timerInterVal;
-    diff = abs(i-d);
-
-    if (diff < min) {
-        min = diff;
-        step = n;
-    }
-
-    n = 20;
-
-    d = size / n * m_timerInterVal;
-    diff = abs(i-d);
-
-    if (diff < min) {
-        min = diff;
-        step = n;
-    }
-
-    n = 25;
-
-    d = size / n * m_timerInterVal;
-    diff = abs(i-d);
-
-    if (diff < min) {
-        min = diff;
-        step = n;
-    }
-
-    m_step = step;
-}
-
-void PointsInterest::init()
-{
-    if (m_model.size() == 0)
-        return;
-
-    m_points.clear();
-
-    if (m_funcDescription == nullptr)
-        m_funcDescription = new FunctionDescription(m_model);
-
-    m_points = m_funcDescription->points();
-    m_isUpdated = true;
 }
 
 int PointsInterest::getNextPointInterest()
 {
     int point = 0;
     if (m_forward == true) {
-        for (int i = 0; i < m_points.size(); i++) {
-            if (m_points.at(i).x < m_currentPoint.point()) {
+        for (int i = 0; i < m_interestingPoints.size(); i++) {
+            if (m_interestingPoints.at(i).x < m_currentPoint.point()) {
                 continue;
-            } else if ((m_points.at(i).x == m_currentPoint.point())) {
+            } else if (m_interestingPoints.at(i).x == m_currentPoint.point()) {
                 point = i + 1;
                 break;
             }
@@ -230,10 +100,10 @@ int PointsInterest::getNextPointInterest()
             }
         }
     } else {
-        for (int i = m_points.size() - 1; i >= 0; i--) {
-            if (m_points.at(i).x > m_currentPoint.point()) {
+        for (int i = m_interestingPoints.size() - 1; i >= 0; i--) {
+            if (m_interestingPoints.at(i).x > m_currentPoint.point()) {
                 continue;
-            } else if (m_points.at(i).x == m_currentPoint.point()) {
+            } else if (m_interestingPoints.at(i).x == m_currentPoint.point()) {
                 point = i - 1;
                 break;
             }
@@ -244,13 +114,78 @@ int PointsInterest::getNextPointInterest()
         }
     }
 
-    if (point >= m_points.size())
-        point = m_points.size() - 1;
+    if (point >= m_interestingPoints.size())
+        point = m_interestingPoints.size() - 1;
 
     if (point < 0)
         point = 0;
 
     return point;
+}
+
+void PointsInterest::nextPointFast()
+{
+    if (m_isUpdated == false)
+        init();
+
+    m_forward = true;
+    m_pointInterest = getNextPointInterest();
+    m_currentPoint.setPoint(m_interestingPoints[m_pointInterest].x);
+    QString label = currentPointLabel();
+    m_textToSpeech->speak(label);
+    iface.updateLabel(label);
+}
+
+void PointsInterest::previousPointFast()
+{
+    if (m_isUpdated == false)
+        init();
+
+    m_forward = false;
+    m_pointInterest = getNextPointInterest();
+    m_currentPoint.setPoint(m_interestingPoints[m_pointInterest].x);
+    QString label = currentPointLabel();
+    m_textToSpeech->speak(label);
+    iface.updateLabel(label);
+}
+
+void PointsInterest::setStep()
+{
+    //Try to find the best step to fit the duration
+    //Current point waits at every point for m_timerInterval
+    //So the total time is size / n * m_timerInterval
+    //size - model size
+    //n - step
+    //Duration selected by user is m_parameters->duration * 1000
+    //The best step is the step that minimizes the difference abs(duration - time)
+    //For simplicity we set step candidates 0,1,2,3,4,5,10,15,20,25
+
+
+    long long int duration = m_parameters->duration() * 1000;
+    long int diff;
+    long int time;
+    long int minDiff;
+    int step;
+    int size = m_model.size();
+
+    minDiff = 120000; //maximum possible value;
+
+    for (int i = 0; i < stepCandidates.size(); i++) {
+        int n = stepCandidates.at(i);
+        time = size / n * m_timerInterVal;
+        diff = abs(duration - time);
+        if (diff < minDiff) {
+            minDiff = diff;
+            step = n;
+            m_step = step;
+        }
+    }
+}
+
+int PointsInterest::util(int i, int size, int n, int timerInterval)
+{
+    int d = size / n  * timerInterval;
+    return abs(i - d);
 }
 
 void PointsInterest::stop()
@@ -270,34 +205,30 @@ void PointsInterest::timerExpired()
 
     if (m_forward) {
         m_currentPoint.incPoint(m_step);
-        if (m_currentPoint.point() >= m_points[m_pointInterest].x) {
-            m_currentPoint.setPoint(m_points[m_pointInterest].x);
-            m_timer.stop();
-            QString label = currentPointLabel();
-            if (m_parameters->selfVoice())
-                m_textToSpeech->speak(label);
-            iface.updateLabel(label);
-            iface.interestingPointsfinished();
-        } else {
+        if (m_currentPoint.point() >= m_interestingPoints[m_pointInterest].x)
+            update();
+        else
             m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), m_parameters->useNegativeNotes());
-        }
     } else {
         m_currentPoint.decPoint(m_step);
-        if (m_currentPoint.point() <= m_points[m_pointInterest].x) {
-            m_currentPoint.setPoint(m_points[m_pointInterest].x);
-            m_timer.stop();
-            QString label = currentPointLabel();
-            if (m_parameters->selfVoice())
-                m_textToSpeech->speak(label);
-            iface.updateLabel(label);
-            iface.interestingPointsfinished();
-        } else {
+        if (m_currentPoint.point() <= m_interestingPoints[m_pointInterest].x)
+            update();
+        else
             m_audioNotes.setNote(m_currentPoint.point(), parameters->minFreq(), parameters->maxFreq(), m_parameters->useNegativeNotes());
-        }
     }
+}
+
+void PointsInterest::update()
+{
+    m_currentPoint.setPoint(m_interestingPoints[m_pointInterest].x);
+    m_timer.stop();
+    QString label = currentPointLabel();
+    m_textToSpeech->speak(label);
+    iface.updateLabel(label);
+    iface.interestingPointsfinished();
 }
 
 QString PointsInterest::currentPointLabel()
 {
-    return m_points[m_pointInterest].label;
+    return m_interestingPoints[m_pointInterest].label;
 }
