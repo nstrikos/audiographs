@@ -13,19 +13,17 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    aboutDialog.cpp \
     audionotes/audionotes.cpp \
     audionotes/audiopoints.cpp \
-    errorDisplayDialog.cpp \
+    dialogs/aboutDialog.cpp \
+    dialogs/errorDisplayDialog.cpp \
+    dialogs/mainwindow.cpp \
+    dialogs/renderArea.cpp \
     function/currentPoint.cpp \
     function/dragHandler.cpp \
     function/functionDescription.cpp \
-    function/functionDisplayView.cpp \
-    function/functionDisplayViewInterface.cpp \
     function/functionModel.cpp \
-    function/functionPointView.cpp \
     function/functionZoomer.cpp \
-    function/pinchHandler.cpp \
     function/point.cpp \
     function/pointsInterest.cpp \
     functionController.cpp \
@@ -42,32 +40,22 @@ SOURCES += \
     generator/genphicalculator.cpp \
     generator/gensum.cpp \
     main.cpp \
-    mainwindow.cpp \
-    parameters.cpp \
-    renderArea.cpp \
-    texttospeech.cpp
+    utils/parameters.cpp \
+    utils/texttospeech.cpp
 
 HEADERS += \
-    IAudio.h \
-    ICurrentPoint.h \
-    IDragZoom.h \
-    IFunctionModel.h \
-    IGui.h \
-    IPointsInterest.h \
-    aboutDialog.h \
     audionotes/audionotes.h \
     audionotes/audiopoints.h \
     constants.h \
-    errorDisplayDialog.h \
+    dialogs/aboutDialog.h \
+    dialogs/errorDisplayDialog.h \
+    dialogs/mainwindow.h \
+    dialogs/renderArea.h \
     function/currentPoint.h \
     function/dragHandler.h \
     function/functionDescription.h \
-    function/functionDisplayView.h \
-    function/functionDisplayViewInterface.h \
     function/functionModel.h \
-    function/functionPointView.h \
     function/functionZoomer.h \
-    function/pinchHandler.h \
     function/point.h \
     function/pointsInterest.h \
     functionController.h \
@@ -83,10 +71,15 @@ HEADERS += \
     generator/genparameters.h \
     generator/genphicalculator.h \
     generator/gensum.h \
-    mainwindow.h \
-    parameters.h \
-    renderArea.h \
-    texttospeech.h
+    ifaces/IAudio.h \
+    ifaces/IAudioNotes.h \
+    ifaces/ICurrentPoint.h \
+    ifaces/IDragZoom.h \
+    ifaces/IFunctionModel.h \
+    ifaces/IGui.h \
+    ifaces/IPointsInterest.h \
+    utils/parameters.h \
+    utils/texttospeech.h
 
 linux:!android: {
    HEADERS += parsers/exprtk/exprtk.hpp
@@ -103,9 +96,9 @@ HEADERS +=   parsers/fparser/extrasrc/fpaux.hh \
 }
 
 FORMS += \
-    aboutDialog.ui \
-    errorDisplayDialog.ui \
-    mainwindow.ui
+    dialogs/aboutDialog.ui \
+    dialogs/errorDisplayDialog.ui \
+    dialogs/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -119,8 +112,7 @@ DISTFILES += \
 }
 
 RESOURCES += \
-    help.qrc \
-    qml.qrc
+    help.qrc
 
 DISTFILES +=
 

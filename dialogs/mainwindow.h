@@ -5,16 +5,16 @@
 #include <QStateMachine>
 
 #include "function/point.h"
-#include "parameters.h"
+#include "utils/parameters.h"
 
 #include <QMenu>
 #include <QAction>
 
 #include "errorDisplayDialog.h"
 #include "aboutDialog.h"
-#include "texttospeech.h"
+#include "utils/texttospeech.h"
 
-#include "IGui.h"
+#include "ifaces/IGui.h"
 
 #include<array>
 using namespace std;

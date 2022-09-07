@@ -1,9 +1,7 @@
 #include "pointsInterest.h"
-#include "../IPointsInterest.h"
+#include "../ifaces/IPointsInterest.h"
 
 #include "math.h"
-
-#include <QDebug>
 
 PointsInterest::PointsInterest(IPointsInterest &iface,
                                FunctionModel &functionModel,
@@ -77,7 +75,6 @@ void PointsInterest::start()
 
     m_pointInterest = getNextPointInterest();
     setStep();
-    qDebug() << m_step;
 
     m_timer.setInterval(m_timerInterVal);
     m_timer.start();

@@ -1,12 +1,13 @@
 #ifndef FUNCTIONCONTROLLER_H
 #define FUNCTIONCONTROLLER_H
 
-#include "IFunctionModel.h"
-#include "IGui.h"
-#include "IDragZoom.h"
-#include "ICurrentPoint.h"
-#include "IAudio.h"
-#include "IPointsInterest.h"
+#include "ifaces/IFunctionModel.h"
+#include "ifaces/IGui.h"
+#include "ifaces/IDragZoom.h"
+#include "ifaces/ICurrentPoint.h"
+#include "ifaces/IAudio.h"
+#include "ifaces/IAudioNotes.h"
+#include "ifaces/IPointsInterest.h"
 
 class FunctionModel;
 class MainWindow;
@@ -25,6 +26,7 @@ class FunctionController:
         public IDragZoom,
         public ICurrentPoint,
         public IAudio,
+        public IAudioNotes,
         public IPointsInterest
 {
 public:
@@ -48,6 +50,7 @@ public:
     void newInputValues(double minX, double maxX, double minY, double maxY) override;
     void newCurrentPoint(double x, double y) override;
     void audioFinished() override;
+    void audioNotesFinished() override;
     void playSound() override;
     void stopSound() override;
     void nextPoint() override;

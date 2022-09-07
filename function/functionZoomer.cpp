@@ -1,6 +1,6 @@
 #include "functionZoomer.h"
 #include "functionModel.h"
-#include "IDragZoom.h"
+#include "ifaces/IDragZoom.h"
 
 FunctionZoomer::FunctionZoomer(IDragZoom &iface, FunctionModel &model) :
     iface(iface),

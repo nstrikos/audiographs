@@ -1,5 +1,5 @@
 #include "audio.h"
-#include "IAudio.h"
+#include "ifaces/IAudio.h"
 
 Audio::Audio(IAudio &iface) :
     iface(iface)

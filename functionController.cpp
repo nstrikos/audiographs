@@ -1,12 +1,12 @@
 #include "functionController.h"
-#include "mainwindow.h"
+#include "dialogs/mainwindow.h"
 #include "function/functionModel.h"
 #include "function/dragHandler.h"
 #include "function/functionZoomer.h"
 #include "function/currentPoint.h"
 #include "generator/audio.h"
 #include "audionotes/audionotes.h"
-#include "parameters.h"
+#include "utils/parameters.h"
 #include "function/pointsInterest.h"
 
 FunctionController::FunctionController()
@@ -113,6 +113,11 @@ void FunctionController::newCurrentPoint(double x, double y)
 }
 
 void FunctionController::audioFinished()
+{
+    gui->audioFinished();
+}
+
+void FunctionController::audioNotesFinished()
 {
     gui->audioFinished();
 }

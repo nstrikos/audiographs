@@ -15,8 +15,6 @@ private:
     IDragZoom &iface;
     FunctionModel &model;
     void performZoom(double factor);
-
-
 };
 
 #endif // FUNCTIONZOOMER_H

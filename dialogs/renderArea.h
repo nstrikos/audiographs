@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "function/point.h"
-#include "parameters.h"
+#include "utils/parameters.h"
 
 #include<array>
 using namespace std;

@@ -1,5 +1,5 @@
 #include "functionModel.h"
-#include "IFunctionModel.h"
+#include "ifaces/IFunctionModel.h"
 #include "constants.h"
 
 int mygcd(int a, int b)

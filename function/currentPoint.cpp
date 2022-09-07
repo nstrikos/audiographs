@@ -2,7 +2,7 @@
 #include "constants.h"
 #include "math.h"
 #include "function/functionModel.h"
-#include "ICurrentPoint.h"
+#include "ifaces/ICurrentPoint.h"
 
 CurrentPoint::CurrentPoint(ICurrentPoint &iface, FunctionModel &model) :
     iface(iface),

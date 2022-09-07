@@ -10,8 +10,8 @@ class IPointsInterest;
 #include "function/functionDescription.h"
 #include "function/currentPoint.h"
 #include "audionotes/audionotes.h"
-#include "parameters.h"
-#include "texttospeech.h"
+#include "utils/parameters.h"
+#include "utils/texttospeech.h"
 
 /*
  * init - initializes pointsInterest

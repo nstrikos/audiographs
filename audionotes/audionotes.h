@@ -1,7 +1,7 @@
 #ifndef AUDIONOTES_H
 #define AUDIONOTES_H
 
-class IAudio;
+class IAudioNotes;
 
 #include <QObject>
 #include <QTimer>
@@ -23,7 +23,7 @@ class AudioNotes : public QObject
     Q_OBJECT
 
 public:
-    AudioNotes(IAudio &iface, FunctionModel &model);
+    AudioNotes(IAudioNotes &iface, FunctionModel &model);
     ~AudioNotes();
     void startNotes(int fmin,
                     int fmax,
@@ -47,7 +47,7 @@ private slots:
     void timerExpired();
 
 private:
-    IAudio &iface;
+    IAudioNotes &iface;
     FunctionModel &m_model;
     int m_fmin;
     int m_fmax;

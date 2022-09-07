@@ -2,9 +2,9 @@
 #include "math.h"
 #include "constants.h"
 
-#include "IAudio.h"
+#include "ifaces/IAudioNotes.h"
 
-AudioNotes::AudioNotes(IAudio &iface, FunctionModel &model) :
+AudioNotes::AudioNotes(IAudioNotes &iface, FunctionModel &model) :
     iface(iface),
     m_model(model)
 {
@@ -178,7 +178,7 @@ void AudioNotes::timerExpired()
     m_timeElapsed += m_timer.interval();
     if (m_timeElapsed > m_duration) {
         stopNotes();
-        iface.audioFinished();
+        iface.audioNotesFinished();
         return;
     }
 

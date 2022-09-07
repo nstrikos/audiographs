@@ -1,6 +1,6 @@
 #include "dragHandler.h"
 #include "functionModel.h"
-#include "IDragZoom.h"
+#include "ifaces/IDragZoom.h"
 
 DragHandler::DragHandler(IDragZoom &iface, FunctionModel &model) :
     iface(iface),

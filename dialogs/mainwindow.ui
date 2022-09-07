@@ -42,9 +42,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-656</y>
+         <y>0</y>
          <width>300</width>
-         <height>1564</height>
+         <height>1536</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -72,7 +72,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -97,7 +96,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -126,7 +124,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -151,7 +148,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -177,7 +173,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -202,7 +197,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -228,7 +222,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -253,7 +246,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -279,7 +271,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -304,7 +295,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -335,7 +325,6 @@
           <property name="font">
            <font>
             <pointsize>12</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -354,7 +343,6 @@
          <widget class="QPushButton" name="helpPushButton">
           <property name="font">
            <font>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -373,7 +361,6 @@
          <widget class="QGroupBox" name="groupBox_3">
           <property name="font">
            <font>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -398,7 +385,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -430,7 +416,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -462,7 +447,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -494,7 +478,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -526,7 +509,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -555,7 +537,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -587,7 +568,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -619,7 +599,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -651,7 +630,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -683,7 +661,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -715,7 +692,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -747,7 +723,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -779,7 +754,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -811,7 +785,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -843,7 +816,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -875,7 +847,6 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -894,7 +865,6 @@
             <widget class="QGroupBox" name="audioGroupBox">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -909,7 +879,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -923,7 +892,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -950,7 +918,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -964,7 +931,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -994,7 +960,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1008,7 +973,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1038,7 +1002,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1052,7 +1015,6 @@
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1086,7 +1048,6 @@
                 <property name="font">
                  <font>
                   <pointsize>8</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -1121,7 +1082,6 @@
                 <property name="font">
                  <font>
                   <pointsize>8</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -1153,7 +1113,6 @@
                 <property name="font">
                  <font>
                   <pointsize>8</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -1171,7 +1130,6 @@ for negative values</string>
                 <property name="font">
                  <font>
                   <pointsize>8</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -1199,7 +1157,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1224,7 +1181,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
@@ -1245,7 +1201,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1270,7 +1225,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
@@ -1291,7 +1245,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1316,7 +1269,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
@@ -1337,7 +1289,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1362,7 +1313,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
@@ -1383,7 +1333,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1423,7 +1372,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1448,7 +1396,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1475,7 +1422,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1500,7 +1446,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1527,7 +1472,6 @@ for negative values</string>
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1552,7 +1496,6 @@ for negative values</string>
                   </property>
                   <property name="font">
                    <font>
-                    <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
@@ -1577,7 +1520,6 @@ for negative values</string>
                 <property name="font">
                  <font>
                   <pointsize>8</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -1600,7 +1542,6 @@ for negative values</string>
                 <property name="font">
                  <font>
                   <pointsize>8</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -1663,7 +1604,7 @@ for negative values</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
@@ -1672,7 +1613,7 @@ for negative values</string>
   <customwidget>
    <class>RenderArea</class>
    <extends>QWidget</extends>
-   <header>renderArea.h</header>
+   <header>dialogs/renderArea.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
