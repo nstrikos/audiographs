@@ -1,8 +1,5 @@
 #include "audiopoints.h"
 #include <qmath.h>
-#include <random>
-
-//#include <QDebug>
 
 AudioPoints::AudioPoints()
 {
@@ -17,7 +14,7 @@ AudioPoints::~AudioPoints()
         delete audioOutput;
 }
 
-void AudioPoints::startAudio()
+void AudioPoints::start()
 {
     instrument++;
     if (instrument > 3)
@@ -27,7 +24,7 @@ void AudioPoints::startAudio()
     writeMoreData();
 }
 
-void AudioPoints::stopAudio()
+void AudioPoints::stop()
 {
     if (audioOutput != nullptr) {
         audioOutput->stop();
@@ -39,10 +36,10 @@ void AudioPoints::stopAudio()
     //    setFreq(0);
 }
 
-void AudioPoints::setFreq(double freq, bool n, double ratio)
+void AudioPoints::playFreq(double freq, bool useNegative, double ratio)
 {
     xx = freq;
-    m_n = n;
+    m_n = useNegative;
     //m_n = false;
     m_ratio = ratio;
     m_isPlaying = true;
@@ -179,7 +176,7 @@ void AudioPoints::setFreq(double freq, bool n, double ratio)
 
     m_time = 0;
     if (audioPlaying == false)
-        startAudio();
+        start();
 }
 
 void AudioPoints::initializeAudio()
@@ -223,7 +220,7 @@ void AudioPoints::writeMoreData()
     m_time += 5;
     if (m_time > duration) {
         m_isPlaying = false;
-        emit finished();
+        //emit finished();
         return;
     }
     int emptyBytes = audioOutput->bytesFree();
@@ -324,114 +321,4 @@ void AudioPoints::writeMoreData()
         auIObuffer->write((const char*) &aubuffer[0], periodSize);
         --chunks;
     }
-}
-
-double AudioPoints::f10() const
-{
-    return m_f10;
-}
-
-void AudioPoints::setF10(double f10)
-{
-    m_f10 = f10;
-}
-
-double AudioPoints::f9() const
-{
-    return m_f9;
-}
-
-void AudioPoints::setF9(double f9)
-{
-    m_f9 = f9;
-}
-
-double AudioPoints::f8() const
-{
-    return m_f8;
-}
-
-void AudioPoints::setF8(double f8)
-{
-    m_f8 = f8;
-}
-
-double AudioPoints::f7() const
-{
-    return m_f7;
-}
-
-void AudioPoints::setF7(double f7)
-{
-    m_f7 = f7;
-}
-
-double AudioPoints::f6() const
-{
-    return m_f6;
-}
-
-void AudioPoints::setF6(double f6)
-{
-    m_f6 = f6;
-}
-
-double AudioPoints::f5() const
-{
-    return m_f5;
-}
-
-void AudioPoints::setF5(double f5)
-{
-    m_f5 = f5;
-}
-
-double AudioPoints::f4() const
-{
-    return m_f4;
-}
-
-void AudioPoints::setF4(double f4)
-{
-    m_f4 = f4;
-}
-
-double AudioPoints::f3() const
-{
-    return m_f3;
-}
-
-void AudioPoints::setF3(double f3)
-{
-    m_f3 = f3;
-}
-
-double AudioPoints::f2() const
-{
-    return m_f2;
-}
-
-void AudioPoints::setF2(double f2)
-{
-    m_f2 = f2;
-}
-
-double AudioPoints::f1() const
-{
-    return m_f1;
-}
-
-void AudioPoints::setF1(double f1)
-{
-    m_f1 = f1;
-}
-
-double AudioPoints::f0() const
-{
-    return m_f0;
-}
-
-void AudioPoints::setF0(double f0)
-{
-    m_f0 = f0;
 }

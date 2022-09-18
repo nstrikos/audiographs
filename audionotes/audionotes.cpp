@@ -87,11 +87,11 @@ void AudioNotes::setNoteFromMouse(int mouseX, int width, int fmin, int fmax, boo
         if (useNotes) {
 
             if (m_model.isValidAt(i))
-                m_audioPoints->setFreq(freq, n, ratio);
+                m_audioPoints->playFreq(freq, n, ratio);
             else
-                m_audioPoints->setFreq(0, n, ratio);
+                m_audioPoints->playFreq(0, n, ratio);
         } else {
-            m_audioPoints->setFreq((m_fmax - m_fmin) / 2, n, ratio);
+            m_audioPoints->playFreq((m_fmax - m_fmin) / 2, n, ratio);
         }
     }
 }
@@ -157,19 +157,19 @@ void AudioNotes::setNote(int currentPoint, int fmin, int fmax, bool useNegativeN
             freq = m_fmin;
 
         if (m_model.isValidAt(m_currentPoint))
-            m_audioPoints->setFreq(freq, n, ratio);
+            m_audioPoints->playFreq(freq, n, ratio);
         else
-            m_audioPoints->setFreq(0, n, ratio); //Zero frequency when the function is not defined
+            m_audioPoints->playFreq(0, n, ratio); //Zero frequency when the function is not defined
     } else {
         //We are in a straight line
-        m_audioPoints->setFreq((m_fmax - m_fmin) / 2, n, ratio);
+        m_audioPoints->playFreq((m_fmax - m_fmin) / 2, n, ratio);
     }
 }
 
 void AudioNotes::stopNotes()
 {
     m_timer.stop();
-    m_audioPoints->stopAudio();
+    m_audioPoints->stop();
 }
 
 void AudioNotes::timerExpired()
