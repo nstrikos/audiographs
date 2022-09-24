@@ -4,9 +4,9 @@ QT       += core gui multimedia texttospeech quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+#CONFIG += c++11
 
-#QMAKE_CXXFLAGS += -bigobj
+QMAKE_CXXFLAGS += -Wa,-mbig-obj
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -78,22 +78,11 @@ HEADERS += \
     ifaces/IFunctionModel.h \
     ifaces/IGui.h \
     ifaces/IPointsInterest.h \
+    parsers/exprtk/exprtk.hpp \
     utils/parameters.h \
     utils/texttospeech.h
+    parsers/exprtk/exprtk.hpp
 
-linux:!android: {
-   HEADERS += parsers/exprtk/exprtk.hpp
-} else: {
-SOURCES += parsers/fparser/fparser.cc \
-    parsers/fparser/fpoptimizer.cc \
-
-HEADERS +=   parsers/fparser/extrasrc/fpaux.hh \
-   parsers/fparser/extrasrc/fptypes.hh \
-   parsers/fparser/fparser.hh \
-   parsers/fparser/fparser_gmpint.hh \
-   parsers/fparser/fparser_mpfr.hh \
-   parsers/fparser/fpconfig.hh \
-}
 
 FORMS += \
     dialogs/aboutDialog.ui \
@@ -104,12 +93,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-win32: {
-DISTFILES += \
-    parsers/fparser/extrasrc/fp_identifier_parser.inc \
-    parsers/fparser/extrasrc/fp_opcode_add.inc
-}
 
 RESOURCES += \
     help.qrc

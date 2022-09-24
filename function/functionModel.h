@@ -5,19 +5,12 @@ class IFunctionModel;
 
 #include "point.h"
 
-
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 #include "parsers/exprtk/exprtk.hpp"
 typedef exprtk::symbol_table<double> symbol_table_t;
 typedef exprtk::expression<double>     expression_t;
 typedef exprtk::parser<double>             parser_t;
-#else
-#include "parsers/fparser/fparser.hh"
-double powint(const double* p);
-#endif
 
 int mygcd(int a, int b);
-
 
 /*
  * calculate - Calculates function. Updates the graph
@@ -113,13 +106,10 @@ private:
     double m_maxDerivValue;
     bool m_validExpression;
 
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     symbol_table_t symbol_table;
     double m_x;
     expression_t parser_expression;
-#else
-    FunctionParser m_fparser;
-#endif        
+
     Points m_points;
     Points m_derivPoints;
     Points m_deriv2Points;

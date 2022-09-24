@@ -46,10 +46,6 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
     m_first = first;
     m_last = last;
 
-
-
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-
     symbol_table.add_function(
                 "powint",
                 [](double v0, double v1, double v2) -> double
@@ -81,57 +77,12 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
         }
     });
 
-//    symbol_table.add_function(
-//                "power",
-//                [](double v0, double v1) -> double
-//    {
-
-//        QString n = QString::number(v1);
-//        int position = n.indexOf(".");
-//        int count;
-
-//        if (position == -1)
-//            return pow(v0, v1);
-//        else
-//            n = n.right(n.length() - position - 1);
-
-//        count = n.size();
-//        int b = pow(10, count);
-
-//        int a = (int) (v1 * b);
-
-//        int d = __gcd(a, b);
-
-//        a = a / d;
-//        b = b / d;
-
-//        double ratio = (double) a / b;
-
-//        int sign;
-//        if (v0 > 0) sign = 1;
-//        if (v0 < 0) sign = -1;
-//        if (v0 == 0) sign = 0;
-
-//        if ((int)b % 2 == 0) {
-//            return pow(v0, ratio);
-//        } else {
-//            if ((int)a % 2 == 0) {
-//                return pow(abs(v0), ratio);
-//            } else {
-//                return sign * pow(abs(v0), ratio);
-//            }
-//        }
-//    });
-
     symbol_table.add_variable("x", m_x);
     symbol_table.add_constant("pi", M_PI);
     symbol_table.add_constant("e", M_E);
     symbol_table.add_constants();
 
     parser_expression.register_symbol_table(symbol_table);
-#else
-    m_fparser.AddFunction("powint", powint, 3);
-#endif
 }
 
 void GenFunctionCalculatorThread::run()
@@ -142,8 +93,6 @@ void GenFunctionCalculatorThread::run()
     bool *validValues = m_params->validValues();
     double result = 0;
     unsigned long long int i = 0;
-
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     QString expression = m_params->expression();
     std::string exp = expression.toStdString();
@@ -156,7 +105,6 @@ void GenFunctionCalculatorThread::run()
 
     parser_t parser(compile_options);
     parser.compile(exp, parser_expression);
-
 
     for (i = m_first; i < m_last; i++) {
         m_x = start + i * step;
@@ -186,89 +134,6 @@ void GenFunctionCalculatorThread::run()
             functionValues[i] = 0;
         }
     }
-
-
-#else
-    QString expression = m_params->expression();
-    std::string exp = expression.toStdString();
-    m_fparser.AddConstant("pi", M_PI);
-    m_fparser.AddConstant("e", M_E);
-    m_fparser.Parse(exp, "x");
-
-    double vals[] = { 0 };
-    int res = 0;
-
-    for (i = m_first; i < m_last; i++) {
-        m_x = start + i * step;
-
-        vals[0] = m_x;
-
-        if (m_params->mode() == 0) {
-            result = m_fparser.Eval(vals);
-            res = m_fparser.EvalError();
-        } else if (m_params->mode() == 1) {
-
-            const double h = 0.00000001;
-            const double h2 = 2 * h;
-
-            double y0 = m_fparser.Eval(vals);
-            res = m_fparser.EvalError();
-            double x = m_x + h;
-            vals[0] = x;
-            double y1 = m_fparser.Eval(vals);
-            x = m_x - h;
-            vals[0] = x;
-            double y2 = m_fparser.Eval(vals);
-            x = m_x - h2;
-            vals[0] = x;
-            double y3 = m_fparser.Eval(vals);
-
-            result = (-y0 + 8 * (y1 - y2) + y3) / (12 * h);
-        } else if (m_params->mode() == 2) {
-
-            const double h = 0.00001;
-            const double h2 = 2 * h;
-
-            vals[0] = m_x;
-            double y = m_fparser.Eval(vals);
-            res = m_fparser.EvalError();
-
-            double x = m_x + h2;
-            vals[0] = x;
-            double y0 = m_fparser.Eval(vals);
-            x = m_x + h;
-            vals[0] = x;
-            double  y1 = m_fparser.Eval(vals);
-            x = m_x - h;
-            vals[0] = x;
-            double y2 = m_fparser.Eval(vals);
-            x = m_x - h2;
-            vals[0] = x;
-            double y3 = m_fparser.Eval(vals);
-
-            result = (-y0 + 16 * (y1 + y2) - 30 * y - y3) / (12 * h * h);
-
-            double Pow = pow(10.0, 2);
-            result = round (result * Pow) / Pow;
-        }
-
-        if ( (result != result) || ( res > 0) ) {
-            validValues[i] = false;
-            functionValues[i] = 0;
-        }
-        else if (res == 0) {
-            validValues[i] = true;
-
-            if (result > m_params->maxY())
-                result = m_params->maxY();
-            if (result < m_params->minY())
-                result = m_params->minY();
-
-            functionValues[i] = result;
-        }
-    }
-
-#endif
 }
 
 bool GenFunctionCalculatorThread::is_positive_infinite(const double &value)

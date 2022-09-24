@@ -6,12 +6,7 @@
 #include <vector>
 using namespace std;
 
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 #include "parsers/exprtk/exprtk.hpp"
-#else
-#include "parsers/fparser/fparser.hh"
-double powint(const double* p);
-#endif
 
 class GenFunctionCalculatorThread : public QThread
 {
@@ -29,16 +24,12 @@ private:
     bool is_nan( const double &value );
     bool is_valid( const double &value );
 
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     typedef exprtk::symbol_table<double> symbol_table_t;
     typedef exprtk::expression<double>     expression_t;
     typedef exprtk::parser<double>             parser_t;
 
     symbol_table_t symbol_table;
     expression_t parser_expression;
-#else
-    FunctionParser m_fparser;
-#endif
     double m_x;
 };
 
