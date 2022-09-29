@@ -9,6 +9,7 @@
 #include "generator/audio.h"
 #include "audionotes/audionotes.h"
 #include "function/pointsInterest.h"
+#include "stateMachine.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
         Audio *audio = new Audio(*controller);
         AudioNotes *audionotes = new AudioNotes(*controller, *model);
         PointsInterest *pointsInterest = new PointsInterest(*controller, *model, *audionotes, *currentPoint);
+        StateMachine *stateMachine = new StateMachine(*controller);
 
         w->showMaximized();
 
@@ -36,6 +38,7 @@ int main(int argc, char *argv[])
         delete audio;
         delete pointsInterest;
         delete audionotes;
+        delete stateMachine;
         delete controller;
 
         return ret;

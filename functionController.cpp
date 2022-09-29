@@ -8,6 +8,7 @@
 #include "audionotes/audionotes.h"
 #include "utils/parameters.h"
 #include "function/pointsInterest.h"
+#include "stateMachine.h"
 
 FunctionController::FunctionController()
 {
@@ -58,6 +59,11 @@ void FunctionController::addAudionotes(AudioNotes *audionotes)
 void FunctionController::addPointsInterest(PointsInterest *pointsInterest)
 {
     this->pointsInterest = pointsInterest;
+}
+
+void FunctionController::addStateMachine(StateMachine *stateMachine)
+{
+    this->stateMachine = stateMachine;
 }
 
 void FunctionController::calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY)
@@ -114,12 +120,12 @@ void FunctionController::newCurrentPoint(double x, double y)
 
 void FunctionController::audioFinished()
 {
-    gui->audioFinished();
+    stateMachine->audioFinished();
 }
 
 void FunctionController::audioNotesFinished()
 {
-    gui->audioFinished();
+    stateMachine->audioFinished();
 }
 
 void FunctionController::playSound()
@@ -313,6 +319,61 @@ void FunctionController::sayDerivative()
 void FunctionController::getDerivative()
 {
     updateLabel(derivative());
+}
+
+void FunctionController::evaluate()
+{
+    stateMachine->evaluate();
+}
+
+void FunctionController::newGraph()
+{
+    stateMachine->newGraph();
+}
+
+void FunctionController::functionError()
+{
+    stateMachine->functionError();
+}
+
+void FunctionController::errorAccepted()
+{
+    stateMachine->errorAccepted();
+}
+
+void FunctionController::playPressed()
+{
+    stateMachine->playPressed();
+}
+
+void FunctionController::initialStateActivated()
+{
+    gui->initialStateActivated();
+}
+
+void FunctionController::evaluateStateActivated()
+{
+    gui->evaluateStateActivated();
+}
+
+void FunctionController::errorStateActivated()
+{
+    gui->errorDisplayStateActivated();
+}
+
+void FunctionController::graphStateActivated()
+{
+    gui->graphReadyStateActivated();
+}
+
+void FunctionController::playSoundStateActivated()
+{
+    gui->playSoundStateActivated();
+}
+
+void FunctionController::playSoundStateDeactivated()
+{
+    gui->playSoundStateDeactivated();
 }
 
 QString FunctionController::derivative()

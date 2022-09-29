@@ -27,7 +27,7 @@ MainWindow::MainWindow(IGui &iface, QWidget *parent)
 
     m_points = nullptr;
 
-    initStateMachine();
+    //initStateMachine();
 
     connect(ui->renderArea, &RenderArea::zoom, this, &MainWindow::performZoom);
     connect(ui->renderArea, &RenderArea::mousePressed, this, &MainWindow::mousePressed);
@@ -490,12 +490,7 @@ void MainWindow::writeSettings()
 
 void MainWindow::initialStateActivated()
 {
-    qDebug() << "initial state";
     disableControls();
-    //    ui->minXLineEdit->setText("-10");
-    //    ui->maxXLineEdit->setText("10");
-    //    ui->minYLineEdit->setText("-10");
-    //    ui->maxYLineEdit->setText("10");
     ui->renderArea->clear();
     ui->renderArea->disableCurrentPoint();
     iface.setDerivativeMode(0);
@@ -503,7 +498,6 @@ void MainWindow::initialStateActivated()
 
 void MainWindow::evaluateStateActivated()
 {
-    qDebug() << "evaluate state";
     clearLabel();
     disableControls();
     ui->renderArea->disableCurrentPoint();
@@ -518,7 +512,6 @@ void MainWindow::evaluateStateActivated()
 
 void MainWindow::graphReadyStateActivated()
 {
-    qDebug() << "graph ready state";
     ui->renderArea->updateGraph(m_points,
                                 m_minX,
                                 m_maxX,
@@ -535,7 +528,6 @@ void MainWindow::graphReadyStateActivated()
 
 void MainWindow::playSoundStateActivated()
 {
-    qDebug() << "play sound state";
     ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
     ui->renderArea->enableCurrentPoint();
     enableControls();
@@ -545,7 +537,6 @@ void MainWindow::playSoundStateActivated()
 
 void MainWindow::playSoundStateDeactivated()
 {
-    qDebug() << "play sound state deactivated";
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     ui->renderArea->disableCurrentPoint();
     emit stopSound();
@@ -596,8 +587,6 @@ void MainWindow::interestingPointStoppedStateDeactivated()
 
 void MainWindow::errorDisplayStateActivated()
 {
-    qDebug() << "Error display state";
-
     if (errorDisplayDialog == nullptr) {
         errorDisplayDialog = new ErrorDisplayDialog(this);
 
@@ -620,7 +609,7 @@ void MainWindow::updateGraph(Points *points, double minX, double maxX, double mi
     m_maxX = maxX;
     m_minY = minY;
     m_maxY = maxY;
-    emit newgraph();
+    iface.newGraph();
     clearLabel();
 }
 
@@ -654,7 +643,7 @@ void MainWindow::error(QString errorString)
     ui->renderArea->clear();
     clearLabel();
     m_errorString = errorString;
-    emit functionError();
+    iface.functionError();
 }
 
 void MainWindow::performZoom(int delta)
@@ -708,38 +697,32 @@ void MainWindow::on_functionLineEdit_textEdited(const QString &arg1)
     ui->minYLineEdit->setText("-10");
     ui->maxYLineEdit->setText("10");
 
-    emit evaluate();
-    //    } else {
-    //        ui->minXLineEdit->clear();
-    //        ui->maxXLineEdit->clear();
-    //        ui->minYLineEdit->clear();
-    //        ui->maxYLineEdit->clear();
-    //    }
+    iface.evaluate();
 }
 
 void MainWindow::on_minXLineEdit_textEdited(const QString &arg1)
 {
     accessText(ui->minXLineEdit, arg1);
 
-    emit evaluate();
+    iface.evaluate();
 }
 
 void MainWindow::on_maxXLineEdit_textEdited(const QString &arg1)
 {
     accessText(ui->maxXLineEdit, arg1);
-    emit evaluate();
+    iface.evaluate();
 }
 
 void MainWindow::on_minYLineEdit_textEdited(const QString &arg1)
 {
     accessText(ui->minYLineEdit, arg1);
-    emit evaluate();
+    iface.evaluate();
 }
 
 void MainWindow::on_maxYLineEdit_textEdited(const QString &arg1)
 {
     accessText(ui->maxYLineEdit, arg1);
-    emit evaluate();
+    iface.evaluate();
 }
 
 void MainWindow::on_graphColorPushButton_clicked()
@@ -798,7 +781,7 @@ void MainWindow::on_resetGraphSettingsPushButton_clicked()
 
 void MainWindow::on_startSoundPushButton_clicked()
 {
-    emit playPressed();
+    iface.playPressed();
 }
 
 void MainWindow::on_resetAudioPushButton_clicked()
@@ -821,7 +804,7 @@ void MainWindow::newExpression()
     ui->minYLineEdit->setText("-10");
     ui->maxYLineEdit->setText("10");
 
-    emit evaluate();
+    iface.evaluate();
     clearLabel();
 }
 
@@ -1164,6 +1147,11 @@ void MainWindow::updateLabelText(QString text)
 void MainWindow::exit()
 {
     QApplication::quit();
+}
+
+void MainWindow::errorAccepted()
+{
+    iface.errorAccepted();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)

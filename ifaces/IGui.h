@@ -31,6 +31,11 @@ public:
     virtual void lastPoint() = 0;
     virtual void sayDerivative() = 0;
     virtual void getDerivative() = 0;
+    virtual void evaluate() = 0;
+    virtual void newGraph() = 0;
+    virtual void functionError() = 0;
+    virtual void playPressed() = 0;
+    virtual void errorAccepted() = 0;
 };
 
 #endif // IGUI_H

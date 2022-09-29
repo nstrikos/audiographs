@@ -40,6 +40,7 @@ SOURCES += \
     generator/genphicalculator.cpp \
     generator/gensum.cpp \
     main.cpp \
+    stateMachine.cpp \
     utils/parameters.cpp \
     utils/texttospeech.cpp
 
@@ -78,7 +79,9 @@ HEADERS += \
     ifaces/IFunctionModel.h \
     ifaces/IGui.h \
     ifaces/IPointsInterest.h \
+    ifaces/IStateMachine.h \
     parsers/exprtk/exprtk.hpp \
+    stateMachine.h \
     utils/parameters.h \
     utils/texttospeech.h
     parsers/exprtk/exprtk.hpp

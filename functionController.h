@@ -8,6 +8,7 @@
 #include "ifaces/IAudio.h"
 #include "ifaces/IAudioNotes.h"
 #include "ifaces/IPointsInterest.h"
+#include "ifaces/IStateMachine.h"
 
 class FunctionModel;
 class MainWindow;
@@ -19,6 +20,7 @@ class Audionotes;
 class Parameters;
 class PointsInterest;
 class TextToSpeech;
+class StateMachine;
 
 class FunctionController:
         public IFunctionModel,
@@ -27,7 +29,8 @@ class FunctionController:
         public ICurrentPoint,
         public IAudio,
         public IAudioNotes,
-        public IPointsInterest
+        public IPointsInterest,
+        public IStateMachine
 {
 public:
     FunctionController();
@@ -40,6 +43,7 @@ public:
     void addAudio(Audio *audio) override;
     void addAudionotes(AudioNotes *audionotes) override;
     void addPointsInterest(PointsInterest *pointsInterest) override;
+    void addStateMachine(StateMachine *tateMachine) override;
     void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY) override;
     void newGraph(Points *points, double minX, double maxX, double minY, double maxY) override;
     void error(QString error) override;
@@ -72,6 +76,17 @@ public:
     void lastPoint() override;
     void sayDerivative() override;
     void getDerivative() override;
+    void evaluate() override;
+    void newGraph() override;
+    void functionError() override;
+    void errorAccepted() override;
+    void playPressed() override;
+    void initialStateActivated() override;
+    void evaluateStateActivated() override;
+    void errorStateActivated() override;
+    void graphStateActivated() override;
+    void playSoundStateActivated() override;
+    void playSoundStateDeactivated() override;
 
 private:
     MainWindow *gui;
@@ -84,6 +99,7 @@ private:
     PointsInterest *pointsInterest;
     Parameters *parameters;
     TextToSpeech *textToSpeech;
+    StateMachine *stateMachine;
 
     void startAudio();
     void startNotes();

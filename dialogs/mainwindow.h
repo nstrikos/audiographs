@@ -33,6 +33,13 @@ public:
     MainWindow(IGui &face, QWidget *parent = nullptr);
     ~MainWindow();
 
+    void initialStateActivated();
+    void evaluateStateActivated();
+    void graphReadyStateActivated();
+    void errorDisplayStateActivated();
+    void playSoundStateActivated();
+    void playSoundStateDeactivated();
+
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
 
@@ -67,7 +74,6 @@ signals:
     void externalNextFast();
     void firstPoint();
     void lastPoint();
-    void errorAccepted();
 
 public slots:
     void updateGraph(Points *points, double minX, double maxX, double minY, double maxY);
@@ -103,19 +109,13 @@ public slots:
     void exit();
 
 private slots:
-    void initialStateActivated();
-    void evaluateStateActivated();
-    void graphReadyStateActivated();
-    void playSoundStateActivated();
-    void playSoundStateDeactivated();
+    void errorAccepted();
     void exploreStateActivated();
     void exploreStateDeactivated();
     void interestingPointStateActivated();
     void interestingPointStateDeactivated();
     void interestingPointStoppedStateActivated();
     void interestingPointStoppedStateDeactivated();
-    void errorDisplayStateActivated();
-
     void on_functionLineEdit_textEdited(const QString &arg1);
     void performZoom(int delta);
     void mousePressed(int x, int y);
