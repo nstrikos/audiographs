@@ -1,14 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
-
 #include "math.h"
 
+#include <QDebug>
 #include <QColorDialog>
-
 #include <QKeyEvent>
-
 #include <QSpinBox>
 #include <QDesktopServices>
 #include <QFile>
@@ -27,13 +24,10 @@ MainWindow::MainWindow(IGui &iface, QWidget *parent)
 
     m_points = nullptr;
 
-    //initStateMachine();
-
     connect(ui->renderArea, &RenderArea::zoom, this, &MainWindow::performZoom);
     connect(ui->renderArea, &RenderArea::mousePressed, this, &MainWindow::mousePressed);
     connect(ui->renderArea, &RenderArea::mouseMove, this, &MainWindow::mouseMove);
     connect(ui->renderArea, &RenderArea::mouseReleased, this, &MainWindow::mouseReleased);
-    connect(this, &MainWindow::newCurrentPoint, ui->renderArea, &RenderArea::newCurrentPoint);
 
     m_parameters = &Parameters::getInstance();
     ui->renderArea->setParameters(m_parameters);
@@ -165,125 +159,7 @@ MainWindow::~MainWindow()
     if (aboutDialog != nullptr)
         delete aboutDialog;
 
-    //delete m_textToSpeech;
-
     delete ui;
-}
-
-void MainWindow::initStateMachine()
-{
-    initialState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    initialState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-    initialState.addTransition(this, &MainWindow::playPressed, &errorDisplayState);
-
-    connect(&initialState, &QState::entered, this, &MainWindow::initialStateActivated);
-
-    evaluateState.addTransition(this, &MainWindow::functionError, &initialState);
-    evaluateState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-    connect(&evaluateState, &QState::entered, this, &MainWindow::evaluateStateActivated);
-
-    errorDisplayState.addTransition(this, &MainWindow::errorAccepted, &initialState);
-    connect(&errorDisplayState, &QState::entered, this, &MainWindow::errorDisplayStateActivated);
-
-    graphReadyState.addTransition(this, &MainWindow::functionError, &initialState);
-    graphReadyState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    graphReadyState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-    graphReadyState.addTransition(this, &MainWindow::playPressed, &playSoundState);
-
-    graphReadyState.addTransition(this, &MainWindow::nextPoint, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::previousPoint, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::sayX, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::sayY, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::previousPointInterest, &interestingPointState);
-    graphReadyState.addTransition(this, &MainWindow::nextPointInterest, &interestingPointState);
-    graphReadyState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::firstPoint, &exploreState);
-    graphReadyState.addTransition(this, &MainWindow::lastPoint, &exploreState);
-
-    connect(&graphReadyState, &QState::entered, this, &MainWindow::graphReadyStateActivated);
-
-
-    playSoundState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    playSoundState.addTransition(this, &MainWindow::functionError, &initialState);
-    playSoundState.addTransition(this, &MainWindow::playPressed, &graphReadyState);
-    playSoundState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-    playSoundState.addTransition(this, &MainWindow::audioFinished, &graphReadyState);
-
-    playSoundState.addTransition(this, &MainWindow::nextPoint, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::previousPoint, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::previousPointInterest, &interestingPointState);
-    playSoundState.addTransition(this, &MainWindow::nextPointInterest, &interestingPointState);
-    playSoundState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::sayX, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::sayY, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::firstPoint, &exploreState);
-    playSoundState.addTransition(this, &MainWindow::lastPoint, &exploreState);
-
-    connect(&playSoundState, &QState::entered, this, &MainWindow::playSoundStateActivated);
-    connect(&playSoundState, &QState::exited, this, &MainWindow::playSoundStateDeactivated);
-
-    exploreState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    exploreState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-    exploreState.addTransition(this, &MainWindow::playPressed, &playSoundState);
-    exploreState.addTransition(this, &MainWindow::previousPointInterest, &interestingPointState);
-    exploreState.addTransition(this, &MainWindow::nextPointInterest, &interestingPointState);
-    //exploreState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    //exploreState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    connect(&exploreState, &QState::entered, this, &MainWindow::exploreStateActivated);
-    connect(&exploreState, &QState::exited, this, &MainWindow::exploreStateDeactivated);
-
-
-    interestingPointState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    interestingPointState.addTransition(this, &MainWindow::functionError, &initialState);
-    interestingPointState.addTransition(this, &MainWindow::playPressed, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-
-    interestingPointState.addTransition(this, &MainWindow::nextPoint, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::previousPoint, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::sayX, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::sayY, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::firstPoint, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::lastPoint, &exploreState);
-    interestingPointState.addTransition(this, &MainWindow::interestingPointFinished, &interestingPointStoppedState);
-
-    connect(&interestingPointState, &QState::entered, this, &MainWindow::interestingPointStateActivated);
-    connect(&interestingPointState, &QState::exited, this, &MainWindow::interestingPointStateDeactivated);
-
-    interestingPointStoppedState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::functionError, &initialState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::playPressed, &playSoundState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-
-    interestingPointStoppedState.addTransition(this, &MainWindow::nextPoint, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::previousPoint, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::sayX, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::sayY, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::previousPointInterest, &interestingPointState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::nextPointInterest, &interestingPointState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::firstPoint, &exploreState);
-    interestingPointStoppedState.addTransition(this, &MainWindow::lastPoint, &exploreState);
-
-
-    connect(&interestingPointStoppedState, &QState::entered, this, &MainWindow::interestingPointStoppedStateActivated);
-    connect(&interestingPointStoppedState, &QState::exited, this, &MainWindow::interestingPointStoppedStateDeactivated);
-
-
-    stateMachine.addState(&initialState);
-    stateMachine.addState(&evaluateState);
-    stateMachine.addState(&graphReadyState);
-    stateMachine.addState(&playSoundState);
-    stateMachine.addState(&exploreState);
-    stateMachine.addState(&interestingPointState);
-    stateMachine.addState(&interestingPointStoppedState);
-    stateMachine.addState(&errorDisplayState);
-    stateMachine.setInitialState(&initialState);
-    stateMachine.start();
 }
 
 void MainWindow::setButtonColors()
@@ -317,10 +193,6 @@ void MainWindow::initGraphControls()
     ui->maxFreqSpinBox->setValue(m_parameters->maxFreq());
     ui->useNotesCheckBox->setChecked(m_parameters->useNotes());
     ui->useNegativeNotescheckBox->setChecked(m_parameters->useNegativeNotes());
-    //    if (m_parameters->useNotes())
-    //        ui->useNegativeNotescheckBox->setEnabled(true);
-    //    else
-    //        ui->useNegativeNotescheckBox->setEnabled(false);
     ui->selfVoiceCheckBox->setChecked(m_parameters->selfVoice());
     ui->precisionDigitsSpinBox->setValue(m_parameters->precisionDigits());
     ui->graphWidthSpinBox->setValue(m_parameters->lineWidth());
@@ -342,10 +214,6 @@ void MainWindow::enableControls()
     sayYAction->setEnabled(true);
     ui->derivativePushButton->setEnabled(true);
     sayDerivativeAction->setEnabled(true);
-    //    ui->minXLineEdit->setEnabled(true);
-    //    ui->maxXLineEdit->setEnabled(true);
-    //    ui->minYLineEdit->setEnabled(true);
-    //    ui->maxYLineEdit->setEnabled(true);
     ui->decStepPushButton->setEnabled(true);
     ui->incStepPushButton->setEnabled(true);
     decStepAction->setEnabled(true);
@@ -373,7 +241,6 @@ void MainWindow::enableControls()
 
 void MainWindow::disableControls()
 {
-    //ui->startSoundPushButton->setEnabled(false);
     ui->nextPushButton->setEnabled(false);
     nextAction->setEnabled(false);
     ui->previousPushButton->setEnabled(false);
@@ -384,10 +251,6 @@ void MainWindow::disableControls()
     sayYAction->setEnabled(false);
     ui->derivativePushButton->setEnabled(false);
     sayDerivativeAction->setEnabled(false);
-    //    ui->minXLineEdit->setEnabled(false);
-    //    ui->maxXLineEdit->setEnabled(false);
-    //    ui->minYLineEdit->setEnabled(false);
-    //    ui->maxYLineEdit->setEnabled(false);
     ui->decStepPushButton->setEnabled(false);
     ui->incStepPushButton->setEnabled(false);
     decStepAction->setEnabled(false);
@@ -426,7 +289,6 @@ void MainWindow::clearLabel()
 
 void MainWindow::stopIntro()
 {
-    qDebug() << "stop intro";
     m_parameters->setIntro(false);
 }
 
@@ -446,12 +308,6 @@ void MainWindow::readSettings()
 void MainWindow::updateRecentFileActions()
 {
     QMutableStringListIterator i(recentFiles);
-
-    //    while (i.hasNext())
-    //    {
-    //        if (!QFile::exists(i.next()))
-    //            i.remove();
-    //    }
 
     for (int j=0; j<MaxRecentFiles; ++j)
     {
@@ -504,10 +360,10 @@ void MainWindow::evaluateStateActivated()
     iface.setDerivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
     iface.calculate(ui->functionLineEdit->text(),
-                     ui->minXLineEdit->text(),
-                     ui->maxXLineEdit->text(),
-                     ui->minYLineEdit->text(),
-                     ui->maxYLineEdit->text());
+                    ui->minXLineEdit->text(),
+                    ui->maxXLineEdit->text(),
+                    ui->minYLineEdit->text(),
+                    ui->maxYLineEdit->text());
 }
 
 void MainWindow::graphReadyStateActivated()
@@ -539,50 +395,45 @@ void MainWindow::playSoundStateDeactivated()
 {
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     ui->renderArea->disableCurrentPoint();
-    emit stopSound();
     iface.stopSound();
 }
 
 void MainWindow::exploreStateActivated()
 {
-    qDebug() << "explore state";
     ui->renderArea->enableCurrentPoint();
 }
 
 void MainWindow::exploreStateDeactivated()
 {
-    qDebug() << "explore state deactivated";
     ui->renderArea->disableCurrentPoint();
 }
 
 void MainWindow::interestingPointStateActivated()
 {
-    qDebug() << "interesting point state";
     ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
     ui->renderArea->enableCurrentPoint();
 }
 
 void MainWindow::interestingPointStateDeactivated()
 {
-    qDebug() << "interesting point state deactivated";
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
-    //ui->renderArea->disableCurrentPoint();
-    emit stopSound();
     iface.stopSound();
 }
 
 void MainWindow::interestingPointStoppedStateActivated()
 {
-    qDebug() << "interesting point stopped state activated";
     ui->startSoundPushButton->setText(tr("Enter - Start sound"));
     ui->renderArea->enableCurrentPoint();
 }
 
 void MainWindow::interestingPointStoppedStateDeactivated()
 {
-    qDebug() << "interesting point stopped state deactivated";
-    //    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
-    //ui->renderArea->disableCurrentPoint();
+
+}
+
+void MainWindow::newCurrentPoint(double x, double y)
+{
+    ui->renderArea->newCurrentPoint(x, y);
 }
 
 void MainWindow::errorDisplayStateActivated()
@@ -676,7 +527,6 @@ void MainWindow::mouseMove(int diffX, int diffY)
     if (!m_mousePressed)
         return;
 
-
     iface.drag(diffX, diffY, ui->renderArea->width(), ui->renderArea->height());
     clearLabel();
 }
@@ -689,9 +539,7 @@ void MainWindow::mouseReleased()
 void MainWindow::on_functionLineEdit_textEdited(const QString &arg1)
 {
     Q_UNUSED(arg1);
-    //accessText(ui->functionLineEdit, normalizeText(arg1));
 
-    //    if (arg1.size() > 0) {
     ui->minXLineEdit->setText("-10");
     ui->maxXLineEdit->setText("10");
     ui->minYLineEdit->setText("-10");
@@ -703,7 +551,6 @@ void MainWindow::on_functionLineEdit_textEdited(const QString &arg1)
 void MainWindow::on_minXLineEdit_textEdited(const QString &arg1)
 {
     accessText(ui->minXLineEdit, arg1);
-
     iface.evaluate();
 }
 
@@ -827,7 +674,6 @@ void MainWindow::initActions()
 
     startSoundButtonAction = new QAction(tr("&Start sound"), this);
     startSoundButtonAction->setShortcut(Qt::CTRL + Qt::Key_Space);
-    //startSoundButtonAction->setShortcut(tr("F2"));
     connect(startSoundButtonAction, &QAction::triggered, this, &MainWindow::on_startSoundPushButton_clicked);
     connect(startSoundButtonAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
@@ -921,7 +767,6 @@ void MainWindow::initActions()
     useNegativeNotesAction->setShortcut(Qt::Key_F4);
     connect(useNegativeNotesAction, &QAction::triggered, this, &MainWindow::useNegativeNotesActionActivated);
     connect(useNegativeNotesAction, &QAction::hovered, this, &MainWindow::sayWidget);
-    //    useNegativeNotesAction->setEnabled(ui->useNotesCheckBox->isChecked());
 
     normalModeAction = new QAction(tr("&Normal mode"), this);
     normalModeAction->setShortcut(Qt::CTRL + Qt::Key_0);
@@ -971,7 +816,6 @@ void MainWindow::initMenu()
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newExpressionAction);
 
-    //    separatorAction = fileMenu->addSeparator();
     for (int i=0; i<MaxRecentFiles; ++i)
         fileMenu->addAction(recentFileActions[i]);
 
@@ -1017,7 +861,6 @@ void MainWindow::initMenu()
 void MainWindow::on_nextPushButton_clicked()
 {
     if (ui->nextPushButton->isEnabled()) {
-        emit nextPoint();
         iface.nextPoint();
         clearLabel();
     }
@@ -1026,7 +869,6 @@ void MainWindow::on_nextPushButton_clicked()
 void MainWindow::on_previousPushButton_clicked()
 {
     if (ui->previousPushButton->isEnabled()) {
-        emit previousPoint();
         iface.previousPoint();
         clearLabel();
     }
@@ -1036,10 +878,8 @@ void MainWindow::on_xPushButton_clicked()
 {
     if (ui->xPushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
-            emit sayX();
             iface.sayX();
         }
-        emit getX();
         iface.getX();
     }
 }
@@ -1048,31 +888,25 @@ void MainWindow::on_yPushButton_clicked()
 {
     if(ui->yPushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
-            emit sayY();
             iface.sayY();
         }
-        emit getY();
         iface.getY();
     }
 }
 
 void MainWindow::on_decStepPushButton_clicked()
 {
-    emit decStep();
     iface.decStep();
 }
 
 void MainWindow::on_incStepPushButton_clicked()
 {
-    emit incStep();
     iface.incStep();
 }
 
 void MainWindow::on_previousPointInterestPushButton_clicked()
 {
     if (ui->previousPointInterestPushButton->isEnabled()) {
-        emit previousPointInterest();
-        //emit externalPreviousPointInterest();
         iface.previousPointInterest();
         clearLabel();
     }
@@ -1081,8 +915,6 @@ void MainWindow::on_previousPointInterestPushButton_clicked()
 void MainWindow::on_nextPointInterestPushButton_clicked()
 {
     if (ui->nextPointInterestPushButton->isEnabled()) {
-        emit nextPointInterest();
-        //emit externalNextPointInterest();
         iface.nextPointInterest();
         clearLabel();
     }
@@ -1091,8 +923,6 @@ void MainWindow::on_previousFastPushButton_clicked()
 {
     if(ui->previousFastPushButton->isEnabled()) {
         clearLabel();
-        emit previousFast();
-        emit externalPreviousFast();
         iface.previousFast();
     }
 }
@@ -1101,8 +931,6 @@ void MainWindow::on_nextFastPushButton_clicked()
 {
     if(ui->nextFastPushButton->isEnabled()) {
         clearLabel();
-        emit nextFast();
-        emit externalNextFast();
         iface.nextFast();
     }
 }
@@ -1110,9 +938,7 @@ void MainWindow::on_nextFastPushButton_clicked()
 void MainWindow::on_firstPointPushButton_clicked()
 {
     if (firstPointAction->isEnabled()) {
-        emit firstPoint();
         iface.firstPoint();
-        //clearLabel();
         updateLabelText(tr("starting point"));
     }
 }
@@ -1120,9 +946,7 @@ void MainWindow::on_firstPointPushButton_clicked()
 void MainWindow::on_lastPointPushButton_clicked()
 {
     if (lastPointAction->isEnabled()) {
-        emit lastPoint();
         iface.lastPoint();
-        //clearLabel();
         updateLabelText(tr("ending point"));
     }
 }
@@ -1155,10 +979,7 @@ void MainWindow::errorAccepted()
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-
-    //    Q_UNUSED(obj);
-
+{    
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent* key = static_cast<QKeyEvent*>(event);
         if ( (key->key() == Qt::Key_Space && key->modifiers()==Qt::ControlModifier) ) {
@@ -1295,7 +1116,6 @@ void MainWindow::selfVoiceActionActivated()
 void MainWindow::useNotesActionActivated()
 {
     ui->useNotesCheckBox->setChecked(!ui->useNotesCheckBox->isChecked());
-    //useNegativeNotesAction->setEnabled(ui->useNotesCheckBox->isChecked());
 }
 
 void MainWindow::useNegativeNotesActionActivated()
@@ -1309,8 +1129,6 @@ void MainWindow::on_normalModePushButton_clicked()
     ui->renderArea->setDerivativeMode(0);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Normal mode"));
-    emit newgraph();
-    //clearLabel();
     updateLabelText(tr("normal mode"));
 }
 
@@ -1320,8 +1138,6 @@ void MainWindow::on_firstDerivativePushButton_clicked()
     ui->renderArea->setDerivativeMode(1);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("First derivative mode"));
-    emit newgraph();
-    //clearLabel();
     updateLabelText(tr("first derivative"));
 }
 
@@ -1331,8 +1147,6 @@ void MainWindow::on_secondDerivativePushButton_clicked()
     ui->renderArea->setDerivativeMode(2);
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Second derivative mode"));
-    emit newgraph();
-    //    clearLabel();
     updateLabelText(tr("second derivative"));
 }
 
@@ -1405,7 +1219,6 @@ void MainWindow::useNotesCheckBoxStateChanged()
         accessText(ui->useNotesCheckBox, tr("checked"));
     else
         accessText(ui->useNotesCheckBox, tr("not checked"));
-    //ui->useNegativeNotescheckBox->setEnabled(state);
 }
 
 void MainWindow::useNegativeNotesCheckBoxStateChanged()
@@ -1522,7 +1335,6 @@ void MainWindow::updateLabel()
         font.setPointSize(12);
     QPalette palette;
 
-    //    ui->coordLabel->setAutoFillBackground(true);
     palette.setColor(ui->coordLabel->foregroundRole(), m_parameters->lineColor());
     ui->coordLabel->setPalette(palette);
     ui->coordLabel->setFont(font);
@@ -1535,10 +1347,8 @@ void MainWindow::on_derivativePushButton_clicked()
 {
     if (ui->derivativePushButton->isEnabled()) {
         if (m_parameters->selfVoice()) {
-            emit sayDerivative();
             iface.sayDerivative();
         }
-        emit getDerivative();
         iface.getDerivative();
     }
 }

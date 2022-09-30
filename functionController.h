@@ -87,6 +87,12 @@ public:
     void graphStateActivated() override;
     void playSoundStateActivated() override;
     void playSoundStateDeactivated() override;
+    void exploreStateActivated() override;
+    void exploreStateDeactivated() override;
+    void interestingPointStateActivated() override;
+    void interestingPointStateDeactivated() override;
+    void interestingPointStoppedStateActivated() override;
+    void interestingPointStoppedStateDeactivated() override;
 
 private:
     MainWindow *gui;

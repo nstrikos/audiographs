@@ -174,6 +174,7 @@ void FunctionController::nextPoint()
                         parameters->minFreq(),
                         parameters->maxFreq(),
                         parameters->useNegativeNotes());
+    stateMachine->nextPoint();
 }
 
 void FunctionController::previousPoint()
@@ -183,11 +184,12 @@ void FunctionController::previousPoint()
                         parameters->minFreq(),
                         parameters->maxFreq(),
                         parameters->useNegativeNotes());
+    stateMachine->previousPoint();
 }
 
 void FunctionController::interestingPointsfinished()
 {
-    gui->interestingPointFinished();
+    stateMachine->interestingPointFinished();
 }
 
 void FunctionController::updateLabel(QString text)
@@ -197,12 +199,14 @@ void FunctionController::updateLabel(QString text)
 
 void FunctionController::previousPointInterest()
 {
+    stateMachine->previousPointInterest();
     pointsInterest->previousPoint();
 }
 
 void FunctionController::nextPointInterest()
 {
     pointsInterest->nextPoint();
+    stateMachine->nextPointInterest();
 }
 
 void FunctionController::setDerivativeMode(int mode)
@@ -213,6 +217,8 @@ void FunctionController::setDerivativeMode(int mode)
 
 void FunctionController::sayX()
 {
+    stateMachine->sayX();
+
     double x = model->x(currentPoint->point());
 
     double Pow = pow(10.0, parameters->precisionDigits());
@@ -225,6 +231,8 @@ void FunctionController::sayX()
 
 void FunctionController::sayY()
 {
+    stateMachine->sayY();
+
     if (model->isValidAt(currentPoint->point())) {
         double y = model->y(currentPoint->point());
 
@@ -289,16 +297,19 @@ void FunctionController::showStep()
 
 void FunctionController::previousFast()
 {
+    stateMachine->previousFast();
     pointsInterest->previousPointFast();
 }
 
 void FunctionController::nextFast()
 {
+    stateMachine->nextFast();
     pointsInterest->nextPointFast();
 }
 
 void FunctionController::firstPoint()
 {
+    stateMachine->firstPoint();
     stopSound();
     currentPoint->reset();
     textToSpeech->speak("starting point");
@@ -306,6 +317,7 @@ void FunctionController::firstPoint()
 
 void FunctionController::lastPoint()
 {
+    stateMachine->lastPoint();
     stopSound();
     currentPoint->endPoint();
     textToSpeech->speak("ending point");
@@ -374,6 +386,36 @@ void FunctionController::playSoundStateActivated()
 void FunctionController::playSoundStateDeactivated()
 {
     gui->playSoundStateDeactivated();
+}
+
+void FunctionController::exploreStateActivated()
+{
+    gui->exploreStateActivated();
+}
+
+void FunctionController::exploreStateDeactivated()
+{
+    gui->exploreStateDeactivated();
+}
+
+void FunctionController::interestingPointStateActivated()
+{
+    gui->interestingPointStateActivated();
+}
+
+void FunctionController::interestingPointStateDeactivated()
+{
+    gui->interestingPointStateDeactivated();
+}
+
+void FunctionController::interestingPointStoppedStateActivated()
+{
+    gui->interestingPointStoppedStateActivated();
+}
+
+void FunctionController::interestingPointStoppedStateDeactivated()
+{
+    gui->interestingPointStoppedStateDeactivated();
 }
 
 QString FunctionController::derivative()

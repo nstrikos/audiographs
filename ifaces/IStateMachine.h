@@ -13,6 +13,12 @@ public:
     virtual void graphStateActivated() = 0;
     virtual void playSoundStateActivated() = 0;
     virtual void playSoundStateDeactivated() = 0;
+    virtual void exploreStateActivated() = 0;
+    virtual void exploreStateDeactivated() = 0;
+    virtual void interestingPointStateActivated() = 0;
+    virtual void interestingPointStateDeactivated() = 0;
+    virtual void interestingPointStoppedStateActivated() = 0;
+    virtual void interestingPointStoppedStateDeactivated() = 0;
 };
 
 #endif // ISTATEMACHINE_H

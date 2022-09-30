@@ -16,60 +16,10 @@ void StateMachine::initStateMachine()
     createErrorState();
     createGraphState();
     createPlaySoundState();
+    createExploreState();
+    createInterestingPointState();
+    createInterestingPointStoppedState();
 
-    //    exploreState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    //    exploreState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-    //    exploreState.addTransition(this, &MainWindow::playPressed, &playSoundState);
-    //    exploreState.addTransition(this, &MainWindow::previousPointInterest, &interestingPointState);
-    //    exploreState.addTransition(this, &MainWindow::nextPointInterest, &interestingPointState);
-    //    //exploreState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    //    //exploreState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    //    connect(&exploreState, &QState::entered, this, &MainWindow::exploreStateActivated);
-    //    connect(&exploreState, &QState::exited, this, &MainWindow::exploreStateDeactivated);
-
-
-    //    interestingPointState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    //    interestingPointState.addTransition(this, &MainWindow::functionError, &initialState);
-    //    interestingPointState.addTransition(this, &MainWindow::playPressed, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-
-    //    interestingPointState.addTransition(this, &MainWindow::nextPoint, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::previousPoint, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::sayX, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::sayY, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::firstPoint, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::lastPoint, &exploreState);
-    //    interestingPointState.addTransition(this, &MainWindow::interestingPointFinished, &interestingPointStoppedState);
-
-    //    connect(&interestingPointState, &QState::entered, this, &MainWindow::interestingPointStateActivated);
-    //    connect(&interestingPointState, &QState::exited, this, &MainWindow::interestingPointStateDeactivated);
-
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::evaluate, &evaluateState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::functionError, &initialState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::playPressed, &playSoundState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::newgraph, &graphReadyState);
-
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::nextPoint, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::previousPoint, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::sayX, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::sayY, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::previousPointInterest, &interestingPointState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::nextPointInterest, &interestingPointState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::previousFast, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::nextFast, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::firstPoint, &exploreState);
-    //    interestingPointStoppedState.addTransition(this, &MainWindow::lastPoint, &exploreState);
-
-
-    //    connect(&interestingPointStoppedState, &QState::entered, this, &MainWindow::interestingPointStoppedStateActivated);
-    //    connect(&interestingPointStoppedState, &QState::exited, this, &MainWindow::interestingPointStoppedStateDeactivated);
-
-
-    machine.addState(&exploreState);
-    machine.addState(&interestingPointState);
-    machine.addState(&interestingPointStoppedState);
     machine.setInitialState(&initialState);
     machine.start();
 }
@@ -183,4 +133,102 @@ void StateMachine::playSoundStateDeactivated()
 {
     qDebug() << "state machine: play sound state deactivated";
     iface.playSoundStateDeactivated();
+}
+
+void StateMachine::createExploreState()
+{
+    exploreState.addTransition(this, &StateMachine::evaluate, &evaluateState);
+    exploreState.addTransition(this, &StateMachine::newGraph, &graphState);
+    exploreState.addTransition(this, &StateMachine::playPressed, &playSoundState);
+    exploreState.addTransition(this, &StateMachine::previousPointInterest, &interestingPointState);
+    exploreState.addTransition(this, &StateMachine::nextPointInterest, &interestingPointState);
+    connect(&exploreState, &QState::entered, this, &StateMachine::exploreStateActivated);
+    connect(&exploreState, &QState::exited, this, &StateMachine::exploreStateDeactivated);
+
+    machine.addState(&exploreState);
+}
+
+void StateMachine::exploreStateActivated()
+{
+    qDebug() << "state machine: explore state";
+    iface.exploreStateActivated();
+
+}
+
+void StateMachine::exploreStateDeactivated()
+{
+    qDebug() << "state machine: explore state deactivated";
+    iface.exploreStateDeactivated();
+}
+
+void StateMachine::createInterestingPointState()
+{
+    interestingPointState.addTransition(this, &StateMachine::evaluate, &evaluateState);
+    interestingPointState.addTransition(this, &StateMachine::functionError, &initialState);
+    interestingPointState.addTransition(this, &StateMachine::playPressed, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::newGraph, &graphState);
+
+    interestingPointState.addTransition(this, &StateMachine::nextPoint, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::previousPoint, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::sayX, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::sayY, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::previousFast, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::nextFast, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::firstPoint, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::lastPoint, &exploreState);
+    interestingPointState.addTransition(this, &StateMachine::interestingPointFinished, &interestingPointStoppedState);
+
+    connect(&interestingPointState, &QState::entered, this, &StateMachine::interestingPointStateActivated);
+    connect(&interestingPointState, &QState::exited, this, &StateMachine::interestingPointStateDeactivated);
+
+    machine.addState(&interestingPointState);
+}
+
+void StateMachine::interestingPointStateActivated()
+{
+    qDebug() << "state machine: interesting point state";
+    iface.interestingPointStateActivated();
+}
+
+void StateMachine::interestingPointStateDeactivated()
+{
+    qDebug() << "state machine: interesting point state deactivated";
+    iface.interestingPointStateDeactivated();
+}
+
+void StateMachine::createInterestingPointStoppedState()
+{
+    interestingPointStoppedState.addTransition(this, &StateMachine::evaluate, &evaluateState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::functionError, &initialState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::playPressed, &playSoundState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::newGraph, &graphState);
+
+    interestingPointStoppedState.addTransition(this, &StateMachine::nextPoint, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::previousPoint, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::sayX, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::sayY, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::previousPointInterest, &interestingPointState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::nextPointInterest, &interestingPointState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::previousFast, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::nextFast, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::firstPoint, &exploreState);
+    interestingPointStoppedState.addTransition(this, &StateMachine::lastPoint, &exploreState);
+
+
+    connect(&interestingPointStoppedState, &QState::entered, this, &StateMachine::interestingPointStoppedStateActivated);
+    connect(&interestingPointStoppedState, &QState::exited, this, &StateMachine::interestingPointStoppedStateDeactivated);
+
+    machine.addState(&interestingPointStoppedState);
+}
+
+void StateMachine::interestingPointStoppedStateActivated()
+{
+    qDebug() << "state machine: interesting point stopped state";
+    iface.interestingPointStoppedStateActivated();
+}
+
+void StateMachine::interestingPointStoppedStateDeactivated()
+{
+    qDebug() << "state machine: interesting point stopped state deactivated";
+    iface.interestingPointStoppedStateDeactivated();
 }
