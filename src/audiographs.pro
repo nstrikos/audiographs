@@ -15,6 +15,8 @@ QMAKE_CXXFLAGS += -Wa,-mbig-obj
 SOURCES += \
     audionotes/audionotes.cpp \
     audionotes/audiopoints.cpp \
+    controller/functionController.cpp \
+    controller/stateMachine.cpp \
     dialogs/aboutDialog.cpp \
     dialogs/errorDisplayDialog.cpp \
     dialogs/mainwindow.cpp \
@@ -26,7 +28,6 @@ SOURCES += \
     function/functionZoomer.cpp \
     function/point.cpp \
     function/pointsInterest.cpp \
-    functionController.cpp \
     generator/audio.cpp \
     generator/audioengine.cpp \
     generator/genclipper.cpp \
@@ -40,14 +41,14 @@ SOURCES += \
     generator/genphicalculator.cpp \
     generator/gensum.cpp \
     main.cpp \
-    stateMachine.cpp \
     utils/parameters.cpp \
     utils/texttospeech.cpp
 
 HEADERS += \
     audionotes/audionotes.h \
     audionotes/audiopoints.h \
-    constants.h \
+    controller/functionController.h \
+    controller/stateMachine.h \
     dialogs/aboutDialog.h \
     dialogs/errorDisplayDialog.h \
     dialogs/mainwindow.h \
@@ -59,7 +60,6 @@ HEADERS += \
     function/functionZoomer.h \
     function/point.h \
     function/pointsInterest.h \
-    functionController.h \
     generator/audio.h \
     generator/audioengine.h \
     generator/genclipper.h \
@@ -81,7 +81,7 @@ HEADERS += \
     ifaces/IPointsInterest.h \
     ifaces/IStateMachine.h \
     parsers/exprtk/exprtk.hpp \
-    stateMachine.h \
+    utils/constants.h \
     utils/parameters.h \
     utils/texttospeech.h
     parsers/exprtk/exprtk.hpp

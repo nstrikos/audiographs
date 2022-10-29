@@ -1,7 +1,7 @@
 #include "dialogs/mainwindow.h"
 
 #include <QApplication>
-#include "functionController.h"
+#include "controller/functionController.h"
 #include "function/functionModel.h"
 #include "function/dragHandler.h"
 #include "function/functionZoomer.h"
@@ -9,7 +9,7 @@
 #include "generator/audio.h"
 #include "audionotes/audionotes.h"
 #include "function/pointsInterest.h"
-#include "stateMachine.h"
+#include "controller/stateMachine.h"
 
 int main(int argc, char *argv[])
 {

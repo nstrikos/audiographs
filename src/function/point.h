@@ -5,8 +5,7 @@
 using namespace std;
 
 #include <QObject>
-
-#include "constants.h"
+#include "utils/constants.h"
 
 class Point
 {

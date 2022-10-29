@@ -1,5 +1,5 @@
 #include "currentPoint.h"
-#include "constants.h"
+#include "utils/constants.h"
 #include "math.h"
 #include "function/functionModel.h"
 #include "ifaces/ICurrentPoint.h"

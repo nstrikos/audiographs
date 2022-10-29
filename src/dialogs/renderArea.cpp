@@ -1,10 +1,7 @@
 #include "renderArea.h"
-
+#include "utils/constants.h"
 #include <QPainter>
-
 #include <math.h>
-
-#include <QDebug>
 #include <QWheelEvent>
 
 RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
