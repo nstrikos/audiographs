@@ -1,16 +1,13 @@
 TARGET = audiographs
 
-QT       += core gui multimedia texttospeech quick
+QT += core gui multimedia texttospeech quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32: {
 QMAKE_CXXFLAGS += -Wa,-mbig-obj
+#QMAKE_CXXFLAGS += -bigobj
 }
-
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     audionotes/audionotes.cpp \
@@ -42,7 +39,8 @@ SOURCES += \
     generator/gensum.cpp \
     main.cpp \
     utils/parameters.cpp \
-    utils/texttospeech.cpp
+    utils/texttospeech.cpp \
+    utils/util.cpp
 
 HEADERS += \
     audionotes/audionotes.h \
@@ -83,7 +81,8 @@ HEADERS += \
     parsers/exprtk/exprtk.hpp \
     utils/constants.h \
     utils/parameters.h \
-    utils/texttospeech.h
+    utils/texttospeech.h \
+    utils/util.h
     parsers/exprtk/exprtk.hpp
 
 

@@ -1,11 +1,7 @@
 #include "functionModel.h"
 #include "ifaces/IFunctionModel.h"
 #include "utils/constants.h"
-
-int mygcd(int a, int b)
-{
-    return b ? mygcd(b, a%b) : a;
-}
+#include "utils/util.h"
 
 FunctionModel::FunctionModel(IFunctionModel &iface) :
     iface(iface)
@@ -44,8 +40,8 @@ FunctionModel::FunctionModel(IFunctionModel &iface) :
     });
 
     symbol_table.add_variable("x",m_x);
-    symbol_table.add_constant("pi", M_PI);
-    symbol_table.add_constant("e", M_E);
+    symbol_table.add_constant("pi", PI);
+    symbol_table.add_constant("e", E);
     symbol_table.add_constants();
     parser_expression.register_symbol_table(symbol_table);
 }
@@ -149,8 +145,8 @@ bool FunctionModel::check()
 
 void FunctionModel::replaceConstants()
 {
-    QString piString = QString::number(M_PI);
-    QString eString = QString::number(M_E);
+    QString piString = QString::number(PI);
+    QString eString = QString::number(E);
     QString ln = "ln";
 
     m_expression.replace(ln, "log");

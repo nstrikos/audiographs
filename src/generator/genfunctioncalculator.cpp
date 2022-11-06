@@ -2,8 +2,8 @@
 #include <limits>
 #include <QElapsedTimer>
 #include <QVector>
-
-#include <QtMath>
+#include "utils/constants.h"
+#include "utils/util.h"
 
 GenFunctionCalculator::GenFunctionCalculator(GenParameters *params)
 {
@@ -54,7 +54,7 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
         int a = (int) v1;
         int b = (int) v2;
 
-        int d = __gcd(a, b);
+        int d = mygcd(a, b);
 
         a = a / d;
         b = b / d;
@@ -78,8 +78,8 @@ GenFunctionCalculatorThread::GenFunctionCalculatorThread(GenParameters *params,
     });
 
     symbol_table.add_variable("x", m_x);
-    symbol_table.add_constant("pi", M_PI);
-    symbol_table.add_constant("e", M_E);
+    symbol_table.add_constant("pi", PI);
+    symbol_table.add_constant("e", E);
     symbol_table.add_constants();
 
     parser_expression.register_symbol_table(symbol_table);
