@@ -144,6 +144,7 @@ MainWindow::~MainWindow()
     delete selfVoiceAction;
     delete useNotesAction;
     delete useNegativeNotesAction;
+    delete stopAtZeroAction;
     delete normalModeAction;
     delete firstDerivativeModeAction;
     delete secondDerivativeModeAction;
@@ -793,6 +794,8 @@ void MainWindow::initActions()
     connect(introAction, &QAction::triggered, this, &MainWindow::stopIntro);
     connect(introAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
+    stopAtZeroAction = new QAction(tr("S&top"), this);
+
     aboutAction = new QAction(tr("&About"), this);
     connect(aboutAction, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(aboutAction, &QAction::hovered, this, &MainWindow::sayWidget);
@@ -1373,3 +1376,10 @@ void MainWindow::on_useNegativeNotescheckBox_stateChanged(int arg1)
     if (!m_parameters->selfVoice())
         ui->useNegativeNotescheckBox->setFocus();
 }
+
+void MainWindow::stopAtZeroActionChanged(bool checked)
+{
+    Q_UNUSED(checked);
+    m_parameters->setStopAtZero(!m_parameters->stopAtZero());
+}
+

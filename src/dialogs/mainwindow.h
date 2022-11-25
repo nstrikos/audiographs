@@ -101,6 +101,7 @@ private slots:
     void on_useNotesCheckBox_toggled(bool checked);
     void on_selfVoiceCheckBox_toggled(bool checked);
     void on_useNegativeNotescheckBox_stateChanged(int arg1);
+    void stopAtZeroActionChanged(bool checked);
     void initActions();
     void initMenu();
     void setButtonColors();
@@ -170,6 +171,7 @@ private:
     QAction *showShortcutsAction;
     QAction *aboutAction;
     QAction *introAction;
+    QAction *stopAtZeroAction;
     QMenu *helpMenu;
     QMenu *fileMenu;
     QMenu *controlMenu;

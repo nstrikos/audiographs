@@ -162,7 +162,7 @@ void Parameters::read()
         derivColor = Qt::green;
 
     bool intro = settings.value("intro", true).toBool();
-
+    bool stopAtZero = settings.value("stopAtZero", true).toBool();
 
     setPointColor(pointColor);
     setPointSize(pointSize);
@@ -190,6 +190,7 @@ void Parameters::read()
     setSelfVoice(selfVoice);
     setDerivColor(derivColor);
     setIntro(intro);
+    setStopAtZero(stopAtZero);
 }
 
 void Parameters::write()
@@ -222,6 +223,7 @@ void Parameters::write()
     settings.setValue("selfVoice", m_selfVoice);
     settings.setValue("derivColor", m_derivColor);
     settings.setValue("intro", m_intro);
+    settings.setValue("stopAtZero", m_stopAtZero);
     settings.sync();
  }
 
@@ -449,4 +451,14 @@ bool Parameters::intro() const
 void Parameters::setIntro(bool newIntro)
 {
     m_intro = newIntro;
+}
+
+bool Parameters::stopAtZero() const
+{
+    return m_stopAtZero;
+}
+
+void Parameters::setStopAtZero(bool newStopAtZero)
+{
+    m_stopAtZero = newStopAtZero;
 }
