@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Audiographs"
-#define MyAppVersion "0.2"
+#define MyAppVersion "0.4"
 #define MyAppPublisher "nstrikos@yahoo.gr"
 #define MyAppExeName "audiographs.exe"
 
@@ -21,7 +21,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 ;LicenseFile=C:\Users\nick\Desktop\projects\Emily\build\licenses\gpl-3.0.txt
 OutputDir=C:\Users\nick\Desktop\audiographs-inno-setup
-SetupIconFile=C:\Users\nick\Desktop\audiographs\audiographs.ico
+SetupIconFile=C:\Users\nick\Desktop\audiographs\src\audiographs.ico
 OutputBaseFilename=audiographs
 Compression=lzma
 SolidCompression=yes

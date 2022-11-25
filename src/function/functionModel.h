@@ -10,8 +10,6 @@ typedef exprtk::symbol_table<double> symbol_table_t;
 typedef exprtk::expression<double>     expression_t;
 typedef exprtk::parser<double>             parser_t;
 
-int mygcd(int a, int b);
-
 /*
  * calculate - Calculates function. Updates the graph
  *
