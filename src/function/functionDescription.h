@@ -21,7 +21,7 @@ class FunctionDescription
 {
 public:
     FunctionDescription(FunctionModel &model);
-    QVector<InterestingPoint> points();
+    QVector<InterestingPoint> points(bool includeZero);
 
 private:
     QVector<InterestingPoint> m_points;

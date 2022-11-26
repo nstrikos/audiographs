@@ -323,6 +323,11 @@ void FunctionController::lastPoint()
     textToSpeech->speak("ending point");
 }
 
+void FunctionController::stopAtZeroChanged()
+{
+    pointsInterest->init();
+}
+
 void FunctionController::sayDerivative()
 {
     textToSpeech->speak(derivative());

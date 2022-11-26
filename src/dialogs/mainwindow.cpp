@@ -301,7 +301,7 @@ void MainWindow::accessText(QWidget *widget, QString text)
 
 void MainWindow::readSettings()
 {
-    QSettings settings("Audiographs", "Audiographs");
+    QSettings settings("audiographs", "audiographs");
     recentFiles = settings.value("recentFiles").toStringList();
     updateRecentFileActions();
 }
@@ -341,7 +341,7 @@ void MainWindow::openRecentFile()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("Audiographs", "Audiographs");
+    QSettings settings("audiographs", "audiographs");
     settings.setValue("recentFiles", recentFiles);
 }
 
@@ -795,6 +795,8 @@ void MainWindow::initActions()
     connect(introAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
     stopAtZeroAction = new QAction(tr("S&top"), this);
+    stopAtZeroAction->setShortcut(Qt::Key_F5);
+    connect(stopAtZeroAction, &QAction::triggered, this, &MainWindow::stopAtZeroActionChanged);
 
     aboutAction = new QAction(tr("&About"), this);
     connect(aboutAction, &QAction::triggered, this, &MainWindow::showAboutDialog);
@@ -847,6 +849,7 @@ void MainWindow::initMenu()
     controlMenu->addAction(selfVoiceAction);
     controlMenu->addAction(useNotesAction);
     controlMenu->addAction(useNegativeNotesAction);
+    controlMenu->addAction(stopAtZeroAction);
     controlMenu->addAction(normalModeAction);
     controlMenu->addAction(firstDerivativeModeAction);
     controlMenu->addAction(secondDerivativeModeAction);
@@ -1381,5 +1384,6 @@ void MainWindow::stopAtZeroActionChanged(bool checked)
 {
     Q_UNUSED(checked);
     m_parameters->setStopAtZero(!m_parameters->stopAtZero());
+    iface.stopAtZeroChanged();
 }
 

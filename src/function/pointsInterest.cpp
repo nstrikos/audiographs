@@ -52,7 +52,7 @@ void PointsInterest::init()
     if (m_funcDescription == nullptr)
         m_funcDescription = new FunctionDescription(m_model);
 
-    m_interestingPoints = m_funcDescription->points();
+    m_interestingPoints = m_funcDescription->points(m_parameters->stopAtZero());
     m_isUpdated = true;
 }
 

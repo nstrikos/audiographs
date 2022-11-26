@@ -29,6 +29,7 @@ public:
     virtual void nextFast() = 0;
     virtual void firstPoint() = 0;
     virtual void lastPoint() = 0;
+    virtual void stopAtZeroChanged() = 0;
     virtual void sayDerivative() = 0;
     virtual void getDerivative() = 0;
     virtual void evaluate() = 0;

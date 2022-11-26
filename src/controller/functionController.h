@@ -74,6 +74,7 @@ public:
     void nextFast() override;
     void firstPoint() override;
     void lastPoint() override;
+    void stopAtZeroChanged() override;
     void sayDerivative() override;
     void getDerivative() override;
     void evaluate() override;

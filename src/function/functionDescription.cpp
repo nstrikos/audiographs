@@ -7,7 +7,7 @@ FunctionDescription::FunctionDescription(FunctionModel &model) : m_model(model)
 
 }
 
-QVector<InterestingPoint> FunctionDescription::points()
+QVector<InterestingPoint> FunctionDescription::points(bool includeZero)
 {
     int derivativeMode = m_model.derivativeMode();
     InterestingPoint tmp;
@@ -52,64 +52,29 @@ QVector<InterestingPoint> FunctionDescription::points()
 
         } else if (m_model.isValidAt(prev) && m_model.isValidAt(next)) {
 
+            if (includeZero && derivativeMode == 0) {
 
-
-            if (m_model.y(i) == 0) {
-                QString text;
-                if (derivativeMode == 0)
-                    text = " zero crossing";
-                else if (derivativeMode == 1)
-                    text = " first derivative zero crossing";
-                else if (derivativeMode == 2)
-                    text = " second derivative zero crossing";
-                tmp.label += text;
-            } else if (m_model.y(i) * m_model.y(next) < 0) {
-                QString text;
-                if (derivativeMode == 0)
-                    text = " zero crossing";
-                else if (derivativeMode == 1)
-                    text = " first derivative zero crossing";
-                else if (derivativeMode == 2)
-                    text = " second derivative zero crossing";
-                tmp.label += text;
+                if (m_model.y_0(i) == 0) {
+                    tmp.label += " zero";
+                } else if (m_model.y_0(i) * m_model.y_0(next) < 0) {
+                    tmp.label += " zero";
+                }
             }
-
-
 
             if (m_model.y_0(i) > m_model.y_0(prev) && m_model.y_0(i) > m_model.y_0(next))
                 tmp.label += " local maximum";
             else if (m_model.y_0(i) < m_model.y_0(prev) && m_model.y_0(i) < m_model.y_0(next))
                 tmp.label += " local minimum";
 
-
-            if (derivativeMode == 1 || derivativeMode == 2) {
-                if (m_model.y(i) > m_model.y(prev) && m_model.y(i) > m_model.y(next)) {
-                    QString text;
-                    if (derivativeMode == 1)
-                        text = " first derivative maximum";
-                    else if (derivativeMode == 2)
-                        text = " second derivative maximum";
-                    tmp.label += text;
-                }
-                else if (m_model.y(i) < m_model.y(prev) && m_model.y(i) < m_model.y(next)) {
-                    QString text;
-                    if (derivativeMode == 1)
-                        text = " first derivative minimum";
-                    else if (derivativeMode == 2)
-                        text = " second derivative minimum";
-                    tmp.label += text;
-                }
-            }
-
-
-
             //local minimum and local maximum cannot be point of inflection
             else if (derivativeMode == 2) {
-                if ( (m_model.y_1(i) < m_model.y_1(prev)) &&
-                     (m_model.y_1(i) < m_model.y_1(next)) ) {
+                double Pow = pow(10.0, 10);
+                double y =  round(m_model.y_1(i) * Pow) / Pow;
+                double yPrev = round(m_model.y_1(prev) * Pow) / Pow;
+                double yNext = round(m_model.y_1(next) * Pow) / Pow;
+                if ( (y < yPrev) && (y < yNext) ) {
                     tmp.label += " point of inflection";
-                } else if ( (m_model.y_1(i) > m_model.y_1(prev)) &&
-                            (m_model.y_1(i) > m_model.y_1(next)) ) {
+                } else if ( (y > yPrev) && (y > yNext) ) {
                     tmp.label += " point of inflection";
                 }
             }
