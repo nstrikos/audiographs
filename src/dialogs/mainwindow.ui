@@ -42,9 +42,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-646</y>
          <width>300</width>
-         <height>1536</height>
+         <height>1561</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -1126,6 +1126,22 @@ for negative values</string>
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="stopAtZeroCheckBox">
+                <property name="font">
+                 <font>
+                  <pointsize>8</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="accessibleName">
+                 <string>Stop sound at zero</string>
+                </property>
+                <property name="text">
+                 <string>F5 - Stop sound at zero</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="resetAudioPushButton">
                 <property name="font">
                  <font>
@@ -1618,6 +1634,7 @@ for negative values</string>
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>scrollArea</tabstop>
   <tabstop>functionLineEdit</tabstop>
   <tabstop>minXLineEdit</tabstop>
   <tabstop>maxXLineEdit</tabstop>
@@ -1648,6 +1665,7 @@ for negative values</string>
   <tabstop>selfVoiceCheckBox</tabstop>
   <tabstop>useNotesCheckBox</tabstop>
   <tabstop>useNegativeNotescheckBox</tabstop>
+  <tabstop>stopAtZeroCheckBox</tabstop>
   <tabstop>resetAudioPushButton</tabstop>
   <tabstop>graphColorPushButton</tabstop>
   <tabstop>backgroundColorPushButton</tabstop>
@@ -1659,7 +1677,6 @@ for negative values</string>
   <tabstop>axesSizeSpinBox</tabstop>
   <tabstop>showGridCheckBox</tabstop>
   <tabstop>resetGraphSettingsPushButton</tabstop>
-  <tabstop>scrollArea</tabstop>
  </tabstops>
  <resources/>
  <connections/>

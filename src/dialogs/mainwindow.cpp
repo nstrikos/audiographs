@@ -70,6 +70,7 @@ MainWindow::MainWindow(IGui &iface, QWidget *parent)
     ui->selfVoiceCheckBox->installEventFilter(this);
     ui->useNotesCheckBox->installEventFilter(this);
     ui->useNegativeNotescheckBox->installEventFilter(this);
+    ui->stopAtZeroCheckBox->installEventFilter(this);
     ui->resetAudioPushButton->installEventFilter(this);
     ui->graphColorPushButton->installEventFilter(this);
     ui->backgroundColorPushButton->installEventFilter(this);
@@ -96,6 +97,7 @@ MainWindow::MainWindow(IGui &iface, QWidget *parent)
     connect(ui->selfVoiceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(selfVoiceCheckBoxStateChanged()));
     connect(ui->useNotesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(useNotesCheckBoxStateChanged()));
     connect(ui->useNegativeNotescheckBox, SIGNAL(stateChanged(int)), this, SLOT(useNegativeNotesCheckBoxStateChanged()));
+    connect(ui->stopAtZeroCheckBox, SIGNAL(stateChanged(int)), this, SLOT(stopAtZeroCheckBoxStateChanged()));
     connect(ui->graphWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(graphWidthSpinBoxValueChanged(int)));
     connect(ui->highlightSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(highlightSizeSpinBoxValueChanged(int)));
     connect(ui->axesSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(axesSizeSpinBoxValueChanged(int)));
@@ -194,6 +196,7 @@ void MainWindow::initGraphControls()
     ui->maxFreqSpinBox->setValue(m_parameters->maxFreq());
     ui->useNotesCheckBox->setChecked(m_parameters->useNotes());
     ui->useNegativeNotescheckBox->setChecked(m_parameters->useNegativeNotes());
+    ui->stopAtZeroCheckBox->setChecked(m_parameters->stopAtZero());
     ui->selfVoiceCheckBox->setChecked(m_parameters->selfVoice());
     ui->precisionDigitsSpinBox->setValue(m_parameters->precisionDigits());
     ui->graphWidthSpinBox->setValue(m_parameters->lineWidth());
@@ -640,6 +643,7 @@ void MainWindow::on_resetAudioPushButton_clicked()
     ui->maxFreqSpinBox->setValue(m_parameters->maxFreq());
     ui->useNotesCheckBox->setChecked(m_parameters->useNotes());
     ui->useNegativeNotescheckBox->setChecked(m_parameters->useNegativeNotes());
+    ui->stopAtZeroCheckBox->setChecked(m_parameters->stopAtZero());
     ui->precisionDigitsSpinBox->setValue(m_parameters->precisionDigits());
 }
 
@@ -663,53 +667,53 @@ void MainWindow::quit()
 
 void MainWindow::initActions()
 {
-    newExpressionAction = new QAction(tr("&New expression"), this);
+    newExpressionAction = new QAction(tr("New expression"), this);
     newExpressionAction->setShortcut(tr("Ctrl+N"));
     connect(newExpressionAction, &QAction::triggered, this, &MainWindow::newExpression);
     connect(newExpressionAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    focusExpressionAction = new QAction(tr("&Edit expression"), this);
+    focusExpressionAction = new QAction(tr("Edit expression"), this);
     focusExpressionAction->setShortcut(tr("Ctrl+E"));
     connect(focusExpressionAction, &QAction::triggered, this, &MainWindow::focusExpression);
     connect(focusExpressionAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    startSoundButtonAction = new QAction(tr("&Start sound"), this);
+    startSoundButtonAction = new QAction(tr("Start sound"), this);
     startSoundButtonAction->setShortcut(Qt::CTRL + Qt::Key_Space);
     connect(startSoundButtonAction, &QAction::triggered, this, &MainWindow::on_startSoundPushButton_clicked);
     connect(startSoundButtonAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    nextAction = new QAction(tr("&Next point"), this);
+    nextAction = new QAction(tr("Next point"), this);
     nextAction->setShortcut(Qt::Key_PageUp);
     connect(nextAction, &QAction::triggered, this, &MainWindow::on_nextPushButton_clicked);
     connect(nextAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
 
-    previousAction = new QAction(tr("&Previous point"), this);
+    previousAction = new QAction(tr("Previous point"), this);
     previousAction->setShortcut(Qt::Key_PageDown);
     connect(previousAction, &QAction::triggered, this, &MainWindow::on_previousPushButton_clicked);
     connect(previousAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    sayXAction = new QAction(tr("&Say X coordinate"), this);
+    sayXAction = new QAction(tr("Say X coordinate"), this);
     sayXAction->setShortcut(Qt::CTRL + Qt::Key_X);
     connect(sayXAction, &QAction::triggered, this, &MainWindow::on_xPushButton_clicked);
     connect(sayXAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    sayYAction = new QAction(tr("Say &Y coordinate"), this);
+    sayYAction = new QAction(tr("Say Y coordinate"), this);
     sayYAction->setShortcut(Qt::CTRL + Qt::Key_Y);
     connect(sayYAction, &QAction::triggered, this, &MainWindow::on_yPushButton_clicked);
     connect(sayYAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    sayDerivativeAction = new QAction(tr("Say &derivative"), this);
+    sayDerivativeAction = new QAction(tr("Say derivative"), this);
     sayDerivativeAction->setShortcut(Qt::CTRL + Qt::Key_D);
     connect(sayDerivativeAction, &QAction::triggered, this, &MainWindow::on_derivativePushButton_clicked);
     connect(sayDerivativeAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    decStepAction = new QAction(tr("&Decrease step"), this);
+    decStepAction = new QAction(tr("Decrease step"), this);
     decStepAction->setShortcut(tr("Ctrl+["));
     connect(decStepAction, &QAction::triggered, this, &MainWindow::on_decStepPushButton_clicked);
     connect(decStepAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    incStepAction = new QAction(tr("&Increase step"), this);
+    incStepAction = new QAction(tr("Increase step"), this);
     incStepAction->setShortcut(tr("Ctrl+]"));
     connect(incStepAction, &QAction::triggered, this, &MainWindow::on_incStepPushButton_clicked);
     connect(incStepAction, &QAction::hovered, this, &MainWindow::sayWidget);
@@ -724,81 +728,82 @@ void MainWindow::initActions()
     connect(incPrecisionAction, &QAction::triggered, this, &MainWindow::incPrecision);
     connect(incPrecisionAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    previousInterestPointAction = new QAction(tr("&Previous point of interest"), this);
+    previousInterestPointAction = new QAction(tr("Previous point of interest"), this);
     previousInterestPointAction->setShortcut(Qt::CTRL + Qt::Key_Left);
     connect(previousInterestPointAction, &QAction::triggered, this, &MainWindow::on_previousPointInterestPushButton_clicked);
     connect(previousInterestPointAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    nextInterestPointAction = new QAction(tr("&Next point of interest"), this);
+    nextInterestPointAction = new QAction(tr("Next point of interest"), this);
     nextInterestPointAction->setShortcut(Qt::CTRL + Qt::Key_Right);
     connect(nextInterestPointAction, &QAction::triggered, this, &MainWindow::on_nextPointInterestPushButton_clicked);
     connect(nextInterestPointAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    previousFastAction = new QAction(tr("&Previous point (fast)"), this);
+    previousFastAction = new QAction(tr("Previous point (fast)"), this);
     previousFastAction->setShortcut(Qt::SHIFT + Qt::Key_Left);
     connect(previousFastAction, &QAction::triggered, this, &MainWindow::on_previousFastPushButton_clicked);
     connect(previousFastAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    nextFastAction = new QAction(tr("&Next point (fast)"), this);
+    nextFastAction = new QAction(tr("Next point (fast)"), this);
     nextFastAction->setShortcut(Qt::SHIFT + Qt::Key_Right);
     connect(nextFastAction, &QAction::triggered, this, &MainWindow::on_nextFastPushButton_clicked);
     connect(nextFastAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    firstPointAction = new QAction(tr("&First point"), this);
+    firstPointAction = new QAction(tr("First point"), this);
     firstPointAction->setShortcut(Qt::Key_Home);
     connect(firstPointAction, &QAction::triggered, this, &MainWindow::on_firstPointPushButton_clicked);
     connect(firstPointAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    lastPointAction = new QAction(tr("&Last point"), this);
+    lastPointAction = new QAction(tr("Last point"), this);
     lastPointAction->setShortcut(Qt::Key_End);
     connect(lastPointAction, &QAction::triggered, this, &MainWindow::on_lastPointPushButton_clicked);
     connect(lastPointAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    selfVoiceAction = new QAction(tr("S&elf voice"), this);
+    selfVoiceAction = new QAction(tr("Self voice"), this);
     selfVoiceAction->setShortcut(Qt::Key_F2);
     connect(selfVoiceAction, &QAction::triggered, this, &MainWindow::selfVoiceActionActivated);
     connect(selfVoiceAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    useNotesAction = new QAction(tr("&Use notes"), this);
+    useNotesAction = new QAction(tr("Use notes"), this);
     useNotesAction->setShortcut(Qt::Key_F3);
     connect(useNotesAction, &QAction::triggered, this, &MainWindow::useNotesActionActivated);
     connect(useNotesAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    useNegativeNotesAction = new QAction(tr("&Use different notes for negative values"), this);
+    useNegativeNotesAction = new QAction(tr("Use different notes for negative values"), this);
     useNegativeNotesAction->setShortcut(Qt::Key_F4);
     connect(useNegativeNotesAction, &QAction::triggered, this, &MainWindow::useNegativeNotesActionActivated);
     connect(useNegativeNotesAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    normalModeAction = new QAction(tr("&Normal mode"), this);
+    stopAtZeroAction = new QAction(tr("Stop sound at zero"), this);
+    stopAtZeroAction->setShortcut(Qt::Key_F5);
+    connect(stopAtZeroAction, &QAction::triggered, this, &MainWindow::stopAtZeroActionActivated);
+    connect(stopAtZeroAction, &QAction::hovered, this, &MainWindow::sayWidget);
+
+    normalModeAction = new QAction(tr("Normal mode"), this);
     normalModeAction->setShortcut(Qt::CTRL + Qt::Key_0);
     connect(normalModeAction, &QAction::triggered, this, &MainWindow::on_normalModePushButton_clicked);
     connect(normalModeAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    firstDerivativeModeAction = new QAction(tr("&First derivative mode"), this);
+    firstDerivativeModeAction = new QAction(tr("First derivative mode"), this);
     firstDerivativeModeAction->setShortcut(Qt::CTRL + Qt::Key_1);
     connect(firstDerivativeModeAction, &QAction::triggered, this, &MainWindow::on_firstDerivativePushButton_clicked);
     connect(firstDerivativeModeAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    secondDerivativeModeAction = new QAction(tr("&Second derivative mode"), this);
+    secondDerivativeModeAction = new QAction(tr("Second derivative mode"), this);
     secondDerivativeModeAction->setShortcut(Qt::CTRL + Qt::Key_2);
     connect(secondDerivativeModeAction, &QAction::triggered, this, &MainWindow::on_secondDerivativePushButton_clicked);
     connect(secondDerivativeModeAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    showShortcutsAction = new QAction(tr("&Help"), this);
+    showShortcutsAction = new QAction(tr("Help"), this);
     showShortcutsAction->setShortcut(Qt::Key_F1);
     connect(showShortcutsAction, &QAction::triggered, this, &MainWindow::showShortcuts);
     connect(showShortcutsAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    introAction = new QAction(tr("&Intro audio"), this);
+    introAction = new QAction(tr("Disable intro audio"), this);
     introAction->setShortcut(Qt::CTRL + Qt::Key_F12);
     connect(introAction, &QAction::triggered, this, &MainWindow::stopIntro);
     connect(introAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    stopAtZeroAction = new QAction(tr("S&top"), this);
-    stopAtZeroAction->setShortcut(Qt::Key_F5);
-    connect(stopAtZeroAction, &QAction::triggered, this, &MainWindow::stopAtZeroActionChanged);
-
-    aboutAction = new QAction(tr("&About"), this);
+    aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, &QAction::triggered, this, &MainWindow::showAboutDialog);
     connect(aboutAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
@@ -1078,6 +1083,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         } else if (obj == ui->useNegativeNotescheckBox) {
             QString text = (ui->useNegativeNotescheckBox->isChecked() ? "checked" : "not checked");
             accessText(ui->useNegativeNotescheckBox, text);
+        } else if (obj == ui->stopAtZeroCheckBox) {
+            QString text = (ui->stopAtZeroCheckBox->isChecked() ? "checked" : "not checked");
+            accessText(ui->stopAtZeroCheckBox, text);
         } else if (obj == ui->graphWidthSpinBox) {
             accessText(ui->graphWidthSpinBox, ui->graphWidthSpinBox->text());
         } else if (obj == ui->highlightSizeSpinBox) {
@@ -1127,6 +1135,11 @@ void MainWindow::useNotesActionActivated()
 void MainWindow::useNegativeNotesActionActivated()
 {
     ui->useNegativeNotescheckBox->setChecked(!ui->useNegativeNotescheckBox->isChecked());
+}
+
+void MainWindow::stopAtZeroActionActivated()
+{
+    ui->stopAtZeroCheckBox->setChecked(!ui->stopAtZeroCheckBox->isChecked());
 }
 
 void MainWindow::on_normalModePushButton_clicked()
@@ -1236,6 +1249,18 @@ void MainWindow::useNegativeNotesCheckBoxStateChanged()
         accessText(ui->useNegativeNotescheckBox, tr("checked"));
     else
         accessText(ui->useNegativeNotescheckBox, tr("not checked"));
+}
+
+void MainWindow::stopAtZeroCheckBoxStateChanged()
+{
+    bool state = ui->stopAtZeroCheckBox->isChecked();
+
+    m_parameters->setStopAtZero(state);
+    iface.stopAtZeroChanged();
+    if (state)
+        accessText(ui->stopAtZeroCheckBox, tr("checked"));
+    else
+        accessText(ui->stopAtZeroCheckBox, tr("not checked"));
 }
 
 void MainWindow::graphWidthSpinBoxValueChanged(int value)
@@ -1380,10 +1405,10 @@ void MainWindow::on_useNegativeNotescheckBox_stateChanged(int arg1)
         ui->useNegativeNotescheckBox->setFocus();
 }
 
-void MainWindow::stopAtZeroActionChanged(bool checked)
+void MainWindow::on_stopAtZeroCheckBox_stateChanged(int arg1)
 {
-    Q_UNUSED(checked);
-    m_parameters->setStopAtZero(!m_parameters->stopAtZero());
-    iface.stopAtZeroChanged();
+    Q_UNUSED(arg1);
+    if (!m_parameters->selfVoice())
+        ui->stopAtZeroCheckBox->setFocus();
 }
 

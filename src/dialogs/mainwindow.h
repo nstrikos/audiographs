@@ -89,6 +89,7 @@ private slots:
     void selfVoiceCheckBoxStateChanged();
     void useNotesCheckBoxStateChanged();
     void useNegativeNotesCheckBoxStateChanged();
+    void stopAtZeroCheckBoxStateChanged();
     void graphWidthSpinBoxValueChanged(int value);
     void highlightSizeSpinBoxValueChanged(int value);
     void axesSizeSpinBoxValueChanged(int value);
@@ -101,7 +102,7 @@ private slots:
     void on_useNotesCheckBox_toggled(bool checked);
     void on_selfVoiceCheckBox_toggled(bool checked);
     void on_useNegativeNotescheckBox_stateChanged(int arg1);
-    void stopAtZeroActionChanged(bool checked);
+    void on_stopAtZeroCheckBox_stateChanged(int arg1);
     void initActions();
     void initMenu();
     void setButtonColors();
@@ -117,6 +118,7 @@ private slots:
     void selfVoiceActionActivated();
     void useNotesActionActivated();
     void useNegativeNotesActionActivated();
+    void stopAtZeroActionActivated();
     void incPrecision();
     void decPrecision();
     void errorAccepted();
