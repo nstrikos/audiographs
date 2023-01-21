@@ -26,7 +26,7 @@ void FunctionController::addModel(FunctionModel *model)
     this->model = model;
 }
 
-void FunctionController::addGui(MainWindow *gui)
+void FunctionController::addGui(IMainWindow *gui)
 {
     this->gui = gui;
 }

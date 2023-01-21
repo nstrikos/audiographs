@@ -16,8 +16,9 @@ public:
     bool isValid;
 };
 
-class Points
+class Points : public QObject
 {        
+    Q_OBJECT
 public:
     Points();
 

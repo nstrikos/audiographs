@@ -1,13 +1,13 @@
 #ifndef IGUI_H
 #define IGUI_H
 
-class MainWindow;
+class IMainWindow;
 class QString;
 
 class IGui
 {
 public:
-    virtual void addGui(MainWindow *gui) = 0;
+    virtual void addGui(IMainWindow *gui) = 0;
     virtual void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY) = 0;
     virtual void startDrag(int x , int y) = 0;
     virtual void drag(int diffX, int diffY, int width, int height) = 0;

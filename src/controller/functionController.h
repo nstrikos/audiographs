@@ -11,7 +11,7 @@
 #include "ifaces/IStateMachine.h"
 
 class FunctionModel;
-class MainWindow;
+class IMainWindow;
 class CurrentPoint;
 class DragHandler;
 class FunctionZoomer;
@@ -36,7 +36,7 @@ public:
     FunctionController();
     virtual ~FunctionController();
     void addModel(FunctionModel *model) override;
-    void addGui(MainWindow *gui) override;
+    void addGui(IMainWindow *gui) override;
     void addDragHandler(DragHandler *dragHandler) override;
     void addZoomer(FunctionZoomer *zoomer) override;
     void addCurrentPoint(CurrentPoint *currentPoint) override;
@@ -96,7 +96,7 @@ public:
     void interestingPointStoppedStateDeactivated() override;
 
 private:
-    MainWindow *gui;
+    IMainWindow *gui;
     FunctionModel *model;
     DragHandler *dragHandler;
     FunctionZoomer *zoomer;

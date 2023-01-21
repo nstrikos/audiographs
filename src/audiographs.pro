@@ -37,7 +37,12 @@ SOURCES += \
     generator/genparameters.cpp \
     generator/genphicalculator.cpp \
     generator/gensum.cpp \
+    ifaces/IMainWindow.cpp \
     main.cpp \
+    mobileview/functionDisplayView.cpp \
+    mobileview/functionDisplayViewInterface.cpp \
+    mobileview/functionPointView.cpp \
+    mobileview/qmlConnector.cpp \
     utils/parameters.cpp \
     utils/texttospeech.cpp \
     utils/util.cpp
@@ -76,8 +81,13 @@ HEADERS += \
     ifaces/IDragZoom.h \
     ifaces/IFunctionModel.h \
     ifaces/IGui.h \
+    ifaces/IMainWindow.h \
     ifaces/IPointsInterest.h \
     ifaces/IStateMachine.h \
+    mobileview/functionDisplayView.h \
+    mobileview/functionDisplayViewInterface.h \
+    mobileview/functionPointView.h \
+    mobileview/qmlConnector.h \
     parsers/exprtk/exprtk.hpp \
     utils/constants.h \
     utils/parameters.h \
@@ -97,8 +107,19 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    help.qrc
+    help.qrc \
+    qml.qrc
 
-DISTFILES +=
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle.properties \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml
 
 RC_ICONS = audiographs.ico
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

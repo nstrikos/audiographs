@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 
-#include "function/point.h"
 #include "utils/parameters.h"
 
 #include <QMenu>
@@ -14,6 +13,7 @@
 #include "utils/texttospeech.h"
 
 #include "ifaces/IGui.h"
+#include <ifaces/IMainWindow.h>
 
 #include<array>
 using namespace std;
@@ -24,7 +24,7 @@ QT_END_NAMESPACE
 
 class KeyReceiver;
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public IMainWindow
 {
     Q_OBJECT
 
@@ -32,24 +32,24 @@ public:
     MainWindow(IGui &face, QWidget *parent = nullptr);
     ~MainWindow();
 
-    void initialStateActivated();
-    void evaluateStateActivated();
-    void graphReadyStateActivated();
-    void errorDisplayStateActivated();
-    void playSoundStateActivated();
-    void playSoundStateDeactivated();
-    void exploreStateActivated();
-    void exploreStateDeactivated();
-    void interestingPointStateActivated();
-    void interestingPointStateDeactivated();
-    void interestingPointStoppedStateActivated();
-    void interestingPointStoppedStateDeactivated();
-    void newCurrentPoint(double x, double y);
-    void updateGraph(Points *points, double minX, double maxX, double minY, double maxY);
-    void error(QString errorString);
-    void newInputValues(double minX, double maxX, double minY, double maxY);
-    void updateDerivative(Points *points, double minX, double maxX, double minY, double maxY);
-    void updateLabelText(QString text);
+    void updateGraph(Points *points, double minX, double maxX, double minY, double maxY) override;
+    void error(QString errorString) override;
+    void updateDerivative(Points *points, double minX, double maxX, double minY, double maxY) override;
+    void newCurrentPoint(double x, double y) override;
+    void updateLabelText(QString text) override;
+    void initialStateActivated() override;
+    void evaluateStateActivated() override;
+    void graphReadyStateActivated() override;
+    void errorDisplayStateActivated() override;
+    void playSoundStateActivated() override;
+    void playSoundStateDeactivated() override;
+    void exploreStateActivated() override;
+    void exploreStateDeactivated() override;
+    void interestingPointStateActivated() override;
+    void interestingPointStateDeactivated() override;
+    void interestingPointStoppedStateActivated() override;
+    void interestingPointStoppedStateDeactivated() override;
+    void newInputValues(double minX, double maxX, double minY, double maxY) override;
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
