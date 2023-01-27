@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <math.h>
 #include <QWheelEvent>
+#include <dialogs/mainwindow.h>
 
 RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
 {
@@ -24,6 +25,11 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
 RenderArea::~RenderArea()
 {
 
+}
+
+void RenderArea::setMainWindow(MainWindow *w)
+{
+    this->mainWindow = w;
 }
 
 void RenderArea::updateGraph(Points *points, double xMin, double xMax, double yMin, double yMax)
@@ -406,28 +412,41 @@ void RenderArea::getResizedCoords(double x, double y)
 
 void RenderArea::wheelEvent(QWheelEvent *event)
 {
+    if (mainWindow == nullptr)
+        return;
+
     int delta = event->angleDelta().y();
-    emit zoom(delta);
+    mainWindow->zoom(delta);
 }
 
 void RenderArea::mousePressEvent(QMouseEvent *event)
 {
+    if (mainWindow == nullptr)
+        return;
+
     m_mousePressed = true;
-    emit mousePressed(event->pos().x(), event->pos().y());
+    mainWindow->mousePressed(event->pos().x(), event->pos().y());
 }
 
 void RenderArea::mouseMoveEvent(QMouseEvent *event)
 {
+    if (mainWindow == nullptr)
+        return;
+
+
     if (m_mousePressed)
-        emit mouseMove(event->pos().x(), event->pos().y());
+        mainWindow->mouseMove(event->pos().x(), event->pos().y());
 }
 
 void RenderArea::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 
+    if (mainWindow == nullptr)
+        return;
+
     m_mousePressed = false;
-    emit mouseReleased();
+    mainWindow->mouseReleased();
 }
 
 void RenderArea::newCurrentPoint(double x, double y)

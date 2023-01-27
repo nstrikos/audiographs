@@ -8,6 +8,8 @@
 #include<array>
 using namespace std;
 
+class MainWindow;
+
 class RenderArea : public QWidget
 {
     Q_OBJECT
@@ -16,6 +18,7 @@ public:
 
     RenderArea(QWidget *parent = nullptr);
     ~RenderArea() override;
+    void setMainWindow(MainWindow *w);
     void updateGraph(Points *points,
                      double xMin,
                      double xMax,
@@ -35,12 +38,6 @@ public:
     void newCurrentPoint(double x, double y);
     void enableCurrentPoint();
     void disableCurrentPoint();
-
-signals:
-    void zoom(int delta);
-    void mousePressed(int x, int y);
-    void mouseMove(int diffX, int diffY);
-    void mouseReleased();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -64,6 +61,7 @@ private:
 
     void clearDerivative();
 
+    MainWindow *mainWindow = nullptr;
     Points *m_points;
     QVector<Point> m_coordPoints;
 

@@ -17,92 +17,23 @@ MainWindow::MainWindow(IGui &iface, QWidget *parent)
       iface(iface)
 {
     ui->setupUi(this);
-
     iface.addGui(this);
-
     m_textToSpeech = &TextToSpeech::getInstance();
-
-    m_points = nullptr;
-
-    connect(ui->renderArea, &RenderArea::zoom, this, &MainWindow::performZoom);
-    connect(ui->renderArea, &RenderArea::mousePressed, this, &MainWindow::mousePressed);
-    connect(ui->renderArea, &RenderArea::mouseMove, this, &MainWindow::mouseMove);
-    connect(ui->renderArea, &RenderArea::mouseReleased, this, &MainWindow::mouseReleased);
-
     m_parameters = &Parameters::getInstance();
+    ui->renderArea->setMainWindow(this);
     ui->renderArea->setParameters(m_parameters);
-
-    setButtonColors();
-    initGraphControls();
-
-    initActions();
-    initMenu();
-
-    readSettings();
-
-    ui->functionLineEdit->installEventFilter(this);
-    ui->minXLineEdit->installEventFilter(this);
-    ui->maxXLineEdit->installEventFilter(this);
-    ui->minYLineEdit->installEventFilter(this);
-    ui->maxYLineEdit->installEventFilter(this);
-    ui->startSoundPushButton->installEventFilter(this);
-    ui->helpPushButton->installEventFilter(this);
-    ui->previousPushButton->installEventFilter(this);
-    ui->nextPushButton->installEventFilter(this);
-    ui->xPushButton->installEventFilter(this);
-    ui->yPushButton->installEventFilter(this);
-    ui->derivativePushButton->installEventFilter(this);
-    ui->previousPointInterestPushButton->installEventFilter(this);
-    ui->nextPointInterestPushButton->installEventFilter(this);
-    ui->previousFastPushButton->installEventFilter(this);
-    ui->nextFastPushButton->installEventFilter(this);
-    ui->firstPointPushButton->installEventFilter(this);
-    ui->lastPointPushButton->installEventFilter(this);
-    ui->incStepPushButton->installEventFilter(this);
-    ui->decStepPushButton->installEventFilter(this);
-    ui->normalModePushButton->installEventFilter(this);
-    ui->firstDerivativePushButton->installEventFilter(this);
-    ui->secondDerivativePushButton->installEventFilter(this);
-    ui->durationSpinBox->installEventFilter(this);
-    ui->minFreqSpinBox->installEventFilter(this);
-    ui->maxFreqSpinBox->installEventFilter(this);
-    ui->precisionDigitsSpinBox->installEventFilter(this);
-    ui->selfVoiceCheckBox->installEventFilter(this);
-    ui->useNotesCheckBox->installEventFilter(this);
-    ui->useNegativeNotescheckBox->installEventFilter(this);
-    ui->stopAtZeroCheckBox->installEventFilter(this);
-    ui->resetAudioPushButton->installEventFilter(this);
-    ui->graphColorPushButton->installEventFilter(this);
-    ui->backgroundColorPushButton->installEventFilter(this);
-    ui->highlightColorPushButton->installEventFilter(this);
-    ui->axesColorPushButton->installEventFilter(this);
-    ui->graphWidthSpinBox->installEventFilter(this);
-    ui->highlightSizeSpinBox->installEventFilter(this);
-    ui->axesSizeSpinBox->installEventFilter(this);
-    ui->derivativeColorPushButton->installEventFilter(this);
-    ui->showGridCheckBox->installEventFilter(this);
-    ui->resetGraphSettingsPushButton->installEventFilter(this);
-    ui->scrollArea->installEventFilter(this);
-    ui->coordLabel->installEventFilter(this);
-    ui->coordLabel2->installEventFilter(this);
-    this->installEventFilter(this);
 
     errorDisplayDialog = nullptr;
     aboutDialog = nullptr;
+    m_points = nullptr;
 
-    connect(ui->durationSpinBox, SIGNAL(valueChanged(int)), this, SLOT(durationSpinBoxValueChanged(int)));
-    connect(ui->minFreqSpinBox, SIGNAL(valueChanged(int)), this, SLOT(minFreqSpinBoxValueChanged(int)));
-    connect(ui->maxFreqSpinBox, SIGNAL(valueChanged(int)), this, SLOT(maxFreqSpinBoxValueChanged(int)));
-    connect(ui->precisionDigitsSpinBox, SIGNAL(valueChanged(int)), this, SLOT(precisionDigitsSpinboxValueChanged(int)));
-    connect(ui->selfVoiceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(selfVoiceCheckBoxStateChanged()));
-    connect(ui->useNotesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(useNotesCheckBoxStateChanged()));
-    connect(ui->useNegativeNotescheckBox, SIGNAL(stateChanged(int)), this, SLOT(useNegativeNotesCheckBoxStateChanged()));
-    connect(ui->stopAtZeroCheckBox, SIGNAL(stateChanged(int)), this, SLOT(stopAtZeroCheckBoxStateChanged()));
-    connect(ui->graphWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(graphWidthSpinBoxValueChanged(int)));
-    connect(ui->highlightSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(highlightSizeSpinBoxValueChanged(int)));
-    connect(ui->axesSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(axesSizeSpinBoxValueChanged(int)));
-    connect(ui->showGridCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showGridCheckBoxStateChanged()));
-
+    setButtonColors();
+    initGraphControls();
+    initActions();
+    initMenu();
+    readSettings();
+    installWidgetsEventFilter();
+    widgetsConnections();
     updateLabel();
     ui->functionLineEdit->setFocus();
 
@@ -203,466 +134,6 @@ void MainWindow::initGraphControls()
     ui->highlightSizeSpinBox->setValue(m_parameters->highlightSize());
     ui->axesSizeSpinBox->setValue(m_parameters->axesSize());
     ui->showGridCheckBox->setChecked(m_parameters->showAxes());
-}
-
-void MainWindow::enableControls()
-{
-    ui->startSoundPushButton->setEnabled(true);
-    ui->nextPushButton->setEnabled(true);
-    nextAction->setEnabled(true);
-    ui->previousPushButton->setEnabled(true);
-    previousAction->setEnabled(true);
-    ui->xPushButton->setEnabled(true);
-    sayXAction->setEnabled(true);
-    ui->yPushButton->setEnabled(true);
-    sayYAction->setEnabled(true);
-    ui->derivativePushButton->setEnabled(true);
-    sayDerivativeAction->setEnabled(true);
-    ui->decStepPushButton->setEnabled(true);
-    ui->incStepPushButton->setEnabled(true);
-    decStepAction->setEnabled(true);
-    incStepAction->setEnabled(true);
-    ui->previousPointInterestPushButton->setEnabled(true);
-    ui->nextPointInterestPushButton->setEnabled(true);
-    previousInterestPointAction->setEnabled(true);
-    nextInterestPointAction->setEnabled(true);
-    ui->previousFastPushButton->setEnabled(true);
-    ui->nextFastPushButton->setEnabled(true);
-    previousFastAction->setEnabled(true);
-    nextFastAction->setEnabled(true);
-    ui->firstPointPushButton->setEnabled(true);
-    firstPointAction->setEnabled(true);
-    ui->lastPointPushButton->setEnabled(true);
-    lastPointAction->setEnabled(true);
-    ui->normalModePushButton->setEnabled(true);
-    ui->firstDerivativePushButton->setEnabled(true);
-    ui->secondDerivativePushButton->setEnabled(true);
-    normalModeAction->setEnabled(true);
-    firstDerivativeModeAction->setEnabled(true);
-    secondDerivativeModeAction->setEnabled(true);
-    canZoomDrag = true;
-}
-
-void MainWindow::disableControls()
-{
-    ui->nextPushButton->setEnabled(false);
-    nextAction->setEnabled(false);
-    ui->previousPushButton->setEnabled(false);
-    previousAction->setEnabled(false);
-    ui->xPushButton->setEnabled(false);
-    sayXAction->setEnabled(false);
-    ui->yPushButton->setEnabled(false);
-    sayYAction->setEnabled(false);
-    ui->derivativePushButton->setEnabled(false);
-    sayDerivativeAction->setEnabled(false);
-    ui->decStepPushButton->setEnabled(false);
-    ui->incStepPushButton->setEnabled(false);
-    decStepAction->setEnabled(false);
-    incStepAction->setEnabled(false);
-    ui->previousPointInterestPushButton->setEnabled(false);
-    ui->nextPointInterestPushButton->setEnabled(false);
-    previousInterestPointAction->setEnabled(false);
-    nextInterestPointAction->setEnabled(false);
-    ui->previousFastPushButton->setEnabled(false);
-    ui->nextFastPushButton->setEnabled(false);
-    previousFastAction->setEnabled(false);
-    nextFastAction->setEnabled(false);
-    ui->firstPointPushButton->setEnabled(false);
-    firstPointAction->setEnabled(false);
-    ui->lastPointPushButton->setEnabled(false);
-    lastPointAction->setEnabled(false);
-    ui->normalModePushButton->setEnabled(false);
-    ui->firstDerivativePushButton->setEnabled(false);
-    ui->secondDerivativePushButton->setEnabled(false);
-    normalModeAction->setEnabled(false);
-    firstDerivativeModeAction->setEnabled(false);
-    secondDerivativeModeAction->setEnabled(false);
-    canZoomDrag = false;
-}
-
-void MainWindow::focusExpression()
-{
-    ui->functionLineEdit->setFocus();
-}
-
-void MainWindow::clearLabel()
-{
-    ui->coordLabel->setText("");
-    ui->coordLabel2->setText("");
-}
-
-void MainWindow::stopIntro()
-{
-    m_parameters->setIntro(false);
-}
-
-void MainWindow::accessText(QWidget *widget, QString text)
-{
-    if (m_parameters->selfVoice())
-        m_textToSpeech->speak(widget->accessibleName() + " " + text);
-}
-
-void MainWindow::readSettings()
-{
-    QSettings settings("audiographs", "audiographs");
-    recentFiles = settings.value("recentFiles").toStringList();
-    updateRecentFileActions();
-}
-
-void MainWindow::updateRecentFileActions()
-{
-    QMutableStringListIterator i(recentFiles);
-
-    for (int j=0; j<MaxRecentFiles; ++j)
-    {
-        if (j<recentFiles.count())
-        {
-            QString text=tr("&%1 %2").arg(j+1).arg(recentFiles[j]);
-            recentFileActions[j]->setText(text);
-            recentFileActions[j]->setData(recentFiles[j]);
-            recentFileActions[j]->setVisible(true);
-        }
-        else
-        {
-            recentFileActions[j]->setVisible(false);
-        }
-    }
-    separatorAction->setVisible(!recentFiles.isEmpty());
-}
-
-void MainWindow::openRecentFile()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (action) {
-        QString expression = action->data().toString();
-        ui->functionLineEdit->clear();
-        ui->functionLineEdit->setText(expression);
-        on_functionLineEdit_textEdited("");
-        ui->functionLineEdit->setFocus();
-    }
-}
-
-void MainWindow::writeSettings()
-{
-    QSettings settings("audiographs", "audiographs");
-    settings.setValue("recentFiles", recentFiles);
-}
-
-void MainWindow::initialStateActivated()
-{
-    disableControls();
-    ui->renderArea->clear();
-    ui->renderArea->disableCurrentPoint();
-    iface.setDerivativeMode(0);
-}
-
-void MainWindow::evaluateStateActivated()
-{
-    clearLabel();
-    disableControls();
-    ui->renderArea->disableCurrentPoint();
-    iface.setDerivativeMode(0);
-    ui->renderArea->setDerivativeMode(0);
-    iface.calculate(ui->functionLineEdit->text(),
-                    ui->minXLineEdit->text(),
-                    ui->maxXLineEdit->text(),
-                    ui->minYLineEdit->text(),
-                    ui->maxYLineEdit->text());
-}
-
-void MainWindow::graphReadyStateActivated()
-{
-    ui->renderArea->updateGraph(m_points,
-                                m_minX,
-                                m_maxX,
-                                m_minY,
-                                m_maxY);
-    enableControls();
-
-    QString expression = ui->functionLineEdit->text();
-
-    recentFiles.removeAll(expression);
-    recentFiles.prepend(expression);
-    updateRecentFileActions();
-}
-
-void MainWindow::playSoundStateActivated()
-{
-    ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
-    ui->renderArea->enableCurrentPoint();
-    enableControls();
-    iface.playSound();
-    clearLabel();
-}
-
-void MainWindow::playSoundStateDeactivated()
-{
-    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
-    ui->renderArea->disableCurrentPoint();
-    iface.stopSound();
-}
-
-void MainWindow::exploreStateActivated()
-{
-    ui->renderArea->enableCurrentPoint();
-}
-
-void MainWindow::exploreStateDeactivated()
-{
-    ui->renderArea->disableCurrentPoint();
-}
-
-void MainWindow::interestingPointStateActivated()
-{
-    ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
-    ui->renderArea->enableCurrentPoint();
-}
-
-void MainWindow::interestingPointStateDeactivated()
-{
-    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
-    iface.stopSound();
-}
-
-void MainWindow::interestingPointStoppedStateActivated()
-{
-    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
-    ui->renderArea->enableCurrentPoint();
-}
-
-void MainWindow::interestingPointStoppedStateDeactivated()
-{
-
-}
-
-void MainWindow::newCurrentPoint(double x, double y)
-{
-    ui->renderArea->newCurrentPoint(x, y);
-}
-
-void MainWindow::errorDisplayStateActivated()
-{
-    if (errorDisplayDialog == nullptr) {
-        errorDisplayDialog = new ErrorDisplayDialog(this);
-
-        connect(errorDisplayDialog, &ErrorDisplayDialog::accepted, this, &MainWindow::errorAccepted);
-        connect(errorDisplayDialog, &ErrorDisplayDialog::rejected, this, &MainWindow::errorAccepted);
-    }
-
-    errorDisplayDialog->setModal(true);
-    errorDisplayDialog->setWindowTitle(m_errorString);
-    errorDisplayDialog->setText(m_errorString);
-    errorDisplayDialog->show();
-    if (m_parameters->selfVoice())
-        m_textToSpeech->speak(tr("Error ") + m_textToSpeech->normalizeText(m_errorString));
-}
-
-void MainWindow::updateGraph(Points *points, double minX, double maxX, double minY, double maxY)
-{
-    m_points = points;
-    m_minX = minX;
-    m_maxX = maxX;
-    m_minY = minY;
-    m_maxY = maxY;
-    iface.newGraph();
-    clearLabel();
-}
-
-void MainWindow::newInputValues(double minX, double maxX, double minY, double maxY)
-{
-    //we update with the rounded values
-    ui->minXLineEdit->setText(QString::number(minX));
-    ui->maxXLineEdit->setText(QString::number(maxX));
-    ui->minYLineEdit->setText(QString::number(minY));
-    ui->maxYLineEdit->setText(QString::number(maxY));
-}
-
-void MainWindow::updateDerivative(Points *points, double minX, double maxX, double minY, double maxY)
-{
-    m_derivPoints = points;
-    m_minX = minX;
-    m_maxX = maxX;
-    m_minY = minY;
-    m_maxY = maxY;
-
-    ui->renderArea->updateDerivative(m_derivPoints,
-                                     m_minX,
-                                     m_maxX,
-                                     m_minY,
-                                     m_maxY);
-}
-
-void MainWindow::error(QString errorString)
-{
-    qDebug() << errorString;
-    ui->renderArea->clear();
-    clearLabel();
-    m_errorString = errorString;
-    iface.functionError();
-}
-
-void MainWindow::performZoom(int delta)
-{
-    if (!canZoomDrag)
-        return;
-
-    ui->renderArea->disableCurrentPoint();
-    iface.setDerivativeMode(0);
-    ui->renderArea->setDerivativeMode(0);
-    iface.zoom(delta);
-    clearLabel();
-}
-
-void MainWindow::mousePressed(int x, int y)
-{
-    if (!canZoomDrag)
-        return;
-
-    m_mousePressed = true;
-
-    ui->renderArea->disableCurrentPoint();
-    iface.setDerivativeMode(0);
-    ui->renderArea->setDerivativeMode(0);
-    iface.startDrag(x, y);
-}
-
-void MainWindow::mouseMove(int diffX, int diffY)
-{
-    if (!m_mousePressed)
-        return;
-
-    iface.drag(diffX, diffY, ui->renderArea->width(), ui->renderArea->height());
-    clearLabel();
-}
-
-void MainWindow::mouseReleased()
-{
-    m_mousePressed = false;
-}
-
-void MainWindow::on_functionLineEdit_textEdited(const QString &arg1)
-{
-    Q_UNUSED(arg1);
-
-    ui->minXLineEdit->setText("-10");
-    ui->maxXLineEdit->setText("10");
-    ui->minYLineEdit->setText("-10");
-    ui->maxYLineEdit->setText("10");
-
-    iface.evaluate();
-}
-
-void MainWindow::on_minXLineEdit_textEdited(const QString &arg1)
-{
-    accessText(ui->minXLineEdit, arg1);
-    iface.evaluate();
-}
-
-void MainWindow::on_maxXLineEdit_textEdited(const QString &arg1)
-{
-    accessText(ui->maxXLineEdit, arg1);
-    iface.evaluate();
-}
-
-void MainWindow::on_minYLineEdit_textEdited(const QString &arg1)
-{
-    accessText(ui->minYLineEdit, arg1);
-    iface.evaluate();
-}
-
-void MainWindow::on_maxYLineEdit_textEdited(const QString &arg1)
-{
-    accessText(ui->maxYLineEdit, arg1);
-    iface.evaluate();
-}
-
-void MainWindow::on_graphColorPushButton_clicked()
-{
-    const QColor color = QColorDialog::getColor(m_parameters->lineColor(), this, tr("Select Color"));
-
-    if (color.isValid()) {
-        m_parameters->setLineColor(color);
-        setButtonColors();
-        ui->renderArea->update();
-        updateLabel();
-    }
-}
-
-void MainWindow::on_backgroundColorPushButton_clicked()
-{
-    const QColor color = QColorDialog::getColor(m_parameters->backgroundColor(), this, tr("Select Color"));
-
-    if (color.isValid()) {
-        m_parameters->setBackgroundColor(color);
-        setButtonColors();
-        ui->renderArea->update();
-    }
-}
-
-void MainWindow::on_highlightColorPushButton_clicked()
-{
-    const QColor color = QColorDialog::getColor(m_parameters->highlightColor(), this, tr("Select Color"));
-
-    if (color.isValid()) {
-        m_parameters->setHighlightColor(color);
-        setButtonColors();
-        ui->renderArea->update();
-    }
-}
-
-void MainWindow::on_axesColorPushButton_clicked()
-{
-    const QColor color = QColorDialog::getColor(m_parameters->axesColor(), this, tr("Select Color"));
-
-    if (color.isValid()) {
-        m_parameters->setAxesColor(color);
-        setButtonColors();
-        ui->renderArea->update();
-    }
-}
-
-void MainWindow::on_resetGraphSettingsPushButton_clicked()
-{
-    m_parameters->reset();
-    setButtonColors();
-    initGraphControls();
-    ui->renderArea->update();
-    updateLabel();
-}
-
-void MainWindow::on_startSoundPushButton_clicked()
-{
-    iface.playPressed();
-}
-
-void MainWindow::on_resetAudioPushButton_clicked()
-{
-    m_parameters->resetAudio();
-    ui->durationSpinBox->setValue(m_parameters->duration());
-    ui->minFreqSpinBox->setValue(m_parameters->minFreq());
-    ui->maxFreqSpinBox->setValue(m_parameters->maxFreq());
-    ui->useNotesCheckBox->setChecked(m_parameters->useNotes());
-    ui->useNegativeNotescheckBox->setChecked(m_parameters->useNegativeNotes());
-    ui->stopAtZeroCheckBox->setChecked(m_parameters->stopAtZero());
-    ui->precisionDigitsSpinBox->setValue(m_parameters->precisionDigits());
-}
-
-void MainWindow::newExpression()
-{
-    ui->functionLineEdit->clear();
-    ui->functionLineEdit->setFocus();
-    ui->minXLineEdit->setText("-10");
-    ui->maxXLineEdit->setText("10");
-    ui->minYLineEdit->setText("-10");
-    ui->maxYLineEdit->setText("10");
-
-    iface.evaluate();
-    clearLabel();
-}
-
-void MainWindow::quit()
-{
-    qApp->exit();
 }
 
 void MainWindow::initActions()
@@ -867,6 +338,549 @@ void MainWindow::initMenu()
     helpMenu->addAction(introAction);
     helpMenu->addAction(aboutAction);
     ui->menubar->addMenu(helpMenu);
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings("audiographs", "audiographs");
+    recentFiles = settings.value("recentFiles").toStringList();
+    updateRecentFileActions();
+}
+
+void MainWindow::installWidgetsEventFilter()
+{
+    ui->functionLineEdit->installEventFilter(this);
+    ui->minXLineEdit->installEventFilter(this);
+    ui->maxXLineEdit->installEventFilter(this);
+    ui->minYLineEdit->installEventFilter(this);
+    ui->maxYLineEdit->installEventFilter(this);
+    ui->startSoundPushButton->installEventFilter(this);
+    ui->helpPushButton->installEventFilter(this);
+    ui->previousPushButton->installEventFilter(this);
+    ui->nextPushButton->installEventFilter(this);
+    ui->xPushButton->installEventFilter(this);
+    ui->yPushButton->installEventFilter(this);
+    ui->derivativePushButton->installEventFilter(this);
+    ui->previousPointInterestPushButton->installEventFilter(this);
+    ui->nextPointInterestPushButton->installEventFilter(this);
+    ui->previousFastPushButton->installEventFilter(this);
+    ui->nextFastPushButton->installEventFilter(this);
+    ui->firstPointPushButton->installEventFilter(this);
+    ui->lastPointPushButton->installEventFilter(this);
+    ui->incStepPushButton->installEventFilter(this);
+    ui->decStepPushButton->installEventFilter(this);
+    ui->normalModePushButton->installEventFilter(this);
+    ui->firstDerivativePushButton->installEventFilter(this);
+    ui->secondDerivativePushButton->installEventFilter(this);
+    ui->durationSpinBox->installEventFilter(this);
+    ui->minFreqSpinBox->installEventFilter(this);
+    ui->maxFreqSpinBox->installEventFilter(this);
+    ui->precisionDigitsSpinBox->installEventFilter(this);
+    ui->selfVoiceCheckBox->installEventFilter(this);
+    ui->useNotesCheckBox->installEventFilter(this);
+    ui->useNegativeNotescheckBox->installEventFilter(this);
+    ui->stopAtZeroCheckBox->installEventFilter(this);
+    ui->resetAudioPushButton->installEventFilter(this);
+    ui->graphColorPushButton->installEventFilter(this);
+    ui->backgroundColorPushButton->installEventFilter(this);
+    ui->highlightColorPushButton->installEventFilter(this);
+    ui->axesColorPushButton->installEventFilter(this);
+    ui->graphWidthSpinBox->installEventFilter(this);
+    ui->highlightSizeSpinBox->installEventFilter(this);
+    ui->axesSizeSpinBox->installEventFilter(this);
+    ui->derivativeColorPushButton->installEventFilter(this);
+    ui->showGridCheckBox->installEventFilter(this);
+    ui->resetGraphSettingsPushButton->installEventFilter(this);
+    ui->scrollArea->installEventFilter(this);
+    ui->coordLabel->installEventFilter(this);
+    ui->coordLabel2->installEventFilter(this);
+    this->installEventFilter(this);
+}
+
+void MainWindow::widgetsConnections()
+{
+    connect(ui->durationSpinBox, SIGNAL(valueChanged(int)), this, SLOT(durationSpinBoxValueChanged(int)));
+    connect(ui->minFreqSpinBox, SIGNAL(valueChanged(int)), this, SLOT(minFreqSpinBoxValueChanged(int)));
+    connect(ui->maxFreqSpinBox, SIGNAL(valueChanged(int)), this, SLOT(maxFreqSpinBoxValueChanged(int)));
+    connect(ui->precisionDigitsSpinBox, SIGNAL(valueChanged(int)), this, SLOT(precisionDigitsSpinboxValueChanged(int)));
+    connect(ui->selfVoiceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(selfVoiceCheckBoxStateChanged()));
+    connect(ui->useNotesCheckBox, SIGNAL(stateChanged(int)), this, SLOT(useNotesCheckBoxStateChanged()));
+    connect(ui->useNegativeNotescheckBox, SIGNAL(stateChanged(int)), this, SLOT(useNegativeNotesCheckBoxStateChanged()));
+    connect(ui->stopAtZeroCheckBox, SIGNAL(stateChanged(int)), this, SLOT(stopAtZeroCheckBoxStateChanged()));
+    connect(ui->graphWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(graphWidthSpinBoxValueChanged(int)));
+    connect(ui->highlightSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(highlightSizeSpinBoxValueChanged(int)));
+    connect(ui->axesSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(axesSizeSpinBoxValueChanged(int)));
+    connect(ui->showGridCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showGridCheckBoxStateChanged()));
+}
+
+void MainWindow::updateLabel()
+{
+    QFont font;
+    font.setPointSize(2 * m_parameters->lineWidth());
+
+    if (font.pointSize() < 12)
+        font.setPointSize(12);
+    QPalette palette;
+
+    palette.setColor(ui->coordLabel->foregroundRole(), m_parameters->lineColor());
+    ui->coordLabel->setPalette(palette);
+    ui->coordLabel->setFont(font);
+
+    ui->coordLabel2->setPalette(palette);
+    ui->coordLabel2->setFont(font);
+}
+
+void MainWindow::enableControls()
+{
+    ui->startSoundPushButton->setEnabled(true);
+    ui->nextPushButton->setEnabled(true);
+    nextAction->setEnabled(true);
+    ui->previousPushButton->setEnabled(true);
+    previousAction->setEnabled(true);
+    ui->xPushButton->setEnabled(true);
+    sayXAction->setEnabled(true);
+    ui->yPushButton->setEnabled(true);
+    sayYAction->setEnabled(true);
+    ui->derivativePushButton->setEnabled(true);
+    sayDerivativeAction->setEnabled(true);
+    ui->decStepPushButton->setEnabled(true);
+    ui->incStepPushButton->setEnabled(true);
+    decStepAction->setEnabled(true);
+    incStepAction->setEnabled(true);
+    ui->previousPointInterestPushButton->setEnabled(true);
+    ui->nextPointInterestPushButton->setEnabled(true);
+    previousInterestPointAction->setEnabled(true);
+    nextInterestPointAction->setEnabled(true);
+    ui->previousFastPushButton->setEnabled(true);
+    ui->nextFastPushButton->setEnabled(true);
+    previousFastAction->setEnabled(true);
+    nextFastAction->setEnabled(true);
+    ui->firstPointPushButton->setEnabled(true);
+    firstPointAction->setEnabled(true);
+    ui->lastPointPushButton->setEnabled(true);
+    lastPointAction->setEnabled(true);
+    ui->normalModePushButton->setEnabled(true);
+    ui->firstDerivativePushButton->setEnabled(true);
+    ui->secondDerivativePushButton->setEnabled(true);
+    normalModeAction->setEnabled(true);
+    firstDerivativeModeAction->setEnabled(true);
+    secondDerivativeModeAction->setEnabled(true);
+    canZoomDrag = true;
+}
+
+void MainWindow::disableControls()
+{
+    ui->nextPushButton->setEnabled(false);
+    nextAction->setEnabled(false);
+    ui->previousPushButton->setEnabled(false);
+    previousAction->setEnabled(false);
+    ui->xPushButton->setEnabled(false);
+    sayXAction->setEnabled(false);
+    ui->yPushButton->setEnabled(false);
+    sayYAction->setEnabled(false);
+    ui->derivativePushButton->setEnabled(false);
+    sayDerivativeAction->setEnabled(false);
+    ui->decStepPushButton->setEnabled(false);
+    ui->incStepPushButton->setEnabled(false);
+    decStepAction->setEnabled(false);
+    incStepAction->setEnabled(false);
+    ui->previousPointInterestPushButton->setEnabled(false);
+    ui->nextPointInterestPushButton->setEnabled(false);
+    previousInterestPointAction->setEnabled(false);
+    nextInterestPointAction->setEnabled(false);
+    ui->previousFastPushButton->setEnabled(false);
+    ui->nextFastPushButton->setEnabled(false);
+    previousFastAction->setEnabled(false);
+    nextFastAction->setEnabled(false);
+    ui->firstPointPushButton->setEnabled(false);
+    firstPointAction->setEnabled(false);
+    ui->lastPointPushButton->setEnabled(false);
+    lastPointAction->setEnabled(false);
+    ui->normalModePushButton->setEnabled(false);
+    ui->firstDerivativePushButton->setEnabled(false);
+    ui->secondDerivativePushButton->setEnabled(false);
+    normalModeAction->setEnabled(false);
+    firstDerivativeModeAction->setEnabled(false);
+    secondDerivativeModeAction->setEnabled(false);
+    canZoomDrag = false;
+}
+
+void MainWindow::focusExpression()
+{
+    ui->functionLineEdit->setFocus();
+}
+
+void MainWindow::clearLabel()
+{
+    ui->coordLabel->setText("");
+    ui->coordLabel2->setText("");
+}
+
+void MainWindow::stopIntro()
+{
+    m_parameters->setIntro(false);
+}
+
+void MainWindow::accessText(QWidget *widget, QString text)
+{
+    if (m_parameters->selfVoice())
+        m_textToSpeech->speak(widget->accessibleName() + " " + text);
+}
+
+void MainWindow::updateRecentFileActions()
+{
+    QMutableStringListIterator i(recentFiles);
+
+    for (int j=0; j<MaxRecentFiles; ++j)
+    {
+        if (j<recentFiles.count())
+        {
+            QString text=tr("&%1 %2").arg(j+1).arg(recentFiles[j]);
+            recentFileActions[j]->setText(text);
+            recentFileActions[j]->setData(recentFiles[j]);
+            recentFileActions[j]->setVisible(true);
+        }
+        else
+        {
+            recentFileActions[j]->setVisible(false);
+        }
+    }
+    separatorAction->setVisible(!recentFiles.isEmpty());
+}
+
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action) {
+        QString expression = action->data().toString();
+        ui->functionLineEdit->clear();
+        ui->functionLineEdit->setText(expression);
+        on_functionLineEdit_textEdited("");
+        ui->functionLineEdit->setFocus();
+    }
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings("audiographs", "audiographs");
+    settings.setValue("recentFiles", recentFiles);
+}
+
+void MainWindow::initialStateActivated()
+{
+    disableControls();
+    ui->renderArea->clear();
+    ui->renderArea->disableCurrentPoint();
+    iface.setDerivativeMode(0);
+}
+
+void MainWindow::evaluateStateActivated()
+{
+    clearLabel();
+    disableControls();
+    ui->renderArea->disableCurrentPoint();
+    iface.setDerivativeMode(0);
+    ui->renderArea->setDerivativeMode(0);
+    iface.calculate(ui->functionLineEdit->text(),
+                    ui->minXLineEdit->text(),
+                    ui->maxXLineEdit->text(),
+                    ui->minYLineEdit->text(),
+                    ui->maxYLineEdit->text());
+}
+
+void MainWindow::graphReadyStateActivated()
+{
+    ui->renderArea->updateGraph(m_points,
+                                m_minX,
+                                m_maxX,
+                                m_minY,
+                                m_maxY);
+    enableControls();
+
+    QString expression = ui->functionLineEdit->text();
+
+    recentFiles.removeAll(expression);
+    recentFiles.prepend(expression);
+    updateRecentFileActions();
+}
+
+void MainWindow::playSoundStateActivated()
+{
+    ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
+    ui->renderArea->enableCurrentPoint();
+    enableControls();
+    iface.playSound();
+    clearLabel();
+}
+
+void MainWindow::playSoundStateDeactivated()
+{
+    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
+    ui->renderArea->disableCurrentPoint();
+    iface.stopSound();
+}
+
+void MainWindow::exploreStateActivated()
+{
+    ui->renderArea->enableCurrentPoint();
+}
+
+void MainWindow::exploreStateDeactivated()
+{
+    ui->renderArea->disableCurrentPoint();
+}
+
+void MainWindow::interestingPointStateActivated()
+{
+    ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
+    ui->renderArea->enableCurrentPoint();
+}
+
+void MainWindow::interestingPointStateDeactivated()
+{
+    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
+    iface.stopSound();
+}
+
+void MainWindow::interestingPointStoppedStateActivated()
+{
+    ui->startSoundPushButton->setText(tr("Enter - Start sound"));
+    ui->renderArea->enableCurrentPoint();
+}
+
+void MainWindow::interestingPointStoppedStateDeactivated()
+{
+
+}
+
+void MainWindow::newCurrentPoint(double x, double y)
+{
+    ui->renderArea->newCurrentPoint(x, y);
+}
+
+void MainWindow::errorDisplayStateActivated()
+{
+    if (errorDisplayDialog == nullptr) {
+        errorDisplayDialog = new ErrorDisplayDialog(this);
+
+        connect(errorDisplayDialog, &ErrorDisplayDialog::accepted, this, &MainWindow::errorAccepted);
+        connect(errorDisplayDialog, &ErrorDisplayDialog::rejected, this, &MainWindow::errorAccepted);
+    }
+
+    errorDisplayDialog->setModal(true);
+    errorDisplayDialog->setWindowTitle(m_errorString);
+    errorDisplayDialog->setText(m_errorString);
+    errorDisplayDialog->show();
+    if (m_parameters->selfVoice())
+        m_textToSpeech->speak(tr("Error ") + m_textToSpeech->normalizeText(m_errorString));
+}
+
+void MainWindow::updateGraph(Points *points, double minX, double maxX, double minY, double maxY)
+{
+    m_points = points;
+    m_minX = minX;
+    m_maxX = maxX;
+    m_minY = minY;
+    m_maxY = maxY;
+    iface.newGraph();
+    clearLabel();
+}
+
+void MainWindow::newInputValues(double minX, double maxX, double minY, double maxY)
+{
+    //we update with the rounded values
+    ui->minXLineEdit->setText(QString::number(minX));
+    ui->maxXLineEdit->setText(QString::number(maxX));
+    ui->minYLineEdit->setText(QString::number(minY));
+    ui->maxYLineEdit->setText(QString::number(maxY));
+}
+
+void MainWindow::updateDerivative(Points *points, double minX, double maxX, double minY, double maxY)
+{
+    m_derivPoints = points;
+    m_minX = minX;
+    m_maxX = maxX;
+    m_minY = minY;
+    m_maxY = maxY;
+
+    ui->renderArea->updateDerivative(m_derivPoints,
+                                     m_minX,
+                                     m_maxX,
+                                     m_minY,
+                                     m_maxY);
+}
+
+void MainWindow::error(QString errorString)
+{
+    qDebug() << errorString;
+    ui->renderArea->clear();
+    clearLabel();
+    m_errorString = errorString;
+    iface.functionError();
+}
+
+void MainWindow::zoom(int delta)
+{
+    if (!canZoomDrag)
+        return;
+
+    ui->renderArea->disableCurrentPoint();
+    iface.setDerivativeMode(0);
+    ui->renderArea->setDerivativeMode(0);
+    iface.zoom(delta);
+    clearLabel();
+}
+
+void MainWindow::mousePressed(int x, int y)
+{
+    if (!canZoomDrag)
+        return;
+
+    m_mousePressed = true;
+
+    ui->renderArea->disableCurrentPoint();
+    iface.setDerivativeMode(0);
+    ui->renderArea->setDerivativeMode(0);
+    iface.startDrag(x, y);
+}
+
+void MainWindow::mouseMove(int diffX, int diffY)
+{
+    if (!m_mousePressed)
+        return;
+
+    iface.drag(diffX, diffY, ui->renderArea->width(), ui->renderArea->height());
+    clearLabel();
+}
+
+void MainWindow::mouseReleased()
+{
+    m_mousePressed = false;
+}
+
+void MainWindow::on_functionLineEdit_textEdited(const QString &arg1)
+{
+    Q_UNUSED(arg1);
+
+    ui->minXLineEdit->setText("-10");
+    ui->maxXLineEdit->setText("10");
+    ui->minYLineEdit->setText("-10");
+    ui->maxYLineEdit->setText("10");
+
+    iface.evaluate();
+}
+
+void MainWindow::on_minXLineEdit_textEdited(const QString &arg1)
+{
+    accessText(ui->minXLineEdit, arg1);
+    iface.evaluate();
+}
+
+void MainWindow::on_maxXLineEdit_textEdited(const QString &arg1)
+{
+    accessText(ui->maxXLineEdit, arg1);
+    iface.evaluate();
+}
+
+void MainWindow::on_minYLineEdit_textEdited(const QString &arg1)
+{
+    accessText(ui->minYLineEdit, arg1);
+    iface.evaluate();
+}
+
+void MainWindow::on_maxYLineEdit_textEdited(const QString &arg1)
+{
+    accessText(ui->maxYLineEdit, arg1);
+    iface.evaluate();
+}
+
+void MainWindow::on_graphColorPushButton_clicked()
+{
+    const QColor color = QColorDialog::getColor(m_parameters->lineColor(), this, tr("Select Color"));
+
+    if (color.isValid()) {
+        m_parameters->setLineColor(color);
+        setButtonColors();
+        ui->renderArea->update();
+        updateLabel();
+    }
+}
+
+void MainWindow::on_backgroundColorPushButton_clicked()
+{
+    const QColor color = QColorDialog::getColor(m_parameters->backgroundColor(), this, tr("Select Color"));
+
+    if (color.isValid()) {
+        m_parameters->setBackgroundColor(color);
+        setButtonColors();
+        ui->renderArea->update();
+    }
+}
+
+void MainWindow::on_highlightColorPushButton_clicked()
+{
+    const QColor color = QColorDialog::getColor(m_parameters->highlightColor(), this, tr("Select Color"));
+
+    if (color.isValid()) {
+        m_parameters->setHighlightColor(color);
+        setButtonColors();
+        ui->renderArea->update();
+    }
+}
+
+void MainWindow::on_axesColorPushButton_clicked()
+{
+    const QColor color = QColorDialog::getColor(m_parameters->axesColor(), this, tr("Select Color"));
+
+    if (color.isValid()) {
+        m_parameters->setAxesColor(color);
+        setButtonColors();
+        ui->renderArea->update();
+    }
+}
+
+void MainWindow::on_resetGraphSettingsPushButton_clicked()
+{
+    m_parameters->reset();
+    setButtonColors();
+    initGraphControls();
+    ui->renderArea->update();
+    updateLabel();
+}
+
+void MainWindow::on_startSoundPushButton_clicked()
+{
+    iface.playPressed();
+}
+
+void MainWindow::on_resetAudioPushButton_clicked()
+{
+    m_parameters->resetAudio();
+    ui->durationSpinBox->setValue(m_parameters->duration());
+    ui->minFreqSpinBox->setValue(m_parameters->minFreq());
+    ui->maxFreqSpinBox->setValue(m_parameters->maxFreq());
+    ui->useNotesCheckBox->setChecked(m_parameters->useNotes());
+    ui->useNegativeNotescheckBox->setChecked(m_parameters->useNegativeNotes());
+    ui->stopAtZeroCheckBox->setChecked(m_parameters->stopAtZero());
+    ui->precisionDigitsSpinBox->setValue(m_parameters->precisionDigits());
+}
+
+void MainWindow::newExpression()
+{
+    ui->functionLineEdit->clear();
+    ui->functionLineEdit->setFocus();
+    ui->minXLineEdit->setText("-10");
+    ui->maxXLineEdit->setText("10");
+    ui->minYLineEdit->setText("-10");
+    ui->maxYLineEdit->setText("10");
+
+    iface.evaluate();
+    clearLabel();
+}
+
+void MainWindow::quit()
+{
+    qApp->exit();
 }
 
 void MainWindow::on_nextPushButton_clicked()
@@ -1355,23 +1369,6 @@ void MainWindow::sayWidget()
     text = text.replace("&", "");
     text = m_textToSpeech->normalizeText(text);
     m_textToSpeech->speak(text);
-}
-
-void MainWindow::updateLabel()
-{
-    QFont font;
-    font.setPointSize(2 * m_parameters->lineWidth());
-
-    if (font.pointSize() < 12)
-        font.setPointSize(12);
-    QPalette palette;
-
-    palette.setColor(ui->coordLabel->foregroundRole(), m_parameters->lineColor());
-    ui->coordLabel->setPalette(palette);
-    ui->coordLabel->setFont(font);
-
-    ui->coordLabel2->setPalette(palette);
-    ui->coordLabel2->setFont(font);
 }
 
 void MainWindow::on_derivativePushButton_clicked()

@@ -51,6 +51,11 @@ public:
     void interestingPointStoppedStateDeactivated() override;
     void newInputValues(double minX, double maxX, double minY, double maxY) override;
 
+    void zoom(int delta);
+    void mousePressed(int x, int y);
+    void mouseMove(int diffX, int diffY);
+    void mouseReleased();
+
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
 
@@ -123,10 +128,6 @@ private slots:
     void decPrecision();
     void errorAccepted();
     void on_functionLineEdit_textEdited(const QString &arg1);
-    void performZoom(int delta);
-    void mousePressed(int x, int y);
-    void mouseMove(int diffX, int diffY);
-    void mouseReleased();
     void showShortcuts();
     void showAboutDialog();
     void closeAboutDialog();
@@ -134,6 +135,8 @@ private slots:
     void readSettings();
     void writeSettings();
     void updateRecentFileActions();
+    void installWidgetsEventFilter();
+    void widgetsConnections();
 
 private:
 
