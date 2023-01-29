@@ -18,6 +18,61 @@
     </message>
 </context>
 <context>
+    <name>FunctionDescription</name>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="18"/>
+        <source>starting point</source>
+        <translation>αρχικό σημείο</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="43"/>
+        <source> maximum after undefined point</source>
+        <translation> μέγιστο έπειτα από σημείο εκτός ορισμού</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="45"/>
+        <source> minimum after undefined point</source>
+        <translation> ελάχιστο έπειτα από σημείο εκτός ορισμού</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="49"/>
+        <source> maximum before undefined point</source>
+        <translation> μέγιστο πριν από σημείο εκτός ορισμού</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="51"/>
+        <source> minimum before undefined point</source>
+        <translation> ελάχιστο πριν από σημείο εκτός ορισμού</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="58"/>
+        <location filename="../function/functionDescription.cpp" line="60"/>
+        <source> zero</source>
+        <translation> μηδέν</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="65"/>
+        <source> local maximum</source>
+        <translation> τοπικό μέγιστο</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="67"/>
+        <source> local minimum</source>
+        <translation> τοπικό ελάχιστο</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="76"/>
+        <location filename="../function/functionDescription.cpp" line="78"/>
+        <source> point of inflection</source>
+        <translation> σημείο καμπής</translation>
+    </message>
+    <message>
+        <location filename="../function/functionDescription.cpp" line="91"/>
+        <source>ending point</source>
+        <translation>τελικό σημείο</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="14"/>
@@ -91,9 +146,9 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="338"/>
-        <location filename="../dialogs/mainwindow.cpp" line="400"/>
-        <location filename="../dialogs/mainwindow.cpp" line="423"/>
-        <location filename="../dialogs/mainwindow.cpp" line="429"/>
+        <location filename="../dialogs/mainwindow.cpp" line="618"/>
+        <location filename="../dialogs/mainwindow.cpp" line="641"/>
+        <location filename="../dialogs/mainwindow.cpp" line="647"/>
         <source>Enter - Start sound</source>
         <translation>Enter - Εκκίνηση ήχου</translation>
     </message>
@@ -198,7 +253,7 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="547"/>
-        <location filename="../dialogs/mainwindow.cpp" line="731"/>
+        <location filename="../dialogs/mainwindow.cpp" line="202"/>
         <source>Previous point of interest</source>
         <translation>Προηγούμενο σημείο ενδιαφέροντος</translation>
     </message>
@@ -214,7 +269,7 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="578"/>
-        <location filename="../dialogs/mainwindow.cpp" line="736"/>
+        <location filename="../dialogs/mainwindow.cpp" line="207"/>
         <source>Next point of interest</source>
         <translation>Επόμενο σημείο ενδιαφέροντος</translation>
     </message>
@@ -260,7 +315,7 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="671"/>
-        <location filename="../dialogs/mainwindow.cpp" line="751"/>
+        <location filename="../dialogs/mainwindow.cpp" line="222"/>
         <source>First point</source>
         <translation>Αρχικό σημείο</translation>
     </message>
@@ -276,7 +331,7 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="702"/>
-        <location filename="../dialogs/mainwindow.cpp" line="756"/>
+        <location filename="../dialogs/mainwindow.cpp" line="227"/>
         <source>Last point</source>
         <translation>Τελικό σημείο</translation>
     </message>
@@ -292,7 +347,7 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="733"/>
-        <location filename="../dialogs/mainwindow.cpp" line="711"/>
+        <location filename="../dialogs/mainwindow.cpp" line="182"/>
         <source>Decrease step</source>
         <translation>Μείωση βήματος</translation>
     </message>
@@ -308,7 +363,7 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="764"/>
-        <location filename="../dialogs/mainwindow.cpp" line="716"/>
+        <location filename="../dialogs/mainwindow.cpp" line="187"/>
         <source>Increase step</source>
         <translation>Αύξηση βήματος</translation>
     </message>
@@ -324,8 +379,8 @@
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="795"/>
-        <location filename="../dialogs/mainwindow.cpp" line="781"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1150"/>
+        <location filename="../dialogs/mainwindow.cpp" line="252"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1164"/>
         <source>Normal mode</source>
         <translation>Κανονική λειτουργία</translation>
     </message>
@@ -473,7 +528,7 @@ for negative values</source>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1137"/>
-        <location filename="../dialogs/mainwindow.cpp" line="776"/>
+        <location filename="../dialogs/mainwindow.cpp" line="247"/>
         <source>Stop sound at zero</source>
         <translation>Παύση ήχου στο μηδέν</translation>
     </message>
@@ -618,238 +673,238 @@ for negative values</source>
         <translation>Επαναφορά ρυθμίσεων γραφήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="110"/>
+        <location filename="../dialogs/mainwindow.cpp" line="41"/>
         <source>Welcome to audiographs. Press F1 to open help in your browser. Press Ctrl+F12 if you don&apos;t wish to hear this message on start-up.</source>
         <translation>Καλώς ήρθατε στο audiographs. Πατήστε F1 για να ανοίξετε την βοήθεια στον περιηγητή σας. Πιέστε Control + F12 αν δεν επιθυμείτε να ακούτε αυτό το μήνυμα κατά την εκκίνηση.</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="320"/>
+        <location filename="../dialogs/mainwindow.cpp" line="538"/>
         <source>&amp;%1 %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="391"/>
-        <location filename="../dialogs/mainwindow.cpp" line="417"/>
+        <location filename="../dialogs/mainwindow.cpp" line="609"/>
+        <location filename="../dialogs/mainwindow.cpp" line="635"/>
         <source>Enter - Stop sound</source>
         <translation>Enter - Παύση ήχου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="457"/>
+        <location filename="../dialogs/mainwindow.cpp" line="675"/>
         <source>Error </source>
         <translation>Σφάλμα </translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="581"/>
-        <location filename="../dialogs/mainwindow.cpp" line="593"/>
-        <location filename="../dialogs/mainwindow.cpp" line="604"/>
-        <location filename="../dialogs/mainwindow.cpp" line="615"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1303"/>
+        <location filename="../dialogs/mainwindow.cpp" line="799"/>
+        <location filename="../dialogs/mainwindow.cpp" line="811"/>
+        <location filename="../dialogs/mainwindow.cpp" line="822"/>
+        <location filename="../dialogs/mainwindow.cpp" line="833"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1317"/>
         <source>Select Color</source>
         <translation>Επιλογή χρώματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="670"/>
+        <location filename="../dialogs/mainwindow.cpp" line="141"/>
         <source>New expression</source>
         <translation>Νέα συνάρτηση</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="671"/>
+        <location filename="../dialogs/mainwindow.cpp" line="142"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="675"/>
+        <location filename="../dialogs/mainwindow.cpp" line="146"/>
         <source>Edit expression</source>
         <translation>Επεξεργασία συνάρτησης</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="676"/>
+        <location filename="../dialogs/mainwindow.cpp" line="147"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="680"/>
+        <location filename="../dialogs/mainwindow.cpp" line="151"/>
         <source>Start sound</source>
         <translation>Έναρξη ήχου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="685"/>
+        <location filename="../dialogs/mainwindow.cpp" line="156"/>
         <source>Next point</source>
         <translation>Επόμενο σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="691"/>
+        <location filename="../dialogs/mainwindow.cpp" line="162"/>
         <source>Previous point</source>
         <translation>Προηγούμενο σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="696"/>
+        <location filename="../dialogs/mainwindow.cpp" line="167"/>
         <source>Say X coordinate</source>
         <translation>Πες τη συντεταγμένη Χ</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="701"/>
+        <location filename="../dialogs/mainwindow.cpp" line="172"/>
         <source>Say Y coordinate</source>
         <translation>Πες τη συντεταγμένη Υ</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="706"/>
+        <location filename="../dialogs/mainwindow.cpp" line="177"/>
         <source>Say derivative</source>
         <translation>Πες την παράγωγο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="712"/>
+        <location filename="../dialogs/mainwindow.cpp" line="183"/>
         <source>Ctrl+[</source>
         <translation>Ctrl+[</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="717"/>
+        <location filename="../dialogs/mainwindow.cpp" line="188"/>
         <source>Ctrl+]</source>
         <translation>Ctrl+]</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="721"/>
+        <location filename="../dialogs/mainwindow.cpp" line="192"/>
         <source>Decrease precision</source>
         <translation>Μείωση ακρίβειας</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="726"/>
+        <location filename="../dialogs/mainwindow.cpp" line="197"/>
         <source>Increase precision</source>
         <translation>Αύξηση ακρίβειας</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="741"/>
+        <location filename="../dialogs/mainwindow.cpp" line="212"/>
         <source>Previous point (fast)</source>
         <translation>Προηγούμενο σημείο (γρήγορο)</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="746"/>
+        <location filename="../dialogs/mainwindow.cpp" line="217"/>
         <source>Next point (fast)</source>
         <translation>Επόμενο σημείο (γρήγορο)</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="761"/>
+        <location filename="../dialogs/mainwindow.cpp" line="232"/>
         <source>Self voice</source>
         <translation>Αυτόματη ομιλία</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="766"/>
+        <location filename="../dialogs/mainwindow.cpp" line="237"/>
         <source>Use notes</source>
         <translation>Χρήση μουσικών νοτών</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="771"/>
+        <location filename="../dialogs/mainwindow.cpp" line="242"/>
         <source>Use alternative notes for negative values</source>
         <translation>Χρήση εναλλακτικών νοτών για αρνητικές τιμές</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="786"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1159"/>
+        <location filename="../dialogs/mainwindow.cpp" line="257"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1173"/>
         <source>First derivative mode</source>
         <translation>Λειτουργία πρώτης παραγώγου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="791"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1168"/>
+        <location filename="../dialogs/mainwindow.cpp" line="262"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1182"/>
         <source>Second derivative mode</source>
         <translation>Λειτουργίας δεύτερης παραγώγου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="796"/>
+        <location filename="../dialogs/mainwindow.cpp" line="267"/>
         <source>Help</source>
         <translation>Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="801"/>
+        <location filename="../dialogs/mainwindow.cpp" line="272"/>
         <source>Disable intro audio</source>
         <translation>Απενεργοποίηση ήχου εισαγωγής</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="806"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1333"/>
+        <location filename="../dialogs/mainwindow.cpp" line="277"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1347"/>
         <source>About</source>
         <translation>Σχετικά με την εφαρμογή</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="818"/>
+        <location filename="../dialogs/mainwindow.cpp" line="289"/>
         <source>E&amp;xit</source>
         <translation>&amp;Έξοδος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="826"/>
+        <location filename="../dialogs/mainwindow.cpp" line="297"/>
         <source>&amp;File</source>
         <translation>&amp;Αρχείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="837"/>
+        <location filename="../dialogs/mainwindow.cpp" line="308"/>
         <source>&amp;Control</source>
         <translation>&amp;Έλεγχος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="865"/>
+        <location filename="../dialogs/mainwindow.cpp" line="336"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="953"/>
+        <location filename="../dialogs/mainwindow.cpp" line="967"/>
         <source>starting point</source>
         <translation>αρχικό σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="961"/>
+        <location filename="../dialogs/mainwindow.cpp" line="975"/>
         <source>ending point</source>
         <translation>τελικό σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1151"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1165"/>
         <source>normal mode</source>
         <translation>κανονική λειτουργία</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1160"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1174"/>
         <source>first derivative</source>
         <translation>πρώτη παράγωγος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1169"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1183"/>
         <source>second derivative</source>
         <translation>δεύτερη παράγωγος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1214"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1228"/>
         <source>digit</source>
         <translation>ψηφίο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1216"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1230"/>
         <source>digits</source>
         <translation>ψηφία</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1218"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1232"/>
         <source>Precision </source>
         <translation>Ακρίβεια </translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1227"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1238"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1249"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1261"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1296"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1241"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1252"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1263"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1275"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1310"/>
         <source>checked</source>
         <translation>επιλεγμένο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1229"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1240"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1251"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1263"/>
-        <location filename="../dialogs/mainwindow.cpp" line="1298"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1243"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1254"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1265"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1277"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1312"/>
         <source>not checked</source>
         <translation>μη επιλεγμένο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.cpp" line="1332"/>
+        <location filename="../dialogs/mainwindow.cpp" line="1346"/>
         <source>Audiographs version 0.4
 email: nstrikos@yahoo.gr</source>
         <translation>Audiographs έκδοση 0.4

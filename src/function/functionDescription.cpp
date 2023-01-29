@@ -15,7 +15,7 @@ QVector<InterestingPoint> FunctionDescription::points(bool includeZero)
 
     tmp.x = 0;
     tmp.y = m_model.y(0);
-    tmp.label = "starting point";
+    tmp.label = tr("starting point");
     m_points.append(tmp);
 
 
@@ -40,31 +40,31 @@ QVector<InterestingPoint> FunctionDescription::points(bool includeZero)
 
         if (!m_model.isValidAt(prev) && m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(next))
-                tmp.label += " maximum after undefined point";
+                tmp.label += tr(" maximum after undefined point");
             else if (m_model.y_0(i) < m_model.y_0(next))
-                tmp.label += " minimum after undefined point";
+                tmp.label += tr(" minimum after undefined point");
 
         } else if (m_model.isValidAt(prev) && !m_model.isValidAt(next)) {
             if (m_model.y_0(i) > m_model.y_0(prev))
-                tmp.label += " maximum before undefined point";
+                tmp.label += tr(" maximum before undefined point");
             else if (m_model.y_0(i) < m_model.y_0(prev))
-                tmp.label += " minimum before undefined point";
+                tmp.label += tr(" minimum before undefined point");
 
         } else if (m_model.isValidAt(prev) && m_model.isValidAt(next)) {
 
             if (includeZero && derivativeMode == 0) {
 
                 if (m_model.y_0(i) == 0) {
-                    tmp.label += " zero";
+                    tmp.label += tr(" zero");
                 } else if (m_model.y_0(i) * m_model.y_0(next) < 0) {
-                    tmp.label += " zero";
+                    tmp.label += tr(" zero");
                 }
             }
 
             if (m_model.y_0(i) > m_model.y_0(prev) && m_model.y_0(i) > m_model.y_0(next))
-                tmp.label += " local maximum";
+                tmp.label += tr(" local maximum");
             else if (m_model.y_0(i) < m_model.y_0(prev) && m_model.y_0(i) < m_model.y_0(next))
-                tmp.label += " local minimum";
+                tmp.label += tr(" local minimum");
 
             //local minimum and local maximum cannot be point of inflection
             else if (derivativeMode == 2) {
@@ -73,9 +73,9 @@ QVector<InterestingPoint> FunctionDescription::points(bool includeZero)
                 double yPrev = round(m_model.y_1(prev) * Pow) / Pow;
                 double yNext = round(m_model.y_1(next) * Pow) / Pow;
                 if ( (y < yPrev) && (y < yNext) ) {
-                    tmp.label += " point of inflection";
+                    tmp.label += tr(" point of inflection");
                 } else if ( (y > yPrev) && (y > yNext) ) {
-                    tmp.label += " point of inflection";
+                    tmp.label += tr(" point of inflection");
                 }
             }
         }
@@ -88,7 +88,7 @@ QVector<InterestingPoint> FunctionDescription::points(bool includeZero)
 
     tmp.x = m_model.size() - 1;
     tmp.y = m_model.y(tmp.x);
-    tmp.label = "ending point";
+    tmp.label = tr("ending point");
     m_points.append(tmp);
 
     return m_points;

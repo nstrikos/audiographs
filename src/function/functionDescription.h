@@ -17,8 +17,9 @@ public:
     QString label;
 };
 
-class FunctionDescription
+class FunctionDescription : public QObject
 {
+    Q_OBJECT
 public:
     FunctionDescription(FunctionModel &model);
     QVector<InterestingPoint> points(bool includeZero);
