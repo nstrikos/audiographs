@@ -1,6 +1,7 @@
 #include "dialogs/mainwindow.h"
 
 #include <QApplication>
+#include <QTranslator>
 #include "controller/functionController.h"
 #include "function/functionModel.h"
 #include "function/dragHandler.h"
@@ -42,6 +43,10 @@ int main(int argc, char *argv[])
 
     if (!runMobile) {
         QApplication a(argc, argv);
+
+        QTranslator appTranslator;
+        appTranslator.load("audiographs_" + QLocale::system().name(), ":/translations");
+        a.installTranslator(&appTranslator);
 
         MainWindow *w = new MainWindow(*controller);
         w->showMaximized();

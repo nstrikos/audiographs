@@ -239,7 +239,7 @@ void MainWindow::initActions()
     connect(useNotesAction, &QAction::triggered, this, &MainWindow::useNotesActionActivated);
     connect(useNotesAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-    useNegativeNotesAction = new QAction(tr("Use different notes for negative values"), this);
+    useNegativeNotesAction = new QAction(tr("Use alternative notes for negative values"), this);
     useNegativeNotesAction->setShortcut(Qt::Key_F4);
     connect(useNegativeNotesAction, &QAction::triggered, this, &MainWindow::useNegativeNotesActionActivated);
     connect(useNegativeNotesAction, &QAction::hovered, this, &MainWindow::sayWidget);

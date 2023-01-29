@@ -451,7 +451,7 @@
               </font>
              </property>
              <property name="accessibleName">
-              <string>Contro plus X X coordinate push button</string>
+              <string>Control plus X X coordinate push button</string>
              </property>
              <property name="accessibleDescription">
               <string>X coordinate</string>
@@ -1117,10 +1117,10 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>Use different notes for negative values check box</string>
+                 <string>Use alternative notes for negative values check box</string>
                 </property>
                 <property name="text">
-                 <string>F4 - Use different notes
+                 <string>F4 - Use alternative notes
 for negative values</string>
                 </property>
                </widget>

@@ -108,6 +108,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     help.qrc \
+    translations.qrc
     qml.qrc
 
 DISTFILES += \
@@ -119,6 +120,8 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml
+
+TRANSLATIONS += translations/audiographs_el_GR.ts
 
 RC_ICONS = audiographs.ico
 
