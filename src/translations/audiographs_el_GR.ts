@@ -260,7 +260,7 @@
     <message>
         <location filename="../dialogs/mainwindow.ui" line="550"/>
         <source>Ctrl+Left - Previous point of interest</source>
-        <translation>Ctrl+Αριστερά Προηγούμενο σημείο ενδιαφέροντος</translation>
+        <translation type="unfinished">Ctrl+Αριστερά - Προηγούμενο σημείο</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="575"/>
@@ -276,7 +276,7 @@
     <message>
         <location filename="../dialogs/mainwindow.ui" line="581"/>
         <source>Ctrl+Right - Next point of interest</source>
-        <translation>Ctrl+Δεξιά Επόμενο σημείο ενδιαφέροντος</translation>
+        <translation type="unfinished">Ctrl+Δεξιά - Επόμενο σημείο</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="606"/>
@@ -492,7 +492,7 @@
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1058"/>
         <source>self voice checkbox</source>
-        <translation>αυτόματη ομιλία κουμπί</translation>
+        <translation type="unfinished">F2 - αυτόματη ομιλία κουμπί</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1061"/>
@@ -507,7 +507,7 @@
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1092"/>
         <source>use notes</source>
-        <translation>χρήση μουσικών νοτών</translation>
+        <translation type="unfinished">F3 - χρήση μουσικών νοτών</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1095"/>
@@ -517,7 +517,7 @@
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1120"/>
         <source>Use alternative notes for negative values check box</source>
-        <translation>Χρήση εναλλακτικών νοτών για τις αρνητικές τιμές κουμπί</translation>
+        <translation type="unfinished">F4 - Χρήση εναλλακτικών νοτών για τις αρνητικές τιμές κουμπί</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1123"/>
@@ -530,7 +530,7 @@ for negative values</source>
         <location filename="../dialogs/mainwindow.ui" line="1137"/>
         <location filename="../dialogs/mainwindow.cpp" line="247"/>
         <source>Stop sound at zero</source>
-        <translation>Παύση ήχου στο μηδέν</translation>
+        <translation type="unfinished">F5 Παύση ήχου στο μηδέν</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1140"/>
@@ -670,7 +670,7 @@ for negative values</source>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1568"/>
         <source>Reset graph settings</source>
-        <translation>Επαναφορά ρυθμίσεων γραφήματος</translation>
+        <translation type="unfinished">Επαναφορά ρυθμίσεων γραφικών</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.cpp" line="41"/>

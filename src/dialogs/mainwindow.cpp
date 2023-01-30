@@ -978,6 +978,9 @@ void MainWindow::on_lastPointPushButton_clicked()
 
 void MainWindow::updateLabelText(QString text)
 {
+    if (QLocale::system().name() == "el_GR")
+        text.replace(".", ",");
+
     qDebug() << "label: " << text;
     QString oldText = ui->coordLabel->text();
     if (text != oldText) {
