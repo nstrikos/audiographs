@@ -133,6 +133,9 @@ public:
     bool stopAtZero() const;
     void setStopAtZero(bool newStopAtZero);
 
+    int language() const;
+    void setLanguage(int newLanguage);
+
 private:
     Parameters() {
         read();
@@ -167,6 +170,7 @@ private:
     QColor m_derivColor;
     bool m_intro;
     bool m_stopAtZero;
+    int m_lang;
 
     const QString POINTCOLOR = "pointColor";
 

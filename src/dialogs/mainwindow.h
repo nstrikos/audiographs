@@ -10,6 +10,7 @@
 
 #include "errorDisplayDialog.h"
 #include "aboutDialog.h"
+#include "languageDialog.h"
 #include "utils/texttospeech.h"
 
 #include "ifaces/IGui.h"
@@ -124,6 +125,7 @@ private slots:
     void useNotesActionActivated();
     void useNegativeNotesActionActivated();
     void stopAtZeroActionActivated();
+    void languageActionActivated();
     void incPrecision();
     void decPrecision();
     void errorAccepted();
@@ -177,6 +179,7 @@ private:
     QAction *aboutAction;
     QAction *introAction;
     QAction *stopAtZeroAction;
+    QAction *languageAction;
     QMenu *helpMenu;
     QMenu *fileMenu;
     QMenu *controlMenu;
@@ -184,6 +187,7 @@ private:
     KeyReceiver *keyReceiver;
     ErrorDisplayDialog *errorDisplayDialog;
     AboutDialog *aboutDialog;
+    LanguageDialog *languageDialog;
     QString m_errorString;
     TextToSpeech *m_textToSpeech;
     enum {MaxRecentFiles = 9};

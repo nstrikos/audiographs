@@ -163,6 +163,7 @@ void Parameters::read()
 
     bool intro = settings.value("intro", true).toBool();
     bool stopAtZero = settings.value("stopAtZero", true).toBool();
+    int language = settings.value("language", "0").toInt();
 
     setPointColor(pointColor);
     setPointSize(pointSize);
@@ -191,6 +192,7 @@ void Parameters::read()
     setDerivColor(derivColor);
     setIntro(intro);
     setStopAtZero(stopAtZero);
+    setLanguage(language);
 }
 
 void Parameters::write()
@@ -224,8 +226,9 @@ void Parameters::write()
     settings.setValue("derivColor", m_derivColor);
     settings.setValue("intro", m_intro);
     settings.setValue("stopAtZero", m_stopAtZero);
+    settings.setValue("language", m_lang);
     settings.sync();
- }
+}
 
 void Parameters::reset()
 {
@@ -461,4 +464,14 @@ bool Parameters::stopAtZero() const
 void Parameters::setStopAtZero(bool newStopAtZero)
 {
     m_stopAtZero = newStopAtZero;
+}
+
+int Parameters::language() const
+{
+    return m_lang;
+}
+
+void Parameters::setLanguage(int newLanguage)
+{
+    m_lang = newLanguage;
 }

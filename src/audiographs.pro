@@ -16,6 +16,7 @@ SOURCES += \
     controller/stateMachine.cpp \
     dialogs/aboutDialog.cpp \
     dialogs/errorDisplayDialog.cpp \
+    dialogs/languageDialog.cpp \
     dialogs/mainwindow.cpp \
     dialogs/renderArea.cpp \
     function/currentPoint.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     controller/stateMachine.h \
     dialogs/aboutDialog.h \
     dialogs/errorDisplayDialog.h \
+    dialogs/languageDialog.h \
     dialogs/mainwindow.h \
     dialogs/renderArea.h \
     function/currentPoint.h \
@@ -99,6 +101,7 @@ HEADERS += \
 FORMS += \
     dialogs/aboutDialog.ui \
     dialogs/errorDisplayDialog.ui \
+    dialogs/languageDialog.ui \
     dialogs/mainwindow.ui
 
 # Default rules for deployment.

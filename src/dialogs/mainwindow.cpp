@@ -25,6 +25,7 @@ MainWindow::MainWindow(IGui &iface, QWidget *parent)
 
     errorDisplayDialog = nullptr;
     aboutDialog = nullptr;
+    languageDialog = nullptr;
     m_points = nullptr;
 
     setButtonColors();
@@ -92,6 +93,9 @@ MainWindow::~MainWindow()
 
     if (aboutDialog != nullptr)
         delete aboutDialog;
+
+    if (languageDialog != nullptr)
+        delete languageDialog;
 
     delete ui;
 }
@@ -249,6 +253,11 @@ void MainWindow::initActions()
     connect(stopAtZeroAction, &QAction::triggered, this, &MainWindow::stopAtZeroActionActivated);
     connect(stopAtZeroAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
+    languageAction = new QAction(tr("Set language"), this);
+    languageAction->setShortcut(Qt::CTRL + Qt::Key_L);
+    connect(languageAction, &QAction::triggered, this, &MainWindow::languageActionActivated);
+    connect(languageAction, &QAction::hovered, this, &MainWindow::sayWidget);
+
     normalModeAction = new QAction(tr("Normal mode"), this);
     normalModeAction->setShortcut(Qt::CTRL + Qt::Key_0);
     connect(normalModeAction, &QAction::triggered, this, &MainWindow::on_normalModePushButton_clicked);
@@ -336,6 +345,7 @@ void MainWindow::initMenu()
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(showShortcutsAction);
     helpMenu->addAction(introAction);
+    helpMenu->addAction(languageAction);
     helpMenu->addAction(aboutAction);
     ui->menubar->addMenu(helpMenu);
 }
@@ -1157,6 +1167,14 @@ void MainWindow::useNegativeNotesActionActivated()
 void MainWindow::stopAtZeroActionActivated()
 {
     ui->stopAtZeroCheckBox->setChecked(!ui->stopAtZeroCheckBox->isChecked());
+}
+
+void MainWindow::languageActionActivated()
+{
+    if (languageDialog == nullptr)
+        languageDialog = new LanguageDialog(this, m_parameters->language());
+    if (languageDialog->exec())
+        m_parameters->setLanguage(languageDialog->language);
 }
 
 void MainWindow::on_normalModePushButton_clicked()

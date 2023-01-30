@@ -18,6 +18,7 @@
 #include <mobileview/functionPointView.h>
 #include <mobileview/qmlConnector.h>
 #include <utils/texttospeech.h>
+#include <utils/parameters.h>
 
 int main(int argc, char *argv[])
 {
@@ -42,18 +43,34 @@ int main(int argc, char *argv[])
     StateMachine *stateMachine = new StateMachine(*controller);
 
     if (!runMobile) {
-        QApplication a(argc, argv);
+        Parameters *parameters = &Parameters::getInstance();
+        int language = parameters->language();
 
-        QTranslator appTranslator;
-        appTranslator.load("audiographs_" + QLocale::system().name(), ":/translations");
-        a.installTranslator(&appTranslator);
-
-        MainWindow *w = new MainWindow(*controller);
-        w->showMaximized();
-
-        ret = a.exec();
-        delete w;
-
+        if (language == 0){
+            QApplication a(argc, argv);
+            QTranslator appTranslator;
+            appTranslator.load("audiographs_" + QLocale::system().name(), ":/translations");
+            a.installTranslator(&appTranslator);
+            MainWindow *w = new MainWindow(*controller);
+            w->showMaximized();
+            ret = a.exec();
+            delete w;
+        } else if (language == 1) {
+            QApplication a(argc, argv);
+            MainWindow *w = new MainWindow(*controller);
+            w->showMaximized();
+            ret = a.exec();
+            delete w;
+        } else if (language == 2) {
+            QApplication a(argc, argv);
+            QTranslator appTranslator;
+            appTranslator.load("audiographs_el_GR", ":/translations");
+            a.installTranslator(&appTranslator);
+            MainWindow *w = new MainWindow(*controller);
+            w->showMaximized();
+            ret = a.exec();
+            delete w;
+        }
     } else {
         QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
