@@ -162,7 +162,6 @@ void MainWindow::initActions()
     connect(nextAction, &QAction::triggered, this, &MainWindow::on_nextPushButton_clicked);
     connect(nextAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
-
     previousAction = new QAction(tr("Previous point"), this);
     previousAction->setShortcut(Qt::Key_PageDown);
     connect(previousAction, &QAction::triggered, this, &MainWindow::on_previousPushButton_clicked);
@@ -1346,10 +1345,34 @@ void MainWindow::on_derivativeColorPushButton_clicked()
 
 void MainWindow::showShortcuts()
 {
-    QString filename = "C:/Program Files/Audiographs/doc/doc.html";
+    QString filename;
+    if (m_parameters->language() == 1) {
 
-    if ( !QFile::exists(filename)) {
-        filename = "C:/Program Files (x86)/Audiographs/doc/doc.html";
+        filename = "C:/Program Files/Audiographs/doc/doc.html";
+
+        if ( !QFile::exists(filename)) {
+            filename = "C:/Program Files (x86)/Audiographs/doc/doc.html";
+        }
+    } else if (m_parameters->language() == 2) {
+        filename = "C:/Program Files/Audiographs/doc/doc_GR.html";
+
+        if ( !QFile::exists(filename)) {
+            filename = "C:/Program Files (x86)/Audiographs/doc/doc_GR.html";
+        }
+    } else if (m_parameters->language() == 0) {
+        if (QLocale::system().name() == "el_GR") {
+            filename = "C:/Program Files/Audiographs/doc/doc_GR.html";
+
+            if ( !QFile::exists(filename)) {
+                filename = "C:/Program Files (x86)/Audiographs/doc/doc_GR.html";
+            }
+        } else {
+            filename = "C:/Program Files/Audiographs/doc/doc.html";
+
+            if ( !QFile::exists(filename)) {
+                filename = "C:/Program Files (x86)/Audiographs/doc/doc.html";
+            }
+        }
     }
 
     QUrl url = QUrl::fromLocalFile(filename);

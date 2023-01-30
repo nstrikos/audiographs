@@ -258,417 +258,441 @@
         <translation>Προηγούμενο σημείο ενδιαφέροντος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="550"/>
         <source>Ctrl+Left - Previous point of interest</source>
-        <translation>Ctrl+Αριστερά - Προηγούμενο σημείο</translation>
+        <translation type="vanished">Ctrl+Αριστερά - Προηγούμενο σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="575"/>
+        <location filename="../dialogs/mainwindow.ui" line="576"/>
         <source>Control plus right Next point of interest push button</source>
         <translation>Ctrl + Δεξιά Επόμενο σημείο ενδιαφέροντος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="578"/>
+        <location filename="../dialogs/mainwindow.ui" line="579"/>
         <location filename="../dialogs/mainwindow.cpp" line="211"/>
         <source>Next point of interest</source>
         <translation>Επόμενο σημείο ενδιαφέροντος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="581"/>
         <source>Ctrl+Right - Next point of interest</source>
-        <translation>Ctrl+Δεξιά - Επόμενο σημείο</translation>
+        <translation type="vanished">Ctrl+Δεξιά - Επόμενο σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="606"/>
+        <location filename="../dialogs/mainwindow.ui" line="608"/>
         <source>shift plus left Previous point fast push button</source>
         <translation>Shift συν αριστερά Επόμενο σημείο γρήγορο κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="609"/>
+        <location filename="../dialogs/mainwindow.ui" line="611"/>
         <source>Previous point fast</source>
         <translation>Επόμενο σημείο γρήγορο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="612"/>
         <source>Shift+Left - Previous point (fast) </source>
-        <translation>Shift+Αριστερά - Προηγούμενο σημείο (γρήγορο) </translation>
+        <translation type="vanished">Shift+Αριστερά - Προηγούμενο σημείο (γρήγορο) </translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="637"/>
+        <location filename="../dialogs/mainwindow.ui" line="640"/>
         <source>Shift plus right Next point fast push button</source>
         <translation>Shift συν δεξιά Επόμενο σημείο γρήγορο κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="640"/>
+        <location filename="../dialogs/mainwindow.ui" line="643"/>
         <source>Next point fast</source>
         <translation>Επόμενο σημείο γρήγορο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="643"/>
         <source>Shift+Right - Next point (fast)</source>
-        <translation>Shift+Δεξιά - Επόμενο σημείο (γρήγορο)</translation>
+        <translation type="vanished">Shift+Δεξιά - Επόμενο σημείο (γρήγορο)</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="668"/>
+        <location filename="../dialogs/mainwindow.ui" line="550"/>
+        <source>Ctrl+Left 
+ Previous point of interest</source>
+        <translation>Ctrl+Αριστερά 
+ Προηγούμενο σημείο ενδιαφέροντος</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/mainwindow.ui" line="582"/>
+        <source>Ctrl+Right 
+ Next point of interest</source>
+        <translation>Ctrl+Right 
+ Επόμενο σημείο ενδιαφέροντος</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/mainwindow.ui" line="614"/>
+        <source>Shift+Left 
+ Previous point (fast) </source>
+        <translation>Shift+Αριστερά 
+ Προηγούμενο σημείο (γρήγορα) </translation>
+    </message>
+    <message>
+        <location filename="../dialogs/mainwindow.ui" line="646"/>
+        <source>Shift+Right 
+ Next point (fast)</source>
+        <translation>Shift+Δεξιά 
+ Επόμενο σημείο (γρήγορα)</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/mainwindow.ui" line="672"/>
         <source>Home First point push button</source>
         <translation>Home Αρχικό σημείο κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="671"/>
+        <location filename="../dialogs/mainwindow.ui" line="675"/>
         <location filename="../dialogs/mainwindow.cpp" line="226"/>
         <source>First point</source>
         <translation>Αρχικό σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="674"/>
+        <location filename="../dialogs/mainwindow.ui" line="678"/>
         <source>Home - First point</source>
         <translation>Home - Αρχικό σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="699"/>
+        <location filename="../dialogs/mainwindow.ui" line="703"/>
         <source>End - Last point push button</source>
         <translation>End - Τελικό σημείο κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="702"/>
+        <location filename="../dialogs/mainwindow.ui" line="706"/>
         <location filename="../dialogs/mainwindow.cpp" line="231"/>
         <source>Last point</source>
         <translation>Τελικό σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="705"/>
+        <location filename="../dialogs/mainwindow.ui" line="709"/>
         <source>End - Last point</source>
         <translation>End - Τελικό σημείο</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="730"/>
+        <location filename="../dialogs/mainwindow.ui" line="734"/>
         <source>Control plus left bracket Decrease step push button</source>
         <translation>Control συν αριστερή αγκύλη Μείωση βήματος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="733"/>
+        <location filename="../dialogs/mainwindow.ui" line="737"/>
         <location filename="../dialogs/mainwindow.cpp" line="186"/>
         <source>Decrease step</source>
         <translation>Μείωση βήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="736"/>
+        <location filename="../dialogs/mainwindow.ui" line="740"/>
         <source>Ctrl+[ - Decrease step</source>
         <translation>Ctrl+[ - Μείωση βήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="761"/>
+        <location filename="../dialogs/mainwindow.ui" line="765"/>
         <source>Control plus right bracket Increase step push button</source>
         <translation>Control συν δεξιά αγκύλη Αύξηση βήματος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="764"/>
+        <location filename="../dialogs/mainwindow.ui" line="768"/>
         <location filename="../dialogs/mainwindow.cpp" line="191"/>
         <source>Increase step</source>
         <translation>Αύξηση βήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="767"/>
+        <location filename="../dialogs/mainwindow.ui" line="771"/>
         <source>Ctrl+] - Increase step</source>
         <translation>Ctrl+] - Αύξηση βήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="792"/>
+        <location filename="../dialogs/mainwindow.ui" line="796"/>
         <source>Control plus zero Normal mode push button</source>
         <translation>Control συν μηδέν Κανονική λειτουργία κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="795"/>
+        <location filename="../dialogs/mainwindow.ui" line="799"/>
         <location filename="../dialogs/mainwindow.cpp" line="261"/>
         <location filename="../dialogs/mainwindow.cpp" line="1185"/>
         <source>Normal mode</source>
         <translation>Κανονική λειτουργία</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="798"/>
+        <location filename="../dialogs/mainwindow.ui" line="802"/>
         <source>Ctrl+0 Normal mode</source>
         <translation>Ctrl+0 Κανονική λειτουργία</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="823"/>
+        <location filename="../dialogs/mainwindow.ui" line="827"/>
         <source>Control plus one First derivative push button</source>
         <translation>Control συν ένα Πρώτη παράγωγος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="826"/>
+        <location filename="../dialogs/mainwindow.ui" line="830"/>
         <source>First derivative</source>
         <translation>Πρώτη παράγωγος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="829"/>
+        <location filename="../dialogs/mainwindow.ui" line="833"/>
         <source>Ctrl+1 First derivative</source>
         <translation>Ctrl+1 Πρώτη παράγωγος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="854"/>
+        <location filename="../dialogs/mainwindow.ui" line="858"/>
         <source>Control plus two Second derivative push button</source>
         <translation>Control συν δύο Δεύτερη παράγωγος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="857"/>
+        <location filename="../dialogs/mainwindow.ui" line="861"/>
         <source>Second derivative</source>
         <translation>Δεύτερη παράγωγος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="860"/>
+        <location filename="../dialogs/mainwindow.ui" line="864"/>
         <source>Ctrl+2 Second derivative</source>
         <translation>Ctrl+2 Δεύτερη παράγωγος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="872"/>
+        <location filename="../dialogs/mainwindow.ui" line="876"/>
         <source>Audio parameters</source>
         <translation>Παράμετροι ήχου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="886"/>
+        <location filename="../dialogs/mainwindow.ui" line="890"/>
         <source>Duration</source>
         <translation>Διάρκεια</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="899"/>
+        <location filename="../dialogs/mainwindow.ui" line="903"/>
         <source>duration spin box</source>
         <translation>διάρκεια κουμπί σπιν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="902"/>
+        <location filename="../dialogs/mainwindow.ui" line="906"/>
         <source>duration spinox</source>
         <translation>διάρκεια κουμπί σπιν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="925"/>
+        <location filename="../dialogs/mainwindow.ui" line="929"/>
         <source>Min frequency</source>
         <translation>Ελάχ συχνότητα</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="938"/>
+        <location filename="../dialogs/mainwindow.ui" line="942"/>
         <source>minimum frequency spin box</source>
         <translation>ελάχιστη συχνότητα κουμπί σπιν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="941"/>
+        <location filename="../dialogs/mainwindow.ui" line="945"/>
         <source>minimum frequency</source>
         <translation>ελάχιστη συχνότητα</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="967"/>
+        <location filename="../dialogs/mainwindow.ui" line="971"/>
         <source>Max frequency</source>
         <translation>Μεγ συχνότητα</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="980"/>
+        <location filename="../dialogs/mainwindow.ui" line="984"/>
         <source>maximum frequency spin box</source>
         <translation>μέγιστη συχνότητα κουμπί σπιν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="983"/>
+        <location filename="../dialogs/mainwindow.ui" line="987"/>
         <source>maximum frequency</source>
         <translation>μέγιστη συχνότητα</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1009"/>
+        <location filename="../dialogs/mainwindow.ui" line="1013"/>
         <source>Precision digits</source>
         <translation>Ψηφία ακρίβειας</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1022"/>
+        <location filename="../dialogs/mainwindow.ui" line="1026"/>
         <source>precision digits spin box</source>
         <translation>ψηφία ακρίβειας κουμπί σπιν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1025"/>
+        <location filename="../dialogs/mainwindow.ui" line="1029"/>
         <source>precision digits</source>
         <translation>ψηφία ακρίβειας</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1055"/>
+        <location filename="../dialogs/mainwindow.ui" line="1059"/>
         <source>self voice check box</source>
-        <translation>αυτόματη ομιλία κουμπί</translation>
+        <translation>F2 - αυτόματη ομιλία κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1058"/>
+        <location filename="../dialogs/mainwindow.ui" line="1062"/>
         <source>self voice checkbox</source>
         <translation>F2 - αυτόματη ομιλία κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1061"/>
+        <location filename="../dialogs/mainwindow.ui" line="1065"/>
         <source>F2 - Self voice</source>
         <translation>F2 - αυτόματη ομιλία</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1089"/>
+        <location filename="../dialogs/mainwindow.ui" line="1093"/>
         <source>use notes check box</source>
-        <translation>χρήση μουσικών νοτών κουμπί</translation>
+        <translation>F3 - χρήση μουσικών νοτών κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1092"/>
+        <location filename="../dialogs/mainwindow.ui" line="1096"/>
         <source>use notes</source>
         <translation>F3 - χρήση μουσικών νοτών</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1095"/>
+        <location filename="../dialogs/mainwindow.ui" line="1099"/>
         <source>F3 - Use notes</source>
         <translation>F3 - Χρήση μουσικών νοτών</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1120"/>
+        <location filename="../dialogs/mainwindow.ui" line="1124"/>
         <source>Use alternative notes for negative values check box</source>
         <translation>F4 - Χρήση εναλλακτικών νοτών για τις αρνητικές τιμές κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1123"/>
+        <location filename="../dialogs/mainwindow.ui" line="1127"/>
         <source>F4 - Use alternative notes
 for negative values</source>
         <translation>F4 - Χρήση εναλλακτικών νοτών
 για τις αρνητικές τιμές</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1137"/>
+        <location filename="../dialogs/mainwindow.ui" line="1141"/>
         <location filename="../dialogs/mainwindow.cpp" line="251"/>
         <source>Stop sound at zero</source>
         <translation>F5 Παύση ήχου στο μηδέν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1140"/>
+        <location filename="../dialogs/mainwindow.ui" line="1144"/>
         <source>F5 - Stop sound at zero</source>
         <translation>F5 - Παύση ήχου στο μηδέν</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1153"/>
+        <location filename="../dialogs/mainwindow.ui" line="1157"/>
         <source>Reset audio parameters push button</source>
         <translation>Επαναφορά παραμέτρων ήχου κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1156"/>
+        <location filename="../dialogs/mainwindow.ui" line="1160"/>
         <source>Reset audio parameters</source>
         <translation>Επαναφορά παραμέτρων ήχου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1166"/>
+        <location filename="../dialogs/mainwindow.ui" line="1170"/>
         <source>Graph settings</source>
         <translation>Ρυθμίσεις γραφήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1180"/>
+        <location filename="../dialogs/mainwindow.ui" line="1184"/>
         <source>Graph color</source>
         <translation>Χρώμα γραφήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1204"/>
+        <location filename="../dialogs/mainwindow.ui" line="1208"/>
         <source>Graph color push button</source>
         <translation>Χρώμα γραφήματος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1224"/>
+        <location filename="../dialogs/mainwindow.ui" line="1228"/>
         <source>Background color</source>
         <translation>Χρώμα φόντου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1248"/>
+        <location filename="../dialogs/mainwindow.ui" line="1252"/>
         <source>Background color push button</source>
         <translation>Χρώμα φόντου κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1268"/>
+        <location filename="../dialogs/mainwindow.ui" line="1272"/>
         <source>Highlight color</source>
         <translation>Χρώμα επισήμανσης</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1292"/>
+        <location filename="../dialogs/mainwindow.ui" line="1296"/>
         <source>Highlight color push button</source>
         <translation>Χρώμα επισήμανσης κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1312"/>
+        <location filename="../dialogs/mainwindow.ui" line="1316"/>
         <source>Axes color</source>
         <translation>Χρώμα αξόνων</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1336"/>
+        <location filename="../dialogs/mainwindow.ui" line="1340"/>
         <source>Axes color push button</source>
         <translation>Χρώμα αξόνων κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1356"/>
+        <location filename="../dialogs/mainwindow.ui" line="1360"/>
         <source>Derivative color</source>
         <translation>Χρώμα παραγώγου</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1375"/>
+        <location filename="../dialogs/mainwindow.ui" line="1379"/>
         <source>Derivative color push button</source>
         <translation>Χρώμα παραγώγου κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1395"/>
+        <location filename="../dialogs/mainwindow.ui" line="1399"/>
         <source>Graph width</source>
         <translation>Πλάτος γραφήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1419"/>
+        <location filename="../dialogs/mainwindow.ui" line="1423"/>
         <source>graph width spin box</source>
         <translation>πλάτος γραφήματος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1422"/>
+        <location filename="../dialogs/mainwindow.ui" line="1426"/>
         <source>graph width</source>
         <translation>πλάτος γραφήματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1445"/>
+        <location filename="../dialogs/mainwindow.ui" line="1449"/>
         <source>Highlight size</source>
         <translation>Μέγεθος επισήμανσης</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1469"/>
+        <location filename="../dialogs/mainwindow.ui" line="1473"/>
         <source>highlight size spin box</source>
         <translation>μέγεθος επισήμανσης κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1472"/>
+        <location filename="../dialogs/mainwindow.ui" line="1476"/>
         <source>highlight size</source>
         <translation>μέγεθος επισήμανσης</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1495"/>
+        <location filename="../dialogs/mainwindow.ui" line="1499"/>
         <source>Axes size</source>
         <translation>Μέγεθος αξόνων</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1519"/>
+        <location filename="../dialogs/mainwindow.ui" line="1523"/>
         <source>axes size spin box</source>
         <translation>Μέγεθος αξόνων επιλογή τιμής</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1522"/>
+        <location filename="../dialogs/mainwindow.ui" line="1526"/>
         <source>axes size</source>
         <translation>μέγεθος αξόνων</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1543"/>
+        <location filename="../dialogs/mainwindow.ui" line="1547"/>
         <source>show grid check button</source>
         <translation>Εμφάνιση πλέγματος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1546"/>
+        <location filename="../dialogs/mainwindow.ui" line="1550"/>
         <source>show grid</source>
         <translation>εμφάνιση πλέγματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1549"/>
+        <location filename="../dialogs/mainwindow.ui" line="1553"/>
         <source>Show grid</source>
         <translation>Εμφάνιση πλέγματος</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1565"/>
+        <location filename="../dialogs/mainwindow.ui" line="1569"/>
         <source>Reset graph settings push button</source>
         <translation>Επαναφορά ρυθμίσεων γραφήματος κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1568"/>
+        <location filename="../dialogs/mainwindow.ui" line="1572"/>
         <source>Reset graph settings</source>
         <translation>Επαναφορά ρυθμίσεων γραφικών</translation>
     </message>

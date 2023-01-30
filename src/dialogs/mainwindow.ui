@@ -42,9 +42,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-646</y>
+         <y>-162</y>
          <width>300</width>
-         <height>1561</height>
+         <height>1681</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -525,7 +525,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
+               <height>38</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -547,7 +547,8 @@
               <string>Previous point of interest</string>
              </property>
              <property name="text">
-              <string>Ctrl+Left - Previous point of interest</string>
+              <string>Ctrl+Left 
+ Previous point of interest</string>
              </property>
             </widget>
            </item>
@@ -556,7 +557,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
+               <height>38</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -578,7 +579,8 @@
               <string>Next point of interest</string>
              </property>
              <property name="text">
-              <string>Ctrl+Right - Next point of interest</string>
+              <string>Ctrl+Right 
+ Next point of interest</string>
              </property>
             </widget>
            </item>
@@ -587,7 +589,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
+               <height>38</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -609,7 +611,8 @@
               <string>Previous point fast</string>
              </property>
              <property name="text">
-              <string>Shift+Left - Previous point (fast) </string>
+              <string>Shift+Left 
+ Previous point (fast) </string>
              </property>
             </widget>
            </item>
@@ -618,7 +621,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
+               <height>38</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -640,7 +643,8 @@
               <string>Next point fast</string>
              </property>
              <property name="text">
-              <string>Shift+Right - Next point (fast)</string>
+              <string>Shift+Right 
+ Next point (fast)</string>
              </property>
             </widget>
            </item>
@@ -1620,7 +1624,7 @@ for negative values</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
