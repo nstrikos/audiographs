@@ -1,5 +1,7 @@
 #include "parameters.h"
 
+#include <QLocale>
+
 Parameters::~Parameters()
 {
     write();
@@ -155,13 +157,19 @@ void Parameters::read()
     bool exploreMode = settings.value("exploreMode", false).toBool();
     int precisionDigits = settings.value("precisionDigits", 2).toInt();
 
-    bool selfVoice = settings.value("selfVoice", true).toBool();
+    bool defaultSelfVoice = true;
+    if (QLocale::system().name() == "el_GR")
+        defaultSelfVoice = false;
+    bool selfVoice = settings.value("selfVoice", defaultSelfVoice).toBool();
 
     QColor derivColor = settings.value("derivColor", "").value<QColor>();
     if (!derivColor.isValid())
         derivColor = Qt::green;
 
-    bool intro = settings.value("intro", true).toBool();
+    bool defaultIntro = true;
+    if (QLocale::system().name() == "el_GR")
+        defaultIntro = false;
+    bool intro = settings.value("intro", defaultIntro).toBool();
     bool stopAtZero = settings.value("stopAtZero", true).toBool();
     int language = settings.value("language", "0").toInt();
 
