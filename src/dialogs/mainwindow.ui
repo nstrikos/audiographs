@@ -42,9 +42,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-162</y>
+         <y>-664</y>
          <width>300</width>
-         <height>1681</height>
+         <height>1669</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -1056,10 +1056,10 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>self voice check box</string>
+                 <string>F2 - self voice check box</string>
                 </property>
                 <property name="accessibleDescription">
-                 <string>self voice checkbox</string>
+                 <string/>
                 </property>
                 <property name="text">
                  <string>F2 - Self voice</string>
@@ -1090,10 +1090,10 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>use notes check box</string>
+                 <string>F3 - use notes check box</string>
                 </property>
                 <property name="accessibleDescription">
-                 <string>use notes</string>
+                 <string/>
                 </property>
                 <property name="text">
                  <string>F3 - Use notes</string>
@@ -1121,7 +1121,7 @@
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>Use alternative notes for negative values check box</string>
+                 <string>F4 - Use alternative notes for negative values check box</string>
                 </property>
                 <property name="text">
                  <string>F4 - Use alternative notes
@@ -1138,7 +1138,7 @@ for negative values</string>
                  </font>
                 </property>
                 <property name="accessibleName">
-                 <string>Stop sound at zero</string>
+                 <string>F5 - Stop sound at zero</string>
                 </property>
                 <property name="text">
                  <string>F5 - Stop sound at zero</string>

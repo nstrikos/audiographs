@@ -677,8 +677,15 @@ void MainWindow::errorDisplayStateActivated()
     }
 
     errorDisplayDialog->setModal(true);
-    errorDisplayDialog->setWindowTitle(m_errorString);
-    errorDisplayDialog->setText(m_errorString);
+
+    if ( (m_parameters->language() == 2) || (m_parameters->language() == 0 && QLocale::system().name() == "el_GR") ) {
+        errorDisplayDialog->setText("Σφάλμα");
+        errorDisplayDialog->setWindowTitle("Σφάλμα");
+    }
+    else {
+        errorDisplayDialog->setText(m_errorString);
+        errorDisplayDialog->setWindowTitle(m_errorString);
+    }
     errorDisplayDialog->show();
     if (m_parameters->selfVoice())
         m_textToSpeech->speak(tr("Error ") + m_textToSpeech->normalizeText(m_errorString));
@@ -987,7 +994,7 @@ void MainWindow::on_lastPointPushButton_clicked()
 
 void MainWindow::updateLabelText(QString text)
 {
-    if (QLocale::system().name() == "el_GR")
+    if ( (m_parameters->language() == 2) || (m_parameters->language() == 0 && QLocale::system().name() == "el_GR") )
         text.replace(".", ",");
 
     qDebug() << "label: " << text;
