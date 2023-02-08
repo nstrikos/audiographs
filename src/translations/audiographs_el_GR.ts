@@ -514,9 +514,8 @@
         <translation>F2 - αυτόματη ομιλία κουμπι</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1062"/>
         <source>F2 - self voice checkbox</source>
-        <translation>F2 - αυτόματη ομιλία κουμπι</translation>
+        <translation type="vanished">F2 - αυτόματη ομιλία κουμπι</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1093"/>
@@ -524,9 +523,8 @@
         <translation>F3 - χρήση μουσικών νότων κουμπί</translation>
     </message>
     <message>
-        <location filename="../dialogs/mainwindow.ui" line="1096"/>
         <source>F3 - use notes</source>
-        <translation>F3 - χρήση μουσικών νότων κουμπί</translation>
+        <translation type="vanished">F3 - χρήση μουσικών νότων κουμπί</translation>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.ui" line="1124"/>
@@ -954,9 +952,15 @@ for negative values</source>
     </message>
     <message>
         <location filename="../dialogs/mainwindow.cpp" line="1397"/>
+        <source>Audiographs version 0.5
+email: nstrikos@yahoo.gr</source>
+        <translation type="unfinished">Audiographs έκδοση 0.5
+Ηλεκτρονική διεύθυνση: nstrikos@yahoo.gr</translation>
+    </message>
+    <message>
         <source>Audiographs version 0.4
 email: nstrikos@yahoo.gr</source>
-        <translation>Audiographs έκδοση 0.4
+        <translation type="vanished">Audiographs έκδοση 0.4
 Ηλεκτρονική διεύθυνση: nstrikos@yahoo.gr</translation>
     </message>
 </context>

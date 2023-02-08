@@ -1394,7 +1394,7 @@ void MainWindow::showAboutDialog()
         connect(aboutDialog, &AboutDialog::rejected, this, &MainWindow::closeAboutDialog);
     }
 
-    QString text = tr("Audiographs version 0.4\nemail: nstrikos@yahoo.gr");
+    QString text = tr("Audiographs version 0.5\nemail: nstrikos@yahoo.gr");
     aboutDialog->setWindowTitle(tr("About"));
     aboutDialog->setModal(true);
     aboutDialog->setText(text);

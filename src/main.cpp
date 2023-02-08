@@ -32,45 +32,46 @@ int main(int argc, char *argv[])
     if ((argc == 2) && (strcmp(argv[1], "--mobile") == 0))
         runMobile = true;
 
-    FunctionController *controller = new FunctionController();
-    FunctionModel *model = new FunctionModel(*controller);
-    DragHandler *dragHandler = new DragHandler(*controller, *model);
-    FunctionZoomer *zoomer = new FunctionZoomer(*controller, *model);
-    CurrentPoint *currentPoint = new CurrentPoint(*controller, *model);
-    Audio *audio = new Audio(*controller);
-    AudioNotes *audionotes = new AudioNotes(*controller, *model);
-    PointsInterest *pointsInterest = new PointsInterest(*controller, *model, *audionotes, *currentPoint);
-    StateMachine *stateMachine = new StateMachine(*controller);
-
     if (!runMobile) {
+        QApplication a(argc, argv);
+
+        FunctionController *controller = new FunctionController();
+        FunctionModel *model = new FunctionModel(*controller);
+        DragHandler *dragHandler = new DragHandler(*controller, *model);
+        FunctionZoomer *zoomer = new FunctionZoomer(*controller, *model);
+        CurrentPoint *currentPoint = new CurrentPoint(*controller, *model);
+        Audio *audio = new Audio(*controller);
+        AudioNotes *audionotes = new AudioNotes(*controller, *model);
+        PointsInterest *pointsInterest = new PointsInterest(*controller, *model, *audionotes, *currentPoint);
+        StateMachine *stateMachine = new StateMachine(*controller);
+
+        QTranslator appTranslator;
         Parameters *parameters = &Parameters::getInstance();
         int language = parameters->language();
 
         if (language == 0){
-            QApplication a(argc, argv);
-            QTranslator appTranslator;
             appTranslator.load("audiographs_" + QLocale::system().name(), ":/translations");
             a.installTranslator(&appTranslator);
-            MainWindow *w = new MainWindow(*controller);
-            w->showMaximized();
-            ret = a.exec();
-            delete w;
         } else if (language == 1) {
-            QApplication a(argc, argv);
-            MainWindow *w = new MainWindow(*controller);
-            w->showMaximized();
-            ret = a.exec();
-            delete w;
-        } else if (language == 2) {
-            QApplication a(argc, argv);
-            QTranslator appTranslator;
+
+        } else if (language == 2) {            
             appTranslator.load("audiographs_el_GR", ":/translations");
-            a.installTranslator(&appTranslator);
-            MainWindow *w = new MainWindow(*controller);
-            w->showMaximized();
-            ret = a.exec();
-            delete w;
+            a.installTranslator(&appTranslator);            
         }
+
+        MainWindow *w = new MainWindow(*controller);
+        w->showMaximized();
+        ret = a.exec();
+        delete w;
+        delete model;
+        delete dragHandler;
+        delete zoomer;
+        delete currentPoint;
+        delete audio;
+        delete pointsInterest;
+        delete audionotes;
+        delete stateMachine;
+        delete controller;
     } else {
         QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -79,6 +80,16 @@ int main(int argc, char *argv[])
         app.setOrganizationName("Nick Strikos");
         app.setOrganizationDomain("nstrikos@yahoo.gr");
         app.setApplicationName("audiographs");
+
+        FunctionController *controller = new FunctionController();
+        FunctionModel *model = new FunctionModel(*controller);
+        DragHandler *dragHandler = new DragHandler(*controller, *model);
+        FunctionZoomer *zoomer = new FunctionZoomer(*controller, *model);
+        CurrentPoint *currentPoint = new CurrentPoint(*controller, *model);
+        Audio *audio = new Audio(*controller);
+        AudioNotes *audionotes = new AudioNotes(*controller, *model);
+        PointsInterest *pointsInterest = new PointsInterest(*controller, *model, *audionotes, *currentPoint);
+        StateMachine *stateMachine = new StateMachine(*controller);
 
         QmlConnector *w = new QmlConnector(*controller, nullptr);
 
@@ -122,17 +133,15 @@ int main(int argc, char *argv[])
 
         ret = app.exec();
         delete w;
+        delete model;
+        delete dragHandler;
+        delete zoomer;
+        delete currentPoint;
+        delete audio;
+        delete pointsInterest;
+        delete audionotes;
+        delete stateMachine;
+        delete controller;
     }
-
-    delete model;
-    delete dragHandler;
-    delete zoomer;
-    delete currentPoint;
-    delete audio;
-    delete pointsInterest;
-    delete audionotes;
-    delete stateMachine;
-    delete controller;
-
     return ret;
 }
