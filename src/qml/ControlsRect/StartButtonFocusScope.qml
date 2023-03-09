@@ -57,6 +57,6 @@ FocusScope {
     }
 
     function pressed() {
-        window.playPressed()
+        qmlConnector.playPressed()
     }
 }

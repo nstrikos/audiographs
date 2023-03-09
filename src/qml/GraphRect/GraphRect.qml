@@ -76,51 +76,42 @@ Rectangle {
     PinchArea {
         anchors.fill: parent
         onPinchStarted: {
-            functionExpression.startPinch()
+            //functionExpression.startPinch()
+            console.log("start pinch")
+            qmlConnector.startPinch()
         }
         onPinchUpdated: {
-            functionExpression.pinch(pinch.scale)
+            //functionExpression.pinch(pinch.scale)
+            console.log("pinch")
+            qmlConnector.pinch()
         }
         MouseArea {
             anchors.fill: parent
             onWheel: {
-                if (!parameters.exploreMode) {
-                    //window.newGraph()
-                    if (window.canZoomDrag) {
-                        functionExpression.setDerivativeMode(0)
-                        window.graphRect.derivativeView.setUpdate(false);
-                        window.graphRect.derivativeView.visible = false
-                        functionExpression.zoom(wheel.angleDelta.y)
-                    }
+                if (window.canZoomDrag) {
+                    qmlConnector.setDerivativeMode(0)
+                    window.graphRect.derivativeView.setUpdate(false);
+                    window.graphRect.derivativeView.visible = false
+                    qmlConnector.zoom(wheel.angleDelta.y)
                 }
             }
             onPressedChanged: {
-                if (!parameters.exploreMode) {
-                    if (pressed)
-                        if (window.canZoomDrag) {
-                            functionExpression.setDerivativeMode(0)
-                            window.graphRect.derivativeView.setUpdate(false);
-                            window.graphRect.derivativeView.visible = false
-                            functionExpression.startDrag(mouseX, mouseY)
-                        }
-                } else {
-                    if (!pressed)
-                        functionController.stopAudio()
-                }
+                if (pressed)
+                    if (window.canZoomDrag) {
+                        qmlConnector.setDerivativeMode(0)
+                        window.graphRect.derivativeView.setUpdate(false);
+                        window.graphRect.derivativeView.visible = false
+                        qmlConnector.startDrag(mouseX, mouseY)
+                    }
             }
             onPositionChanged: {
-                if (!parameters.exploreMode) {
-                    if (pressed)
-                        if (window.canZoomDrag) {
-                            functionExpression.setDerivativeMode(0)
-                            window.graphRect.derivativeView.setUpdate(false);
-                            window.graphRect.derivativeView.visible = false
-                            functionExpression.drag(mouseX, mouseY, width, height)
-                        }
-                } else {
-                    if (pressed)
-                        functionController.mousePoint(mouseX)
-                }
+                if (pressed)
+                    if (window.canZoomDrag) {
+                        qmlConnector.setDerivativeMode(0)
+                        window.graphRect.derivativeView.setUpdate(false);
+                        window.graphRect.derivativeView.visible = false
+                        qmlConnector.drag(mouseX, mouseY, width, height)
+                    }
             }
         }
     }
@@ -136,33 +127,33 @@ Rectangle {
         derivativeView.updateView()
     }
 
-//    BeautifyGraphRect {
+    //    BeautifyGraphRect {
 
-//    }
+    //    }
 
-//    BeautifyGraphRect {
-//        anchors.top: parent.top
-//        anchors.bottom: undefined
-//        height: 8
-//        visible: (settingsRect.height > 0) && (!anchorToLeft)
+    //    BeautifyGraphRect {
+    //        anchors.top: parent.top
+    //        anchors.bottom: undefined
+    //        height: 8
+    //        visible: (settingsRect.height > 0) && (!anchorToLeft)
 
-//        gradient: Gradient {
-//            GradientStop {
-//                color: Qt.rgba(0, 0, 0, 0.4)
-//                position: 0
-//            }
-//            GradientStop {
-//                color: Qt.rgba(0, 0, 0, 0.15)
-//                position: 0.5
-//            }
-//            GradientStop {
-//                color: Qt.rgba(0, 0, 0, 0)
-//                position: 1
-//            }
-//        }
-//    }
+    //        gradient: Gradient {
+    //            GradientStop {
+    //                color: Qt.rgba(0, 0, 0, 0.4)
+    //                position: 0
+    //            }
+    //            GradientStop {
+    //                color: Qt.rgba(0, 0, 0, 0.15)
+    //                position: 0.5
+    //            }
+    //            GradientStop {
+    //                color: Qt.rgba(0, 0, 0, 0)
+    //                position: 1
+    //            }
+    //        }
+    //    }
 
-//    BeautifyRect {
-//        visible: (settingsRect.width > 0)
-//    }
+    //    BeautifyRect {
+    //        visible: (settingsRect.width > 0)
+    //    }
 }

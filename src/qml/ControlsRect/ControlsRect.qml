@@ -26,6 +26,15 @@ Rectangle {
     property alias textInput4: controlRectFlickable.textInput4
     property alias textInput5: controlRectFlickable.textInput5
 
+    function disable()
+    {
+        controlRectFlickable.disable()
+    }
+
+    function enable()
+    {
+        controlRectFlickable.enable()
+    }
 
     onInvertThemeChanged: {
         fontColor: parameters.invertTheme ? "white" : "black"

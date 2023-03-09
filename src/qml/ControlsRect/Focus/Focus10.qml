@@ -18,7 +18,7 @@ FocusScope {
     Keys.onReturnPressed: pressed()
 
     function pressed() {
-        window.lastPoint()
+        qmlConnector.lastPoint()
     }
     
     Rectangle {

@@ -15,6 +15,7 @@ class IMainWindow;
 class CurrentPoint;
 class DragHandler;
 class FunctionZoomer;
+class PinchHandler;
 class Audio;
 class Audionotes;
 class Parameters;
@@ -39,6 +40,7 @@ public:
     void addGui(IMainWindow *gui) override;
     void addDragHandler(DragHandler *dragHandler) override;
     void addZoomer(FunctionZoomer *zoomer) override;
+    void addPinchHandler(PinchHandler *pinchHandler) override;
     void addCurrentPoint(CurrentPoint *currentPoint) override;
     void addAudio(Audio *audio) override;
     void addAudionotes(AudioNotes *audionotes) override;
@@ -50,6 +52,8 @@ public:
     void updateDerivative(Points *points, double minX, double maxX, double minY, double maxY) override;
     void startDrag(int x , int y) override;
     void drag(int diffX, int diffY, int width, int height) override;
+    void startPinch() override;
+    void pinch(double scale) override;
     void zoom(double delta) override;
     void newInputValues(double minX, double maxX, double minY, double maxY) override;
     void newCurrentPoint(double x, double y) override;
@@ -99,6 +103,7 @@ private:
     IMainWindow *gui;
     FunctionModel *model;
     DragHandler *dragHandler;
+    PinchHandler *pinchHandler;
     FunctionZoomer *zoomer;
     CurrentPoint *currentPoint;
     Audio *audio;

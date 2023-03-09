@@ -179,7 +179,6 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
                     int r = m_lineWidth;
                     for(int ii = 0; ii < POINT_SEGMENTS; ii++) {
                         float theta = 2.0f * 3.1415926f * float(ii) / float(POINT_SEGMENTS);//get the current angle
-                        qDebug() << theta;
                         float x = r * cos(theta);
                         float y = r * sin(theta);
 

@@ -3,7 +3,7 @@ import QtQuick.Window 2.12
 import Qt.labs.settings 1.1
 import QtQuick.Dialogs 1.1
 
-import QtQml.StateMachine 1.0 as DSM
+//import QtQml.StateMachine 1.0 as DSM
 
 import "ControlsRect"
 import "GraphRect"
@@ -23,7 +23,7 @@ Window {
 
     property bool anchorToLeft: undefined
 
-//    property alias settingsRect: settingsRect
+    //    property alias settingsRect: settingsRect
     property alias graphRect: graphRect
     property alias controlsRect: controlsRect
 
@@ -54,21 +54,21 @@ Window {
         id: controlsRect
     }
 
-//    ControlsButton {
-//        id: controlsButton
-//    }
+    //    ControlsButton {
+    //        id: controlsButton
+    //    }
 
     GraphRect {
         id: graphRect
     }
 
-//    SettingsButton {
-//        id: settingsButton
-//    }
+    //    SettingsButton {
+    //        id: settingsButton
+    //    }
 
-//    SettingsRect {
-//        id: settingsRect
-//    }
+    //    SettingsRect {
+    //        id: settingsRect
+    //    }
 
     AnchorChangeState {
         id: anchorChangeState
@@ -105,9 +105,9 @@ Window {
         id: shortcuts
     }
 
-    StateMachine {
-        id: stateMachine
-    }
+    //    StateMachine {
+    //        id: stateMachine
+    //    }
 
     //    Connections {
     //        target: functionExpression
@@ -120,12 +120,82 @@ Window {
 
     Connections {
         target: qmlConnector
-        function onQmlGraph(points, minX, maxX, minY, maxY) {
+        function onQmlInitialStateActivated() {
+            initialStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlEvaluateStateActivated() {
+            evaluateStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlUpdateGraph(points, minX, maxX, minY, maxY) {
             graphRect.minX = minX
             graphRect.maxX = maxX
             graphRect.minY = minY
             graphRect.maxY = maxY
-            newGraph()
+            qmlConnector.newGraph()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlGraphReadyStateActivated() {
+            graphReadyStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlPlaySoundStateActivated() {
+            playSoundStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlPlaySoundStateDeactivated() {
+            playSoundStateDeactivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlInterestingPointStateActivated() {
+            interestingPointStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlInterestingPointStateDeactivated() {
+            interestingPointStateDeactivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlInterestingPointStoppedStateActivated() {
+            interestingPointStoppedStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlExploreStateActivated() {
+            exploreStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlExploreStateDeactivated() {
+            exploreStateDeactivated()
         }
     }
 
@@ -153,7 +223,12 @@ Window {
     Connections {
         target: qmlConnector
         function onQmlError() {
-            error()
+            qmlConnector.setDerivativeMode(0)
+            window.graphRect.pointView.clear()
+            window.graphRect.derivativeView.setUpdate(false);
+            window.graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
+            disableControls()
+            qmlConnector.functionError()
         }
     }
 
@@ -180,6 +255,91 @@ Window {
             messageDialog.visible = false
             //window.init()
         }
+    }
+
+    function initialStateActivated()
+    {
+        console.log("initial state activated")
+        qmlConnector.setDerivativeMode(0)
+        window.graphRect.pointView.clear()
+        window.graphRect.derivativeView.setUpdate(false);
+        window.graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
+        disableControls()
+    }
+
+    function evaluateStateActivated()
+    {
+        console.log("evaluate state activated")
+        disableControls()
+        qmlConnector.setDerivativeMode(0)
+        window.graphRect.derivativeView.setUpdate(false);
+        window.graphRect.derivativeView.visible = false
+        qmlConnector.calculate(controlsRect.textInput.text,
+                               controlsRect.textInput2.text,
+                               controlsRect.textInput3.text,
+                               controlsRect.textInput4.text,
+                               controlsRect.textInput5.text)
+    }
+
+    function graphReadyStateActivated()
+    {
+        console.log("graph ready state activated")
+        enableControls()
+        controlsRect.startSoundButton.text = qsTr("Start sound")
+        graphRect.updateCanvas()
+        window.graphRect.pointView.clear()
+    }
+
+    function playSoundStateActivated()
+    {
+        console.log("play sound state activated")
+        //ui->startSoundPushButton->setText(tr("Enter - Stop sound"));
+        //ui->renderArea->enableCurrentPoint();
+        controlsRect.startSoundButton.text = qsTr("Stop sound")
+        enableControls();
+        qmlConnector.playSound();
+    }
+
+    function playSoundStateDeactivated()
+    {
+        console.log("play sound state deactivated")
+        controlsRect.startSoundButton.text = qsTr("Start sound")
+        //ui->renderArea->disableCurrentPoint();
+        qmlConnector.stopSound();
+    }
+
+    function interestingPointStateActivated()
+    {
+        console.log("interesting point state activated")
+        controlsRect.startSoundButton.text = qsTr("Stop sound")
+        //ui->renderArea->disableCurrentPoint();
+    }
+
+    function interestingPointStateDeactivated()
+    {
+        console.log("interesting point state deactivated")
+        controlsRect.startSoundButton.text = qsTr("Start sound")
+        qmlConnector.stopSound()
+        //ui->renderArea->disableCurrentPoint();
+    }
+
+    function interestingPointStoppedStateActivated()
+    {
+        console.log("interesting point stopped state activated")
+        controlsRect.startSoundButton.text = qsTr("Start sound")
+        //ui->renderArea->disableCurrentPoint();
+    }
+
+    function exploreStateActivated()
+    {
+        console.log("explore state activated")
+        //ui->renderArea->disableCurrentPoint();
+    }
+
+    function exploreStateDeactivated()
+    {
+        console.log("explore state deactivated")
+        //ui->renderArea->disableCurrentPoint();
     }
 
     function sayX()
@@ -297,5 +457,19 @@ Window {
             functionExpression.setDerivativeMode(2)
             newGraph()
         }
+    }
+
+    function disableControls()
+    {
+        controlsRect.disable()
+        controlsRect.startSoundButton.enabled = false
+        window.canZoomDrag = false
+    }
+
+    function enableControls()
+    {
+        controlsRect.enable()
+        controlsRect.startSoundButton.enabled = true
+        window.canZoomDrag = true
     }
 }

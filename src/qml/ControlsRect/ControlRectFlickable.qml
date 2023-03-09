@@ -41,6 +41,56 @@ Flickable {
 
     onMovementEnded: scrollBar.active = true
 
+    function disable()
+    {
+        textInput2.enabled = false
+        textInput3.enabled = false
+        textInput4.enabled = false
+        textInput5.enabled = false
+        startButtonFocusScope.enabled = false
+        focus1.enabled = false
+        focus2.enabled = false
+        focus3.enabled = false
+        focus4.enabled = false
+        focus5.enabled = false
+        focus6.enabled = false
+        focus7.enabled = false
+        focus8.enabled = false
+        focus9.enabled = false
+        focus10.enabled = false
+        focus11.enabled = false
+        focus12.enabled = false
+        focus13.enabled = false
+        focus14.enabled = false
+        focus15.enabled = false
+        focus16.enabled = false
+    }
+
+    function enable()
+    {
+        textInput2.enabled = true
+        textInput3.enabled = true
+        textInput4.enabled = true
+        textInput5.enabled = true
+        startButtonFocusScope.enabled = true
+        focus1.enabled = true
+        focus2.enabled = true
+        focus3.enabled = true
+        focus4.enabled = true
+        focus5.enabled = true
+        focus6.enabled = true
+        focus7.enabled = true
+        focus8.enabled = true
+        focus9.enabled = true
+        focus10.enabled = true
+        focus11.enabled = true
+        focus12.enabled = true
+        focus13.enabled = true
+        focus14.enabled = true
+        focus15.enabled = true
+        focus16.enabled = true
+    }
+
 //    onContentYChanged: {
         //        ensureVisible(textInput)
         //        ensureVisible(textInput2)
@@ -102,7 +152,8 @@ Flickable {
                 textInput3.text = "10"
                 textInput4.text = "-10"
                 textInput5.text = "10"
-                window.evaluate()
+                //window.evaluate()
+                qmlConnector.evaluate()
                 controlsRect.active = true
             }
 
@@ -111,6 +162,7 @@ Flickable {
 
         FocusScope {
             id: clearExpressionFocusScope
+            enabled: textInput.text != ""
             anchors.left: textInput.right
             anchors.right: parent.right
             anchors.rightMargin: 10
@@ -173,6 +225,7 @@ Flickable {
         
         CustomTextInput {
             id: textInput2
+            enabled: controlsRect.active
             onTextChanged: {
                 if (controlsRect.active)
                     evaluate()
@@ -198,6 +251,7 @@ Flickable {
         
         CustomTextInput {
             id: textInput3
+            enabled: controlsRect.active
             anchors.left: label3.right
             anchors.verticalCenter: label3.verticalCenter
             placeholderText: (parent.width > 0) ? "maximum X" : ""
@@ -228,6 +282,7 @@ Flickable {
         
         CustomTextInput {
             id: textInput4
+            enabled: controlsRect.active
             anchors.left: label4.right
             anchors.verticalCenter: label4.verticalCenter
             placeholderText: (parent.width > 0) ? "minimum Y" : ""
@@ -257,6 +312,7 @@ Flickable {
         
         CustomTextInput {
             id: textInput5
+            enabled: controlsRect.active
             anchors.left: label5.right
             anchors.verticalCenter: label5.verticalCenter
             placeholderText: (parent.width > 0) ? "maximum Y" : ""
@@ -275,6 +331,7 @@ Flickable {
         
         StartButtonFocusScope {
             id: startButtonFocusScope
+            enabled: controlsRect.active
             onFocusChanged: {
                  controlRectFlickable.ensureVisible(startButtonFocusScope)
                 if (activeFocus)
@@ -284,6 +341,7 @@ Flickable {
 
         Focus1 {
             id: focus1
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus1)
                 if (activeFocus)
@@ -293,6 +351,7 @@ Flickable {
 
         Focus2 {
             id: focus2
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus2)
                 if (activeFocus)
@@ -302,6 +361,7 @@ Flickable {
 
         Focus3 {
             id: focus3
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus3)
                 if (activeFocus)
@@ -311,6 +371,7 @@ Flickable {
 
         Focus4 {
             id: focus4
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus4)
                 if (activeFocus)
@@ -320,6 +381,7 @@ Flickable {
 
         Focus5 {
             id: focus5
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus5)
                 if (activeFocus)
@@ -329,6 +391,7 @@ Flickable {
 
         Focus6 {
             id: focus6
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus6)
                 if (activeFocus)
@@ -338,6 +401,7 @@ Flickable {
 
         Focus7 {
             id: focus7
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus7)
                 if (activeFocus)
@@ -347,6 +411,7 @@ Flickable {
 
         Focus8 {
             id: focus8
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus8)
                 if (activeFocus)
@@ -356,6 +421,7 @@ Flickable {
 
         Focus9 {
             id: focus9
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus9)
                 if (activeFocus)
@@ -365,6 +431,7 @@ Flickable {
 
         Focus10 {
             id: focus10
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus10)
                 if (activeFocus)
@@ -374,6 +441,7 @@ Flickable {
 
         Focus11 {
             id: focus11
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus11)
                 if (activeFocus)
@@ -383,6 +451,7 @@ Flickable {
 
         Focus12 {
             id: focus12
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus12)
                 if (activeFocus)
@@ -392,6 +461,7 @@ Flickable {
 
         Focus13 {
             id: focus13
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus13)
                 if (activeFocus)
@@ -401,6 +471,7 @@ Flickable {
 
         Focus14 {
             id: focus14
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus14)
                 if (activeFocus)
@@ -410,6 +481,7 @@ Flickable {
 
         Focus15 {
             id: focus15
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus15)
                 if (activeFocus)
@@ -419,6 +491,7 @@ Flickable {
 
         Focus16 {
             id: focus16
+            enabled: controlsRect.active
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(focus16)
                 if (activeFocus)

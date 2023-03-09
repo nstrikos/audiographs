@@ -11,6 +11,8 @@ public:
     virtual void calculate(QString expression, QString minX, QString maxX, QString minY, QString maxY) = 0;
     virtual void startDrag(int x , int y) = 0;
     virtual void drag(int diffX, int diffY, int width, int height) = 0;
+    virtual void startPinch() = 0;
+    virtual void pinch(double scale) = 0;
     virtual void zoom(double delta) = 0;
     virtual void playSound() = 0;
     virtual void stopSound() = 0;

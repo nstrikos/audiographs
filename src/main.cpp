@@ -6,6 +6,7 @@
 #include "function/functionModel.h"
 #include "function/dragHandler.h"
 #include "function/functionZoomer.h"
+#include "function/pinchHandler.h"
 #include "function/currentPoint.h"
 #include "generator/audio.h"
 #include "audionotes/audionotes.h"
@@ -54,9 +55,9 @@ int main(int argc, char *argv[])
             a.installTranslator(&appTranslator);
         } else if (language == 1) {
 
-        } else if (language == 2) {            
+        } else if (language == 2) {
             appTranslator.load("audiographs_el_GR", ":/translations");
-            a.installTranslator(&appTranslator);            
+            a.installTranslator(&appTranslator);
         }
 
         MainWindow *w = new MainWindow(*controller);
@@ -85,6 +86,7 @@ int main(int argc, char *argv[])
         FunctionModel *model = new FunctionModel(*controller);
         DragHandler *dragHandler = new DragHandler(*controller, *model);
         FunctionZoomer *zoomer = new FunctionZoomer(*controller, *model);
+        PinchHandler *pinchHandler = new PinchHandler(*controller, *model);
         CurrentPoint *currentPoint = new CurrentPoint(*controller, *model);
         Audio *audio = new Audio(*controller);
         AudioNotes *audionotes = new AudioNotes(*controller, *model);
@@ -120,22 +122,23 @@ int main(int argc, char *argv[])
         QObject *qmlDerivativeView = rootObject->findChild<QObject*>("derivativeView");
 
         FunctionDisplayView *displayView = static_cast<FunctionDisplayView*>(qmlDisplayView);
-        QObject::connect(w, &QmlConnector::qmlGraph, displayView, &FunctionDisplayView::draw);
+        QObject::connect(w, &QmlConnector::qmlUpdateGraph, displayView, &FunctionDisplayView::draw);
         QObject::connect(w, &QmlConnector::qmlError, displayView, &FunctionDisplayView::clear);
 
         FunctionPointView *pointView = static_cast<FunctionPointView*>(qmlPointView);
-        QObject::connect(w, &QmlConnector::qmlGraph, pointView, &FunctionPointView::draw);
-        QObject::connect(w, &QmlConnector::newCurrentPoint, pointView, &FunctionPointView::setCurrentPoint);
+        QObject::connect(w, &QmlConnector::qmlUpdateGraph, pointView, &FunctionPointView::draw);
+        QObject::connect(w, &QmlConnector::qmlNewCurrentPoint, pointView, &FunctionPointView::setCurrentPoint);
 
         FunctionDisplayView *derivativeView = static_cast<FunctionDisplayView*>(qmlDerivativeView);
-        QObject::connect(w, &QmlConnector::updateDerivative, derivativeView, &FunctionDisplayView::draw);
-        QObject::connect(w, &QmlConnector::qmlError, derivativeView, &FunctionDisplayView::clear);
+        //QObject::connect(w, &QmlConnector::updateDerivative, derivativeView, &FunctionDisplayView::draw);
+        //QObject::connect(w, &QmlConnector::qmlError, derivativeView, &FunctionDisplayView::clear);
 
         ret = app.exec();
         delete w;
         delete model;
         delete dragHandler;
         delete zoomer;
+        delete pinchHandler;
         delete currentPoint;
         delete audio;
         delete pointsInterest;

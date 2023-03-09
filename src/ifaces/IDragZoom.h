@@ -3,12 +3,14 @@
 
 class DragHandler;
 class FunctionZoomer;
+class PinchHandler;
 
 class IDragZoom
 {
 public:
     virtual void addDragHandler(DragHandler *dragHandler) = 0;
     virtual void addZoomer(FunctionZoomer *zoomer) = 0;
+    virtual void addPinchHandler(PinchHandler *pinchHandler) = 0;
     virtual void newInputValues(double minX, double maxX, double minY, double maxY) = 0;
 };
 

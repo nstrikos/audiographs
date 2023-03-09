@@ -24,6 +24,7 @@ SOURCES += \
     function/functionDescription.cpp \
     function/functionModel.cpp \
     function/functionZoomer.cpp \
+    function/pinchHandler.cpp \
     function/point.cpp \
     function/pointsInterest.cpp \
     generator/audio.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     function/functionDescription.h \
     function/functionModel.h \
     function/functionZoomer.h \
+    function/pinchHandler.h \
     function/point.h \
     function/pointsInterest.h \
     generator/audio.h \
@@ -111,6 +113,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     help.qrc \
+    qml.qrc \
     translations.qrc
     qml.qrc
 

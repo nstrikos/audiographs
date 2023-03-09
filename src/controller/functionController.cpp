@@ -3,6 +3,7 @@
 #include "function/functionModel.h"
 #include "function/dragHandler.h"
 #include "function/functionZoomer.h"
+#include "function/pinchHandler.h"
 #include "function/currentPoint.h"
 #include "generator/audio.h"
 #include "audionotes/audionotes.h"
@@ -39,6 +40,11 @@ void FunctionController::addDragHandler(DragHandler *dragHandler)
 void FunctionController::addZoomer(FunctionZoomer *zoomer)
 {
     this->zoomer = zoomer;
+}
+
+void FunctionController::addPinchHandler(PinchHandler *pinchHandler)
+{
+    this->pinchHandler = pinchHandler;
 }
 
 void FunctionController::addCurrentPoint(CurrentPoint *currentPoint)
@@ -101,6 +107,16 @@ void FunctionController::drag(int diffX, int diffY, int width, int height)
     dragHandler->drag(diffX, diffY, width, height);
 }
 
+void FunctionController::startPinch()
+{
+    pinchHandler->startPinch();
+}
+
+void FunctionController::pinch(double scale)
+{
+    pinchHandler->pinch(scale);
+}
+
 void FunctionController::zoom(double delta)
 {
     currentPoint->reset();
@@ -120,7 +136,7 @@ void FunctionController::newCurrentPoint(double x, double y)
 
 void FunctionController::audioFinished()
 {
-    stateMachine->audioFinished();
+    emit stateMachine->audioFinished();
 }
 
 void FunctionController::audioNotesFinished()
