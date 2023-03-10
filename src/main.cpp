@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
         QObject::connect(w, &QmlConnector::qmlNewCurrentPoint, pointView, &FunctionPointView::setCurrentPoint);
 
         FunctionDisplayView *derivativeView = static_cast<FunctionDisplayView*>(qmlDerivativeView);
-        //QObject::connect(w, &QmlConnector::updateDerivative, derivativeView, &FunctionDisplayView::draw);
+        QObject::connect(w, &QmlConnector::qmlUpdateDerivative, derivativeView, &FunctionDisplayView::draw);
         //QObject::connect(w, &QmlConnector::qmlError, derivativeView, &FunctionDisplayView::clear);
 
         ret = app.exec();

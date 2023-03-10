@@ -10,7 +10,7 @@ FocusScope {
     anchors.right: startButtonFocusScope.horizontalCenter
     anchors.rightMargin: 15
     activeFocusOnTab: true
-    Accessible.name: qsTr("Derivative control plus d")
+    Accessible.name: qsTr("Say derivative control plus d")
 
     Keys.onSpacePressed: pressed()
     Keys.onEnterPressed: pressed()
@@ -27,7 +27,7 @@ FocusScope {
         border.color: focus13.activeFocus ? lightColor : "light gray"
         border.width: focus13.activeFocus ? 2 : 1
         property bool checked: true
-        property var text: "Derivative"
+        property var text: "Say derivative"
 
         signal clicked()
 

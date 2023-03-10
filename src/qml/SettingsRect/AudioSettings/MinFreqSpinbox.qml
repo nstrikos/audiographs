@@ -15,7 +15,7 @@ SpinBox {
     to: 4000
     stepSize: 100
     onValueChanged: {
-        window.stopAudio()
+        //window.stopAudio()
         parameters.minFreq = value
     }
     Accessible.name: qsTr("Minimum frequency")

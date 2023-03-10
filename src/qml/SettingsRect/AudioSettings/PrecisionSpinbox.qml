@@ -15,7 +15,7 @@ SpinBox {
     from: 0
     to: 5
     onValueChanged: {
-        window.stopAudio()
+        //window.stopAudio()
         parameters.precisionDigits = value
     }
     

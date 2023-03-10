@@ -41,34 +41,34 @@ TextField {
 
     Keys.onPressed: {
         if (event.key === Qt.Key_X  && event.modifiers & Qt.ControlModifier) {
-            window.sayX()
+            qmlConnector.sayX()
             event.accepted = true;
         } else if (event.key === Qt.Key_Y  && event.modifiers & Qt.ControlModifier) {
-            window.sayY()
+            qmlConnector.sayY()
             event.accepted = true;
         } else if (event.key === Qt.Key_PageDown) {
-            window.previousPoint()
+            qmlConnector.previousPoint()
             event.accepted = true;
         } else if (event.key === Qt.Key_PageUp) {
-            window.nextPoint()
+            qmlConnector.nextPoint()
             event.accepted = true;
         } else if (event.key === Qt.Key_Left  && event.modifiers & Qt.ControlModifier) {
-            window.previousPointInterest()
+            qmlConnector.previousPointInterest()
             event.accepted = true;
         } else if (event.key === Qt.Key_Right  && event.modifiers & Qt.ControlModifier) {
-            window.nextPointInterest()
+            qmlConnector.nextPointInterest()
             event.accepted = true;
         } else if (event.key === Qt.Key_Left  && event.modifiers & Qt.ShiftModifier) {
-            window.previousFast()
+            qmlConnector.previousFast()
             event.accepted = true;
         } else if (event.key === Qt.Key_Right  && event.modifiers & Qt.ShiftModifier) {
-            window.nextFast()
+            qmlConnector.nextFast()
             event.accepted = true;
         } else if (event.key === Qt.Key_Home) {
-            window.firstPoint()
+            qmlConnector.firstPoint()
             event.accepted = true;
         } else if (event.key === Qt.Key_End) {
-            window.lastPoint()
+            qmlConnector.lastPoint()
             event.accepted = true;
         } else if (event.key === Qt.Key_D  && event.modifiers & Qt.ControlModifier) {
             window.sayDerivative()

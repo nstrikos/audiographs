@@ -14,7 +14,7 @@ SpinBox {
     value: parameters.highlightSize
     Accessible.name: qsTr("Highlight size")
     onValueChanged: {
-        window.stopAudio()
+        //window.stopAudio()
         graphRect.highlightSize = value
         parameters.highlightSize = value
     }

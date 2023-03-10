@@ -29,19 +29,7 @@ Window {
 
     property bool canZoomDrag: false
 
-    signal evaluate()
-    signal playPressed()
-    signal newGraph()
-    signal error()
-    signal errorAccepted()
-    signal explore()
-    signal interestingPoint()
-    signal interestingPointFinished()
-
-
-
-    signal stopAudio()
-    signal interestingPointStopped()
+    property string errorString
 
     Settings {
         property alias x: window.x
@@ -222,39 +210,26 @@ Window {
 
     Connections {
         target: qmlConnector
-        function onQmlError() {
+        function onQmlErrorDisplayStateActivated() {
+            errorDisplayStateActivated()
+        }
+    }
+
+    Connections {
+        target: qmlConnector
+        function onQmlError(error) {
             qmlConnector.setDerivativeMode(0)
             window.graphRect.pointView.clear()
             window.graphRect.derivativeView.setUpdate(false);
             window.graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
             disableControls()
+            errorString = error
             qmlConnector.functionError()
         }
     }
 
     function showError(errorString) {
-        messageDialog.title = errorString
-        messageDialog.visible = true
-        timer.start()
-    }
-
-    MessageDialog {
-        id: messageDialog
-        title: "May I have your attention please"
-        text: title//"It's so cool that you are using Qt Quick."
-        onAccepted: visible = false
-        Component.onCompleted: visible = false
-        //        Accessible.name: qsTr("Error")
-        //        Accessible.description: qsTr("Error")
-    }
-
-    Timer {
-        id: timer
-        interval: 3000
-        onTriggered: {
-            messageDialog.visible = false
-            //window.init()
-        }
+        errorDialog.visible = true
     }
 
     function initialStateActivated()
@@ -263,6 +238,7 @@ Window {
         qmlConnector.setDerivativeMode(0)
         window.graphRect.pointView.clear()
         window.graphRect.derivativeView.setUpdate(false);
+        window.graphRect.derivativeView.visible = false
         window.graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
         disableControls()
     }
@@ -336,127 +312,27 @@ Window {
         //ui->renderArea->disableCurrentPoint();
     }
 
+    function errorDisplayStateActivated()
+    {
+        console.log("error display state activated")
+        errorDialog.visible = true
+
+    }
+
+    MessageDialog {
+        id: errorDialog
+        title: "Error"
+        text: errorString
+        onAccepted: qmlConnector.errorAccepted()
+        Component.onCompleted: visible = false
+        //Accessible.name: qsTr("Error")
+        //Accessible.description: qsTr("Error")
+    }
+
     function exploreStateDeactivated()
     {
         console.log("explore state deactivated")
         //ui->renderArea->disableCurrentPoint();
-    }
-
-    function sayX()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.sayX()
-        }
-    }
-
-    function sayY()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.sayY()
-        }
-    }
-
-    function previousPoint()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.previousPoint()
-        }
-    }
-
-    function nextPoint()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.nextPoint()
-        }
-    }
-
-    function previousPointInterest()
-    {
-        if (window.canZoomDrag) {
-            window.interestingPoint()
-            functionExpression.previousPointInterest()
-        }
-    }
-
-    function nextPointInterest()
-    {
-        if (window.canZoomDrag) {
-            window.interestingPoint()
-            functionExpression.nextPointInterest()
-        }
-    }
-
-    function previousFast()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.previousFast()
-        }
-    }
-
-    function nextFast()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.nextFast()
-        }
-    }
-
-    function firstPoint()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.firstPoint()
-        }
-    }
-
-    function lastPoint()
-    {
-        if (window.canZoomDrag) {
-            window.explore()
-            functionExpression.lastPoint()
-        }
-    }
-
-    function sayDerivative()
-    {
-        if (window.canZoomDrag) {
-            functionExpression.sayDerivative()
-        }
-    }
-
-    function normalDerivative()
-    {
-        if (window.canZoomDrag) {
-            window.graphRect.derivativeView.setUpdate(false);
-            window.graphRect.derivativeView.clear()
-            functionExpression.setDerivativeMode(0)
-            newGraph()
-        }
-    }
-
-    function firstDerivative()
-    {
-        if (window.canZoomDrag) {
-            window.graphRect.derivativeView.visible = true
-            window.graphRect.derivativeView.setUpdate(true);
-            functionExpression.setDerivativeMode(1)
-            newGraph()
-        }
-    }
-
-    function secondDerivative()
-    {
-        if (window.canZoomDrag) {
-            window.graphRect.derivativeView.visible = true;
-            window.graphRect.derivativeView.setUpdate(true);
-            functionExpression.setDerivativeMode(2)
-            newGraph()
-        }
     }
 
     function disableControls()

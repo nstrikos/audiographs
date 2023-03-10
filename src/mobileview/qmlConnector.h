@@ -32,6 +32,11 @@ public:
     Q_INVOKABLE void drag(int diffX, int diffY, int width, int height);
     Q_INVOKABLE void startPinch();
     Q_INVOKABLE void pinch(double scale);
+    Q_INVOKABLE void decStep();
+    Q_INVOKABLE void incStep();
+    Q_INVOKABLE void sayX();
+    Q_INVOKABLE void sayY();
+    Q_INVOKABLE void errorAccepted();
 
 
     void updateGraph(Points *points, double minX, double maxX, double minY, double maxY) override;
@@ -71,6 +76,8 @@ signals:
     void qmlInterestingPointStoppedStateDeactivated();
     void qmlExploreStateActivated();
     void qmlExploreStateDeactivated();
+    void qmlUpdateDerivative(Points *points, double minX, double maxX, double minY, double maxY);
+    void qmlErrorDisplayStateActivated();
 
 private:
     IGui &iface;

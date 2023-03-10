@@ -52,7 +52,7 @@ QVector<InterestingPoint> FunctionDescription::points(bool includeZero)
 
         } else if (m_model.isValidAt(prev) && m_model.isValidAt(next)) {
 
-            if (includeZero && derivativeMode == 0) {
+            if (includeZero) { //&& derivativeMode == 0) {
 
                 if (m_model.y_0(i) == 0) {
                     tmp.label += tr(" zero");

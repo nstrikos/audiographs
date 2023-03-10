@@ -97,13 +97,13 @@ void FunctionController::updateDerivative(Points *points, double minX, double ma
 
 void FunctionController::startDrag(int x, int y)
 {
-    currentPoint->reset();
     pointsInterest->notUpdated();
     dragHandler->startDrag(x, y);
 }
 
 void FunctionController::drag(int diffX, int diffY, int width, int height)
 {
+    currentPoint->reset();
     dragHandler->drag(diffX, diffY, width, height);
 }
 

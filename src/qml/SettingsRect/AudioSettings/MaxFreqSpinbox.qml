@@ -16,7 +16,7 @@ SpinBox {
     to: 8000
     stepSize: 100
     onValueChanged: {
-        window.stopAudio()
+        //window.stopAudio()
         parameters.maxFreq = value
     }
     

@@ -117,6 +117,31 @@ void QmlConnector::pinch(double scale)
     iface.pinch(scale);
 }
 
+void QmlConnector::decStep()
+{
+    iface.decStep();
+}
+
+void QmlConnector::incStep()
+{
+    iface.incStep();
+}
+
+void QmlConnector::sayX()
+{
+    iface.sayX();
+}
+
+void QmlConnector::sayY()
+{
+    iface.sayY();
+}
+
+void QmlConnector::errorAccepted()
+{
+    iface.errorAccepted();
+}
+
 void QmlConnector::updateGraph(Points *points, double minX, double maxX, double minY, double maxY)
 {
     emit qmlUpdateGraph(points, minX, maxX, minY, maxY);
@@ -129,7 +154,7 @@ void QmlConnector::error(QString errorString)
 
 void QmlConnector::updateDerivative(Points *points, double minX, double maxX, double minY, double maxY)
 {
-
+    emit qmlUpdateDerivative(points, minX, maxX, minY, maxY);
 }
 
 void QmlConnector::newCurrentPoint(double x, double y)
@@ -159,7 +184,7 @@ void QmlConnector::graphReadyStateActivated()
 
 void QmlConnector::errorDisplayStateActivated()
 {
-
+    emit qmlErrorDisplayStateActivated();
 }
 
 void QmlConnector::playSoundStateActivated()

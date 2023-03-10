@@ -38,7 +38,7 @@ FocusScope {
             }
         }
         onCheckedChanged: {
-            window.stopAudio()
+            //window.stopAudio()
             parameters.showAxes = checked
             textToSpeech.speak(showAxesFocusScope.Accessible.name + " " + parameters.showAxes)
             if (window.canZoomDrag)

@@ -754,7 +754,7 @@ void MainWindow::mousePressed(int x, int y)
 
     m_mousePressed = true;
 
-    ui->renderArea->disableCurrentPoint();
+    //ui->renderArea->disableCurrentPoint();
     iface.setDerivativeMode(0);
     ui->renderArea->setDerivativeMode(0);
     iface.startDrag(x, y);

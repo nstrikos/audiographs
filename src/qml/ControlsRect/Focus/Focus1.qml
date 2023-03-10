@@ -18,7 +18,7 @@ FocusScope {
 
     function pressed() {
         console.log("pressed")
-        window.sayX()
+        qmlConnector.sayX()
     }
     
     Rectangle {

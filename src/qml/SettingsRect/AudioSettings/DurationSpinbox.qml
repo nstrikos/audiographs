@@ -15,7 +15,7 @@ SpinBox {
     from: 10
     to: 100
     onValueChanged: {
-        window.stopAudio()
+        //window.stopAudio()
         parameters.duration = value
     }
     

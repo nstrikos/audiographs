@@ -17,7 +17,9 @@ FocusScope {
     Keys.onReturnPressed: pressed()
 
     function pressed() {
-        window.secondDerivative()
+        window.graphRect.derivativeView.visible = true
+        window.graphRect.derivativeView.setUpdate(true)
+        qmlConnector.setDerivativeMode(2)
     }
 
     Rectangle {

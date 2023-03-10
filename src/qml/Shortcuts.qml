@@ -10,7 +10,7 @@ Item {
     Shortcut {
         sequence: "Return"
         onActivated: {
-            window.playPressed()
+            qmlConnector.playPressed()
         }
     }
     Shortcut {
@@ -25,13 +25,13 @@ Item {
     Shortcut {
         sequence: "Ctrl+X"
         onActivated: {
-            window.sayX()
+            qmlConnector.sayX()
         }
     }
     Shortcut {
         sequence: "Ctrl+Y"
         onActivated: {
-            window.sayY()
+            qmlConnector.sayY()
         }
     }
     Shortcut {

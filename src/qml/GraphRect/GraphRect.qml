@@ -98,9 +98,9 @@ Rectangle {
             onPressedChanged: {
                 if (pressed)
                     if (window.canZoomDrag) {
-                        qmlConnector.setDerivativeMode(0)
-                        window.graphRect.derivativeView.setUpdate(false);
-                        window.graphRect.derivativeView.visible = false
+                        //qmlConnector.setDerivativeMode(0)
+                        //window.graphRect.derivativeView.setUpdate(false);
+                        //window.graphRect.derivativeView.visible = false
                         qmlConnector.startDrag(mouseX, mouseY)
                     }
             }
@@ -120,7 +120,7 @@ Rectangle {
     onHeightChanged: updateCanvas()
 
     function updateCanvas() {
-        window.stopAudio()
+        //window.stopAudio()
         graphCanvas.updateCanvas(minX, maxX, minY, maxY)
         //functionController.viewDimensionsChanged()
         displayView.updateView()

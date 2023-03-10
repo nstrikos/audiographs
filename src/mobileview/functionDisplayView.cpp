@@ -79,7 +79,6 @@ QSGNode *FunctionDisplayView::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
         node = new QSGGeometryNode;
 
 #ifndef Q_OS_ANDROID
-        qDebug() << LINE_POINTS / m_factor;
         geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), LINE_POINTS / m_factor);
 #else
         //For android we use only 1 point as main geometry

@@ -39,7 +39,7 @@ FocusScope {
             }
         }
         onCheckedChanged: {
-            window.stopAudio()
+            //window.stopAudio()
             parameters.invertTheme = checked
             controlsRect.invertTheme = checked
             textToSpeech.speak(invertThemeFocusScope.Accessible.name + " " + parameters.invertTheme)
