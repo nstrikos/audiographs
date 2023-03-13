@@ -39,7 +39,7 @@ FocusScope {
             }
         }
         onCheckedChanged: {
-            window.stopAudio()
+            //window.stopAudio()
             parameters.useNegativeNotes = checked
             textToSpeech.speak(useDifferentNotesFocusScope.Accessible.name + " " + parameters.useNegativeNotes)
         }

@@ -27,6 +27,7 @@ Flickable {
     property alias startSoundButtonFocusScope: startButtonFocusScope
     property alias useNotesFocusScope: useNotesFocusScope
     property alias useDifferentNotesFocusScope: useDifferentNotesFocusScope
+    property alias precisionSpinbox: precisionSpinbox
 
     property color lineColor: parameters.lineColor
     property color backgroundColor: parameters.backgroundColor

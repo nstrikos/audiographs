@@ -20,6 +20,8 @@ Rectangle {
     property alias startSoundButton: controlRectFlickable.startSoundButton
     property alias startSoundButtonFocusScope: controlRectFlickable.startSoundButtonFocusScope
 
+    property alias precisionSpinbox: controlRectFlickable.precisionSpinbox
+
     property alias textInput: controlRectFlickable.textInput
     property alias textInput2: controlRectFlickable.textInput2
     property alias textInput3: controlRectFlickable.textInput3

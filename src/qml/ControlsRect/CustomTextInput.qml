@@ -43,15 +43,15 @@ TextField {
         if (event.key === Qt.Key_X  && event.modifiers & Qt.ControlModifier) {
             qmlConnector.sayX()
             event.accepted = true;
-        } else if (event.key === Qt.Key_Y  && event.modifiers & Qt.ControlModifier) {
-            qmlConnector.sayY()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_PageDown) {
-            qmlConnector.previousPoint()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_PageUp) {
-            qmlConnector.nextPoint()
-            event.accepted = true;
+//        } else if (event.key === Qt.Key_Y  && event.modifiers & Qt.ControlModifier) {
+//            qmlConnector.sayY()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_PageDown) {
+//            qmlConnector.previousPoint()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_PageUp) {
+//            qmlConnector.nextPoint()
+//            event.accepted = true;
         } else if (event.key === Qt.Key_Left  && event.modifiers & Qt.ControlModifier) {
             qmlConnector.previousPointInterest()
             event.accepted = true;
@@ -70,24 +70,24 @@ TextField {
         } else if (event.key === Qt.Key_End) {
             qmlConnector.lastPoint()
             event.accepted = true;
-        } else if (event.key === Qt.Key_D  && event.modifiers & Qt.ControlModifier) {
-            window.sayDerivative()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_0  && event.modifiers & Qt.ControlModifier) {
-            window.normalDerivative()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_1  && event.modifiers & Qt.ControlModifier) {
-            window.firstDerivative()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_2  && event.modifiers & Qt.ControlModifier) {
-            window.secondDerivative()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_BracketLeft  && event.modifiers & Qt.ControlModifier) {
-            functionExpression.decStep()
-            event.accepted = true;
-        } else if (event.key === Qt.Key_BracketRight  && event.modifiers & Qt.ControlModifier) {
-            functionExpression.incStep()
-            event.accepted = true;
+//        } else if (event.key === Qt.Key_D  && event.modifiers & Qt.ControlModifier) {
+//            window.sayDerivative()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_0  && event.modifiers & Qt.ControlModifier) {
+//            window.normalDerivative()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_1  && event.modifiers & Qt.ControlModifier) {
+//            window.firstDerivative()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_2  && event.modifiers & Qt.ControlModifier) {
+//            window.secondDerivative()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_BracketLeft  && event.modifiers & Qt.ControlModifier) {
+//            functionExpression.decStep()
+//            event.accepted = true;
+//        } else if (event.key === Qt.Key_BracketRight  && event.modifiers & Qt.ControlModifier) {
+//            functionExpression.incStep()
+//            event.accepted = true;
         }
     }
 }

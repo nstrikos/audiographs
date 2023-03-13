@@ -45,6 +45,7 @@ public:
     void incPoint(int i);
     void decPoint(int i);
     void setPoint(int point);
+    void update();
 
 private slots:
     void timerExpired();

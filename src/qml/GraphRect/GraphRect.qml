@@ -42,17 +42,6 @@ Rectangle {
     }
 
     DisplayView {
-        id: derivativeView
-        objectName: "derivativeView"
-        anchors.fill: parent
-        visible: true
-        layer.enabled: true
-        layer.samples: 256
-        color: "blue"
-        lineWidth: parameters.lineWidth
-    }
-
-    DisplayView {
         id: displayView
         objectName: "displayView"
         anchors.fill: parent
@@ -60,6 +49,17 @@ Rectangle {
         layer.enabled: true
         layer.samples: 256
         color: parameters.lineColor
+        lineWidth: parameters.lineWidth
+    }
+
+    DisplayView {
+        id: derivativeView
+        objectName: "derivativeView"
+        anchors.fill: parent
+        visible: true
+        layer.enabled: true
+        layer.samples: 256
+        color: "blue"
         lineWidth: parameters.lineWidth
     }
 

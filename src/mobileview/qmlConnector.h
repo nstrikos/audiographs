@@ -37,7 +37,7 @@ public:
     Q_INVOKABLE void sayX();
     Q_INVOKABLE void sayY();
     Q_INVOKABLE void errorAccepted();
-
+    Q_INVOKABLE void sayDerivative();
 
     void updateGraph(Points *points, double minX, double maxX, double minY, double maxY) override;
     void error(QString errorString) override;

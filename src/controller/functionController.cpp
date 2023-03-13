@@ -229,6 +229,7 @@ void FunctionController::setDerivativeMode(int mode)
 {
     model->setDerivativeMode(mode);
     pointsInterest->notUpdated();
+    currentPoint->update();
 }
 
 void FunctionController::sayX()

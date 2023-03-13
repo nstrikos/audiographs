@@ -329,6 +329,30 @@ Window {
         //Accessible.description: qsTr("Error")
     }
 
+    function normalDerivative()
+    {
+        qmlConnector.setDerivativeMode(0)
+        window.graphRect.derivativeView.visible = false
+        window.graphRect.derivativeView.setUpdate(false)
+        textToSpeech.speak("Normal derivative mode");
+    }
+
+    function firstDerivative()
+    {
+        window.graphRect.derivativeView.visible = true
+        window.graphRect.derivativeView.setUpdate(true)
+        qmlConnector.setDerivativeMode(1)
+        textToSpeech.speak("First derivative mode");
+    }
+
+    function secondDerivative()
+    {
+        window.graphRect.derivativeView.visible = true
+        window.graphRect.derivativeView.setUpdate(true)
+        qmlConnector.setDerivativeMode(2)
+        textToSpeech.speak("Second derivative mode");
+    }
+
     function exploreStateDeactivated()
     {
         console.log("explore state deactivated")

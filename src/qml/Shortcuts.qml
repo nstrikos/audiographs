@@ -19,7 +19,7 @@ Item {
             controlsRect.textInput.clear()
             controlsRect.textInput.forceActiveFocus()
             textToSpeech.speak(qsTr("Function expression"))
-            window.evaluate()
+            qmlConnector.evaluate()
         }
     }
     Shortcut {
@@ -37,55 +37,55 @@ Item {
     Shortcut {
         sequence: StandardKey.MoveToPreviousPage
         onActivated: {
-            window.nextPoint()
+            qmlConnector.nextPoint()
         }
     }
     Shortcut {
         sequence: StandardKey.MoveToNextPage
         onActivated: {
-            window.previousPoint()
+            qmlConnector.previousPoint()
         }
     }
     Shortcut {
         sequence: "Ctrl+Left"
         onActivated: {
-            window.previousPointInterest()
+            qmlConnector.previousPointInterest()
         }
     }
     Shortcut {
         sequence: "Ctrl+Right"
         onActivated: {
-            window.nextPointInterest()
+            qmlConnector.nextPointInterest()
         }
     }
     Shortcut {
         sequence: "Shift+Left"
         onActivated: {
-            window.previousFast()
+            qmlConnector.previousFast()
         }
     }
     Shortcut {
         sequence: "Shift+Right"
         onActivated: {
-            window.nextFast()
+            qmlConnector.nextFast()
         }
     }
     Shortcut {
-        sequence: StandardKey.MoveToStartOfDocument
+        sequence: StandardKey.MoveToStartOfLine
         onActivated: {
-            window.firstPoint()
+            qmlConnector.firstPoint()
         }
     }
     Shortcut {
-        sequence: StandardKey.MoveToEndOfDocument
+        sequence: StandardKey.MoveToEndOfLine
         onActivated: {
-            window.lastPoint()
+            qmlConnector.lastPoint()
         }
     }
     Shortcut {
         sequence: "Ctrl+D"
         onActivated: {
-            window.sayDerivative()
+            qmlConnector.sayDerivative()
         }
     }
 
@@ -113,13 +113,13 @@ Item {
     Shortcut {
         sequence: "Ctrl+["
         onActivated: {
-            functionExpression.decStep()
+            qmlConnector.decStep()
         }
     }
     Shortcut {
         sequence: "Ctrl+]"
         onActivated: {
-            functionExpression.incStep()
+            qmlConnector.incStep()
         }
     }
     Shortcut {
@@ -132,6 +132,26 @@ Item {
         sequence: "F4"
         onActivated: {
             window.controlsRect.useNegativeNotesFocusScope.useDifferentNotesCheckBox.checked= !window.controlsRect.useNegativeNotesFocusScope.useDifferentNotesCheckBox.checked
+        }
+    }
+    Shortcut {
+        sequence: "F9"
+        onActivated: {
+            var value = window.controlsRect.precisionSpinbox.value
+            value--;
+            if (value < 0)
+                value = 0;
+            window.controlsRect.precisionSpinbox.value = value
+        }
+    }
+    Shortcut {
+        sequence: "F10"
+        onActivated: {
+            var value = window.controlsRect.precisionSpinbox.value
+            value++;
+            if (value > 5)
+                value = 5;
+            window.controlsRect.precisionSpinbox.value = value
         }
     }
 }

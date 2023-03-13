@@ -142,6 +142,11 @@ void QmlConnector::errorAccepted()
     iface.errorAccepted();
 }
 
+void QmlConnector::sayDerivative()
+{
+    iface.sayDerivative();
+}
+
 void QmlConnector::updateGraph(Points *points, double minX, double maxX, double minY, double maxY)
 {
     emit qmlUpdateGraph(points, minX, maxX, minY, maxY);

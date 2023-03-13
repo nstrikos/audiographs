@@ -56,6 +56,14 @@ void CurrentPoint::setPoint(int point)
     iface.newCurrentPoint(m_x, m_y);
 }
 
+void CurrentPoint::update()
+{
+    m_x = model.x(m_point);
+    m_y = model.y(m_point);
+
+    iface.newCurrentPoint(m_x, m_y);
+}
+
 void CurrentPoint::stop()
 {
     timer.stop();
