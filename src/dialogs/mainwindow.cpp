@@ -153,7 +153,7 @@ void MainWindow::initActions()
     connect(focusExpressionAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
     startSoundButtonAction = new QAction(tr("Start sound"), this);
-    startSoundButtonAction->setShortcut(Qt::CTRL + Qt::Key_Space);
+    startSoundButtonAction->setShortcut(Qt::Key_Enter);
     connect(startSoundButtonAction, &QAction::triggered, this, &MainWindow::on_startSoundPushButton_clicked);
     connect(startSoundButtonAction, &QAction::hovered, this, &MainWindow::sayWidget);
 
@@ -441,6 +441,7 @@ void MainWindow::updateLabel()
 
 void MainWindow::enableControls()
 {
+    startSoundButtonAction->setEnabled(true);
     ui->startSoundPushButton->setEnabled(true);
     ui->nextPushButton->setEnabled(true);
     nextAction->setEnabled(true);
@@ -479,6 +480,8 @@ void MainWindow::enableControls()
 
 void MainWindow::disableControls()
 {
+    startSoundButtonAction->setEnabled(false);
+    ui->startSoundPushButton->setEnabled(false);
     ui->nextPushButton->setEnabled(false);
     nextAction->setEnabled(false);
     ui->previousPushButton->setEnabled(false);
@@ -1026,10 +1029,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {    
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent* key = static_cast<QKeyEvent*>(event);
-        if ( (key->key() == Qt::Key_Space && key->modifiers()==Qt::ControlModifier) ) {
-            on_startSoundPushButton_clicked();
-            return true;
-        } else if ( (key->key() == Qt::Key_Enter || key->key() == Qt::Key_Return) ) {
+        if ( (key->key() == Qt::Key_Enter || key->key() == Qt::Key_Return) ) {
             on_startSoundPushButton_clicked();
             return true;
         } else if ( (key->key() == Qt::Key_Right && key->modifiers()==Qt::ControlModifier) ) {
