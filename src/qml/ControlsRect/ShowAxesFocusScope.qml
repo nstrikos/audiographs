@@ -16,6 +16,8 @@ FocusScope {
     Keys.onSpacePressed: showAxesCheckBox.checked = ! showAxesCheckBox.checked
     Keys.onEnterPressed: showAxesCheckBox.checked = ! showAxesCheckBox.checked
     Keys.onReturnPressed: showAxesCheckBox.checked = ! showAxesCheckBox.checked
+
+    property bool completed: false
     
     Rectangle {
         id: showAxesCheckBox
@@ -40,7 +42,8 @@ FocusScope {
         onCheckedChanged: {
             //window.stopAudio()
             parameters.showAxes = checked
-            textToSpeech.speak(showAxesFocusScope.Accessible.name + " " + parameters.showAxes)
+            if (completed)
+                textToSpeech.speak(showAxesFocusScope.Accessible.name + " " + parameters.showAxes)
             if (window.canZoomDrag)
                 graphRect.graphCanvas.updateCanvas(controlsRect.textInput2.text,
                                                    controlsRect.textInput3.text,
@@ -50,4 +53,6 @@ FocusScope {
                 graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
         }
     }
+
+    Component.onCompleted: completed = true
 }

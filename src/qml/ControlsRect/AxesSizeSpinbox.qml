@@ -13,6 +13,9 @@ SpinBox {
     to: 10
     value: parameters.axesSize
     Accessible.name: qsTr("Axes size")
+
+    property bool completed: false
+
     onValueChanged: {
         //window.stopAudio()
         parameters.axesSize = value
@@ -23,6 +26,10 @@ SpinBox {
                                                controlsRect.textInput5.text)
         else
             graphRect.graphCanvas.updateCanvas(-10, 10, -10, 10)
+
+        if (completed)
+            textToSpeech.speak(value + " " + qsTr("pixels"))
+
     }
     editable: false
     
@@ -118,4 +125,6 @@ SpinBox {
         }
         border.width: axesSizeSpinbox.activeFocus ? 2 : 1
     }
+
+    Component.onCompleted: completed = true
 }

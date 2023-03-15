@@ -14,9 +14,14 @@ SpinBox {
     from: 200
     to: 4000
     stepSize: 100
+
+    property bool completed: false
+
     onValueChanged: {
         //window.stopAudio()
         parameters.minFreq = value
+        if (completed)
+            textToSpeech.speak(value + " " + qsTr("hertz"))
     }
     Accessible.name: qsTr("Minimum frequency")
 
@@ -114,4 +119,6 @@ SpinBox {
         }
         border.width: minFreqSpinbox.activeFocus ? 2 : 1
     }
+
+    Component.onCompleted: completed = true
 }

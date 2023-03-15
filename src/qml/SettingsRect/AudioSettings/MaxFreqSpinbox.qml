@@ -9,8 +9,11 @@ SpinBox {
     anchors.verticalCenter: audioLabel3.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: 10
-//    activeFocusOnTab: true
+    //    activeFocusOnTab: true
     Accessible.name: qsTr("Maximum frequency")
+
+    property bool completed: false
+
     value: parameters.maxFreq
     from: 400
     to: 8000
@@ -18,6 +21,8 @@ SpinBox {
     onValueChanged: {
         //window.stopAudio()
         parameters.maxFreq = value
+        if (completed)
+            textToSpeech.speak(value + " " + qsTr("hertz"))
     }
     
     editable: false
@@ -116,4 +121,6 @@ SpinBox {
         }
         border.width: maxFreqSpinbox.activeFocus ? 2 : 1
     }
+
+    Component.onCompleted: completed = true
 }

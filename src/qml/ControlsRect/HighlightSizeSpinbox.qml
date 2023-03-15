@@ -13,10 +13,15 @@ SpinBox {
     to: 25
     value: parameters.highlightSize
     Accessible.name: qsTr("Highlight size")
+
+    property bool completed: false
+
     onValueChanged: {
         //window.stopAudio()
         graphRect.highlightSize = value
         parameters.highlightSize = value
+        if (completed)
+            textToSpeech.speak(value + " " + qsTr("pixels"))
     }
     editable: false
     
@@ -112,4 +117,6 @@ SpinBox {
         }
         border.width: highlightSizeSpinbox.activeFocus ? 2 : 1
     }
+
+    Component.onCompleted: completed = true
 }

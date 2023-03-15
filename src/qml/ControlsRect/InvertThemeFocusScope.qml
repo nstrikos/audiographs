@@ -13,6 +13,8 @@ FocusScope {
     property alias invertThemeCheckBox: invertThemeCheckBox
     activeFocusOnTab: true
     Accessible.name: qsTr("Invert theme")
+
+    property bool completed: false
     
     Keys.onSpacePressed: invertThemeCheckBox.checked = ! invertThemeCheckBox.checked
     Keys.onEnterPressed: invertThemeCheckBox.checked = ! invertThemeCheckBox.checked
@@ -42,10 +44,13 @@ FocusScope {
             //window.stopAudio()
             parameters.invertTheme = checked
             controlsRect.invertTheme = checked
-            textToSpeech.speak(invertThemeFocusScope.Accessible.name + " " + parameters.invertTheme)
+            if (completed)
+                textToSpeech.speak(invertThemeFocusScope.Accessible.name + " " + parameters.invertTheme)
             //audioSettingsTab.invertTheme = checked
             //graphSettingsTab.invertTheme = checked
             window.setColor()
         }
     }
+
+    Component.onCompleted: completed = true
 }

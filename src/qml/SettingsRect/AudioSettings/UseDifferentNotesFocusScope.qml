@@ -12,7 +12,10 @@ FocusScope {
     property alias useDifferentNotesCheckBox: useDifferentNotesCheckBox
     property alias color: useDifferentNotesCheckBox.color
     activeFocusOnTab: true
-    Accessible.name: qsTr("Use different notes for negative values control plus f four")
+
+    property bool completed: false
+
+    Accessible.name: qsTr("Use alternative notes for negative values")
 
     Keys.onSpacePressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
     Keys.onEnterPressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
@@ -41,7 +44,10 @@ FocusScope {
         onCheckedChanged: {
             //window.stopAudio()
             parameters.useNegativeNotes = checked
-            textToSpeech.speak(useDifferentNotesFocusScope.Accessible.name + " " + parameters.useNegativeNotes)
+            if (completed)
+                textToSpeech.speak(useDifferentNotesFocusScope.Accessible.name + " " + parameters.useNegativeNotes)
         }
     }
+
+    Component.onCompleted: completed = true
 }

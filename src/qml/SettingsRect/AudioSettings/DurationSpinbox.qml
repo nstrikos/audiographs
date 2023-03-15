@@ -9,14 +9,19 @@ SpinBox {
     anchors.verticalCenter: audioLabel1.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: 10
-//    activeFocusOnTab: true
+    //    activeFocusOnTab: true
     Accessible.name: qsTr("Duration")
+
+    property bool completed: false
+
     value: parameters.duration
     from: 10
     to: 100
     onValueChanged: {
         //window.stopAudio()
         parameters.duration = value
+        if (completed)
+            textToSpeech.speak(value + " " + qsTr("seconds"))
     }
     
     editable: false
@@ -113,5 +118,6 @@ SpinBox {
         }
         border.width: durationSpinbox.activeFocus ? 2 : 1
     }
-    
+
+    Component.onCompleted: completed = true
 }

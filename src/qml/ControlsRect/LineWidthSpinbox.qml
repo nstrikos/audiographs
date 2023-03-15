@@ -13,10 +13,15 @@ SpinBox {
     to: 15
     value: parameters.lineWidth
     Accessible.name: qsTr("Line width")
+
+    property bool completed: false
+
     onValueChanged: {
         //window.stopAudio()
         graphRect.curveWidth = value
         parameters.lineWidth = value
+        if (completed)
+            onValueChanged: textToSpeech.speak(value + " " + qsTr("pixels"))
     }
     editable: false
     
@@ -112,4 +117,6 @@ SpinBox {
         }
         border.width: lineWidthSpinbox.activeFocus ? 2 : 1
     }
+
+    Component.onCompleted: completed = true
 }

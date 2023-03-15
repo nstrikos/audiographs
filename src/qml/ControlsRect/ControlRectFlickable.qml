@@ -511,7 +511,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("seconds"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("seconds"))
         }
         Label2 {
             id: audioLabel2
@@ -523,7 +522,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("hertz"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("hertz"))
         }
         Label3 {
             id: audioLabel3
@@ -535,7 +533,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("hertz"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("hertz"))
         }
         Label {
             id: audioLabel4
@@ -556,7 +553,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("digits"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("digits"))
         }
 
         Label4 {
@@ -679,7 +675,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("pixels"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("pixels"))
         }
         GraphLabel4 {
             id: graphLabel4
@@ -702,7 +697,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("pixels"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("pixels"))
         }
         GraphLabel6 {
             id: graphLabel6
@@ -725,7 +719,6 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("pixels"))
             }
-            onValueChanged: textToSpeech.speak(value + " " + qsTr("pixels"))
         }
         GraphLabel8 {
             id: graphLabel8

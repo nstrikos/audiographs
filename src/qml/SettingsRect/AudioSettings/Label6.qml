@@ -4,7 +4,7 @@ import QtQuick.Dialogs 1.3
 
 Label {
     id: label6
-    text: qsTr("Use different notes\n for negative values") + ":"
+    text: qsTr("Use alternative notes\n for negative values") + ":"
     anchors.top: audioLabel5.bottom
     anchors.topMargin: 30
     anchors.left: parent.left

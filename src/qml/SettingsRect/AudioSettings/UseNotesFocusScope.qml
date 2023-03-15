@@ -12,7 +12,10 @@ FocusScope {
     property alias useNotesCheckBox: useNotesCheckBox
     property alias color: useNotesCheckBox.color
     activeFocusOnTab: true
-    Accessible.name: qsTr("Use notes control plus f three")
+
+    property bool completed: false
+
+    Accessible.name: qsTr("Use notes")
     
     Keys.onSpacePressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
     Keys.onEnterPressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
@@ -41,7 +44,10 @@ FocusScope {
         onCheckedChanged: {
             //window.stopAudio()
             parameters.useNotes = checked
-            textToSpeech.speak(useNotesFocusScope.Accessible.name + " " + parameters.useNotes)
+            if (completed)
+                textToSpeech.speak(useNotesFocusScope.Accessible.name + " " + parameters.useNotes)
         }
     }
+
+    Component.onCompleted: completed = true
 }

@@ -11,12 +11,17 @@ SpinBox {
     anchors.rightMargin: 10
 //    activeFocusOnTab: true
     Accessible.name: qsTr("Precision digits")
+
+    property bool completed: false
+
     value: parameters.precisionDigits
     from: 0
     to: 5
     onValueChanged: {
         //window.stopAudio()
         parameters.precisionDigits = value
+        if (completed)
+            textToSpeech.speak(value + " " + qsTr("digits"))
     }
     
     editable: false
@@ -113,4 +118,6 @@ SpinBox {
         }
         border.width: precisionSpinbox.activeFocus ? 2 : 1
     }
+
+    Component.onCompleted: completed = true
 }
