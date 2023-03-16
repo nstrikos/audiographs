@@ -226,6 +226,7 @@ Flickable {
         
         CustomTextInput {
             id: textInput2
+            text: "-10"
             enabled: controlsRect.active
             onTextChanged: {
                 if (controlsRect.active)
@@ -253,6 +254,7 @@ Flickable {
         CustomTextInput {
             id: textInput3
             enabled: controlsRect.active
+            text: "10"
             anchors.left: label3.right
             anchors.verticalCenter: label3.verticalCenter
             placeholderText: (parent.width > 0) ? "maximum X" : ""
@@ -284,6 +286,7 @@ Flickable {
         CustomTextInput {
             id: textInput4
             enabled: controlsRect.active
+            text: "-10"
             anchors.left: label4.right
             anchors.verticalCenter: label4.verticalCenter
             placeholderText: (parent.width > 0) ? "minimum Y" : ""
@@ -314,6 +317,7 @@ Flickable {
         CustomTextInput {
             id: textInput5
             enabled: controlsRect.active
+            text: "10"
             anchors.left: label5.right
             anchors.verticalCenter: label5.verticalCenter
             placeholderText: (parent.width > 0) ? "maximum Y" : ""

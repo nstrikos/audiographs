@@ -34,7 +34,7 @@ Button {
         border.width: resetButton.activeFocus ? 2 : 1
     }
     onClicked: {
-        window.stopAudio()
+        //window.stopAudio()
         parameters.reset()
         lineColor = parameters.lineColor
         graphRect.curveColor = parameters.lineColor

@@ -42,9 +42,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-664</y>
+         <y>0</y>
          <width>300</width>
-         <height>1669</height>
+         <height>1593</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -105,6 +105,9 @@
             <property name="accessibleDescription">
              <string>Function Expression</string>
             </property>
+            <property name="text">
+             <string/>
+            </property>
             <property name="clearButtonEnabled">
              <bool>false</bool>
             </property>
@@ -157,6 +160,9 @@
             <property name="accessibleDescription">
              <string>minimum X</string>
             </property>
+            <property name="text">
+             <string>-10</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -205,6 +211,9 @@
             </property>
             <property name="accessibleDescription">
              <string>maximum X</string>
+            </property>
+            <property name="text">
+             <string>10</string>
             </property>
            </widget>
           </item>
@@ -255,6 +264,9 @@
             <property name="accessibleDescription">
              <string>minimum Y</string>
             </property>
+            <property name="text">
+             <string>-10</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -303,6 +315,9 @@
             </property>
             <property name="accessibleDescription">
              <string>maximum Y</string>
+            </property>
+            <property name="text">
+             <string>10</string>
             </property>
            </widget>
           </item>
@@ -1624,7 +1639,7 @@ for negative values</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

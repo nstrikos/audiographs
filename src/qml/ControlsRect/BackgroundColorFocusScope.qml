@@ -24,7 +24,7 @@ FocusScope {
         MouseArea {
             anchors.fill: parent
             onPressed: {
-                window.stopAudio()
+                //window.stopAudio()
                 controlsMainRect.openColorDialog("background color")
             }
         }
