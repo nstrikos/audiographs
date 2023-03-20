@@ -25,6 +25,7 @@ Flickable {
     property alias textInput5: textInput5
     property alias startSoundButton: startButtonFocusScope.startSoundButton
     property alias startSoundButtonFocusScope: startButtonFocusScope
+    property alias selfVoiceFocusScope: selfVoiceFocusScope
     property alias useNotesFocusScope: useNotesFocusScope
     property alias useDifferentNotesFocusScope: useDifferentNotesFocusScope
     property alias precisionSpinbox: precisionSpinbox
@@ -556,6 +557,27 @@ Flickable {
                 controlRectFlickable.ensureVisible(precisionSpinbox)
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + value + " " + qsTr("digits"))
+            }
+        }
+
+        Label {
+            id: audioLabel8
+            text: qsTr("Self voice:") + ":"
+            anchors.top: audioLabel4.bottom
+            anchors.topMargin: 30
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            width: 80
+            height: 15
+            color: fontColor
+        }
+
+        SelfVoiceFocusScope {
+            id: selfVoiceFocusScope
+            onFocusChanged: {
+                controlRectFlickable.ensureVisible(selfVoiceFocusScope)
+                if (activeFocus)
+                    textToSpeech.speak(Accessible.name + " " + parameters.selfVoice)
             }
         }
 

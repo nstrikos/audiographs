@@ -123,6 +123,12 @@ Item {
         }
     }
     Shortcut {
+        sequence: "F2"
+        onActivated: {
+            window.controlsRect.selfVoiceFocusScope.selfVoiceCheckBox.checked = !window.controlsRect.selfVoiceFocusScope.selfVoiceCheckBox.checked
+        }
+    }
+    Shortcut {
         sequence: "F3"
         onActivated: {
             window.controlsRect.useNotesFocusScope.useNotesCheckBox.checked = !window.controlsRect.useNotesFocusScope.useNotesCheckBox.checked
