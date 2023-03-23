@@ -147,6 +147,12 @@ Item {
         }
     }
     Shortcut {
+        sequence: "F5"
+        onActivated: {
+            window.controlsRect.stopAtZeroFocusScope.stopAtZeroCheckBox.checked= !window.controlsRect.stopAtZeroFocusScope.stopAtZeroCheckBox.checked
+        }
+    }
+    Shortcut {
         sequence: "F9"
         onActivated: {
             var value = window.controlsRect.precisionSpinbox.value

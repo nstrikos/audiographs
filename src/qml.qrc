@@ -94,5 +94,6 @@
         <file>qml/SpeechSettings.qml</file>
         <file>qml/StateMachine.qml</file>
         <file>qml/ControlsRect/SelfVoiceFocusScope.qml</file>
+        <file>qml/ControlsRect/StopAtZeroFocusScope.qml</file>
     </qresource>
 </RCC>

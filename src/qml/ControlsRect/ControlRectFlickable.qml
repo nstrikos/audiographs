@@ -28,6 +28,7 @@ Flickable {
     property alias selfVoiceFocusScope: selfVoiceFocusScope
     property alias useNotesFocusScope: useNotesFocusScope
     property alias useDifferentNotesFocusScope: useDifferentNotesFocusScope
+    property alias stopAtZeroFocusScope: stopAtZeroFocusScope
     property alias precisionSpinbox: precisionSpinbox
 
     property color lineColor: parameters.lineColor
@@ -602,6 +603,25 @@ Flickable {
                 controlRectFlickable.ensureVisible(useDifferentNotesFocusScope)
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name + " " + parameters.useNegativeNotes)
+            }
+        }
+        Label {
+            id: audioLabel9
+            text: qsTr("Stop sound at zero") + ":"
+            anchors.top: audioLabel6.bottom
+            anchors.topMargin: 30
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            width: 80
+            height: 15
+            color: fontColor
+        }
+        StopAtZeroFocusScope {
+            id: stopAtZeroFocusScope
+            onFocusChanged: {
+                controlRectFlickable.ensureVisible(stopAtZeroFocusScope)
+                if (activeFocus)
+                    textToSpeech.speak(Accessible.name + " " + parameters.stopAtZero)
             }
         }
         Label5 {

@@ -17,6 +17,7 @@ Rectangle {
     property alias selfVoiceFocusScope: controlRectFlickable.selfVoiceFocusScope
     property alias useNotesFocusScope: controlRectFlickable.useNotesFocusScope
     property alias useNegativeNotesFocusScope: controlRectFlickable.useDifferentNotesFocusScope
+    property alias stopAtZeroFocusScope: controlRectFlickable.stopAtZeroFocusScope
 
     property alias startSoundButton: controlRectFlickable.startSoundButton
     property alias startSoundButtonFocusScope: controlRectFlickable.startSoundButtonFocusScope
