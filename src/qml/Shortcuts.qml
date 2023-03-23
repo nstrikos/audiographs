@@ -23,6 +23,12 @@ Item {
         }
     }
     Shortcut {
+        sequence: "Ctrl+E"
+        onActivated: {
+            controlsRect.textInput.forceActiveFocus()
+        }
+    }
+    Shortcut {
         sequence: "Ctrl+X"
         onActivated: {
             qmlConnector.sayX()

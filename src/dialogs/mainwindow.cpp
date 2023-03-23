@@ -353,6 +353,7 @@ void MainWindow::readSettings()
 {
     QSettings settings("audiographs", "audiographs");
     recentFiles = settings.value("recentFiles").toStringList();
+    recentFiles.removeAll(" ");
     updateRecentFileActions();
 }
 
@@ -574,8 +575,11 @@ void MainWindow::openRecentFile()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("audiographs", "audiographs");
-    settings.setValue("recentFiles", recentFiles);
+    if (recentFiles.size() > 0) {
+        recentFiles.append(" ");
+        QSettings settings("audiographs", "audiographs");
+        settings.setValue("recentFiles", recentFiles);
+    }
 }
 
 void MainWindow::initialStateActivated()

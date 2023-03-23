@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
 
         QGuiApplication app(argc, argv);
 
-        app.setOrganizationName("Nick Strikos");
-        app.setOrganizationDomain("nstrikos@yahoo.gr");
+        app.setOrganizationName("audiographs");
+//        app.setOrganizationDomain("nstrikos@yahoo.gr");
         app.setApplicationName("audiographs");
 
         FunctionController *controller = new FunctionController();

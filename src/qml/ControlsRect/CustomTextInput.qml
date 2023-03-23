@@ -30,6 +30,9 @@ TextField {
         }
         border.width: textInput2.activeFocus ? 2 : 1
     }
+
+    property int count: 0
+
     Accessible.name: qsTr("Set minimum x")
 
     onCursorPositionChanged: {
@@ -43,15 +46,15 @@ TextField {
         if (event.key === Qt.Key_X  && event.modifiers & Qt.ControlModifier) {
             qmlConnector.sayX()
             event.accepted = true;
-//        } else if (event.key === Qt.Key_Y  && event.modifiers & Qt.ControlModifier) {
-//            qmlConnector.sayY()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_PageDown) {
-//            qmlConnector.previousPoint()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_PageUp) {
-//            qmlConnector.nextPoint()
-//            event.accepted = true;
+            //        } else if (event.key === Qt.Key_Y  && event.modifiers & Qt.ControlModifier) {
+            //            qmlConnector.sayY()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_PageDown) {
+            //            qmlConnector.previousPoint()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_PageUp) {
+            //            qmlConnector.nextPoint()
+            //            event.accepted = true;
         } else if (event.key === Qt.Key_Left  && event.modifiers & Qt.ControlModifier) {
             qmlConnector.previousPointInterest()
             event.accepted = true;
@@ -64,30 +67,56 @@ TextField {
         } else if (event.key === Qt.Key_Right  && event.modifiers & Qt.ShiftModifier) {
             qmlConnector.nextFast()
             event.accepted = true;
+        } else if (event.key === Qt.Key_Down) {
+            if (expressions.length > 0) {
+                var selfVoice = parameters.selfVoice
+                parameters.selfVoice = false
+                controlsRect.textInput.text = expressions[count]
+                parameters.selfVoice = selfVoice
+                textToSpeech.speak(controlsRect.textInput.text)
+                count++;
+                if (count >= expressions.length) {
+                    count = expressions.length - 1;
+                }
+            }
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Up) {
+            if (count > 0) {
+                count--;
+                if (count < 0) {
+                    count = 0;
+                }
+                var newSelfVoice = parameters.selfVoice
+                parameters.selfVoice = false
+                controlsRect.textInput.text = expressions[count]
+                parameters.selfVoice = newSelfVoice
+                textToSpeech.speak(controlsRect.textInput.text)
+            }
+            event.accepted = true;
         } else if (event.key === Qt.Key_Home) {
             qmlConnector.firstPoint()
             event.accepted = true;
         } else if (event.key === Qt.Key_End) {
             qmlConnector.lastPoint()
             event.accepted = true;
-//        } else if (event.key === Qt.Key_D  && event.modifiers & Qt.ControlModifier) {
-//            window.sayDerivative()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_0  && event.modifiers & Qt.ControlModifier) {
-//            window.normalDerivative()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_1  && event.modifiers & Qt.ControlModifier) {
-//            window.firstDerivative()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_2  && event.modifiers & Qt.ControlModifier) {
-//            window.secondDerivative()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_BracketLeft  && event.modifiers & Qt.ControlModifier) {
-//            functionExpression.decStep()
-//            event.accepted = true;
-//        } else if (event.key === Qt.Key_BracketRight  && event.modifiers & Qt.ControlModifier) {
-//            functionExpression.incStep()
-//            event.accepted = true;
+            //        } else if (event.key === Qt.Key_D  && event.modifiers & Qt.ControlModifier) {
+            //            window.sayDerivative()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_0  && event.modifiers & Qt.ControlModifier) {
+            //            window.normalDerivative()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_1  && event.modifiers & Qt.ControlModifier) {
+            //            window.firstDerivative()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_2  && event.modifiers & Qt.ControlModifier) {
+            //            window.secondDerivative()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_BracketLeft  && event.modifiers & Qt.ControlModifier) {
+            //            functionExpression.decStep()
+            //            event.accepted = true;
+            //        } else if (event.key === Qt.Key_BracketRight  && event.modifiers & Qt.ControlModifier) {
+            //            functionExpression.incStep()
+            //            event.accepted = true;
         }
     }
 }

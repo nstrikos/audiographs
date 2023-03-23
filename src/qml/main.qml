@@ -31,11 +31,15 @@ Window {
 
     property string errorString
 
+    property var expressions: []
+
     Settings {
+        id: settings
         property alias x: window.x
         property alias y: window.y
         property alias width: window.width
         property alias height: window.height
+        property var recentFiles: []
     }
 
     ControlsRect {
@@ -70,6 +74,14 @@ Window {
             anchorChangeState.state = 'state4'
 
         controlsRect.textInput.forceActiveFocus()
+        expressions = settings.recentFiles
+        expressions = expressions.filter(e => e !== " ");
+    }
+
+    Component.onDestruction: {
+        expressions.push(" ")
+        settings.recentFiles = expressions
+        settings.sync()
     }
 
     onWidthChanged: setAnchor()
@@ -264,6 +276,11 @@ Window {
         controlsRect.startSoundButton.text = qsTr("Start sound")
         graphRect.updateCanvas()
         window.graphRect.pointView.clear()
+
+        //add expression to recent expressions
+        var expression = controlsRect.textInput.text
+        expressions = expressions.filter(e => e !== expression);
+        expressions.push(expression)
     }
 
     function playSoundStateActivated()
