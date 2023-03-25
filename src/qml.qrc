@@ -95,5 +95,9 @@
         <file>qml/StateMachine.qml</file>
         <file>qml/ControlsRect/SelfVoiceFocusScope.qml</file>
         <file>qml/ControlsRect/StopAtZeroFocusScope.qml</file>
+        <file>qml/ControlsRect/HelpButton.qml</file>
+        <file>qml/ControlsRect/AboutButton.qml</file>
+        <file>qml/VirtualKeyboard.qml</file>
+        <file>qml/VirtualNumericalKeyboard.qml</file>
     </qresource>
 </RCC>

@@ -26,6 +26,8 @@ Window {
     //    property alias settingsRect: settingsRect
     property alias graphRect: graphRect
     property alias controlsRect: controlsRect
+    property alias virtualKeyboard: virtualKeyboard
+    property alias virtualNumericalKeyboard: virtualNumericalKeyboard
 
     property bool canZoomDrag: false
 
@@ -52,6 +54,20 @@ Window {
 
     GraphRect {
         id: graphRect
+    }
+
+    VirtualKeyboard {
+        id: virtualKeyboard
+        anchors.fill: parent
+        visible: false
+        z: 100
+    }
+
+    VirtualNumericalKeyboard {
+        id: virtualNumericalKeyboard
+        anchors.fill: parent
+        visible: false
+        z: 100
     }
 
     //    SettingsButton {
@@ -388,5 +404,28 @@ Window {
         controlsRect.enable()
         controlsRect.startSoundButton.enabled = true
         window.canZoomDrag = true
+    }
+
+    function keyboard(text) {
+        controlsRect.visible = true
+        controlsRect.textInput.text = text
+        controlsRect.textInput.forceActiveFocus()
+    }
+
+    function numericalKeyboard(text, target) {
+        controlsRect.visible = true
+        if (target === "minimumX") {
+            controlsRect.textInput2.text = text
+            controlsRect.textInput2.forceActiveFocus()
+        } else if (target === "maximumX") {
+            controlsRect.textInput3.text = text
+            controlsRect.textInput3.forceActiveFocus()
+        } else if (target === "minimumY") {
+            controlsRect.textInput4.text = text
+            controlsRect.textInput4.forceActiveFocus()
+        } else if (target === "maximumY") {
+            controlsRect.textInput5.text = text
+            controlsRect.textInput5.forceActiveFocus()
+        }
     }
 }

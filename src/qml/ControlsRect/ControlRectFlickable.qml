@@ -15,7 +15,7 @@ Flickable {
     anchors.top: controlsTitleBar.bottom
     anchors.topMargin: 40
     anchors.bottom: parent.bottom
-    contentHeight: 1970
+    contentHeight: 2170
     clip: true
 
     property alias textInput: textInput
@@ -46,10 +46,6 @@ Flickable {
 
     function disable()
     {
-        textInput2.enabled = false
-        textInput3.enabled = false
-        textInput4.enabled = false
-        textInput5.enabled = false
         startButtonFocusScope.enabled = false
         focus1.enabled = false
         focus2.enabled = false
@@ -71,10 +67,6 @@ Flickable {
 
     function enable()
     {
-        textInput2.enabled = true
-        textInput3.enabled = true
-        textInput4.enabled = true
-        textInput5.enabled = true
         startButtonFocusScope.enabled = true
         focus1.enabled = true
         focus2.enabled = true
@@ -141,7 +133,7 @@ Flickable {
             id: textInput
             anchors.left: label1.right
             anchors.verticalCenter: label1.verticalCenter
-            anchors.rightMargin: 50
+            //anchors.rightMargin: 50
             placeholderText: (parent.width > 0) ? "Function expression" : ""
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(textInput)
@@ -160,61 +152,75 @@ Flickable {
                 controlsRect.active = true
             }
 
+            onPressed: {
+                window.controlsRect.visible = false
+                window.virtualKeyboard.visible = true
+            }
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Space) {
+                    window.controlsRect.visible = false
+                    window.virtualKeyboard.visible = true
+                    window.virtualKeyboard.init()
+                }
+            }
+
+
             property string accessibleName: qsTr("Function expression")
         }
 
-        FocusScope {
-            id: clearExpressionFocusScope
-            enabled: textInput.text != ""
-            anchors.left: textInput.right
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-            anchors.top: textInput.top
-            anchors.bottom: textInput.bottom
-            onFocusChanged: {
-                controlRectFlickable.ensureVisible(clearExpressionFocusScope)
-                if (activeFocus)
-                    textToSpeech.speak(textToSpeech.normalizeText(Accessible.name))
-            }
+//        FocusScope {
+//            id: clearExpressionFocusScope
+//            enabled: textInput.text != ""
+//            anchors.left: textInput.right
+//            anchors.right: parent.right
+//            anchors.rightMargin: 10
+//            anchors.top: textInput.top
+//            anchors.bottom: textInput.bottom
+//            onFocusChanged: {
+//                controlRectFlickable.ensureVisible(clearExpressionFocusScope)
+//                if (activeFocus)
+//                    textToSpeech.speak(textToSpeech.normalizeText(Accessible.name))
+//            }
 
-            activeFocusOnTab: true
-            Accessible.name: qsTr("Clear expression Control + N")
+//            activeFocusOnTab: true
+//            Accessible.name: qsTr("Clear expression Control + N")
 
-            Keys.onSpacePressed: pressed()
-            Keys.onEnterPressed: pressed()
-            Keys.onReturnPressed: pressed()
+//            Keys.onSpacePressed: pressed()
+//            Keys.onEnterPressed: pressed()
+//            Keys.onReturnPressed: pressed()
 
-            function pressed() {
-                textInput.clear()
-                textToSpeech.speak(qsTr("Function expression"))
-            }
+//            function pressed() {
+//                textInput.clear()
+//                textToSpeech.speak(qsTr("Function expression"))
+//            }
 
-            Rectangle {
-                id: button1
-                anchors.fill: parent
-                color: bgColor
-                border.color: clearExpressionFocusScope.activeFocus ? lightColor : "light gray"
-                border.width: clearExpressionFocusScope.activeFocus ? 2 : 1
-                property bool checked: true
-                property var text: "X"
+//            Rectangle {
+//                id: button1
+//                anchors.fill: parent
+//                color: bgColor
+//                border.color: clearExpressionFocusScope.activeFocus ? lightColor : "light gray"
+//                border.width: clearExpressionFocusScope.activeFocus ? 2 : 1
+//                property bool checked: true
+//                property var text: "X"
 
-                signal clicked()
+//                signal clicked()
 
-                Text {
-                    id: text
-                    text: button1.text
-                    anchors.centerIn: parent
-                    font.pointSize: 24
-                    color: fontColor
-                }
+//                Text {
+//                    id: text
+//                    text: button1.text
+//                    anchors.centerIn: parent
+//                    font.pointSize: 24
+//                    color: fontColor
+//                }
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: clearExpressionFocusScope.pressed()
-                }
-            }
-        }
-        
+//                MouseArea {
+//                    anchors.fill: parent
+//                    onClicked: clearExpressionFocusScope.pressed()
+//                }
+//            }
+//        }
+
         Label {
             id: label2
             text: (parent.width > 0) ? "min X : " : ""
@@ -225,14 +231,14 @@ Flickable {
             width: 50
             color: fontColor
         }
-        
+
         CustomTextInput {
             id: textInput2
             text: "-10"
             enabled: controlsRect.active
             onTextChanged: {
                 if (controlsRect.active)
-                    evaluate()
+                    qmlConnector.evaluate()
             }
             onFocusChanged: {
                 controlRectFlickable.ensureVisible(textInput2)
@@ -240,8 +246,22 @@ Flickable {
                     textToSpeech.speak(accessibleName + " " + textToSpeech.normalizeText(textInput2.text))
             }
             property string accessibleName: qsTr("Set minimum x text edit")
+
+            onPressed: {
+                window.controlsRect.visible = false
+                window.virtualNumericalKeyboard.init(text, "minimumX")
+                window.virtualNumericalKeyboard.visible = true
+            }
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Space) {
+                    window.controlsRect.visible = false
+                    window.virtualNumericalKeyboard.visible = true
+                    window.virtualNumericalKeyboard.init(text, "minimumX")
+                }
+            }
         }
-        
+
         Label {
             id: label3
             text: (parent.width > 0) ? "max X : " : ""
@@ -252,7 +272,7 @@ Flickable {
             width: 50
             color: fontColor
         }
-        
+
         CustomTextInput {
             id: textInput3
             enabled: controlsRect.active
@@ -268,12 +288,26 @@ Flickable {
             Accessible.name: accessibleName
             onTextChanged: {
                 if (controlsRect.active)
-                    evaluate()
+                    qmlConnector.evaluate()
             }
             property string accessibleName: qsTr("Set maximum x text edit")
 
+            onPressed: {
+                window.controlsRect.visible = false
+                window.virtualNumericalKeyboard.init(text, "maximumX")
+                window.virtualNumericalKeyboard.visible = true
+            }
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Space) {
+                    window.controlsRect.visible = false
+                    window.virtualNumericalKeyboard.visible = true
+                    window.virtualNumericalKeyboard.init(text, "maximumX")
+                }
+            }
+
         }
-        
+
         Label {
             id: label4
             text: (parent.width > 0) ? "min Y : " : ""
@@ -284,7 +318,7 @@ Flickable {
             width: 50
             color: fontColor
         }
-        
+
         CustomTextInput {
             id: textInput4
             enabled: controlsRect.active
@@ -300,11 +334,25 @@ Flickable {
             Accessible.name: accessibleName
             onTextChanged: {
                 if (controlsRect.active)
-                    evaluate()
+                    qmlConnector.evaluate()
             }
             property string accessibleName: qsTr("Set minimum Y text edit")
+
+            onPressed: {
+                window.controlsRect.visible = false
+                window.virtualNumericalKeyboard.init(text, "minimumY")
+                window.virtualNumericalKeyboard.visible = true
+            }
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Space) {
+                    window.controlsRect.visible = false
+                    window.virtualNumericalKeyboard.visible = true
+                    window.virtualNumericalKeyboard.init(text, "minimumY")
+                }
+            }
         }
-        
+
         Label {
             id: label5
             text: (parent.width > 0) ? "max Y : " : ""
@@ -315,7 +363,7 @@ Flickable {
             width: 50
             color: fontColor
         }
-        
+
         CustomTextInput {
             id: textInput5
             enabled: controlsRect.active
@@ -331,11 +379,25 @@ Flickable {
             Accessible.name: accessibleName
             onTextChanged: {
                 if (controlsRect.active)
-                    evaluate()
+                    qmlConnector.evaluate()
             }
             property string accessibleName: qsTr("Set maximum Y text edit")
+
+            onPressed: {
+                window.controlsRect.visible = false
+                window.virtualNumericalKeyboard.init(text, "maximumY")
+                window.virtualNumericalKeyboard.visible = true
+            }
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Space) {
+                    window.controlsRect.visible = false
+                    window.virtualNumericalKeyboard.visible = true
+                    window.virtualNumericalKeyboard.init(text, "maximumX")
+                }
+            }
         }
-        
+
         StartButtonFocusScope {
             id: startButtonFocusScope
             enabled: controlsRect.active
@@ -806,6 +868,14 @@ Flickable {
                 if (activeFocus)
                     textToSpeech.speak(Accessible.name)
             }
+        }
+
+        HelpButton {
+            id: helpButton
+        }
+
+        AboutButton {
+            id: aboutButton
         }
     }
 
