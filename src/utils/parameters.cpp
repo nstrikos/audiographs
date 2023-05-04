@@ -162,6 +162,10 @@ void Parameters::read()
         defaultSelfVoice = false;
     bool selfVoice = settings.value("selfVoice", defaultSelfVoice).toBool();
 
+#ifdef Q_OS_ANDROID
+    selfVoice = true;
+#endif
+
     QColor derivColor = settings.value("derivColor", "").value<QColor>();
     if (!derivColor.isValid())
         derivColor = Qt::green;

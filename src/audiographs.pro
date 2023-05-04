@@ -88,6 +88,7 @@ HEADERS += \
     ifaces/IMainWindow.h \
     ifaces/IPointsInterest.h \
     ifaces/IStateMachine.h \
+    keyEmitter.h \
     mobileview/functionDisplayView.h \
     mobileview/functionDisplayViewInterface.h \
     mobileview/functionPointView.h \

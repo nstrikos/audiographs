@@ -3,14 +3,15 @@ import QtQuick 2.0
 import QtQuick 2.12
 
 Item {
-//    Shortcut {
-//        sequence: "Esc"
-//        onActivated: close()
-//    }
+    property bool canAccept: true
+
     Shortcut {
         sequence: "Return"
         onActivated: {
-            qmlConnector.playPressed()
+            if (canAccept) {
+                console.log("short activated")
+                qmlConnector.playPressed()
+            }
         }
     }
     Shortcut {
@@ -128,12 +129,7 @@ Item {
             qmlConnector.incStep()
         }
     }
-    Shortcut {
-        sequence: "F2"
-        onActivated: {
-            window.controlsRect.selfVoiceFocusScope.selfVoiceCheckBox.checked = !window.controlsRect.selfVoiceFocusScope.selfVoiceCheckBox.checked
-        }
-    }
+
     Shortcut {
         sequence: "F3"
         onActivated: {

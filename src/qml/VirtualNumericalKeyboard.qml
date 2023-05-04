@@ -50,84 +50,84 @@ Item {
         Button {
             id: button1
             text: "1"
-            onClicked: expression += "1"
+            onPressed: expression += "1"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "2"
-            onClicked: expression += "2"
+            onPressed: expression += "2"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "3"
-            onClicked: expression += "3"
+            onPressed: expression += "3"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "4"
-            onClicked: expression += "4"
+            onPressed: expression += "4"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "5"
-            onClicked: expression += "5"
+            onPressed: expression += "5"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "6"
-            onClicked: expression += "6"
+            onPressed: expression += "6"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "7"
-            onClicked: expression += "7"
+            onPressed: expression += "7"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "8"
-            onClicked: expression += "8"
+            onPressed: expression += "8"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "9"
-            onClicked: expression += "9"
+            onPressed: expression += "9"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "0"
-            onClicked: expression += "0"
+            onPressed: expression += "0"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "-"
-            onClicked: expression += "-"
+            onPressed: expression += "-"
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
         Button {
             text: "."
-            onClicked: expression += "."
+            onPressed: expression += "."
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -135,7 +135,7 @@ Item {
         Button {
             text: "clear"
             Layout.columnSpan: 2
-            onClicked: expression = ""
+            onPressed: expression = ""
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -143,8 +143,7 @@ Item {
         Button {
             text: "OK"
             Layout.columnSpan: 2
-            onClicked: {
-                console.log(expression, target)
+            onPressed: {
                 virtualNumericalKeyboard.visible = false
                 window.numericalKeyboard(expression, target)
             }

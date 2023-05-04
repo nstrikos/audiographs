@@ -13,8 +13,10 @@ FocusScope {
     Accessible.name: qsTr("X coordinate control plus x")
 
     Keys.onSpacePressed: pressed()
-    Keys.onEnterPressed: pressed()
-    Keys.onReturnPressed: pressed()
+    //Keys.onEnterPressed: pressed()
+    //Keys.onReturnPressed: {
+        //qmlConnector.playPressed()
+    //}
 
     function pressed() {
         console.log("pressed")

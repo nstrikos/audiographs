@@ -33,7 +33,7 @@ Button {
         border.color: resetButton.activeFocus ? lightColor : "light gray"
         border.width: resetButton.activeFocus ? 2 : 1
     }
-    onClicked: {
+    onPressed: {
         window.stopAudio()
         parameters.reset()
         lineColor = parameters.lineColor

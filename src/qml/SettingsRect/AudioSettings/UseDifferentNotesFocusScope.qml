@@ -18,8 +18,8 @@ FocusScope {
     Accessible.name: qsTr("Use alternative notes for negative values")
 
     Keys.onSpacePressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
-    Keys.onEnterPressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
-    Keys.onReturnPressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
+    //Keys.onEnterPressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
+    //Keys.onReturnPressed: useDifferentNotesCheckBox.checked = !useDifferentNotesCheckBox.checked
 
     Rectangle {
         id: useDifferentNotesCheckBox

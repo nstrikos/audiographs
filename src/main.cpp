@@ -21,6 +21,8 @@
 #include <utils/texttospeech.h>
 #include <utils/parameters.h>
 
+#include <keyEmitter.h>
+
 int main(int argc, char *argv[])
 {
     bool runMobile = false;
@@ -95,6 +97,8 @@ int main(int argc, char *argv[])
 
         QmlConnector *w = new QmlConnector(*controller, nullptr);
 
+        KeyEmitter keyEmitter;
+
         qmlRegisterType<FunctionDisplayView>("DisplayView", 1, 0, "DisplayView");
         qmlRegisterType<FunctionPointView>("PointView", 1, 0, "PointView");
         qmlRegisterType<Points>("Points", 1, 0, "Points");
@@ -107,6 +111,7 @@ int main(int argc, char *argv[])
         engine.rootContext()->setContextProperty("parameters", parameters);
         engine.rootContext()->setContextProperty("qmlConnector", w);
         engine.rootContext()->setContextProperty("textToSpeech", textToSpeech);
+        engine.rootContext()->setContextProperty("keyEmitter", &keyEmitter);
 
         const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
         QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

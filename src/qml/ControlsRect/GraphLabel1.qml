@@ -4,7 +4,7 @@ import QtQuick.Dialogs 1.3
 
 Label {
     id: graphLabel1
-    anchors.top: resetButton.bottom
+    anchors.top: label5.bottom
     anchors.topMargin: 30
     anchors.left: parent.left
     anchors.leftMargin: 10

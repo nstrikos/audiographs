@@ -18,8 +18,8 @@ FocusScope {
     Accessible.name: qsTr("Use notes")
     
     Keys.onSpacePressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
-    Keys.onEnterPressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
-    Keys.onReturnPressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
+    //Keys.onEnterPressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
+    //Keys.onReturnPressed: useNotesCheckBox.checked = !useNotesCheckBox.checked
     
     Rectangle {
         id: useNotesCheckBox

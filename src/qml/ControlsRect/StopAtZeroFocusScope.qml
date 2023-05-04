@@ -18,8 +18,8 @@ FocusScope {
     Accessible.name: qsTr("Stop sound at zero")
 
     Keys.onSpacePressed: stopAtZeroCheckBox.checked = !stopAtZeroCheckBox.checked
-    Keys.onEnterPressed: stopAtZeroCheckBox.checked = !stopAtZeroCheckBox.checked
-    Keys.onReturnPressed: stopAtZeroCheckBox.checked = !stopAtZeroCheckBox.checked
+    //Keys.onEnterPressed: stopAtZeroCheckBox.checked = !stopAtZeroCheckBox.checked
+    //Keys.onReturnPressed: stopAtZeroCheckBox.checked = !stopAtZeroCheckBox.checked
 
     Rectangle {
         id: stopAtZeroCheckBox

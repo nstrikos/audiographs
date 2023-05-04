@@ -31,13 +31,13 @@ Button {
         radius: 2
     }
     Accessible.name: qsTr("Reset audio settings")
-    onClicked: {
+    onPressed: {
         parameters.resetAudio()
         durationSpinbox.value = parameters.duration
         minFreqSpinbox.value = parameters.minFreq
         maxFreqSpinbox.value = parameters.maxFreq
         useNotesFocusScope.useNotesCheckBox.checked = parameters.useNotes
         useDifferentNotesFocusScope.useDifferentNotesCheckBox.checked = parameters.useNegativeNotes
-        window.stopAudio()
+        //window.stopAudio()
     }
 }

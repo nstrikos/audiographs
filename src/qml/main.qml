@@ -56,30 +56,122 @@ Window {
         id: graphRect
     }
 
+    AnchorChangeState {
+        id: anchorChangeState
+    }
+
     VirtualKeyboard {
         id: virtualKeyboard
         anchors.fill: parent
         visible: false
-        z: 100
+        z: 11
     }
 
     VirtualNumericalKeyboard {
         id: virtualNumericalKeyboard
         anchors.fill: parent
         visible: false
-        z: 100
+        z: 11
     }
 
-    //    SettingsButton {
-    //        id: settingsButton
-    //    }
+    MultiPointTouchArea {
+        id: multipointTouchArea
+        anchors.fill: parent
+        z: 12
+        mouseEnabled: true
 
-    //    SettingsRect {
-    //        id: settingsRect
-    //    }
+        property int numPointsPressed: 0
 
-    AnchorChangeState {
-        id: anchorChangeState
+        property int x1
+        property int y1
+        property int newX1
+        property int newY1
+        property real distance1
+        property real angle1
+
+        property int x2
+        property int y2
+        property int newX2
+        property int newY2
+        property real distance2
+        property real angle2
+
+        property string buttonsPressed: "no tap"
+
+        touchPoints: [
+            TouchPoint { id: point1 },
+            TouchPoint { id: point2 }
+        ]
+
+        onPressed: {
+            numPointsPressed++
+            if (numPointsPressed === 1)
+                buttonsPressed = "single tap"
+            else if (numPointsPressed === 2)
+                buttonsPressed = "double tap"
+            x1 = point1.x
+            y1 = point1.y
+            x2 = point2.x
+            y2 = point2.y
+        }
+
+        onReleased: {
+            numPointsPressed--
+            if (numPointsPressed == 0) {
+                newX1 = point1.x
+                newY1 = point1.y
+                distance1 = Math.sqrt( (newX1 - x1) * (newX1 - x1) + (y1 - newY1) * (y1 - newY1) )
+                angle1 = Math.atan2(y1 - newY1, newX1 - x1) * 180.0 / Math.PI
+                newX2 = point2.x
+                newY2 = point2.y
+                distance2 = Math.sqrt( (newX2 - x2) * (newX2 - x2) + (y2 - newY2) * (y2 - newY2) )
+                angle2 = Math.atan2(y2 - newY2, newX2 - x2) * 180.0 / Math.PI
+
+                if (buttonsPressed === "single tap") {
+                    if (distance1 > 50) {
+                        if (angle1 < 25 && angle1 > -25)
+                            window.right()
+                        else if (  (angle1 < 180 && angle1 > 155)  || (angle1 > -180) && (angle1 < -155) )
+                            window.left()
+                        else if (  (angle1 < 100 && angle1 > 80)  )
+                            window.up()
+                        else if (  (angle1 < -80 && angle1 > -110)  )
+                            window.down()
+                        else if (  (angle1 < 65 && angle1 > 30)  )
+                            window.upright()
+                        else if (  (angle1 < 150 && angle1 > 115)  )
+                            window.upleft()
+                        else if (  (angle1 < -30 && angle1 > -65)  )
+                            window.downright()
+                        else if (  (angle1 < -115 && angle1 > -150)  )
+                            window.downleft()
+
+                    }
+                    if (distance1 < 10) {
+                        keyEmitter.keySpacePressed(window)
+                    }
+
+                } else if (buttonsPressed === "double tap") {
+                    if (distance1 < 10 && distance2 < 10) {
+                        keyEmitter.keyReturnPressed(window)
+                    }
+                    if (distance1 > 50 && distance2 > 50) {
+                        if (angle1 < 25 && angle1 > -25) {
+                            if (angle2 < 25 && angle2 > -25) {
+                                window.doubleRight()
+                            }
+                        } else if ((angle1 < 180 && angle1 > 155)  || ( (angle1 > -180) && (angle1 < -155))) {
+                            if ((angle2 < 180 && angle2 > 155)  || ( (angle2 > -180) && (angle2 < -155)))
+                                window.doubleLeft()
+                        } else if ((angle1 < 100 && angle1 > 80) ) {
+                            if ((angle2 < 100 && angle2 > 80) )
+                                window.doubleUp()
+                        }
+                    }
+                }
+                buttonsPressed = "no tap"
+            }
+        }
     }
 
     Component.onCompleted: {
@@ -427,5 +519,94 @@ Window {
             controlsRect.textInput5.text = text
             controlsRect.textInput5.forceActiveFocus()
         }
+    }
+
+    function right()
+    {
+        keyEmitter.keyTabPressed(window)
+    }
+
+    function left()
+    {
+        keyEmitter.keyShiftTabPressed(window)
+    }
+
+    function up()
+    {
+        if (controlsRect.precisionSpinbox.activeFocus ||
+                controlsRect.durationSpinbox.activeFocus  ||
+                controlsRect.minFreqSpinbox.activeFocus   ||
+                controlsRect.maxFreqSpinbox.activeFocus   ||
+                controlsRect.lineWidthSpinbox.activeFocus ||
+                controlsRect.highlightSizeSpinbox.activeFocus ||
+                controlsRect.axesSizeSpinbox.activeFocus)
+            keyEmitter.keyUpPressed(window)
+        else
+            keyEmitter.keyControlYPressed(window)
+    }
+
+    function down()
+    {
+        if (controlsRect.precisionSpinbox.activeFocus ||
+                controlsRect.durationSpinbox.activeFocus  ||
+                controlsRect.minFreqSpinbox.activeFocus   ||
+                controlsRect.maxFreqSpinbox.activeFocus   ||
+                controlsRect.lineWidthSpinbox.activeFocus ||
+                controlsRect.highlightSizeSpinbox.activeFocus ||
+                controlsRect.axesSizeSpinbox.activeFocus)
+            keyEmitter.keyDownPressed(window)
+        else
+            keyEmitter.keyControlXPressed(window)
+    }
+
+    function upright()
+    {
+        keyEmitter.keyControlRightPressed(window)
+    }
+
+    function upleft()
+    {
+        keyEmitter.keyControlLeftPressed(window)
+    }
+
+    function downright()
+    {
+        keyEmitter.keyEndPressed(window)
+    }
+
+    function downleft()
+    {
+        keyEmitter.keyHomePressed(window)
+    }
+
+    function doubleRight()
+    {
+        if (virtualKeyboard.visible)
+            virtualKeyboard.addX()
+        else
+            keyEmitter.keyF3Pressed(window)
+    }
+
+    function doubleLeft()
+    {
+        if (virtualKeyboard.visible)
+            virtualKeyboard.backspace()
+        else
+        keyEmitter.keyF4Pressed(window)
+    }
+
+    function doubleUp()
+    {
+        keyEmitter.keyF5Pressed(window)
+    }
+
+    function disableShortcuts()
+    {
+        shortcuts.canAccept = false
+    }
+
+    function enableShortcuts()
+    {
+        shortcuts.canAccept = true
     }
 }

@@ -67,32 +67,6 @@ TextField {
         } else if (event.key === Qt.Key_Right  && event.modifiers & Qt.ShiftModifier) {
             qmlConnector.nextFast()
             event.accepted = true;
-        } else if (event.key === Qt.Key_Down) {
-            if (expressions.length > 0) {
-                var selfVoice = parameters.selfVoice
-                parameters.selfVoice = false
-                controlsRect.textInput.text = expressions[count]
-                parameters.selfVoice = selfVoice
-                textToSpeech.speak(controlsRect.textInput.text)
-                count++;
-                if (count >= expressions.length) {
-                    count = expressions.length - 1;
-                }
-            }
-            event.accepted = true;
-        } else if (event.key === Qt.Key_Up) {
-            if (count > 0) {
-                count--;
-                if (count < 0) {
-                    count = 0;
-                }
-                var newSelfVoice = parameters.selfVoice
-                parameters.selfVoice = false
-                controlsRect.textInput.text = expressions[count]
-                parameters.selfVoice = newSelfVoice
-                textToSpeech.speak(controlsRect.textInput.text)
-            }
-            event.accepted = true;
         } else if (event.key === Qt.Key_Home) {
             qmlConnector.firstPoint()
             event.accepted = true;

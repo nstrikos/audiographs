@@ -15,7 +15,6 @@ Rectangle {
     property color lightColor: parameters.invertTheme ? "yellow" : "blue"
     property bool invertTheme: parameters.invertTheme
 
-    property alias selfVoiceFocusScope: controlRectFlickable.selfVoiceFocusScope
     property alias useNotesFocusScope: controlRectFlickable.useNotesFocusScope
     property alias useNegativeNotesFocusScope: controlRectFlickable.useDifferentNotesFocusScope
     property alias stopAtZeroFocusScope: controlRectFlickable.stopAtZeroFocusScope
@@ -24,6 +23,12 @@ Rectangle {
     property alias startSoundButtonFocusScope: controlRectFlickable.startSoundButtonFocusScope
 
     property alias precisionSpinbox: controlRectFlickable.precisionSpinbox
+    property alias durationSpinbox: controlRectFlickable.durationSpinbox
+    property alias minFreqSpinbox: controlRectFlickable.minFreqSpinbox
+    property alias maxFreqSpinbox: controlRectFlickable.maxFreqSpinbox
+    property alias highlightSizeSpinbox: controlRectFlickable.highlightSizeSpinbox
+    property alias lineWidthSpinbox: controlRectFlickable.lineWidthSpinbox
+    property alias axesSizeSpinbox: controlRectFlickable.axesSizeSpinbox
 
     property alias textInput: controlRectFlickable.textInput
     property alias textInput2: controlRectFlickable.textInput2

@@ -93,11 +93,11 @@
         <file>qml/SettingsIcon.qml</file>
         <file>qml/SpeechSettings.qml</file>
         <file>qml/StateMachine.qml</file>
-        <file>qml/ControlsRect/SelfVoiceFocusScope.qml</file>
         <file>qml/ControlsRect/StopAtZeroFocusScope.qml</file>
         <file>qml/ControlsRect/HelpButton.qml</file>
         <file>qml/ControlsRect/AboutButton.qml</file>
         <file>qml/VirtualKeyboard.qml</file>
         <file>qml/VirtualNumericalKeyboard.qml</file>
+        <file>qml/VirtualKeyboardButton.qml</file>
     </qresource>
 </RCC>

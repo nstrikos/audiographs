@@ -33,12 +33,14 @@ Button {
         border.color: resetButton.activeFocus ? lightColor : "light gray"
         border.width: resetButton.activeFocus ? 2 : 1
     }
-    onClicked: {
+    onPressed: {
         //window.stopAudio()
         parameters.reset()
         lineColor = parameters.lineColor
         graphRect.curveColor = parameters.lineColor
         backgroundColor = parameters.backgroundColor
+        derivativeColor = parameters.derivColor
+        graphRect.derivativeColor = parameters.derivColor
         graphRect.curveWidth = parameters.lineWidth
         lineWidthSpinbox.value = parameters.lineWidth
         highlightColor = parameters.highlightColor

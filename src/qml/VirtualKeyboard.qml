@@ -10,13 +10,35 @@ Item {
 
     function init()
     {
+        window.disableShortcuts()
         button1.forceActiveFocus()
+    }
+
+    function addX()
+    {
+        expression += "x"
+        textToSpeech.speak("x")
+    }
+
+    function backspace()
+    {
+        expression = expression.slice(0, -1)
+        textToSpeech.speak(expression)
     }
 
     Rectangle {
         anchors.fill: parent
     }
 
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Return) {
+            event.accepted = true;
+            console.log("return pressed", expression)
+            virtualKeyboard.visible = false
+            window.keyboard(expression)
+            window.enableShortcuts()
+        }
+    }
     Rectangle {
         id: rect
         anchors.top: parent.top
@@ -44,333 +66,217 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
 
-        Button {
+        VirtualKeyboardButton {
             id: button1
-            text: "1"
-            onClicked: expression += "1"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            text: "x"
         }
 
-        Button {
-            text: "2"
-            onClicked: expression += "2"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "3"
-            onClicked: expression += "3"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "4"
-            onClicked: expression += "4"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "5"
-            onClicked: expression += "5"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "6"
-            onClicked: expression += "6"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "7"
-            onClicked: expression += "7"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "8"
-            onClicked: expression += "8"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "9"
-            onClicked: expression += "9"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "0"
-            onClicked: expression += "0"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "+"
-            onClicked: expression += "+"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "+"            
         }
 
         Button {
             text: "-"
-            onClicked: expression += "-"
+            onPressed: {
+                expression += text
+                textToSpeech.speak(qsTr("minus"))
+            }
             Layout.fillWidth: true
             Layout.fillHeight: true
+            onFocusChanged: {
+                if (activeFocus)
+                    textToSpeech.speak(qsTr("minus"))
+            }
         }
 
-        Button {
-            text: "*"
-            onClicked: expression += "*"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "*"            
         }
 
-        Button {
+        VirtualKeyboardButton {
             text: "/"
-            onClicked: expression += "/"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
+        VirtualKeyboardButton {
             text: "("
-            onClicked: expression += "("
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
+        VirtualKeyboardButton {
             text: ")"
-            onClicked: expression += ")"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
+        VirtualKeyboardButton {
             text: "^"
-            onClicked: expression += "^"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
+        VirtualKeyboardButton {
             text: "."
-            onClicked: expression += "."
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
+        VirtualKeyboardButton {
             text: ","
-            onClicked: expression += ","
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
-            text: "%"
-            onClicked: expression += "%"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "1"
         }
 
-        Button {
-            text: "q"
-            onClicked: expression += "q"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "2"
         }
 
-        Button {
-            text: "w"
-            onClicked: expression += "w"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "3"
         }
 
-        Button {
-            text: "e"
-            onClicked: expression += "e"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "4"
         }
 
-        Button {
-            text: "r"
-            onClicked: expression += "r"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "5"
         }
 
-        Button {
-            text: "t"
-            onClicked: expression += "t"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "6"
         }
 
-        Button {
-            text: "y"
-            onClicked: expression += "y"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "7"
         }
 
-        Button {
-            text: "u"
-            onClicked: expression += "u"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "8"
         }
 
-        Button {
-            text: "i"
-            onClicked: expression += "i"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "9"
         }
 
-        Button {
-            text: "o"
-            onClicked: expression += "o"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "0"
         }
 
-        Button {
-            text: "p"
-            onClicked: expression += "p"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
+        VirtualKeyboardButton {
             text: "a"
-            onClicked: expression += "a"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
-            text: "s"
-            onClicked: expression += "s"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "d"
-            onClicked: expression += "d"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "f"
-            onClicked: expression += "f"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "g"
-            onClicked: expression += "g"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "h"
-            onClicked: expression += "h"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "j"
-            onClicked: expression += "j"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "k"
-            onClicked: expression += "k"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "l"
-            onClicked: expression += "l"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "z"
-            onClicked: expression += "z"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "x"
-            onClicked: expression += "x"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "c"
-            onClicked: expression += "c"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
-            text: "v"
-            onClicked: expression += "v"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        Button {
+        VirtualKeyboardButton {
             text: "b"
-            onClicked: expression += "b"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
-        Button {
-            text: "n"
-            onClicked: expression += "n"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        VirtualKeyboardButton {
+            text: "c"
         }
 
-        Button {
+        VirtualKeyboardButton {
+            text: "d"
+        }
+
+        VirtualKeyboardButton {
+            text: "e"
+        }
+
+        VirtualKeyboardButton {
+            text: "f"
+        }
+
+        VirtualKeyboardButton {
+            text: "g"
+        }
+
+        VirtualKeyboardButton {
+            text: "h"
+        }
+
+        VirtualKeyboardButton {
+            text: "i"
+        }
+
+        VirtualKeyboardButton {
+            text: "j"
+        }
+
+        VirtualKeyboardButton {
+            text: "k"
+        }
+
+        VirtualKeyboardButton {
+            text: "l"
+        }
+
+        VirtualKeyboardButton {
             text: "m"
-            onClicked: expression += "m"
+        }
+
+        VirtualKeyboardButton {
+            text: "n"
+        }
+
+        VirtualKeyboardButton {
+            text: "o"
+        }
+
+        VirtualKeyboardButton {
+            text: "p"
+        }
+
+        VirtualKeyboardButton {
+            text: "q"
+        }
+
+        VirtualKeyboardButton {
+            text: "r"
+        }
+
+        VirtualKeyboardButton {
+            text: "s"
+        }
+
+        VirtualKeyboardButton {
+            text: "t"
+        }
+
+        VirtualKeyboardButton {
+            text: "u"
+        }
+
+        VirtualKeyboardButton {
+            text: "v"
+        }
+
+        VirtualKeyboardButton {
+            text: "w"
+        }
+
+        VirtualKeyboardButton {
+            text: "x"
+        }
+
+        VirtualKeyboardButton {
+            text: "y"
+        }
+
+        VirtualKeyboardButton {
+            text: "z"
+        }
+
+        Button {
+            text: "Backspace"
+            Layout.columnSpan: 2
+            onPressed: backspace()
+            onFocusChanged: {
+                if (activeFocus)
+                    textToSpeech.speak(qsTr("Backspace"))
+            }
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
 
-        Button {
-            text: "clear"
+        VirtualKeyboardButton {
+            text: "Clear"
             Layout.columnSpan: 2
-            onClicked: expression = ""
+            onPressed: expression = ""
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -378,9 +284,14 @@ Item {
         Button {
             text: "OK"
             Layout.columnSpan: 2
-            onClicked: {
+            onPressed: {
                 virtualKeyboard.visible = false
                 window.keyboard(expression)
+                window.enableShortcuts()
+            }
+            onFocusChanged: {
+                if (activeFocus)
+                    textToSpeech.speak(qsTr("OK"))
             }
             Layout.fillWidth: true
             Layout.fillHeight: true

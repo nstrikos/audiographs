@@ -7,7 +7,7 @@ FocusScope {
     property alias startSoundButton: startSoundButton
 
     height: 50
-    anchors.top: label5.bottom
+    anchors.top: textInput.bottom
     anchors.topMargin: 50
     anchors.left: label5.right
     anchors.leftMargin: 10
